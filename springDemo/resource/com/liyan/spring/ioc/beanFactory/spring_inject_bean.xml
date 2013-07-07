@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="injectBean" class="com.liyan.spring.ioc.beanFactory.InjectBean">
+		<property name="injectBean2" ref="injectBean2"></property>
+	</bean>
+	<bean id="injectBean2" name="injectNameOtherName" class="com.liyan.spring.ioc.beanFactory.InjectBean2">
+		<property name="name" value="asd"></property>
+	</bean>
+	<!-- 使用命名空间的方式 -->
+	<bean id="injectBeanp" class="com.liyan.spring.ioc.beanFactory.InjectBean"
+		p:injectBean2-ref ="injectNameOtherName"  
+	>
+	 <!-- 引用别名进行注入 -->
+	</bean>
+</beans>

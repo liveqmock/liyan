@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="injectBean" class="com.liyan.spring.ioc.beanFactory.InjectArgBeanDemo">
+		<property name="age" value="23"></property>
+		<property name="name" value="liyan"></property>
+		<property name="height" value="177.0"></property>
+		<property name="flag" value="true"></property>
+	</bean>
+	<!-- 使用命名空间方式注入 -->
+	<bean id="injectBean2" class="com.liyan.spring.ioc.beanFactory.InjectArgBeanDemo"
+		p:age="22" p:name="liyan2" p:height="177.0" p:flag="true"
+	>
+	
+	</bean>
+</beans>

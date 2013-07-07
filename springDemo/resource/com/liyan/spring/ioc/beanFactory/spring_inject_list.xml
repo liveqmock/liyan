@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="listBean" class="com.liyan.spring.ioc.beanFactory.InjectListBean">  
+		<property name="testMap">
+			<map>
+				<entry key="key1">
+					<value>value1</value>
+				</entry>
+				<entry key="key2">
+					<value>value2</value>
+				</entry>
+			</map>
+		</property>
+		<property name="testList">
+			<list>
+				<value>list1</value>
+				<value>list2</value>
+				<ref local="injectBean"/>  <!-- 在使用<list>,<map>,<set>元素时，可以将原本非集合属性赋值的标签用来指定集合中的某一项
+												这样就可以注入bean
+											 -->
+			</list>			
+		</property>
+	</bean>
+	<bean id="injectBean" class="com.liyan.spring.ioc.beanFactory.InjectArgBeanDemo">
+		<property name="age" value="23"></property>
+		<property name="name" value="liyan"></property>
+		<property name="height" value="177.0"></property>
+		<property name="flag" value="true"></property>
+	</bean>
+</beans>
