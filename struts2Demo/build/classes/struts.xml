@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "struts-2.0.dtd"
+        >
+<struts>
+	
+	<package name="struts2Demo" extends="struts-default">
+    
+    	<result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+        </result-types>
+        <interceptors>
+            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+			<!-- <interceptor name="exception" class="com.liyan.struts.interceptor.ExceptionInterceptor"></interceptor> -->
+            <interceptor-stack name="struts2DemoStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="json"/>
+                <!-- 设置异常拦截器 -->
+                <interceptor-ref name="exception">
+                	<param name="logEnabled">true</param>
+					<param name="logLevel">error</param>
+				</interceptor-ref>
+				<!-- 自定义异常拦截器 -->
+                <!-- <interceptor-ref name="exception">
+				</interceptor-ref> -->
+            </interceptor-stack>
+        </interceptors>
+		
+        <default-interceptor-ref name="struts2DemoStack"/>
+        <!-- 使用struts2 默认异常拦截  只能拦截到Action像上抛出的异常
+        	 所以如Service 需要向Action 抛出异常   struts 才可获取异常信息
+        	 也可用Spring 异常拦截配置
+        	 1：使用 struts2 默认拦截器
+        	 sturts2 默认 禁用了日志功能 需要重写exception拦截器配置
+        	 <interceptor-ref name="exception">
+                
+                	<param name="logEnabled">true</param>
+					<param name="logLevel">error</param>
+			</interceptor-ref>
+			2：使用自定义异常拦截器
+			
+			注意： log4j配置log4j.logger.com.opensymphony.xwork2=ERROR
+         -->
+<!--   		<global-results>
+        	<result name="exception">/test2.html</result>
+        </global-results>
+        
+        <global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception"/>
+		</global-exception-mappings> -->
+		
+		<action name="test" class="com.liyan.action.LogInterceptorDemoAction" method="test">
+			<result>/test.html</result>
+		</action>
+    </package>
+    
+</struts>
