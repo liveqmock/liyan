@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.core.ApplicationContext;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -38,6 +43,8 @@ public class UploadServlet extends HttpServlet{
 		int xmlfilesize  = 0 ;
 		byte[] xmlfilebytes = null ;
 		int unit_size =1024 ; 
+		HttpSession session = req.getSession();
+		ServletContext servletContext = session.getServletContext();
 		try{
 			SAXBuilder builder = new SAXBuilder();
 			
