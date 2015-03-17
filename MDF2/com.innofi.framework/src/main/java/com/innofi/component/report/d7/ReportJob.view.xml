@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">Report.Job</Property>
+  </Property>
+  <Model>
+    <DataType name="$dataTypeJob" parent="global:$dataTypeJob">
+      <Reference name="reportJobs">
+        <Property name="dataType">[$dataTypeReportJob]</Property>
+        <Property name="dataProvider">bdf.reportJobManagerPR#findReportJobByJobId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <Reference name="configs">
+        <Property name="dataType">[$dataTypeJobConfig]</Property>
+        <Property name="dataProvider">bdf.reportJobManagerPR#findReportJobConfigs</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+    <DataType name="$dataTypeReportJob" parent="global:$dataTypeReportJob" matchType="com.bstek.bdf.report.domain.ReportJob">
+      <Property name="creationType">com.bstek.bdf.report.domain.ReportJob</Property>
+      <PropertyDef name="report">
+        <Property name="dataType">$dataTypeReport</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="$dataTypeConfig">
+      <PropertyDef name="url"/>
+      <PropertyDef name="desc"/>
+      <PropertyDef name="id"/>
+    </DataType>
+    <DataType name="$dataTypeJobConfig" parent="global:$dataTypeJobConfig">
+      <PropertyDef name="url"/>
+      <PropertyDef name="desc">
+        <Property name="label">${res.processType}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View listener="spring:bdf.reportJobConfigListener#onInit">
+    <ClientEvent name="onCreate">self.cardBookChange = function(){&#xD;
+    var currentConfig = this.id(&quot;dataSetConfig&quot;).getData(&quot;#&quot;);&#xD;
+    var configId = currentConfig.get(&quot;id&quot;);    &#xD;
+    if (currentConfig) {&#xD;
+        var dataSetJob = this.id(&quot;dataSetJob&quot;);&#xD;
+        var entity = dataSetJob.getData(&quot;#.configs[@.get('configId')=='&quot; + configId + &quot;']&quot;);&#xD;
+        if (entity) {&#xD;
+            dorado.MessageBox.alert(&quot;${res.viewAlterTip}&quot;);&#xD;
+            return;&#xD;
+        }&#xD;
+        var jobId = this.id('dataSetJob').getData(&quot;#.id&quot;);        &#xD;
+        if (currentConfig.get(&quot;url&quot;)) {&#xD;
+            var cardBook = self.id(&quot;cardBookConfig&quot;);&#xD;
+            var control = cardBook.getControl(&quot;panel_&quot; + configId);&#xD;
+            cardBook.set(&quot;currentControl&quot;, control);&#xD;
+            &#xD;
+            self.id(&quot;subViewHolder_&quot; + configId).get(&quot;subView&quot;).subViewInit.call(self, {&#xD;
+                jobId: jobId,&#xD;
+                configId: configId&#xD;
+            });&#xD;
+            this.id(&quot;buttonSelectNext&quot;).set(&quot;disabled&quot;, true);&#xD;
+            this.id(&quot;buttonSelectPrev&quot;).set(&quot;disabled&quot;, false);&#xD;
+        }&#xD;
+        else {&#xD;
+            var action = this.id(&quot;ajaxActionSaveJobConfig&quot;);&#xD;
+			var dialog = this.id(&quot;dialogSelectConfig&quot;);&#xD;
+            action.set(&quot;parameter&quot;, {&#xD;
+                jobId: jobId,&#xD;
+                configId: configId&#xD;
+            })&#xD;
+            action.execute(function(){&#xD;
+                dataSetJob.getData(&quot;#&quot;).reset(&quot;configs&quot;);&#xD;
+				dialog.hide();&#xD;
+            });&#xD;
+        }&#xD;
+    }&#xD;
+    else {&#xD;
+        dorado.MessageBox.alert(&quot;${res.viewAlterListener}&quot;);&#xD;
+    }&#xD;
+}&#xD;
+self.cardBookInitPanel = function(){&#xD;
+    var cardBook = self.id(&quot;cardBookConfig&quot;);&#xD;
+    var control = cardBook.getControl(&quot;panelConfigSelect&quot;);&#xD;
+    cardBook.set(&quot;currentControl&quot;, control);&#xD;
+    this.id(&quot;buttonSelectNext&quot;).set(&quot;visible&quot;, true);&#xD;
+    this.id(&quot;buttonSelectPrev&quot;).set(&quot;visible&quot;, true);&#xD;
+    this.id(&quot;buttonSelectPrev&quot;).set(&quot;disabled&quot;, true);&#xD;
+    this.id(&quot;buttonSelectNext&quot;).set(&quot;disabled&quot;, false);&#xD;
+}&#xD;
+self.dialogSelectConfigShow = function(){&#xD;
+    this.id(&quot;dialogSelectConfig&quot;).show(function(){&#xD;
+        self.cardBookInitPanel();&#xD;
+    })&#xD;
+}&#xD;
+self.editConfig = function(){&#xD;
+    var entity = this.id(&quot;dataSetJob&quot;).getData(&quot;#.#configs&quot;);&#xD;
+    if (entity) {&#xD;
+        if (entity.get(&quot;url&quot;)) {&#xD;
+            self.id(&quot;dialogSelectConfig&quot;).show();&#xD;
+            self.cardBookInitEditePanel(entity);&#xD;
+        }&#xD;
+        else {&#xD;
+            dorado.MessageBox.alert(&quot;${res.viewSelectConfiguation}&quot;);&#xD;
+        }&#xD;
+    }&#xD;
+    else {&#xD;
+        dorado.MessageBox.alert(&quot;${res.viewSelectRecord}&quot;);&#xD;
+    }&#xD;
+}&#xD;
+self.cardBookInitEditePanel = function(entity){&#xD;
+    var cardBook = self.id(&quot;cardBookConfig&quot;);&#xD;
+    var control = cardBook.getControl(&quot;panel_&quot; + entity.get(&quot;configId&quot;));&#xD;
+    cardBook.set(&quot;currentControl&quot;, control);&#xD;
+    &#xD;
+    self.id(&quot;subViewHolder_&quot; + entity.get(&quot;configId&quot;)).get(&quot;subView&quot;).subViewInit.call(self, {&#xD;
+        jobId: entity.get(&quot;jobId&quot;),&#xD;
+        configId: entity.get(&quot;configId&quot;),&#xD;
+        id: entity.get(&quot;id&quot;)&#xD;
+    });&#xD;
+    &#xD;
+    self.id(&quot;buttonSelectNext&quot;).set(&quot;visible&quot;, false);&#xD;
+    self.id(&quot;buttonSelectPrev&quot;).set(&quot;visible&quot;, false);&#xD;
+}&#xD;
+</ClientEvent>
+    <DataSet id="dataSetJob">
+      <Property name="dataProvider">bdf.reportJobManagerPR#findJobs</Property>
+      <Property name="dataType">[$dataTypeJob]</Property>
+    </DataSet>
+    <DataSet id="dataSetConfig">
+      <Property name="dataProvider">bdf.reportJobManagerPR#loadConfigs</Property>
+      <Property name="dataType">[$dataTypeConfig]</Property>
+      <Property name="loadMode">preload</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">230</Property>
+      <MainControl>
+        <SplitPanel>
+          <Property name="direction">top</Property>
+          <Property name="position">300</Property>
+          <MainControl>
+            <Panel id="followProcessConfig">
+              <Children>
+                <ToolBar>
+                  <ToolBarButton id="btnAdd">
+                    <ClientEvent name="onClick">var entity=this.get('#dataSetJob').getData('#');&#xD;
+if(entity){&#xD;
+this.dialogSelectConfigShow();&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert('${res.addReportTip}');&#xD;
+}&#xD;
+&#xD;
+</ClientEvent>
+                    <Property name="icon">>dorado/res/com/bstek/bdf/d7/resources/icons/add.png</Property>
+                    <Property name="caption">${res.buttonAdd}</Property>
+                  </ToolBarButton>
+                  <ToolBarButton id="btnDelete">
+                    <ClientEvent name="onClick">var selections = this.id(&quot;dataGridJobConfig&quot;).get(&quot;selection&quot;);&#xD;
+if(!selections){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectDeleteRecord}&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+if (selections.length == 0) {&#xD;
+    dorado.MessageBox.alert(&quot;${res.selectDeleteRecord}&quot;)&#xD;
+    return;&#xD;
+}&#xD;
+var ids = new Array();&#xD;
+for (var i = 0; i &lt; selections.length; i++) {&#xD;
+    ids.push(selections[i].get(&quot;id&quot;));&#xD;
+}&#xD;
+var action = this.id(&quot;ajaxActionDeleteJobConfig&quot;);&#xD;
+action.set(&quot;parameter&quot;, {&#xD;
+    jobConfigIds: ids&#xD;
+});&#xD;
+var entity = this.id(&quot;dataSetJob&quot;).getData(&quot;#&quot;);&#xD;
+action.execute(function(){&#xD;
+    entity.reset(&quot;configs&quot;);&#xD;
+});&#xD;
+</ClientEvent>
+                    <Property name="icon">>dorado/res/com/bstek/bdf/d7/resources/icons/delete.png</Property>
+                    <Property name="caption">${res.buttonDelete}</Property>
+                  </ToolBarButton>
+                  <ToolBarButton id="btnEditor">
+                    <ClientEvent name="onClick">this.editConfig();&#xD;
+</ClientEvent>
+                    <Property name="caption">${res.editor}</Property>
+                    <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/building_edit.png</Property>
+                  </ToolBarButton>
+                </ToolBar>
+                <DataGrid id="dataGridJobConfig">
+                  <Property name="readOnly">true</Property>
+                  <Property name="dataSet">dataSetJob</Property>
+                  <Property name="dataPath">#.configs</Property>
+                  <Property name="selectionMode">multiRows</Property>
+                  <RowSelectorColumn/>
+                  <DataColumn>
+                    <Property name="name">desc</Property>
+                    <Property name="property">desc</Property>
+                  </DataColumn>
+                </DataGrid>
+              </Children>
+            </Panel>
+          </MainControl>
+          <SideControl>
+            <Panel id="executionReport">
+              <Children>
+                <ToolBar>
+                  <ToolBarButton id="sidBtnAdd">
+                    <ClientEvent name="onClick">var entity = this.id(&quot;dataSetJob&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+	this.id(&quot;dialogSelectReport&quot;).show();&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.reportTask}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="caption">${res.buttonAdd}</Property>
+                    <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/add.png</Property>
+                  </ToolBarButton>
+                  <ToolBarButton id="sideBtnDelete">
+                    <ClientEvent name="onClick">var entity = this.id(&quot;dataSetJob&quot;).getData(&quot;#&quot;);&#xD;
+if (!entity) {&#xD;
+    dorado.MessageBox.alert(&quot;${res.selectTimerTask}&quot;);&#xD;
+    return;&#xD;
+}&#xD;
+var selections = this.id(&quot;dataGridSelectedJob&quot;).get(&quot;selection&quot;);&#xD;
+if (selections.length == 0) {&#xD;
+    dorado.MessageBox.alert(&quot;${res.selectDeleteRecord}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var reportIds = new Array();&#xD;
+for (var i = 0; i &lt; selections.length; i++) {&#xD;
+    reportIds.push(selections[i].get(&quot;report&quot;).get(&quot;id&quot;));&#xD;
+}&#xD;
+var action = this.id(&quot;ajaxActionSaveReportJobs&quot;);&#xD;
+action.set(&quot;parameter&quot;, {&#xD;
+    jobId: entity.get(&quot;id&quot;),&#xD;
+    reportIds: reportIds,&#xD;
+    operate: &quot;delete&quot;&#xD;
+});&#xD;
+dorado.MessageBox.show({&#xD;
+    title: &quot;${res.showTip}&quot;,&#xD;
+    message: &quot;${res.confirmDeleteSelectRecord}&quot;,&#xD;
+    icon: dorado.MessageBox.INFO_ICON,&#xD;
+    buttons: ['yes', 'no'],&#xD;
+    detailCallback: function(buttonId){&#xD;
+        if (buttonId == &quot;yes&quot;) {&#xD;
+            action.execute(function(){&#xD;
+                entity.reset(&quot;reportJobs&quot;);&#xD;
+            });&#xD;
+        }&#xD;
+    }&#xD;
+});&#xD;
+&#xD;
+</ClientEvent>
+                    <Property name="caption">${res.buttonDelete}</Property>
+                    <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/delete.png</Property>
+                  </ToolBarButton>
+                  <ToolBarButton id="sideBtnFileName">
+                    <ClientEvent name="onClick">var entity = this.id(&quot;dataSetJob&quot;).getData(&quot;#.#reportJobs&quot;);&#xD;
+if (entity) {&#xD;
+	this.id(&quot;dialogEditReportJob&quot;).show();&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectEditorRecord}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/building_edit.png</Property>
+                    <Property name="caption">${res.setFileNameType}</Property>
+                  </ToolBarButton>
+                </ToolBar>
+                <DataGrid id="dataGridSelectedJob">
+                  <Property name="dataSet">dataSetJob</Property>
+                  <Property name="dataPath">#.reportJobs</Property>
+                  <Property name="readOnly">true</Property>
+                  <Property name="selectionMode">multiRows</Property>
+                  <RowSelectorColumn/>
+                  <DataColumn name="ename">
+                    <Property name="property">report.ename</Property>
+                    <Property name="caption">${res.reportName}</Property>
+                    <Property name="readOnly">true</Property>
+                  </DataColumn>
+                  <DataColumn name="type">
+                    <Property name="property">type</Property>
+                  </DataColumn>
+                  <DataColumn name="fileName">
+                    <Property name="property">fileName</Property>
+                  </DataColumn>
+                  <DataColumn name="createUser">
+                    <Property name="property">createUser</Property>
+                    <Property name="readOnly">true</Property>
+                  </DataColumn>
+                  <DataColumn name="createDate">
+                    <Property name="property">createDate</Property>
+                    <Property name="readOnly">true</Property>
+                  </DataColumn>
+                  <DataColumn>
+                    <Property name="name">updateUser</Property>
+                    <Property name="property">updateUser</Property>
+                  </DataColumn>
+                  <DataColumn>
+                    <Property name="name">updateDate</Property>
+                    <Property name="property">updateDate</Property>
+                  </DataColumn>
+                </DataGrid>
+              </Children>
+            </Panel>
+          </SideControl>
+        </SplitPanel>
+      </MainControl>
+      <SideControl>
+        <Container>
+          <DataGrid>
+            <Property name="dataSet">dataSetJob</Property>
+            <Property name="readOnly">true</Property>
+            <DataColumn>
+              <Property name="property">name</Property>
+              <Property name="name">name</Property>
+              <Property name="caption">${res.TimerJobName}</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="dialogSelectReport">
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">500</Property>
+      <Property name="height">300</Property>
+      <Buttons>
+        <Button id="btnConfirm">
+          <ClientEvent name="onClick">var ds = this.id(&quot;dataSetJob&quot;);&#xD;
+var entity = ds.getData(&quot;#&quot;);&#xD;
+if(!entity){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectTimerTask}&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+var selections = this.id(&quot;dataGridSelectReport&quot;).get(&quot;selection&quot;);&#xD;
+if(selections.length ==0){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectReportTip}&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+var reportIds = new Array();&#xD;
+for(var i=0;i&lt;selections.length;i++){&#xD;
+	reportIds.push(selections[i].get(&quot;id&quot;));&#xD;
+	if(ds.getData(&quot;#.reportJobs[@.get('report.id')=='&quot;+selections[i].get(&quot;id&quot;)+&quot;']&quot;)){&#xD;
+		dorado.MessageBox.alert(&quot;${res.selectReportIsExist}&quot;);&#xD;
+		return false;&#xD;
+	}&#xD;
+}&#xD;
+var action = this.id(&quot;ajaxActionSaveReportJobs&quot;);&#xD;
+action.set(&quot;parameter&quot;,{&#xD;
+	jobId:entity.get(&quot;id&quot;),&#xD;
+	reportIds : reportIds,&#xD;
+	operate:&quot;add&quot;&#xD;
+});&#xD;
+var dialog = this.id(&quot;dialogSelectReport&quot;);&#xD;
+action.execute(function(){&#xD;
+	entity.reset(&quot;reportJobs&quot;);&#xD;
+	dialog.hide();&#xD;
+})&#xD;
+&#xD;
+</ClientEvent>
+          <Property name="caption">${res.btnConfirm}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/disk.png</Property>
+        </Button>
+        <Button id="btnCancel">
+          <ClientEvent name="onClick">this.id(&quot;dialogSelectReport&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">${res.btnCancel}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/cancel.png</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <DataSet id="dataSetReport">
+          <Property name="dataType">[$dataTypeReport]</Property>
+          <Property name="dataProvider">bdf.reportJobManagerPR#findReports</Property>
+          <Property name="pageSize">20</Property>
+        </DataSet>
+        <ToolBar>
+          <DataPilot/>
+        </ToolBar>
+        <DataGrid id="dataGridSelectReport">
+          <Property name="dataSet">dataSetReport</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <RowSelectorColumn/>
+          <DataColumn name="group">
+            <Property name="property">group</Property>
+          </DataColumn>
+          <DataColumn name="ename">
+            <Property name="property">ename</Property>
+          </DataColumn>
+          <DataColumn name="dataSourceName">
+            <Property name="property">dataSourceName</Property>
+          </DataColumn>
+          <DataColumn name="createDate">
+            <Property name="property">createDate</Property>
+          </DataColumn>
+          <DataColumn name="createUser">
+            <Property name="property">createUser</Property>
+          </DataColumn>
+          <DataColumn name="cmnt">
+            <Property name="property">cmnt</Property>
+          </DataColumn>
+        </DataGrid>
+      </Children>
+    </Dialog>
+    <Dialog id="dialogEditReportJob">
+      <Property name="modal">true</Property>
+      <Property name="center">true</Property>
+      <Property name="width">400</Property>
+      <Property name="height">150</Property>
+      <Buttons>
+        <Button id="editorConfirm">
+          <ClientEvent name="onClick">var view = this;&#xD;
+this.id('updateActionUpdateReportJob').execute(function(){&#xD;
+	view.id('dialogEditReportJob').hide();&#xD;
+});&#xD;
+</ClientEvent>
+          <Property name="caption">${res.btnConfirm}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/disk.png</Property>
+        </Button>
+        <Button id="editorCancel">
+          <ClientEvent name="onClick">this.id('dialogEditReportJob').hide();</ClientEvent>
+          <Property name="caption">${res.btnCancel}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/cancel.png</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dataSetJob</Property>
+          <Property name="dataPath">#.reportJobs</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">type</Property>
+            <Property name="property">type</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">fileName</Property>
+            <Property name="property">fileName</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </Dialog>
+    <AjaxAction id="ajaxActionSaveReportJobs">
+      <Property name="service">bdf.reportJobManagerPR#saveReportJobs</Property>
+    </AjaxAction>
+    <UpdateAction id="updateActionUpdateReportJob">
+      <Property name="alwaysExecute">true</Property>
+      <Property name="dataResolver">bdf.reportJobManagerPR#updateReportJobs</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetJob</Property>
+        <Property name="dataPath">#.#reportJobs</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="ajaxActionSaveJobConfig">
+      <Property name="service">bdf.reportJobManagerPR#saveReportJobConfig</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionDeleteJobConfig">
+      <Property name="service">bdf.reportJobManagerPR#deleteReportJobConfigs</Property>
+      <Property name="confirmMessage">${res.actionDeleteConfirmTip}</Property>
+      <Property name="successMessage">${res.deleteSuccess}</Property>
+    </AjaxAction>
+    <Dialog id="dialogSelectConfig" layout="regionPadding:2">
+      <Property name="modal">true</Property>
+      <Property name="center">true</Property>
+      <Property name="width">600</Property>
+      <Property name="height">400</Property>
+      <Buttons>
+        <Button id="buttonSelectPrev">
+          <ClientEvent name="onClick">this.cardBookInitPanel();&#xD;
+</ClientEvent>
+          <Property name="caption">${res.upStep}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/resultset_previous.png</Property>
+          <Property name="hideMode">display</Property>
+        </Button>
+        <Button id="buttonSelectNext">
+          <ClientEvent name="onClick">this.cardBookChange();&#xD;
+</ClientEvent>
+          <Property name="caption">${res.nextStep}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/resultset_next.png</Property>
+          <Property name="hideMode">display</Property>
+        </Button>
+        <Button id="buttonClose">
+          <ClientEvent name="onClick">this.id(&quot;dialogSelectConfig&quot;).hide();&#xD;
+var entity = this.id(&quot;dataSetJob&quot;).getData(&quot;#&quot;);&#xD;
+if(entity){&#xD;
+	entity.reset(&quot;configs&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">${res.btnClose}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/cancel.png</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <CardBook id="cardBookConfig">
+          <Panel id="panelConfigSelect">
+            <Property name="border">none</Property>
+            <Buttons/>
+            <Children>
+              <DataGrid>
+                <ClientEvent name="onDataRowDoubleClick">this.cardBookChange();&#xD;
+</ClientEvent>
+                <Property name="dataSet">dataSetConfig</Property>
+                <Property name="readOnly">true</Property>
+                <DataColumn name="desc">
+                  <Property name="property">desc</Property>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="property">url</Property>
+                  <Property name="name">url</Property>
+                </DataColumn>
+              </DataGrid>
+            </Children>
+          </Panel>
+        </CardBook>
+      </Children>
+    </Dialog>
+  </View>
+</ViewConfig>

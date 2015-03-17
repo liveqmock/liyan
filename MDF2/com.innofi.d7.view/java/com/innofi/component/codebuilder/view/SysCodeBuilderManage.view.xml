@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysCodeBuilderManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysCodeBuilder" parent="global:dataTypeSysCodeBuilder">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="patterns">
+        <Property name="dataType">[dataTypeSysCodePattern]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="builderId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">sysCodePatternAction#findSysCodePatterns</Property>
+      </Reference>
+    </DataType>
+    <DataType name="querydataTypeSysCodeBuilder">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMpattern">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="pattern">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.pattern"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMbuilderType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="builderType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.builderType"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcurrentSeq">
+        <Property name="defaultValue">eq</Property>
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getQueryMethod&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="currentSeq">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.currentSeq"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMremark">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="remark">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.remark"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMprefix">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="prefix">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.prefix"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysCodeBuilder">
+      <Property name="dataProvider">sysCodeBuilderAction#findSysCodeBuilders</Property>
+      <Property name="dataType">[dataTypeSysCodeBuilder]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysCodeBuilder">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysCodeBuilder]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">view.get(&quot;#dataSetSysCodeBuilder&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysCodeBuilder&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">view.get(&quot;#querydataSetSysCodeBuilder&quot;).clear();
+view.get(&quot;#querydataSetSysCodeBuilder&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysCodeBuilderQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysCodeBuilder</Property>
+            <Property name="dataType">querydataTypeSysCodeBuilder</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+            <AutoFormElement name="autoFormElementbuilderType">
+              <Property name="name">builderType</Property>
+              <Property name="property">builderType</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMbuilderType</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysCodeBuilder</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">builderType</Property>
+                    <Property name="dataSet">querydataSetSysCodeBuilder</Property>
+                    <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.builderType&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.builderType&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementremark">
+              <Property name="name">remark</Property>
+              <Property name="property">remark</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMremark</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysCodeBuilder</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">remark</Property>
+                    <Property name="dataSet">querydataSetSysCodeBuilder</Property>
+                    <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.remark&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.remark&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysCodeBuilder" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysCodeBuilder&quot;).set(&quot;readOnly&quot;,false);
+view.get(&quot;#dataSetSysCodeBuilder.data&quot;).insert();
+view.get(&quot;#addDialogSysCodeBuilder&quot;).show();
+                </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCodeBuilder&quot;).getData();
+var selection = view.get(&quot;#dataGridSysCodeBuilder&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+    dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+	view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().setCurrent(selection[0]);
+	view.get(&quot;#dialogSysCodeBuilder&quot;).show();
+    view.get(&quot;#dataSetSysCodeBuilder&quot;).set(&quot;readOnly&quot;,false);
+}
+</ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCodeBuilder&quot;).getData();
+var selection = view.get(&quot;#dataGridSysCodeBuilder&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveSysCodeBuildersAction&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+    jQuery.each(selection,function(i,item){
+		var patterns = item.get('patterns');
+		patterns.each(function(pattern){
+			pattern.remove();
+		})
+        entitys.remove(item);
+    });
+    action.execute();
+    });
+}
+</ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCodeBuilder&quot;).getData();
+var found = false;
+var selection = view.get(&quot;#dataGridSysCodeBuilder&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+    dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().setCurrent(selection[0]);
+view.get(&quot;#lookdialogSysCodeBuilder&quot;).show();
+view.get(&quot;#dataSetSysCodeBuilder&quot;).set(&quot;readOnly&quot;,true);
+}
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="codeButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCodeBuilder&quot;).getData();
+var selection = view.get(&quot;#dataGridSysCodeBuilder&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+    dorado.MessageBox.alert(&quot;只能选择一条记录查看！&quot;);
+}else if (selection.length == 1) {
+	var builderType=selection[0].get(&quot;builderType&quot;);
+	view.get(&quot;#codeAction&quot;).set(&quot;parameter&quot;, builderType).execute(function(result) {
+		alert(result);
+	});
+}</ClientEvent>
+          <Property name="caption">获取编码</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridSysCodeBuilder" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetSysCodeBuilder</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeSysCodeBuilder</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="builderType" property="builderType"/>
+          <DataColumn>
+            <Property name="name">delimiter</Property>
+            <Property name="property">delimiter</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn name="remark" property="remark"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysCodeBuilder</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysCodeBuildersAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysCodeBuilderAction#saveSysCodeBuilders</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysCodeBuilder</Property>
+        <Property name="alias">builder</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysCodeBuilder">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().cancel();
+            view.get(&quot;#dialogSysCodeBuilder&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">编辑业务编码生成规则</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var entityList=view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;);
+if(entityList.entityCount>0){
+	var action = view.get(&quot;#saveSysCodeBuildersAction&quot;);
+	var dialog=view.get(&quot;#dialogSysCodeBuilder&quot;);
+	action.execute(function(){
+	    dialog.hide();
+	});
+}else{
+	dorado.MessageBox.alert(&quot;请添加规则！&quot;);
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;).cancel();
+view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().cancel();
+view.get(&quot;#dialogSysCodeBuilder&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <AutoForm id="autoFormSysCodeBuilder">
+            <Property name="dataType">dataTypeSysCodeBuilder</Property>
+            <Property name="dataSet">dataSetSysCodeBuilder</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="labelWidth">130</Property>
+            <AutoFormElement>
+              <Property name="name">builderType</Property>
+              <Property name="property">builderType</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="readOnly">false</Property>
+              <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.builderType&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.builderType&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">delimiter</Property>
+              <Property name="property">delimiter</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">remark</Property>
+              <Property name="property">remark</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="readOnly">false</Property>
+              <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.remark&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.remark&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+          <ToolBar>
+            <ToolBarButton id="addPattern">
+              <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysCodeBuilder&quot;).get(&quot;selection&quot;);
+var builderId=selection[0].get(&quot;id&quot;);
+var entityList=view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;);
+var seq=entityList.entityCount+1;
+var entity=entityList.insert({&quot;patternSeq&quot;:seq,&quot;builderId&quot;:builderId});
+view.get(&quot;#addPatternDialog&quot;).show();
+</ClientEvent>
+              <Property name="caption">添加</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updtPattern">
+              <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;);
+var selection = view.get(&quot;#updtPatternGrid&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1){	
+	view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;).setCurrent(selection[0]);
+	view.get(&quot;#updtPatternDialog&quot;).show();
+	view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;).set(&quot;readOnly&quot;,false);
+}</ClientEvent>
+              <Property name="caption">修改</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delPattern">
+              <ClientEvent name="onClick">var selection=view.get(&quot;#updtPatternGrid&quot;).get(&quot;selection&quot;);
+var entityList=view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+	    jQuery.each(selection,function(i,item){
+	        entityList.remove(item);
+	    });
+    });
+}</ClientEvent>
+              <Property name="caption">删除</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="rise">
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+            </ToolBarButton>
+            <ToolBarButton id="down">
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <Container>
+            <DataGrid id="updtPatternGrid">
+              <Property name="dataSet">dataSetSysCodeBuilder</Property>
+              <Property name="dataType">dataTypeSysCodePattern</Property>
+              <Property name="dataPath">#.patterns</Property>
+              <Property name="selectionMode">multiRows</Property>
+              <Property name="readOnly">true</Property>
+              <IndicatorColumn/>
+              <RowSelectorColumn/>
+              <DataColumn name="patternType">
+                <Property name="property">patternType</Property>
+              </DataColumn>
+              <DataColumn name="valueDef">
+                <Property name="property">valueDef</Property>
+              </DataColumn>
+              <DataColumn name="valueFmt">
+                <Property name="property">valueFmt</Property>
+              </DataColumn>
+              <DataColumn name="valueLen">
+                <Property name="property">valueLen</Property>
+              </DataColumn>
+              <DataColumn name="valueStep">
+                <Property name="property">valueStep</Property>
+              </DataColumn>
+              <DataColumn name="currentSeq">
+                <Property name="property">currentSeq</Property>
+              </DataColumn>
+              <DataColumn name="patternSeq">
+                <Property name="property">patternSeq</Property>
+              </DataColumn>
+              <DataColumn name="valueField">
+                <Property name="property">valueField</Property>
+              </DataColumn>
+            </DataGrid>
+          </Container>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysCodeBuilder">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().cancel();
+         view.get(&quot;#dialogSysCodeBuilder&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增业务编码生成规则</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var entityList=view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;);
+if(entityList.entityCount>0){
+	var action = view.get(&quot;#saveSysCodeBuildersAction&quot;);
+	var dialog=view.get(&quot;#addDialogSysCodeBuilder&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});
+}else{
+	dorado.MessageBox.alert(&quot;请添加规则！&quot;);
+}
+   </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;).cancel();
+view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().cancel();
+view.get(&quot;#addDialogSysCodeBuilder&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <AutoForm id="addAutoFormSysCodeBuilder">
+            <Property name="dataType">dataTypeSysCodeBuilder</Property>
+            <Property name="dataSet">dataSetSysCodeBuilder</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="labelWidth">130</Property>
+            <AutoFormElement>
+              <Property name="name">builderType</Property>
+              <Property name="property">builderType</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">delimiter</Property>
+              <Property name="property">delimiter</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">remark</Property>
+              <Property name="property">remark</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+          <ToolBar>
+            <ToolBarButton id="addPatternButton">
+              <ClientEvent name="onClick">var entityList=view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;);
+var seq=entityList.entityCount+1;
+var entity=entityList.insert({&quot;patternSeq&quot;:seq});
+view.get(&quot;#addPatternDialog&quot;).show();</ClientEvent>
+              <Property name="caption">添加</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updtPatternButton">
+              <ClientEvent name="onClick">view.get(&quot;#updtPatternDialog&quot;).show();
+</ClientEvent>
+              <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+              <Property name="caption">修改</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delPatternButton">
+              <ClientEvent name="onClick">var selection=view.get(&quot;#patternGrid&quot;).get(&quot;selection&quot;);
+var entityList=view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.patterns&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+	    jQuery.each(selection,function(i,item){
+	        entityList.remove(item);
+	    });
+    });
+}</ClientEvent>
+              <Property name="caption">删除</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="riseButton">
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+            </ToolBarButton>
+            <ToolBarButton id="downButton">
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <Container>
+            <DataGrid id="patternGrid">
+              <Property name="dataSet">dataSetSysCodeBuilder</Property>
+              <Property name="dataType">dataTypeSysCodePattern</Property>
+              <Property name="selectionMode">multiRows</Property>
+              <Property name="dataPath">#.patterns</Property>
+              <Property name="readOnly">true</Property>
+              <IndicatorColumn/>
+              <RowSelectorColumn/>
+              <DataColumn name="patternType">
+                <Property name="property">patternType</Property>
+              </DataColumn>
+              <DataColumn name="valueDef">
+                <Property name="property">valueDef</Property>
+              </DataColumn>
+              <DataColumn name="valueFmt">
+                <Property name="property">valueFmt</Property>
+              </DataColumn>
+              <DataColumn name="valueLen">
+                <Property name="property">valueLen</Property>
+              </DataColumn>
+              <DataColumn name="valueStep">
+                <Property name="property">valueStep</Property>
+              </DataColumn>
+              <DataColumn name="currentSeq">
+                <Property name="property">currentSeq</Property>
+              </DataColumn>
+              <DataColumn name="patternSeq">
+                <Property name="property">patternSeq</Property>
+              </DataColumn>
+              <DataColumn name="valueField">
+                <Property name="property">valueField</Property>
+              </DataColumn>
+            </DataGrid>
+          </Container>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysCodeBuilder">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetSysCodeBuilder&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogSysCodeBuilder&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">查看业务编码生成规则</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">90%</Property>
+      <Property name="width">80%</Property>
+      <Buttons/>
+      <Children>
+        <Container>
+          <AutoForm id="lookFormSysCodeBuilder">
+            <Property name="dataType">dataTypeSysCodeBuilder</Property>
+            <Property name="dataSet">dataSetSysCodeBuilder</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="autoCreateElements">false</Property>
+            <Property name="labelWidth">130</Property>
+            <AutoFormElement>
+              <Property name="name">builderType</Property>
+              <Property name="property">builderType</Property>
+              <Property name="visible">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">delimiter</Property>
+              <Property name="property">delimiter</Property>
+              <Property name="visible">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">remark</Property>
+              <Property name="property">remark</Property>
+              <Property name="visible">true</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+          <Container>
+            <DataGrid id="lookPatternGrid">
+              <Property name="dataSet">dataSetSysCodeBuilder</Property>
+              <Property name="dataType">dataTypeSysCodePattern</Property>
+              <Property name="selectionMode">none</Property>
+              <Property name="dataPath">#.patterns</Property>
+              <IndicatorColumn/>
+              <DataColumn name="patternType">
+                <Property name="property">patternType</Property>
+              </DataColumn>
+              <DataColumn name="valueDef">
+                <Property name="property">valueDef</Property>
+              </DataColumn>
+              <DataColumn name="valueFmt">
+                <Property name="property">valueFmt</Property>
+              </DataColumn>
+              <DataColumn name="valueLen">
+                <Property name="property">valueLen</Property>
+              </DataColumn>
+              <DataColumn name="valueStep">
+                <Property name="property">valueStep</Property>
+              </DataColumn>
+              <DataColumn name="currentSeq">
+                <Property name="property">currentSeq</Property>
+              </DataColumn>
+              <DataColumn name="patternSeq">
+                <Property name="property">patternSeq</Property>
+              </DataColumn>
+              <DataColumn name="valueField">
+                <Property name="property">valueField</Property>
+              </DataColumn>
+            </DataGrid>
+          </Container>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="updtPatternDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.#patterns&quot;).cancel();</ClientEvent>
+      <Property name="caption">修改编码类型</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var dialog=view.get(&quot;#updtPatternDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.#patterns&quot;).cancel();
+view.get(&quot;#updtPatternDialog&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysCodePattern">
+          <Property name="dataType">dataTypeSysCodePattern</Property>
+          <Property name="dataSet">dataSetSysCodeBuilder</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">#.#patterns</Property>
+          <AutoFormElement>
+            <Property name="name">patternType</Property>
+            <Property name="property">patternType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueLen</Property>
+            <Property name="property">valueLen</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueLen&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueLen&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueStep</Property>
+            <Property name="property">valueStep</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueStep&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueStep&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueFmt</Property>
+            <Property name="property">valueFmt</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueFmt&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueFmt&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">currentSeq</Property>
+            <Property name="property">currentSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.currentSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.currentSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueField</Property>
+            <Property name="property">valueField</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueField&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueField&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueDef</Property>
+            <Property name="property">valueDef</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueDef&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueDef&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">patternSeq</Property>
+            <Property name="property">patternSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.patternSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.patternSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addPatternDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.#patterns&quot;).cancel();
+view.get(&quot;#addPatternDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">新增编码类型</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">//新增时  如果当前值为空  当前值等于初始值
+var entity=view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.#patterns&quot;);
+var patternType=entity.get(&quot;patternType&quot;);
+var valueDef=entity.get(&quot;valueDef&quot;);
+var currentSeq=entity.get(&quot;currentSeq&quot;);
+if(patternType==&quot;4&quot;){//类型为序号
+	if(currentSeq==undefined &amp;&amp; valueDef !=undefined){
+		entity.set(&quot;currentSeq&quot;,valueDef);
+	}
+}
+var dialog=view.get(&quot;#addPatternDialog&quot;).hide();
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysCodeBuilder&quot;).getData(&quot;#.#patterns&quot;).cancel();
+view.get(&quot;#addPatternDialog&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysCodePattern">
+          <Property name="dataType">dataTypeSysCodePattern</Property>
+          <Property name="dataSet">dataSetSysCodeBuilder</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <Property name="dataPath">#.#patterns</Property>
+          <AutoFormElement>
+            <Property name="name">patternType</Property>
+            <Property name="property">patternType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueLen</Property>
+            <Property name="property">valueLen</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueLen&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueLen&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueStep</Property>
+            <Property name="property">valueStep</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueStep&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueStep&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueFmt</Property>
+            <Property name="property">valueFmt</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueFmt&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueFmt&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">currentSeq</Property>
+            <Property name="property">currentSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.currentSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.currentSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueField</Property>
+            <Property name="property">valueField</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueField&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueField&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">valueDef</Property>
+            <Property name="property">valueDef</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueDef&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueDef&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">patternSeq</Property>
+            <Property name="property">patternSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.patternSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.patternSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookPatternDialog">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetSysCodePattern&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogSysCodePattern&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysCodePattern">
+          <Property name="dataType">dataTypeSysCodePattern</Property>
+          <Property name="dataSet">dataSetSysCodeBuilder</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+          <Property name="dataPath">#.#patterns</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="codeAction">
+      <Property name="service">sysCodeBuilderAction#findCodeByBuilderType</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

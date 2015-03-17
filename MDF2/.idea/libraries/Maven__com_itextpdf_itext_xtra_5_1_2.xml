@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.itextpdf:itext-xtra:5.1.2">
+    <CLASSES>
+      <root url="jar://F:/03_repository/com/itextpdf/itext-xtra/5.1.2/itext-xtra-5.1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://F:/03_repository/com/itextpdf/itext-xtra/5.1.2/itext-xtra-5.1.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://F:/03_repository/com/itextpdf/itext-xtra/5.1.2/itext-xtra-5.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

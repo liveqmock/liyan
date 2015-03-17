@@ -1,0 +1,1770 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">DaTablePolicyManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeDaTablePolicy" parent="global:dataTypeDaTablePolicy">
+      <ClientEvent name="onDataChange">if (arg.property==&quot;tableId&quot;){&#xD;
+	var tableAuthId= arg.entity.get(&quot;id&quot;);&#xD;
+	view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId,&quot;tableId&quot;:arg.value}).flushAsync();&#xD;
+};</ClientEvent>
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="querydataTypeDaTablePolicy">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMtableName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMoperType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="operType">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;DA_TYPE&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dimenDataType" parent="dataTypeMdDimension">
+      <Reference name="fields">
+        <Property name="dataType">[fieldDataType]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dimenControlId">$${this.dimenControlId}</Property>
+            <Property name="dimenId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">daDimenDataAction#findDimenFieldForDimenControl</Property>
+      </Reference>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenControlId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="fieldDataType" parent="dataTypeMdDimenField">
+      <Reference name="dimenData">
+        <Property name="dataType">[dimenData]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dimenControlId">$${this.dimenControlId}</Property>
+            <Property name="dimenFieldId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">daDimenDataAction#findDimenDatasForDimenControl</Property>
+      </Reference>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenControlId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dimenData" parent="dataTypeDaDimenData">
+      <PropertyDef name="dispName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="startDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">开始日期</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">结束日期</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="category">
+        <Property name="dataType">String</Property>
+        <Property name="label">类型</Property>
+        <Property name="required">false</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CATEGORY&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeDateRange">
+      <PropertyDef name="startDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">开始日期</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">结束日期</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeOrg" parent="dataTypeSysOrgInfo">
+      <Reference name="children">
+        <Property name="dataProvider">sysOrgInfoAction#findSysVOrgInfos</Property>
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="parentOrgId">$${this.id}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+    </DataType>
+    <DataType name="dataTypeSysBusinessLine" parent="global:dataTypeSysBusinessLine">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLineByParentId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <PropertyDef name="busilineBaselName">
+        <Property name="label">Basel业务条线</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="belongOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理部门</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysProduct" parent="global:dataTypeSysProduct">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysProductAction#findSysProductByParentId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <PropertyDef name="manageOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理部门</Property>
+      </PropertyDef>
+      <PropertyDef name="busilineName">
+        <Property name="dataType">String</Property>
+        <Property name="label">业务线名称</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetDaTablePolicy">
+      <Property name="dataProvider">daTablePolicyAction#findDaTablePolicys</Property>
+      <Property name="dataType">[dataTypeDaTablePolicy]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetDaTablePolicy">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeDaTablePolicy]</Property>
+    </DataSet>
+    <DataSet id="dataSetDimen">
+      <Property name="dataType">[dimenDataType]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">daDimenControlAction#findMdDimensionForControls</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetDaTablePolicy&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).clear();
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormDaTablePolicyQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetDaTablePolicy</Property>
+            <Property name="dataType">querydataTypeDaTablePolicy</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">100</Property>
+            <AutoFormElement name="autoFormElementtableName">
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMtableName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">tableName</Property>
+                    <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                    <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementoperType">
+              <Property name="name">operType</Property>
+              <Property name="property">operType</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMoperType</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">operType</Property>
+                    <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                    <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyTip}</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarDaTablePolicy" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;readOnly&quot;,false);
+view.get(&quot;#dataSetDaTablePolicy.data&quot;).insert();
+view.get(&quot;#dataSetDimen&quot;).clear();
+var cardBook=view.get(&quot;#cardBookAdd&quot;);
+cardBook.set(&quot;currentIndex&quot;, 0);
+view.get(&quot;#addDialogDaTablePolicy&quot;).show();
+                </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDaTablePolicy&quot;).getData();
+var selection = view.get(&quot;#dataGridDaTablePolicy&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+    dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+	var tableId=selection[0].get(&quot;tableId&quot;);
+	var tableAuthId=selection[0].get(&quot;id&quot;);
+	var cardBook=view.get(&quot;#cardBookUpdt&quot;);
+	cardBook.set(&quot;currentIndex&quot;, 0);
+	view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId,&quot;tableId&quot;:tableId}).flushAsync();
+    view.get(&quot;#dataSetDaTablePolicy&quot;).getData().setCurrent(selection[0]);
+    view.get(&quot;#dialogDaTablePolicy&quot;).show();
+    view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;readOnly&quot;,false);
+}
+                </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDaTablePolicy&quot;).getData();
+var selection = view.get(&quot;#dataGridDaTablePolicy&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#delDaTablePolicys&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+    jQuery.each(selection,function(i,item){
+        entitys.remove(item);
+    });
+    action.execute();
+    });
+}
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDaTablePolicy&quot;).getData();
+var found = false;
+var selection = view.get(&quot;#dataGridDaTablePolicy&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+    dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	var tableAuthId=selection[0].get(&quot;id&quot;);
+	var tableId=selection[0].get(&quot;tableId&quot;);
+	var path=&quot;${request.contextPath}/com/innofi/component/rbac/privilage/view/DaTablePolicyDisp.d?tableAuthId=&quot;+tableAuthId+&quot;&amp;tableId=&quot;+tableId;
+	view.get(&quot;#lookDaTablePolicyFrame&quot;).set(&quot;path&quot;,path);
+	view.get(&quot;#lookdialogDaTablePolicy&quot;).show();
+}
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridDaTablePolicy" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetDaTablePolicy&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetDaTablePolicy&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetDaTablePolicy</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeDaTablePolicy</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="tableName" property="tableName"/>
+          <DataColumn name="operType" property="operType"/>
+          <DataColumn name="authDesc" property="authDesc"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetDaTablePolicy</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveDaTablePolicysAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">daTablePolicyAction#saveDaTablePolicysWithDimens</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetDaTablePolicy</Property>
+        <Property name="alias">policys</Property>
+        <Property name="dataPath">[#current]</Property>
+      </UpdateItem>
+      <UpdateItem>
+        <Property name="dataSet">dataSetDimen</Property>
+        <Property name="alias">dimens</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="delDaTablePolicys">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">daTablePolicyAction#deleteDaTablePolicyWithDimens</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetDaTablePolicy</Property>
+        <Property name="dataPath">!DIRTY_TREE</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogDaTablePolicy">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+            view.get(&quot;#dialogDaTablePolicy&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">100%</Property>
+      <Property name="contentOverflow">auto</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveDaTablePolicysAction&quot;);
+            var dialog=view.get(&quot;#dialogDaTablePolicy&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+            view.get(&quot;#dialogDaTablePolicy&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">控制策略</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm id="updtAutoFormDaTablePolicy">
+                <Property name="dataType">dataTypeDaTablePolicy</Property>
+                <Property name="dataSet">dataSetDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="hideMode">visibility</Property>
+                <Property name="cols">*,*</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement>
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Property name="trigger">tableList</Property>
+                  <Property name="userData">
+                    <Entity>
+                      <Property name="code">tableId</Property>
+                    </Entity>
+                  </Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">sqlWhere</Property>
+                  <Property name="property">sqlWhere</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.sqlWhere&quot;].propertyBlankText}</Property>
+                      <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.sqlWhere&quot;].propertyTip}</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">authDesc</Property>
+                  <Property name="property">authDesc</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyBlankText}</Property>
+                      <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyTip}</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="collapsed">false</Property>
+            <Property name="caption">维度信息</Property>
+            <Buttons/>
+            <Children>
+              <SplitPanel>
+                <Property name="position">50%</Property>
+                <Property name="height">150</Property>
+                <Property name="collapseable">false</Property>
+                <Property name="resizeable">false</Property>
+                <MainControl>
+                  <DataGrid id="updtFieldGrid">
+                    <ClientEvent name="onDataRowClick">var dimenType=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#&quot;).get(&quot;dimenType&quot;);&#xD;
+var field=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+var cardBook=view.get(&quot;#cardBookUpdt&quot;);&#xD;
+if(dimenType==&quot;1&quot;){//机构&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 1);&#xD;
+}else if(dimenType==&quot;2&quot;){//时间&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 2);&#xD;
+}else if(dimenType==&quot;3&quot;){//业务&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 3);&#xD;
+}else if(dimenType==&quot;4&quot;){//产品&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 4);&#xD;
+}else{&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 0);&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.fields</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <Property name="rowSelectionProperty">selectFlag</Property>
+                    <Property name="highlightSelectedRow">false</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="name">fieldName</Property>
+                      <Property name="property">fieldName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                </MainControl>
+                <SideControl>
+                  <DataGrid id="updtDimenGrid">
+                    <ClientEvent name="onDataRowClick">var cardBook=view.get(&quot;#cardBookUpdt&quot;);&#xD;
+cardBook.set(&quot;currentIndex&quot;, 0);</ClientEvent>
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <Property name="rowSelectionProperty">selectFlag</Property>
+                    <Property name="highlightSelectedRow">false</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="name">dimenName</Property>
+                      <Property name="property">dimenName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                </SideControl>
+              </SplitPanel>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="collapsed">false</Property>
+            <Property name="caption">维度数据</Property>
+            <Property name="height">250</Property>
+            <Buttons/>
+            <Children>
+              <CardBook id="cardBookUpdt">
+                <Container id="updtBlank"/>
+                <Container id="updtOrgDimen">
+                  <Property name="contentOverflow">auto</Property>
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetOrg&quot;).set(&quot;parameter&quot;, {&quot;parentOrgId&quot;:&quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addOrgDialog&quot;).show();&#xD;
+</ClientEvent>
+                      <Property name="caption">添加机构部门</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var datas=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var existsFlag=false;&#xD;
+datas.each(function(entity){&#xD;
+	if(&quot;\${userOrgCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+		existsFlag=true;&#xD;
+	}&#xD;
+});&#xD;
+if(existsFlag==false){&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	var currOrg={&#xD;
+			dimenValue:&quot;\${userOrgCode}&quot;,&#xD;
+			dispName:&quot;当前用户所属机构&quot;,&#xD;
+			category:&quot;1&quot;,&#xD;
+			dimenAuthType:&quot;D&quot;,&#xD;
+			fieldName:fieldName&#xD;
+		}&#xD;
+	datas.insert(currOrg);&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;当前用户所属机构记录已存在！&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                      <Property name="caption">添加当前机构</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var datas=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var existsFlag=false;&#xD;
+datas.each(function(entity){&#xD;
+	if(&quot;\${userDeptCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+		existsFlag=true;&#xD;
+	}&#xD;
+});&#xD;
+if(existsFlag==false){&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	var currOrg={&#xD;
+			dimenValue:&quot;\${userDeptCode}&quot;,&#xD;
+			dispName:&quot;当前用户所属部门&quot;,&#xD;
+			category:&quot;0&quot;,&#xD;
+			dimenAuthType:&quot;D&quot;,&#xD;
+			fieldName:fieldName&#xD;
+		}&#xD;
+	datas.insert(currOrg);&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;当前用户所属部门记录已存在！&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                      <Property name="caption">添加当前部门</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtOrgDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="updtOrgDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <Property name="highlightSelectedRow">true</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">dispName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="name">dispName</Property>
+                      <Property name="caption">名称</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">category</Property>
+                      <Property name="property">category</Property>
+                      <Property name="caption">类型</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                    <DataColumn name="dimenAuthType">
+                      <Property name="property">dimenAuthType</Property>
+                      <Property name="caption">权限类型</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <Container id="updtDateDimen">
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetDateRange&quot;).clear();&#xD;
+view.get(&quot;#dataSetDateRange&quot;).insert({});&#xD;
+view.get(&quot;#addDateDialog&quot;).show();&#xD;
+</ClientEvent>
+                      <Property name="caption">添加日期</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtDateDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="updtDateDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn name="startDate">
+                      <Property name="property">startDate</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                    <DataColumn name="endDate">
+                      <Property name="property">endDate</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <Container id="updtBizlineDimen">
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetBizLine&quot;).set(&quot;parameter&quot;,{parentBusilineId: &quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addBizLineDialog&quot;).show();</ClientEvent>
+                      <Property name="caption">添加业务线</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtBizDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="updtBizDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">dispName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="name">dispName</Property>
+                      <Property name="caption">业务线名称</Property>
+                    </DataColumn>
+                    <DataColumn name="dimenAuthType">
+                      <Property name="property">dimenAuthType</Property>
+                      <Property name="caption">权限类型</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <Container id="updtProductDimen">
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetProduct&quot;).set(&quot;parameter&quot;,{parentId: &quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addProductDialog&quot;).show();</ClientEvent>
+                      <Property name="caption">添加产品</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtProductDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="updtProductDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">dispName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="name">dispName</Property>
+                      <Property name="caption">产品名称</Property>
+                    </DataColumn>
+                    <DataColumn name="dimenAuthType">
+                      <Property name="property">dimenAuthType</Property>
+                      <Property name="caption">权限类型</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+              </CardBook>
+            </Children>
+          </FieldSet>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogDaTablePolicy">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+         view.get(&quot;#dialogDaTablePolicy&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">100%</Property>
+      <Property name="contentOverflow">auto</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get(&quot;#saveDaTablePolicysAction&quot;);
+              var dialog=view.get(&quot;#addDialogDaTablePolicy&quot;);
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+            view.get(&quot;#addDialogDaTablePolicy&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">控制策略</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm id="addAutoFormDaTablePolicy">
+                <Property name="dataType">dataTypeDaTablePolicy</Property>
+                <Property name="dataSet">dataSetDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="hideMode">visibility</Property>
+                <Property name="cols">*,*</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement>
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Property name="trigger">tableList</Property>
+                  <Property name="userData">
+                    <Entity>
+                      <Property name="code">tableId</Property>
+                    </Entity>
+                  </Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">sqlWhere</Property>
+                  <Property name="property">sqlWhere</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.sqlWhere&quot;].propertyBlankText}</Property>
+                      <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.sqlWhere&quot;].propertyTip}</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">authDesc</Property>
+                  <Property name="property">authDesc</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyBlankText}</Property>
+                      <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyTip}</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="collapsed">false</Property>
+            <Property name="caption">维度信息</Property>
+            <Buttons/>
+            <Children>
+              <SplitPanel>
+                <Property name="position">50%</Property>
+                <Property name="height">150</Property>
+                <Property name="collapseable">false</Property>
+                <Property name="resizeable">false</Property>
+                <MainControl>
+                  <DataGrid id="fieldGrid">
+                    <ClientEvent name="onDataRowClick">var dimenType=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#&quot;).get(&quot;dimenType&quot;);&#xD;
+var field=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+var cardBook=view.get(&quot;#cardBookAdd&quot;);&#xD;
+if(dimenType==&quot;1&quot;){//机构&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 1);&#xD;
+}else if(dimenType==&quot;2&quot;){&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 2);&#xD;
+}else if(dimenType==&quot;3&quot;){//业务&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 3);&#xD;
+}else if(dimenType==&quot;4&quot;){//产品&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 4);&#xD;
+}else{&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 0);&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.fields</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <Property name="rowSelectionProperty">selectFlag</Property>
+                    <Property name="highlightSelectedRow">false</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="name">fieldName</Property>
+                      <Property name="property">fieldName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                </MainControl>
+                <SideControl>
+                  <DataGrid id="dimenGrid">
+                    <ClientEvent name="onDataRowClick">var cardBook=view.get(&quot;#cardBookAdd&quot;);&#xD;
+cardBook.set(&quot;currentIndex&quot;, 0);</ClientEvent>
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <Property name="rowSelectionProperty">selectFlag</Property>
+                    <Property name="highlightSelectedRow">false</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="name">dimenName</Property>
+                      <Property name="property">dimenName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                </SideControl>
+              </SplitPanel>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="collapsed">false</Property>
+            <Property name="caption">维度数据</Property>
+            <Property name="height">250</Property>
+            <Buttons/>
+            <Children>
+              <CardBook id="cardBookAdd">
+                <Container id="blank"/>
+                <Container id="orgDimen">
+                  <Property name="contentOverflow">auto</Property>
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetOrg&quot;).set(&quot;parameter&quot;, {&quot;parentOrgId&quot;:&quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addOrgDialog&quot;).show();&#xD;
+</ClientEvent>
+                      <Property name="caption">添加机构部门</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var datas=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var existsFlag=false;&#xD;
+datas.each(function(entity){&#xD;
+	if(&quot;\${userOrgCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+		existsFlag=true;&#xD;
+	}&#xD;
+});&#xD;
+if(existsFlag==false){&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	var currOrg={&#xD;
+			dimenValue:&quot;\${userOrgCode}&quot;,&#xD;
+			dispName:&quot;当前用户所属机构&quot;,&#xD;
+			category:&quot;1&quot;,&#xD;
+			dimenAuthType:&quot;D&quot;,&#xD;
+			fieldName:fieldName&#xD;
+		}&#xD;
+	datas.insert(currOrg);&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;当前用户所属机构记录已存在！&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                      <Property name="caption">添加当前机构</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var datas=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var existsFlag=false;&#xD;
+datas.each(function(entity){&#xD;
+	if(&quot;\${userDeptCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+		existsFlag=true;&#xD;
+	}&#xD;
+});&#xD;
+if(existsFlag==false){&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	var currOrg={&#xD;
+			dimenValue:&quot;\${userDeptCode}&quot;,&#xD;
+			dispName:&quot;当前用户所属部门&quot;,&#xD;
+			category:&quot;0&quot;,&#xD;
+			dimenAuthType:&quot;D&quot;,&#xD;
+			fieldName:fieldName&#xD;
+		}&#xD;
+	datas.insert(currOrg);&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;当前用户所属部门记录已存在！&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                      <Property name="caption">添加当前部门</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#orgDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="orgDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">dispName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="name">dispName</Property>
+                      <Property name="caption">部门名称</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">category</Property>
+                      <Property name="property">category</Property>
+                      <Property name="caption">类型</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                    <DataColumn name="dimenAuthType">
+                      <Property name="property">dimenAuthType</Property>
+                      <Property name="caption">权限类型</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <Container id="dateDimen">
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetDateRange&quot;).clear();&#xD;
+view.get(&quot;#dataSetDateRange&quot;).insert({});&#xD;
+view.get(&quot;#addDateDialog&quot;).show();&#xD;
+</ClientEvent>
+                      <Property name="caption">添加日期</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#dateDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="dateDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn name="startDate">
+                      <Property name="property">startDate</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                    <DataColumn name="endDate">
+                      <Property name="property">endDate</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <Container id="bizlineDimen">
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetBizLine&quot;).set(&quot;parameter&quot;,{parentBusilineId: &quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addBizLineDialog&quot;).show();</ClientEvent>
+                      <Property name="caption">添加业务线</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#bizDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="bizDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">dispName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="name">dispName</Property>
+                      <Property name="caption">业务线名称</Property>
+                    </DataColumn>
+                    <DataColumn name="dimenAuthType">
+                      <Property name="property">dimenAuthType</Property>
+                      <Property name="caption">权限类型</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <Container id="productDimen">
+                  <ToolBar>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">view.get(&quot;#dataSetProduct&quot;).set(&quot;parameter&quot;,{parentId: &quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addProductDialog&quot;).show();</ClientEvent>
+                      <Property name="caption">添加产品</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton>
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#productDimenDataGrid&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                      <Property name="caption">删除</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="productDimenDataGrid">
+                    <Property name="dataSet">dataSetDimen</Property>
+                    <Property name="dataPath">#.#fields.dimenData</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">dispName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="name">dispName</Property>
+                      <Property name="caption">产品名称</Property>
+                    </DataColumn>
+                    <DataColumn name="dimenAuthType">
+                      <Property name="property">dimenAuthType</Property>
+                      <Property name="caption">权限类型</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+              </CardBook>
+            </Children>
+          </FieldSet>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogDaTablePolicy">
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">90%</Property>
+      <Property name="width">100%</Property>
+      <Property name="contentOverflow">auto</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="lookDaTablePolicyFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <CustomDropDown id="tableList">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;tableName&quot;));&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;</ClientEvent>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/MdTableSelect.d?status=1&amp;dropdown=tableList&amp;display=tableDesc</Property>
+      </IFrame>
+    </CustomDropDown>
+    <Dialog id="addOrgDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择部门</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var nodes=view.get(&quot;#addOrgTreeGrid&quot;).getCheckedNodes();&#xD;
+if(nodes.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (nodes.length != 0) {&#xD;
+		var dimenDateList=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		jQuery.each(nodes,function(i,node){&#xD;
+			var isexists=false;&#xD;
+			var orgCode=node.get(&quot;data&quot;).get(&quot;orgCode&quot;);&#xD;
+			dimenDateList.each(function(entity){&#xD;
+				var id=entity.get(&quot;dimenValue&quot;);&#xD;
+				if(orgCode==id){&#xD;
+					isexists=true;&#xD;
+				}&#xD;
+			});&#xD;
+			if(!isexists){&#xD;
+				var entity={&#xD;
+					dimenValue:orgCode,&#xD;
+					dispName:node.get(&quot;data&quot;).get(&quot;orgName&quot;),&#xD;
+					category:node.get(&quot;data&quot;).get(&quot;category&quot;),&#xD;
+					dimenAuthType:&quot;D&quot;,&#xD;
+					fieldName:fieldName&#xD;
+				}&#xD;
+				dimenDateList.insert(entity);&#xD;
+			}&#xD;
+		});&#xD;
+		view.get(&quot;#addOrgDialog&quot;).hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addOrgDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">查询</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">false</Property>
+            <Buttons>
+              <Button id="queryOrg">
+                <ClientEvent name="onClick">
+                view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetDaTablePolicy&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetOrg">
+                <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).clear();
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).getData().insert({});
+            </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm id="autoFormOrgQuery" layoutConstraint="center">
+                <Property name="cols">*,*</Property>
+                <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                <Property name="dataType">querydataTypeDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement name="autoFormElementoperType">
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMoperType</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">operType</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyTip}</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementtableName">
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMtableName</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">tableName</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataTreeGrid id="addOrgTreeGrid">
+            <Property name="dataPath">CURRENT_ORG</Property>
+            <Property name="dataSet">dataSetOrg</Property>
+            <Property name="treeColumn">orgCode</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="checkable">true</Property>
+                <Property name="childrenProperty">children</Property>
+                <Property name="expandedIcon">>icons/chart_organisation.png</Property>
+                <Property name="icon">>icons/chart_organisation.png</Property>
+                <Property name="labelProperty">orgCode</Property>
+                <Property name="recursive">true</Property>
+                <Property name="autoCheckChildren">false</Property>
+              </BindingConfig>
+            </BindingConfigs>
+            <Columns>
+              <DataColumn>
+                <Property name="name">orgCode</Property>
+                <Property name="property">orgCode</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+              <DataColumn>
+                <Property name="name">orgName</Property>
+                <Property name="property">orgName</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+              <DataColumn>
+                <Property name="name">category</Property>
+                <Property name="property">category</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+            </Columns>
+          </DataTreeGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDateDialog">
+      <Property name="center">true</Property>
+      <Property name="width">50%</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">50%</Property>
+      <Property name="caption">添加日期</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var entity = view.get(&quot;#dataSetDateRange&quot;).getData(&quot;#&quot;);&#xD;
+if(entity.validate()==&quot;ok&quot;){&#xD;
+	var dimenDateList=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	dimenDateList.insert({&quot;fieldName&quot;:fieldName,&quot;startDate&quot;:entity.get(&quot;startDate&quot;),&quot;endDate&quot;:entity.get(&quot;endDate&quot;)});&#xD;
+	view.get(&quot;#addDateDialog&quot;).hide();&#xD;
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addDateDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="dateRangeForm">
+          <Property name="dataSet">dataSetDateRange</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">startDate</Property>
+            <Property name="property">startDate</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">endDate</Property>
+            <Property name="property">endDate</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addBizLineDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择部门</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var nodes=view.get(&quot;#busiLineTree&quot;).getCheckedNodes();&#xD;
+if(nodes.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (nodes.length != 0) {&#xD;
+		var dimenDateList=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		jQuery.each(nodes,function(i,node){&#xD;
+			var isexists=false;&#xD;
+			var bizlineId=node.get(&quot;data&quot;).get(&quot;id&quot;);&#xD;
+			dimenDateList.each(function(entity){&#xD;
+				var id=entity.get(&quot;dimenValue&quot;);&#xD;
+				if(bizlineId==id){&#xD;
+					isexists=true;&#xD;
+				}&#xD;
+			});&#xD;
+			if(!isexists){&#xD;
+				var entity={&#xD;
+					dimenValue:bizlineId,&#xD;
+					dispName:node.get(&quot;data&quot;).get(&quot;busilineName&quot;),&#xD;
+					dimenAuthType:&quot;D&quot;,&#xD;
+					fieldName:fieldName&#xD;
+				}&#xD;
+				dimenDateList.insert(entity);&#xD;
+			}&#xD;
+		});&#xD;
+		view.get(&quot;#addBizLineDialog&quot;).hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addBizLineDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">查询</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">false</Property>
+            <Buttons>
+              <Button id="queryBiz">
+                <ClientEvent name="onClick">
+                view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetDaTablePolicy&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetBiz">
+                <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).clear();
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).getData().insert({});
+            </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm id="autoFormBizLineQuery" layoutConstraint="center">
+                <Property name="cols">*,*</Property>
+                <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                <Property name="dataType">querydataTypeDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement name="autoFormElementoperType">
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMoperType</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">operType</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyTip}</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementtableName">
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMtableName</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">tableName</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataTreeGrid id="busiLineTree">
+            <Property name="dataSet">dataSetBizLine</Property>
+            <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+            <Property name="treeColumn">busilineCode</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="childrenProperty">children</Property>
+                <Property name="labelProperty">busilineCode</Property>
+                <Property name="recursive">true</Property>
+                <Property name="expandedIcon">>icons/layers.png</Property>
+                <Property name="icon">>icons/layers.png</Property>
+                <Property name="checkable">true</Property>
+                <Property name="autoCheckChildren">false</Property>
+              </BindingConfig>
+            </BindingConfigs>
+            <Columns>
+              <DataColumn name="busilineCode" property="busilineCode">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="busilineName" property="busilineName">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="busilineDesc" property="busilineDesc">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+            </Columns>
+          </DataTreeGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addProductDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择部门</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var nodes=view.get(&quot;#productTree&quot;).getCheckedNodes();&#xD;
+if(nodes.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (nodes.length != 0) {&#xD;
+		var dimenDateList=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields.dimenData&quot;);&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		jQuery.each(nodes,function(i,node){&#xD;
+			var isexists=false;&#xD;
+			var productId=node.get(&quot;data&quot;).get(&quot;id&quot;);&#xD;
+			dimenDateList.each(function(entity){&#xD;
+				var id=entity.get(&quot;dimenValue&quot;);&#xD;
+				if(productId==id){&#xD;
+					isexists=true;&#xD;
+				}&#xD;
+			});&#xD;
+			if(!isexists){&#xD;
+				var entity={&#xD;
+					dimenValue:productId,&#xD;
+					dispName:node.get(&quot;data&quot;).get(&quot;productName&quot;),&#xD;
+					dimenAuthType:&quot;D&quot;,&#xD;
+					fieldName:fieldName&#xD;
+				}&#xD;
+				dimenDateList.insert(entity);&#xD;
+			}&#xD;
+		});&#xD;
+		view.get(&quot;#addProductDialog&quot;).hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addProductDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">查询</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">false</Property>
+            <Buttons>
+              <Button id="queryProduct">
+                <ClientEvent name="onClick">
+                view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetDaTablePolicy&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetProduct">
+                <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).clear();
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).getData().insert({});
+            </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm id="autoFormProductQuery" layoutConstraint="center">
+                <Property name="cols">*,*</Property>
+                <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                <Property name="dataType">querydataTypeDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement name="autoFormElementoperType">
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMoperType</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">operType</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyTip}</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementtableName">
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMtableName</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">tableName</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataTreeGrid id="productTree">
+            <Property name="dataSet">dataSetProduct</Property>
+            <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+            <Property name="treeColumn">productCode</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="childrenProperty">children</Property>
+                <Property name="labelProperty">productCode</Property>
+                <Property name="recursive">true</Property>
+                <Property name="expandedIcon">>icons/product.png</Property>
+                <Property name="icon">>icons/product.png </Property>
+                <Property name="checkable">true</Property>
+                <Property name="autoCheckChildren">false</Property>
+              </BindingConfig>
+            </BindingConfigs>
+            <Columns>
+              <DataColumn name="productCode" property="productCode">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="productName" property="productName">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="productDesc" property="productDesc">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+            </Columns>
+          </DataTreeGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <DataSet id="dataSetDateRange">
+      <Property name="dataType">dataTypeDateRange</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetOrg">
+      <Property name="dataProvider">sysOrgInfoAction#findSysVOrgInfos</Property>
+      <Property name="dataType">[dataTypeOrg]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetBizLine">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLines</Property>
+      <Property name="dataType">[dataTypeSysBusinessLine]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="dataSetProduct">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysProductAction#findSysProducts</Property>
+      <Property name="dataType">[dataTypeSysProduct]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+  </View>
+</ViewConfig>

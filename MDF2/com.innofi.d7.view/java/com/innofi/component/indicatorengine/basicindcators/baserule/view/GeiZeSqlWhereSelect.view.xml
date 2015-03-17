@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <ClientEvent name="onDataLoaded">var data = parent.$getIeBaseIeRuleSqlWhere();&#xD;
+&#xD;
+if(data){&#xD;
+   view.insertValue(data);&#xD;
+   $fanyiSqlWhere(data);&#xD;
+}</ClientEvent>
+    <ClientEvent name="onCreate">//全局变量用于存储 别名 也名字的对应关系&#xD;
+var allBaseRuleParamMsg = &quot;&quot;;&#xD;
+&#xD;
+window.$clareValue = function(){&#xD;
+	view.clareValue();&#xD;
+	view.get(&quot;#messageFanYi&quot;).doSetText(&quot;&quot;) ;&#xD;
+}&#xD;
+&#xD;
+window.$setHtmlValue = function(str){&#xD;
+	view.insertValue(str);&#xD;
+	$setParamMsg();&#xD;
+}&#xD;
+//参数按钮用的&#xD;
+window.$setDataAndColesDialog = function(insetStr){&#xD;
+	&#xD;
+    var dialog = view.get(&quot;#ieIndexParamDialog&quot;);&#xD;
+&#xD;
+    if(dialog){&#xD;
+		&#xD;
+		if(insetStr){&#xD;
+		  	$setHtmlValue(insetStr);&#xD;
+		   //view.insertValue(insetStr);&#xD;
+		}&#xD;
+				&#xD;
+		dialog.hide();&#xD;
+            &#xD;
+    }&#xD;
+&#xD;
+}&#xD;
+&#xD;
+window.$setGlobalParamMsg = function(paramStr){&#xD;
+	&#xD;
+	if(allBaseRuleParamMsg==&quot;&quot;){&#xD;
+		allBaseRuleParamMsg=paramStr;&#xD;
+	}else{&#xD;
+		allBaseRuleParamMsg = allBaseRuleParamMsg+&quot;;&quot;+paramStr; &#xD;
+	}&#xD;
+	&#xD;
+    &#xD;
+}&#xD;
+&#xD;
+window.$setParamMsg = function(){&#xD;
+	&#xD;
+	var data = view.getDataValue();&#xD;
+	var temp = data ;&#xD;
+		&#xD;
+	if(!temp || temp.indexOf(&quot;[&quot;)&lt;0){&#xD;
+  		view.get(&quot;#messageFanYi&quot;).doSetText(view.getDataValue()) ;&#xD;
+	}else if(allBaseRuleParamMsg==&quot;&quot;){&#xD;
+		view.get(&quot;#messageFanYi&quot;).doSetText(view.getDataValue()) ;&#xD;
+	}else{&#xD;
+		&#xD;
+	    var paramArray = allBaseRuleParamMsg.split(&quot;;&quot;);&#xD;
+		   &#xD;
+        paramArray.each(function(paramObj){&#xD;
+	       var param = paramObj.split(&quot;,&quot;);&#xD;
+&#xD;
+		   if(temp.indexOf(param[0])>-1){&#xD;
+			       var re = new RegExp(&quot;\\[&quot;+param[0]+&quot;\\]&quot;,'g');&#xD;
+		           temp = temp.replace(re,&quot;[&quot;+param[1]+&quot;]&quot;);&#xD;
+		   }&#xD;
+	    });&#xD;
+		   &#xD;
+		view.get(&quot;#messageFanYi&quot;).doSetText(temp) ;&#xD;
+	}&#xD;
+	&#xD;
+}&#xD;
+//翻译SQLWhere 看是否存在参数&#xD;
+window.$fanyiSqlWhere = function(data){&#xD;
+	 if(data.indexOf(&quot;[&quot;)&lt;0){&#xD;
+	  	$setParamMsg();&#xD;
+	  	return ;&#xD;
+	  }&#xD;
+	  view.get(&quot;#fanyiAjaxAction&quot;).set(&quot;parameter&quot;,{&quot;sqlWhere&quot;:data}).execute(function(result){&#xD;
+		   var newMsg=result;&#xD;
+		   &#xD;
+		   if(newMsg.param){&#xD;
+		   	  $setGlobalParamMsg(newMsg.param);&#xD;
+			  $setParamMsg();&#xD;
+		   }&#xD;
+		   &#xD;
+		   if(newMsg.err){&#xD;
+		   	 dorado.MessageBox.alert(newMsg.err);&#xD;
+		   }		  &#xD;
+     });&#xD;
+}&#xD;
+&#xD;
+window.$setIeBaseIeRuleSqlWhereAndColesDialog = function(data){&#xD;
+	  if(data.indexOf(&quot;[&quot;)&lt;0){&#xD;
+	  	parent.$setIeBaseIeRuleSqlWhere(data);&#xD;
+	  	return ;&#xD;
+	  }&#xD;
+	  view.get(&quot;#fanyiAjaxAction&quot;).set(&quot;parameter&quot;,{&quot;sqlWhere&quot;:data}).execute(function(result){&#xD;
+	       &#xD;
+		   var newMsg=result;&#xD;
+		   if(newMsg.err){&#xD;
+			  	 dorado.MessageBox.alert(newMsg.err);&#xD;
+		   }else if(newMsg.msg){&#xD;
+		   	 //dorado.MessageBox.alert(newMsg.msg);&#xD;
+			 parent.$setIeBaseIeRuleCanShu(newMsg.msg);&#xD;
+			 parent.$setIeBaseIeRuleSqlWhere(data);&#xD;
+		   }else{&#xD;
+		   	 parent.$setIeBaseIeRuleSqlWhere(data);&#xD;
+		   }&#xD;
+		  &#xD;
+     });&#xD;
+}&#xD;
+</ClientEvent>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetMdTable">
+      <ClientEvent name="onReady">var status=&quot;${request.getParameter('status')}&quot;;
+var tableName=&quot;${request.getParameter('tableName')}&quot;;
+var ziTableName=&quot;${request.getParameter('ziTableName')}&quot;;
+
+
+if(tableName &amp;&amp; &quot;&quot;!=tableName){
+
+
+	if(ziTableName &amp;&amp;&quot;&quot;!=ziTableName){
+		
+		var temp = tableName+&quot;,&quot;+ziTableName;
+		view.get(&quot;#dataSetMdTable&quot;).set(&quot;parameter&quot;, {&quot;status&quot;:status,&quot;tableNames&quot;:temp}).flush();
+		
+	}else{
+		
+		view.get(&quot;#dataSetMdTable&quot;).set(&quot;parameter&quot;, {&quot;status&quot;:status,&quot;tableNames&quot;:tableName}).flush();
+
+	}
+ }
+
+</ClientEvent>
+      <Property name="dataProvider">ieBaseIeRuleAction#findMdTablesByMdTableIds</Property>
+      <Property name="pageSize">10</Property>
+      <Property name="dataType">[dataTypeMdTable]</Property>
+      <Property name="ignored">false</Property>
+    </DataSet>
+    <DataSet id="dataSetMdField">
+      <ClientEvent name="onReady">var status=&quot;${request.getParameter('status')}&quot;;&#xD;
+&#xD;
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);&#xD;
+&#xD;
+var tableId = &quot;-999999&quot;;&#xD;
+&#xD;
+if(entity){&#xD;
+	&#xD;
+  if(tableId){ //Async&#xD;
+  &#xD;
+    tableId = entity.get(&quot;id&quot;);&#xD;
+	&#xD;
+  }&#xD;
+  &#xD;
+}&#xD;
+	&#xD;
+view.get(&quot;#dataSetMdField&quot;).set(&quot;parameter&quot;, {&quot;status&quot;:status,&quot;tableId&quot;:tableId}).flush();&#xD;
+</ClientEvent>
+      <Property name="dataProvider">mdFieldAction#findMdFields</Property>
+      <Property name="pageSize">10</Property>
+      <Property name="dataType">[dataTypeMdField]</Property>
+      <Property name="ignored">false</Property>
+    </DataSet>
+    <Container>
+      <Property name="contentOverflow">hidden</Property>
+      <Property name="contentOverflowY">auto</Property>
+      <SplitPanel>
+        <Property name="position">60%</Property>
+        <MainControl>
+          <SplitPanel>
+            <Property name="direction">top</Property>
+            <Property name="position">200</Property>
+            <MainControl>
+              <FieldSet>
+                <Property name="caption">列信息</Property>
+                <Property name="collapseable">false</Property>
+                <Buttons/>
+                <Children>
+                  <DataGrid id="fieldDataGridList">
+                    <ClientEvent name="onDataRowDoubleClick">var fieldEntity = view.get(&quot;#dataSetMdField&quot;).getData(&quot;#&quot;);&#xD;
+var tableEntity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);&#xD;
+&#xD;
+if(tableEntity){&#xD;
+	&#xD;
+	   if(fieldEntity){&#xD;
+&#xD;
+            var msg = &quot; &quot;+tableEntity.get(&quot;tableName&quot;)+&quot;.&quot;+fieldEntity.get(&quot;fieldName&quot;);&#xD;
+      &#xD;
+	        view.insertValue(msg);&#xD;
+			$setParamMsg();&#xD;
+&#xD;
+	   }else{&#xD;
+	   	&#xD;
+		    dorado.MessageBox.alert(&quot;请选择列信息！&quot;);&#xD;
+		  &#xD;
+	   }&#xD;
+	&#xD;
+	}else{&#xD;
+		&#xD;
+		   dorado.MessageBox.alert(&quot;请选择表信息！&quot;);&#xD;
+	}&#xD;
+</ClientEvent>
+                    <Property name="dataSet">dataSetMdField</Property>
+                    <Property name="showHeader">true</Property>
+                    <DataColumn>
+                      <Property name="name">fieldName</Property>
+                      <Property name="property">fieldName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">fieldCnName</Property>
+                      <Property name="property">fieldCnName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">fieldType</Property>
+                      <Property name="property">fieldType</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                  <ToolBar id="fieldSigleListPilot" layoutConstraint="bottom">
+                    <Property name="hideMode">display</Property>
+                    <DataPilot>
+                      <Property name="itemCodes">pages</Property>
+                      <Property name="dataSet">dataSetMdField</Property>
+                    </DataPilot>
+                  </ToolBar>
+                </Children>
+              </FieldSet>
+            </MainControl>
+            <SideControl>
+              <FieldSet>
+                <Property name="caption">数据表信息</Property>
+                <Property name="collapseable">false</Property>
+                <Buttons/>
+                <Children>
+                  <DataGrid id="tableDataGridList">
+                    <ClientEvent name="onDataRowClick">var status=&quot;${request.getParameter('status')}&quot;;
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+if(entity){
+  var tableId = entity.get(&quot;id&quot;);
+  if(tableId){
+     view.get(&quot;#dataSetMdField&quot;).set(&quot;parameter&quot;, {&quot;status&quot;:status,&quot;tableId&quot;:tableId}).flushAsync();
+  }
+}</ClientEvent>
+                    <Property name="dataSet">dataSetMdTable</Property>
+                    <Property name="showHeader">true</Property>
+                    <DataColumn>
+                      <Property name="name">tableName</Property>
+                      <Property name="property">tableName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">tableCnName</Property>
+                      <Property name="property">tableCnName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                  <ToolBar id="tableSigleListPilot" layoutConstraint="bottom">
+                    <Property name="hideMode">display</Property>
+                    <DataPilot>
+                      <Property name="itemCodes">pages</Property>
+                      <Property name="dataSet">dataSetMdTable</Property>
+                    </DataPilot>
+                  </ToolBar>
+                </Children>
+              </FieldSet>
+            </SideControl>
+          </SplitPanel>
+        </MainControl>
+        <SideControl>
+          <Panel id="leftPanel">
+            <Buttons>
+              <Button>
+                <ClientEvent name="onClick">var data = view.getDataValue();
+//计算参数信息 
+if(data){
+	
+     $setIeBaseIeRuleSqlWhereAndColesDialog(data);
+
+} else{
+	
+	parent.$setIeBaseIeRuleSqlWhere(&quot;&quot;);
+	
+}
+</ClientEvent>
+                <Property name="caption">确定</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$clareValue();</ClientEvent>
+                <Property name="caption">清空</Property>
+                <Property name="width">60</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">parent.$colseIeBaseIeRuleSqlWhere();</ClientEvent>
+                <Property name="caption">取消</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <SplitPanel>
+                <Property name="direction">bottom</Property>
+                <Property name="position">200</Property>
+                <MainControl>
+                  <Container>
+                    <FieldSet>
+                      <Property name="caption">筛选条件输入框</Property>
+                      <Property name="collapseable">true</Property>
+                      <Buttons/>
+                      <Children>
+                        <Container>
+                          <Container layoutConstraint="top">
+                            <Property name="height">90</Property>
+                            <HtmlContainer>
+                              <ClientEvent name="onKeyPress">$setParamMsg();&#xD;
+</ClientEvent>
+                              <Property name="content">&lt;table width=100% height=&quot;90%&quot;>&#xD;
+&lt;tr  width=100% height=&quot;100%&quot; >&#xD;
+	&lt;td  width=100% height=&quot;100%&quot;>&lt;textarea id=&quot;base_expression&quot; &#xD;&#xD;
+style=&quot;height:95%;width:98%&quot;>&lt;/textarea>&lt;/td>&#xD;
+&lt;/tr>&#xD;
+&lt;/table></Property>
+                            </HtmlContainer>
+                          </Container>
+                          <Container layoutConstraint="center">
+                            <Property name="height">90</Property>
+                            <Property name="style">
+                              <Property name="padding-right">10px</Property>
+                              <Property name="padding-left">4px</Property>
+                            </Property>
+                            <TextArea id="messageFanYi">
+                              <Property name="readOnly">true</Property>
+                              <Property name="width">98%</Property>
+                              <Property name="blankText">参数翻译消息</Property>
+                            </TextArea>
+                          </Container>
+                        </Container>
+                      </Children>
+                    </FieldSet>
+                  </Container>
+                </MainControl>
+                <SideControl>
+                  <Container layout="form cols:110,110,110,110;colPadding:0;rowPadding:0" layoutConstraint="left className:4">
+                    <Property name="width">444</Property>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; + &quot;);&#xD;
+</ClientEvent>
+                      <Property name="caption">+</Property>
+                      <Property name="width">100</Property>
+                      <Property name="height">6</Property>
+                      <Property name="tip">加</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; - &quot;);</ClientEvent>
+                      <Property name="caption">-</Property>
+                      <Property name="width">100</Property>
+                      <Property name="height">6</Property>
+                      <Property name="tip">减</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; * &quot;);</ClientEvent>
+                      <Property name="caption">*</Property>
+                      <Property name="width">100</Property>
+                      <Property name="height">6</Property>
+                      <Property name="tip">乘</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; / &quot;);</ClientEvent>
+                      <Property name="caption">/</Property>
+                      <Property name="width">100</Property>
+                      <Property name="height">6</Property>
+                      <Property name="tip">除</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; ( &quot;);</ClientEvent>
+                      <Property name="caption">(</Property>
+                      <Property name="width">100</Property>
+                      <Property name="height">6</Property>
+                      <Property name="tip">左括号</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; ) &quot;);</ClientEvent>
+                      <Property name="caption">)</Property>
+                      <Property name="width">100</Property>
+                      <Property name="height">6</Property>
+                      <Property name="tip">右括号</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">&#xD;
+view.get(&quot;#ieIndexParamIFrame&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com/innofi/pas/module/indicator/custom/view/ParmCommonParamSelect.d&quot;).refresh();&#xD;
+&#xD;
+var dialog=view.get(&quot;#ieIndexParamDialog&quot;);&#xD;
+&#xD;
+dialog.show();&#xD;
+	&#xD;
+&#xD;
+</ClientEvent>
+                      <Property name="caption">参数</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot;'&quot;);</ClientEvent>
+                      <Property name="caption">单引号</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; in ('','','') &quot;);</ClientEvent>
+                      <Property name="caption">包含</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; = &quot;);</ClientEvent>
+                      <Property name="caption">等于</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; != &quot;);</ClientEvent>
+                      <Property name="caption">不等于</Property>
+                      <Property name="width">100   </Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValueview.insertValue(&quot; > &quot;);</ClientEvent>
+                      <Property name="caption">大于</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; &lt; &quot;);</ClientEvent>
+                      <Property name="caption">小于</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; >= &quot;);</ClientEvent>
+                      <Property name="caption">大于等于</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; &lt;= &quot;);</ClientEvent>
+                      <Property name="caption">小于等于</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; OR &quot;);</ClientEvent>
+                      <Property name="caption">或</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; AND &quot;);</ClientEvent>
+                      <Property name="caption">且</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; NOT &quot;);</ClientEvent>
+                      <Property name="caption">非</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                    <Button>
+                      <ClientEvent name="onClick">$setHtmlValue(&quot; || &quot;);</ClientEvent>
+                      <Property name="caption">连接</Property>
+                      <Property name="width">100</Property>
+                    </Button>
+                  </Container>
+                </SideControl>
+              </SplitPanel>
+            </Children>
+            <Tools/>
+          </Panel>
+        </SideControl>
+      </SplitPanel>
+    </Container>
+    <AjaxAction id="fanyiAjaxAction">
+      <Property name="service">ieBaseIeRuleAction#chickParament</Property>
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作完成</Property>
+    </AjaxAction>
+    <Dialog id="ieIndexParamDialog">
+      <Property name="height">90%</Property>
+      <Property name="width">90%</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">选择参数</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="ieIndexParamIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

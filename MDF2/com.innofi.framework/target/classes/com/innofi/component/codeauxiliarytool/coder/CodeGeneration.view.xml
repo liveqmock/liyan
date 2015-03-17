@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeTable">
+      <Property name="creationType">com.innofi.component.codeauxiliarytool.coder.domain.TableInfo</Property>
+      <PropertyDef name="dbInfoId">
+        <Property name="dataType">String</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeColumn">
+      <ClientEvent name="onDataChange">if (arg.property==&quot;eleType&quot;){
+
+	if(view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;eleType&quot;)==&quot;7&quot;){//机构下拉框
+		/*view.get(&quot;#addAutoForm&quot;).getElement('orgCategory').set('visible',true);
+		view.get(&quot;#addAutoForm&quot;).getElement('expandLevel').set('visible',true);
+		view.get(&quot;#addAutoForm&quot;).getElement('rootCode').set('visible',true);*/
+		view.get(&quot;#DorpdownDialog&quot;).show();
+	}
+	if(view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;eleType&quot;)==&quot;8&quot;){//用户下拉框
+		/*view.get(&quot;#addAutoForm&quot;).getElement('orgCategory').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('expandLevel').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('rootCode').set('visible',true);*/
+		view.get(&quot;#DorpdownDialog&quot;).show();
+	}
+	if(view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;eleType&quot;)==&quot;9&quot;){//岗位下拉框
+		/*view.get(&quot;#addAutoForm&quot;).getElement('orgCategory').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('expandLevel').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('rootCode').set('visible',true);*/
+		view.get(&quot;#DorpdownDialog&quot;).show();
+	}
+	if(view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;eleType&quot;)==&quot;10&quot;){//字典下拉框
+		/*view.get(&quot;#addAutoForm&quot;).getElement('orgCategory').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('expandLevel').set('visible',true);
+		view.get(&quot;#addAutoForm&quot;).getElement('rootCode').set('visible',true);*/
+		view.get(&quot;#DorpdownDialog&quot;).show();
+	}	
+	if(view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;eleType&quot;)==&quot;11&quot;){//业务条线下拉框
+		/*view.get(&quot;#addAutoForm&quot;).getElement('orgCategory').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('expandLevel').set('visible',true);
+		view.get(&quot;#addAutoForm&quot;).getElement('rootCode').set('visible',true);*/
+		view.get(&quot;#DorpdownDialog&quot;).show();
+	}
+	if(view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;eleType&quot;)==&quot;12&quot;){//产品下拉框
+		/*view.get(&quot;#addAutoForm&quot;).getElement('orgCategory').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('expandLevel').set('visible',true);
+		view.get(&quot;#addAutoForm&quot;).getElement('rootCode').set('visible',true);*/
+		view.get(&quot;#DorpdownDialog&quot;).show();
+	}
+	if(view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;eleType&quot;)==&quot;13&quot;){//BASEL业务线下拉框
+		/*view.get(&quot;#addAutoForm&quot;).getElement('orgCategory').set('visible',false);
+		view.get(&quot;#addAutoForm&quot;).getElement('expandLevel').set('visible',true);
+		view.get(&quot;#addAutoForm&quot;).getElement('rootCode').set('visible',true);*/
+		view.get(&quot;#DorpdownDialog&quot;).show();
+	}
+};</ClientEvent>
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdField</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.id&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="version">
+        <Property name="dataType">int</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.crtDate&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.updDate&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.crtOrgCode&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.updOrgCode&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.crtUserCode&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.updUserCode&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="objStatus">
+        <Property name="dataType">String</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+      <PropertyDef name="tableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.tableId&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.tableName&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.fieldName&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.fieldCnName&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.fieldDesc&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.fieldType&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldLen">
+        <Property name="dataType">int</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.fieldLen&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="dataFmt">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.dataFmt&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldDict">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.fieldDict&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="entityAttriName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.entityAttriName&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="consCond">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.consCond&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="defaultValue">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.defaultValue&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isNull">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isNull&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isPk">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isPk&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isPkIndex">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isPkIndex&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isStati">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isStati&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isRedundant">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isRedundant&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="srcReduField">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.srcReduField&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isOrgAuth">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isOrgAuth&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isDataAuth">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isDataAuth&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isParentid">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isParentid&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="bankTextInf">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.bankTextInf&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tipInf">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.tipInf&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="labelInf">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.labelInf&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="queryMethod">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.queryMethod&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isTableView">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isTableView&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isAddRead">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isAddRead&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isUpdRead">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isUpdRead&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="regExp">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.regExp&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="eleType">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;ELE_TYPE&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.eleType&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isAddView">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isAddView&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isUpdView">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isUpdView&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isQueryCond">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.isQueryCond&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req[&quot;com.innofi.framework.pojo.metadata.MdField.status&quot;].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="selectType">
+        <Property name="label">下拉框展现形式</Property>
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;SELECT_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="orgCategory">
+        <Property name="label">机构选择类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CATEGORY&quot;)}</Property>
+        </Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="expandLevel">
+        <Property name="label">树展开层级</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="rootCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">根节点</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="queryDataTypeTable">
+      <PropertyDef name="tableName">
+        <Property name="label">业务表名</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="queryDataSetTable">
+      <ClientEvent name="onReady">self.insert({});&#xD;
+</ClientEvent>
+      <Property name="dataType">[queryDataTypeTable]</Property>
+    </DataSet>
+    <DataSet id="dataSetTable">
+      <Property name="dataProvider">coderCreate#loadTableInfos</Property>
+      <Property name="dataType">[dataTypeTable]</Property>
+    </DataSet>
+    <DataSet id="dataSetColumn">
+      <Property name="dataProvider">coderCreate#loadColumnInfos</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataType">[dataTypeColumn]</Property>
+    </DataSet>
+    <Container>
+      <SplitPanel>
+        <Property name="position">250</Property>
+        <MainControl>
+          <Panel>
+            <Property name="height">80%</Property>
+            <Children>
+              <Panel>
+                <Children>
+                  <ToolBar>
+                    <ToolBarButton id="toolBarButtonCoder">
+                      <ClientEvent name="onClick">var dialog=this.id(&quot;dialogCoder&quot;);
+var dataSetColumn=this.id(&quot;dataSetColumn&quot;);
+var data=dataSetColumn.getData();
+if (data) {
+	dialog.set(&quot;caption&quot;, &quot;代码生成&quot;);
+	dialog.show();
+}
+
+
+</ClientEvent>
+                      <Property name="caption">生成代码</Property>
+                      <Property name="icon">${request.contextPath}/icons/application_form_add.png</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="dataGridCoderInfos">
+                    <ClientEvent name="onReady">
+//view.get(&quot;#dataGridCoderInfos&quot;).getColumn(&quot;queryList&quot;).getColumn(&quot;queryDictType&quot;).set(&quot;visible&quot;, true);</ClientEvent>
+                    <Property name="stretchColumnsMode">off</Property>
+                    <Property name="dataSet">dataSetColumn</Property>
+                    <Property name="readOnly">false</Property>
+                    <Property name="dataType">dataTypeColumn</Property>
+                    <Property name="draggable">false</Property>
+                    <Property name="droppable">true</Property>
+                    <Property name="droppableTags">row</Property>
+                    <Property name="dragTags">row</Property>
+                    <DataColumn>
+                      <Property name="property">tableName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">表名</Property>
+                      <Property name="name">tableName</Property>
+                      <Property name="width">200</Property>
+                      <Property name="ignored">true</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">fieldName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">字段名</Property>
+                      <Property name="name">fieldName</Property>
+                      <Property name="width">200</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">fieldType</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">字段类型</Property>
+                      <Property name="name">fieldType</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">fieldLen</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">字段大小</Property>
+                      <Property name="name">fieldLen</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">isPk</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">是否主键</Property>
+                      <Property name="name">isPk</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">isNull</Property>
+                      <Property name="caption">是否为空</Property>
+                      <Property name="name">isNull</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">fieldDesc</Property>
+                      <Property name="caption">字段描述</Property>
+                      <Property name="name">fieldDesc</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">labelInf</Property>
+                      <Property name="property">labelInf</Property>
+                      <Property name="caption">字段显示标签</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">bankTextInf</Property>
+                      <Property name="property">bankTextInf</Property>
+                      <Property name="caption">字段显示信息</Property>
+                      <Editor>
+                        <TextEditor>
+                          <Property name="tip">字段输入框未键入实际值时，默认的显示信息</Property>
+                        </TextEditor>
+                      </Editor>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">tipInf</Property>
+                      <Property name="property">tipInf</Property>
+                      <Property name="caption">字段提示信息</Property>
+                      <Editor>
+                        <TextEditor>
+                          <Property name="tip">鼠标移入输入框时在Tip中显示的信息</Property>
+                        </TextEditor>
+                      </Editor>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">eleType</Property>
+                      <Property name="name">eleType</Property>
+                      <Property name="caption">组件类型</Property>
+                      <Property name="width">200</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">fieldDict</Property>
+                      <Property name="property">fieldDict</Property>
+                      <Property name="caption">字典代码</Property>
+                      <Property name="visible">true</Property>
+                      <Editor>
+                        <TextEditor>
+                          <Property name="tip">请先选择组件类型为ListDropDown，在输入字典类型代码</Property>
+                        </TextEditor>
+                      </Editor>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">consCond</Property>
+                      <Property name="caption">约束</Property>
+                      <Property name="name">consCond</Property>
+                      <Property name="trigger">validatorList</Property>
+                      <Editor>
+                        <TextEditor>
+                          <Property name="trigger">validatorList</Property>
+                          <Property name="text">无验证</Property>
+                        </TextEditor>
+                      </Editor>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">regExp</Property>
+                      <Property name="name">regExp</Property>
+                      <Property name="caption">正则表达式</Property>
+                      <Editor>
+                        <TextEditor>
+                          <Property name="tip">1.格式:正则表达式#提示信息&lt;br>2.正则表达式语法可参考:&quot;http://www.w3school.com.cn/&quot;</Property>
+                        </TextEditor>
+                      </Editor>
+                    </DataColumn>
+                    <ColumnGroup>
+                      <Property name="name">queryList</Property>
+                      <Property name="caption">查询列表</Property>
+                      <DataColumn>
+                        <Property name="property">isQueryCond</Property>
+                        <Property name="caption">是否查询条件</Property>
+                        <Property name="name">isQueryCond</Property>
+                      </DataColumn>
+                      <DataColumn>
+                        <Property name="property">isTableView</Property>
+                        <Property name="caption">列表是否显示</Property>
+                        <Property name="name">isTableView</Property>
+                      </DataColumn>
+                      <DataColumn>
+                        <Property name="name">queryMethod</Property>
+                        <Property name="property">queryMethod</Property>
+                        <Property name="caption">默认查询方式</Property>
+                        <Editor>
+                          <TextEditor>
+                            <Property name="tip">字符类型方可生效</Property>
+                            <Property name="trigger">autoMappingDropDown1</Property>
+                          </TextEditor>
+                        </Editor>
+                      </DataColumn>
+                    </ColumnGroup>
+                    <ColumnGroup>
+                      <Property name="name">数据编辑</Property>
+                      <Property name="caption">数据编辑</Property>
+                      <DataColumn>
+                        <Property name="property">isAddView</Property>
+                        <Property name="name">isAddView</Property>
+                        <Property name="caption">新增是否显示</Property>
+                        <Editor/>
+                      </DataColumn>
+                      <DataColumn>
+                        <Property name="name">isAddRead</Property>
+                        <Property name="property">isAddRead</Property>
+                        <Property name="caption">新增是否只读</Property>
+                        <Editor/>
+                      </DataColumn>
+                      <DataColumn>
+                        <Property name="property">isUpdView</Property>
+                        <Property name="caption">修改是否显示</Property>
+                        <Property name="name">isUpdView</Property>
+                      </DataColumn>
+                      <DataColumn>
+                        <Property name="property">isUpdRead</Property>
+                        <Property name="name">isUpdRead</Property>
+                        <Property name="caption">修改是否只读</Property>
+                        <Editor/>
+                      </DataColumn>
+                    </ColumnGroup>
+                  </DataGrid>
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+        </MainControl>
+        <SideControl>
+          <Panel>
+            <Property name="caption">所有业务表</Property>
+            <Property name="width">250</Property>
+            <Buttons/>
+            <Children>
+              <FieldSet>
+                <Property name="caption">查询条件</Property>
+                <Buttons>
+                  <Button>
+                    <ClientEvent name="onClick">view.get(&quot;#dataSetTable&quot;).set(&quot;parameter&quot;, view.get(&quot;#queryDataSetTable&quot;).getData(&quot;#&quot;)).flushAsync();&#xD;
+</ClientEvent>
+                    <Property name="caption">查询</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+                  </Button>
+                  <Button>
+                    <ClientEvent name="onClick">view.get(&quot;#queryDataSetTable&quot;).clear();&#xD;
+view.get(&quot;#queryDataSetTable&quot;).insert({});&#xD;
+</ClientEvent>
+                    <Property name="caption">重置</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                  </Button>
+                </Buttons>
+                <Children>
+                  <AutoForm>
+                    <Property name="cols">*</Property>
+                    <Property name="dataSet">queryDataSetTable</Property>
+                    <Property name="dataType">queryDataTypeTable</Property>
+                    <AutoFormElement>
+                      <Property name="name">tableName</Property>
+                      <Property name="property">tableName</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                  </AutoForm>
+                </Children>
+              </FieldSet>
+              <DataTree>
+                <ClientEvent name="onClick">var node = self.get(&quot;currentNode&quot;);
+if (node) {
+	var entity = node.get(&quot;data&quot;);
+	var tableName = entity.get(&quot;tableName&quot;);
+	
+	view.get(&quot;#dataSetColumn&quot;).set(&quot;parameter&quot;, tableName).flushAsync();
+	
+	}</ClientEvent>
+                <Property name="dataSet">dataSetTable</Property>
+                <BindingConfigs>
+                  <BindingConfig>
+                    <Property name="labelProperty">tableName</Property>
+                    <Property name="name">tableName</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -160px -80px</Property>
+                  </BindingConfig>
+                </BindingConfigs>
+              </DataTree>
+            </Children>
+            <Tools/>
+          </Panel>
+        </SideControl>
+      </SplitPanel>
+    </Container>
+    <ListDropDown id="module">
+      <Property name="items">com.innofi.module.sysadmin,com.innofi.module.file,com.innofi.module.kri</Property>
+    </ListDropDown>
+    <ListDropDown id="validatorList">
+      <Property name="items">中文,字母,数字,邮箱,身份证号,固定电话,IP地址,唯一验证,正则验证</Property>
+    </ListDropDown>
+    <Dialog id="dialogCoder">
+      <Property name="center">true</Property>
+      <Property name="closeable">false</Property>
+      <Property name="width">500</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">200</Property>
+      <Buttons>
+        <Button id="buttonCoderOk">
+          <ClientEvent name="onClick">var dataset = this.get(&quot;#dataSetColumn&quot;).getData();
+var action = this.get(&quot;#coderAction&quot;);
+var srcPath =this.get(&quot;#srcPath.value&quot;);
+var discPathName = this.get(&quot;#discPathName.value&quot;);
+var modelName =this.get(&quot;#modelName.value&quot;);
+var templateType =this.get(&quot;#templateType.value&quot;);
+var coverFlag =this.get(&quot;#coverFlag.value&quot;);
+ 
+ var parameter={
+ 	srcPath:srcPath,
+	discPathName:discPathName,
+	modelName:modelName,
+	templateType:templateType,
+	coverFlag:coverFlag,
+	ds:dataset
+ };
+ 
+if(validLabelInfo(dataset)) {
+	dorado.MessageBox.alert($resource(&quot;codeGenerateLabelMaxLengthMsg&quot;));
+	return;
+}
+
+if(validElementType(dataset)) {
+	dorado.MessageBox.alert($resource(&quot;codeGenerateElementTypeMsg&quot;));
+	return;
+}
+
+action.set(&quot;parameter&quot;,parameter).execute();
+
+var dialog=this.id(&quot;dialogCoder&quot;);
+dialog.hide();
+
+
+
+function validLabelInfo(dataset) {
+    var flag = false;
+    dataset.each(function(item){
+	   var labelInfo = item.get(&quot;labelInf&quot;);
+	   if(labelInfo &amp;&amp; labelInfo.length>100) {
+		  flag = true;
+		  return;
+	   }
+    });
+    return flag;
+}
+
+function validElementType(dataSet) {
+	var flag = false;
+    dataset.each(function(item){
+	   var type = item.get(&quot;eleType&quot;);
+	   var fieldDict = item.get(&quot;fieldDict&quot;);
+	   if(&quot;4&quot;==type) {
+	   	  if(!fieldDict) {
+		  	flag = true;
+			return;
+		  }
+	   }
+    });
+	return flag;
+}
+</ClientEvent>
+          <Property name="icon">${request.getContextPath()}/icons/database_save.png</Property>
+          <Property name="caption">生成</Property>
+        </Button>
+        <Button id="buttonCoderCancel">
+          <ClientEvent name="onClick">var dialog=this.id(&quot;dialogCoder&quot;);
+dialog.hide();
+</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+          <Property name="caption">取消</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormCoderSave">
+          <Property name="cols">*</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement id="discPathName">
+            <Property name="name">discPathName</Property>
+            <Property name="property">discPathName</Property>
+            <Property name="label">生成代码磁盘路径</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="srcPath" layoutConstraint="colSpan:2">
+            <Property name="name">srcPath</Property>
+            <Property name="property">srcPath</Property>
+            <Property name="trigger">module</Property>
+            <Property name="label">工程路径</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="modelName" layoutConstraint="colSpan:2">
+            <Property name="name">modelName</Property>
+            <Property name="property">modelName</Property>
+            <Property name="label">模块名称</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">暂不需要设置</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="templateType" layoutConstraint="colSpan:2">
+            <Property name="name">templateType</Property>
+            <Property name="property">templateType</Property>
+            <Property name="label">模板类型</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">暂不需要设置</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="coverFlag">
+            <Property name="name">coverFlag</Property>
+            <Property name="property">coverFlag</Property>
+            <Property name="label">是否覆盖</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">暂不需要设置</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </Dialog>
+    <AjaxAction id="coderAction">
+      <Property name="service">coderCreate#getColumnInfos</Property>
+      <Property name="successMessage">生成成功</Property>
+    </AjaxAction>
+    <Dialog id="DorpdownDialog">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetColumn&quot;).getData().cancel();
+	view.get(&quot;#DorpdownDialog&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">树形下拉框设置</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">40%</Property>
+      <Property name="height">50%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+//刘名寓    ：为什么要重新set一遍？      
+var entity = view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;);
+with (entity){
+	set(&quot;selectType&quot;,view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;selectType&quot;));
+	set(&quot;orgCategory&quot;,view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;orgCategory&quot;));
+	set(&quot;expandLevel&quot;,view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;expandLevel&quot;));
+	set(&quot;rootCode&quot;,view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;).get(&quot;rootCode&quot;));
+};
+view.get(&quot;#DorpdownDialog&quot;).hide();
+				</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+var entity = view.get(&quot;#dataSetColumn&quot;).getData(&quot;#&quot;);
+with (entity){
+	cancel();
+};
+view.get(&quot;#DorpdownDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoForm">
+          <Property name="dataType">dataTypeColumn</Property>
+          <Property name="dataSet">dataSetColumn</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">150</Property>
+          <AutoFormElement>
+            <Property name="name">selectType</Property>
+            <Property name="property">selectType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgCategory</Property>
+            <Property name="property">orgCategory</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="tip">此项设置只对机构下拉框生效</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">expandLevel</Property>
+            <Property name="property">expandLevel</Property>
+            <Property name="tip">树展开层级限制，只对树形展现生效，列表无效。该参数值需大于1，若传递2，则树只能展开2级，第3级节点则不能展开。</Property>
+            <Property name="hideMode">display</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="property">rootCode</Property>
+            <Property name="name">rootCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="tip">1.用户、岗位下拉框为部门编号。其它下拉框为取输入CODE的下级节点，&lt;br>2.填写格式：[fieldName]代表取当前对象的某字段的值作为CODE或者直接输入CODE的值002不需要加[]。</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

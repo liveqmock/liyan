@@ -1,0 +1,1381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataType name="dataTypeMdTableRelate" meta="x:330;y:315">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdTableRelate</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dependId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.dependId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mainTableId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.mainTableId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mainTableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.mainTableName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mainField">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.mainField"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="foreignTableId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.foreignTableId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="foreignTableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.foreignTableName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="foreignField">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.foreignField"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="relateName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.relateName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="relateDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.relateDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="relateType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.relateType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("RELATE_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="corrType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.corrType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("CORR_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isCrt">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.isCrt"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+      <Property name="readOnly">true</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableRelate.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdTableSpace" meta="x:1111;y:405">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdTableSpace</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tbsName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.tbsName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tbsType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.tbsType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("TBS_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="tbsManageMethod">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.tbsManageMethod"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("TBS_MANAGE_METHOD")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="tbsPagesize">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.tbsPagesize"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tbsSize">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.tbsSize"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="usedPercent">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.usedPercent"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTableSpace.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdObjectMethod" meta="x:945;y:405">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdObjectMethod</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="objId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.objId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="objName">
+      <Property name="dataType">String</Property>
+      <Property name="label">对象名称</Property>
+    </PropertyDef>
+    <PropertyDef name="methodName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="methodDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="methodParameter">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodParameter"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="methodOprType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodOprType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("OPER_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="methodReturn">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodReturn"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdMetaModel" meta="x:792;y:405">
+    <ClientEvent name="onDataChange">/*if(arg.property=="savePath"){
+	var ajaxAction = view.get("#checkTableRelateajaxAction");
+	var currentNode = view.get("#metaModelsDataTree").get("currentNode");
+	var currentEntity = currentNode.get("data");
+
+	if(currentEntity.get("parentId")=="CWM"){
+		var upMdmId = currentEntity.get("parentId");
+	}else{
+		var upMdmId = currentEntity.get("id");
+	}
+	var ds = view.get("#dataSetMdMetaModel");
+	para={upMdmId:upMdmId,foreignTableName:ds.getData("#").get("savePath")};
+	ajaxAction.set("parameter",para).execute(function(result){
+		if(result != "0"){
+			arg.entity.setMessages("savePath",{state:"error",text:"跟上级没有关联关系,不能添加!"});
+		}
+	});
+}
+*/</ClientEvent>
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdMetaModel</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="parentId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.parentId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="parentMdmName">
+      <Property name="label">上级名称</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.mdmCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Property name="readOnly">false</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.mdmName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.mdmDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="nodePic">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.nodePic"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="treeSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.treeSeq"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="viewType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.viewType"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isDiscSonId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.isDiscSonId"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="savePath">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.savePath"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="saveType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.saveType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("SAVE_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="uiName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.uiName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmLevel">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.mdmLevel"].propertyLabel}</Property>
+      <Property name="readOnly">true</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmSeq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.mdmSeq"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMetaModel.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <Reference name="children">
+      <Property name="dataProvider">mdMetaModelAction#findMetaModelsByParentId</Property>
+      <Property name="dataType">[SELF]</Property>
+      <Property name="parameter">$${this.id}</Property>
+    </Reference>
+  </DataType>
+  <DataType name="dataTypeMdMdmDepend" meta="x:633;y:396">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdMdmDepend</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.mdmId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmName">
+      <Property name="dataType">String</Property>
+      <Property name="label">元模型名称</Property>
+    </PropertyDef>
+    <PropertyDef name="dMdmId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.dMdmId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dMdmName">
+      <Property name="dataType">String</Property>
+      <Property name="label">依赖元模型名称</Property>
+    </PropertyDef>
+    <PropertyDef name="dependType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.dependType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("DEPEND_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="dependDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.dependDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdmDepend.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdMdDepend" meta="x:483;y:375">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdMdDepend</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.mdId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdName">
+      <Property name="dataType">String</Property>
+      <Property name="label">元数据名称</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.mdmId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmName">
+      <Property name="dataType">String</Property>
+      <Property name="label">元模型名称</Property>
+    </PropertyDef>
+    <PropertyDef name="dMdId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.dMdId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dMdName">
+      <Property name="dataType">String</Property>
+      <Property name="label">依赖元数据名称</Property>
+    </PropertyDef>
+    <PropertyDef name="dependType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.dependType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("DEPEND_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="dependDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.dependDesc"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("DEPEND_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdMdDepend.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdField" meta="x:15;y:15">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdField</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.tableId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.tableName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.fieldName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldCnName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.fieldCnName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.fieldDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.fieldType"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldLen">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.fieldLen"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="precision">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.precision"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldSeq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.fieldSeq"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dataFmt">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.dataFmt"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldDict">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.fieldDict"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="entityAttriName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.entityAttriName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="consCond">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.consCond"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="defaultValue">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.defaultValue"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isNull">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isNull"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isPk">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isPk"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isPkIndex">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isPkIndex"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isStati">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isStati"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isRedundant">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isRedundant"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="srcReduField">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.srcReduField"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isOrgAuth">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isOrgAuth"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isDataAuth">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isDataAuth"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="bankTextInf">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.bankTextInf"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tipInf">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.tipInf"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="labelInf">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.labelInf"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="queryMethod">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.queryMethod"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isTableView">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isTableView"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isAddRead">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isAddRead"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isUpdRead">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isUpdRead"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="regExp">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.regExp"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="eleType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.eleType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("ELE_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isAddView">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isAddView"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isUpdView">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isUpdView"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isQueryCond">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isQueryCond"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isParentid">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.isParentid"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdField.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isExtend">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdEntityObject" meta="x:173;y:270">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdEntityObject</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="objName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="objDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="objPath">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objPath"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="interFace">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.interFace"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="interFaceName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.interFace"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="objType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("OBJ_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdDimension" meta="x:865;y:18">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdDimension</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.tableId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.tableName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dimenName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.dimenName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dimenDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.dimenDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dimenType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.dimenType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("DIMEN_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isDimenDefault">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.isDimenDefault"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimension.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <Reference name="mdDimenFields">
+      <Property name="dataType">[dataTypeMdDimenField]</Property>
+      <Property name="dataProvider">mdDimenFieldAction#findMdDimenFields</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+      <Property name="parameter">$${this.dimenId}</Property>
+    </Reference>
+  </DataType>
+  <DataType name="dataTypeMdDimenField" meta="x:713;y:18">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdDimenField</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dimenId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.dimenId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.fieldId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.fieldName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="fieldSeq">
+      <Property name="dataType">int</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.fieldSeq"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDimenField.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdRelateSystem" meta="x:553;y:18">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdRelateSystem</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="systemCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.systemCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="systemName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.systemName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="systemDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.systemDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="systemType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.systemType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("SYSTEM_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdRelateSystem.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdDataTitle" meta="x:403;y:0">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdDataTitle</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dataTitleCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.dataTitleCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dataTitleName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.dataTitleName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dataTitleDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.dataTitleDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="parentId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.parentId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitle.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <Reference name="children">
+      <Property name="dataProvider">mdDataTitleAction#findMdDataTitlesByParentId</Property>
+      <Property name="dataType">[SELF]</Property>
+      <Property name="parameter">$${this.id}</Property>
+    </Reference>
+  </DataType>
+  <DataType name="dataTypeMdDataTitleTableMapping" meta="x:195;y:18">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdDataTitleTableMapping</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitleTableMapping.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dataTitleId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitleTableMapping.dataTitleId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitleTableMapping.tableId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataTitleTableMapping.tableName"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdTable" meta="x:120;y:0">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdTable</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.id"].propertyLabel}</Property>
+      <Property name="visible">false</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="systemCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.systemCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableCnName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableCnName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableDesc"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("TABLE_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="entityName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.entityName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="daoName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.daoName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="serviceName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.serviceName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="actionName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.actionName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="uiName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.uiName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="loadMethod">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.loadMethod"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("LOAD_METHOD")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="tbsName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tbsName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="dataStatus">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.dataStatus"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("DATA_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="hisTabCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.hisTabCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isTreeStruct">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isTreeStruct"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isLog">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isLog"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="verNo">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.verNo"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isCloseSaved">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isCloseSaved"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="dataSetName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.dataSetName"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="queryMethod">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.queryMehtod"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isDaControl">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isDaControl"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="isMaintain">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdStoredProc">
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdStoredProc</Property>
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="procName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="procDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="para">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.status"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeMdDataView">
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdDataView</Property>
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <PropertyDef name="mdmName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.updOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="treeSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="statusName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.status"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.status"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="parentId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.parentId"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmLevel">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmLevel"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmSeq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmSeq"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmId"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.id"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.crtUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.crtOrgCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.updUserCode"].propertyLabel}</Property>
+    </PropertyDef>
+    <Reference name="children">
+      <Property name="dataProvider">mdDataViewAction#findDataViewsByParentId</Property>
+      <Property name="dataType">[SELF]</Property>
+      <Property name="parameter">$${this.id}</Property>
+    </Reference>
+  </DataType>
+  <DataType name="dataTypeMdMetaModelAndDataViewTree" meta="x:792;y:405">
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <Property name="creationType">com.innofi.framework.pojo.metadata.MdMetaModelAndDataViewTree</Property>
+    <Reference name="children">
+      <Property name="dataProvider">mdMetaModelAction#findMetaModelAdnDataViewByParentId</Property>
+      <Property name="dataType">[SELF]</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="parentId">$${this.mdmId}</Property>
+          <Property name="viewType">$${this.viewType}</Property>
+        </Entity>
+      </Property>
+    </Reference>
+    <Reference name="metaDataChildren">
+      <Property name="dataProvider">mdMetaModelAction#findRoots</Property>
+      <Property name="dataType">[SELF]</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="type">$${this.viewType}</Property>
+          <Property name="pid">$${this.mdmId}</Property>
+        </Entity>
+      </Property>
+    </Reference>
+    <PropertyDef name="mdmId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="mdmName">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="savePath">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="viewType">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="uiName">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="nodePic">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+  </DataType>
+</Model>

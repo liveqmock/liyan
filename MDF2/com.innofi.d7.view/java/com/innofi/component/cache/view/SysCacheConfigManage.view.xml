@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysCacheConfigManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysCacheConfig">
+      <Property name="creationType">com.innofi.component.cache.pojo.SysCacheConfig</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="cacheDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.cacheDesc"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="cacheName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.cacheName"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="cachePolicy">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('cache.policy')}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CACHE_POLICY&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="cacheType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('cache.type')}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CACHE_TYPE&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.objId"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.objName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="refreshFreq">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.refreshFreq"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,0)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.status"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="tableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.tableId"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.tableName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysCacheConfig">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMcacheDesc">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="cacheDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.cacheDesc"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMid">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.id"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcacheName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="cacheName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.cacheName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcachePolicy">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="cachePolicy">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.cachePolicy"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CACHE_POLICY&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="qMcacheType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="cacheType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.cacheType"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CACHE_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.crtDate&quot;].propertyLabel}(起)</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDateEnd">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.crtDate&quot;].propertyLabel}(止)</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcrtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcrtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMobjId">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.objId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMobjName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.objName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMrefreshFreq">
+        <Property name="defaultValue">eq</Property>
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getQueryMethod&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="refreshFreq">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.refreshFreq"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMstatus">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.status"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="qMtableId">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="tableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.tableId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMtableName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.tableName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.updDate&quot;].propertyLabel}(起)</Property>
+      </PropertyDef>
+      <PropertyDef name="updDateEnd">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.updDate&quot;].propertyLabel}(止)</Property>
+      </PropertyDef>
+      <PropertyDef name="qMupdOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.updOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMupdUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.cache.pojo.SysCacheConfig.updUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysCacheConfig">
+      <Property name="dataProvider">sysCacheConfigAction#findSysCacheConfigs</Property>
+      <Property name="dataType">[dataTypeSysCacheConfig]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.cache.pojo.SysCacheConfig</Property>
+          </Entity>
+        </Collection>
+      </Property>
+    </DataSet>
+    <DataSet id="querydataSetSysCacheConfig">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysCacheConfig]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#dataSetSysCacheConfig&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysCacheConfig&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetSysCacheConfig&quot;).clear();
+                view.get(&quot;#querydataSetSysCacheConfig&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysCacheConfigQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysCacheConfig</Property>
+            <Property name="dataType">querydataTypeSysCacheConfig</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">100</Property>
+            <AutoFormElement name="autoFormElementcacheName">
+              <Property name="name">cacheName</Property>
+              <Property name="property">cacheName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMcacheName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">cacheName</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementcachePolicy">
+              <Property name="name">cachePolicy</Property>
+              <Property name="property">cachePolicy</Property>
+              <Property name="label">${messageUtil.getMessage('cache.policy')}</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMcachePolicy</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">cachePolicy</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cachePolicy&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cachePolicy&quot;].propertyTip}</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementcacheType">
+              <Property name="name">cacheType</Property>
+              <Property name="property">cacheType</Property>
+              <Property name="label">${messageUtil.getMessage('cache.type')}</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMcacheType</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">cacheType</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheType&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheType&quot;].propertyTip}</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementobjName">
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMobjName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">objName</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementtableName">
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMtableName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">tableName</Property>
+                    <Property name="dataSet">querydataSetSysCacheConfig</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysCacheConfig" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+view.get(&quot;#dataSetSysCacheConfig&quot;).set(&quot;readOnly&quot;,false);
+view.get(&quot;#dataSetSysCacheConfig.data&quot;).insert({&quot;status&quot;:&quot;1&quot;});
+view.get(&quot;#addDialogSysCacheConfig&quot;).show();
+                </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetSysCacheConfig&quot;).getData();
+                    var selection = view.get(&quot;#dataGridSysCacheConfig&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+                    }else if (selection.length == 1) {
+                        var entityClass = view.get('#dataSetSysCacheConfig').get(&quot;userData&quot;)[0].entityClass;
+                        var idValue = view.get(&quot;#dataSetSysCacheConfig&quot;).getData(&quot;#.id&quot;);
+                        var action=view.get(&quot;#checkPermissionAction&quot;);
+                        var idValueArray = new Array();
+                        idValueArray[0] = idValue;
+                        action.set(&quot;parameter&quot;,{
+                            entityClass:entityClass,
+                            idValues:idValueArray,
+                            operationType:'2'
+                        });
+                        action.execute(function(result){
+                            if(result.length>0){
+                                dorado.MessageBox.alert(&quot;不能进行此操作，您无选中记录的修改权限！&quot;);
+                                return;
+                            }
+                            view.get(&quot;#dataSetSysCacheConfig&quot;).getData().setCurrent(selection[0]);
+                            view.get(&quot;#dialogSysCacheConfig&quot;).show();
+                            view.get(&quot;#dataSetSysCacheConfig&quot;).set(&quot;readOnly&quot;,false);
+                        });
+                    }
+                </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCacheConfig&quot;).getData();
+                    var selection = view.get(&quot;#dataGridSysCacheConfig&quot;).get(&quot;selection&quot;);
+                    var action = view.get(&quot;#saveSysCacheConfigsAction&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if (selection.length != 0) {
+                    var entityClass = view.get('#dataSetSysCacheConfig').get(&quot;userData&quot;)[0].entityClass;
+                    var idValue = view.get(&quot;#dataSetSysCacheConfig&quot;).getData(&quot;#.id&quot;);
+                    var checkPermissionAction=view.get(&quot;#checkPermissionAction&quot;);
+                    var idValueArray = new Array();
+                    jQuery.each(selection,function(i,item){
+                    idValueArray[i] = item.get(&quot;id&quot;);
+                    });
+                    checkPermissionAction.set(&quot;parameter&quot;,{
+                    entityClass:entityClass,
+                    idValues:idValueArray,
+                    operationType:'3'
+                    });
+
+                    checkPermissionAction.execute(function(result){
+                    if(result.length>0){
+                    var idValueFilter = new Object();
+                    result.each(function(it){
+                    idValueFilter[it] = true;
+                    });
+                    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+                    var haveRemove = false;
+                    jQuery.each(selection,function(i,item){
+                    if(!idValueFilter[item.get('id')]){
+                    haveRemove = true;
+                    entitys.remove(item);
+                    }
+                    });
+                    if(haveRemove){
+                    action.execute();
+                    }
+                    dorado.MessageBox.alert(&quot;您无选中记录的删除权限！&quot;);
+                    return;
+                    });
+                    }else{
+                    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+                    jQuery.each(selection,function(i,item){
+                    entitys.remove(item);
+                    });
+                    action.execute();
+                    });
+                    }
+                    });
+                    }
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetSysCacheConfig&quot;).getData();
+                    var found = false;
+                    var selection = view.get(&quot;#dataGridSysCacheConfig&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+                    }else if (selection.length == 1) {
+                        view.get(&quot;#dataSetSysCacheConfig&quot;).getData().setCurrent(selection[0]);
+                        view.get(&quot;#lookdialogSysCacheConfig&quot;).show();
+                        view.get(&quot;#dataSetSysCacheConfig&quot;).set(&quot;readOnly&quot;,true);
+                    }
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="refressSingle">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCacheConfig&quot;).getData();&#xD;
+var selection = view.get(&quot;#dataGridSysCacheConfig&quot;).get(&quot;selection&quot;);&#xD;
+if(selection.length==0){&#xD;
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if(selection.length>1){&#xD;
+    dorado.MessageBox.alert(&quot;只能选择一条记录！&quot;);&#xD;
+}else if (selection.length == 1) {&#xD;
+	var entityClass = view.get('#dataSetSysCacheConfig').get(&quot;userData&quot;)[0].entityClass;&#xD;
+	var springServiceName = view.get(&quot;#dataSetSysCacheConfig&quot;).getData(&quot;#.objName&quot;);&#xD;
+	var arr = new Array();&#xD;
+	arr[0] = springServiceName;&#xD;
+	var refressAction = view.get(&quot;#refressCacheAjaxAction&quot;);&#xD;
+	refressAction.set(&quot;parameter&quot;,arr);&#xD;
+	refressAction.execute();&#xD;
+}</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('cache.refressSingle')}</Property>
+          <Property name="icon">>icons/arrow_refresh.png</Property>
+        </ToolBarButton>
+        <ToolBarButton id="refressAll">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysCacheConfig&quot;).getData();&#xD;
+if(!entitys) {&#xD;
+	dorado.MessageBox.alert(&quot;没有缓存需要刷新!&quot;);&#xD;
+	return; &#xD;
+}&#xD;
+&#xD;
+var arr = new Array();&#xD;
+entitys.each(function(item){&#xD;
+	var objName = item.get(&quot;objName&quot;);&#xD;
+	arr.push(objName);&#xD;
+});&#xD;
+var refressAllAction = view.get(&quot;#refressCacheAjaxAction&quot;);&#xD;
+refressAllAction.set(&quot;parameter&quot;,arr);&#xD;
+refressAllAction.execute();&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('cache.refressAll')}</Property>
+          <Property name="icon">>icons/arrow_refresh.png</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridSysCacheConfig" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetSysCacheConfig&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetSysCacheConfig&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetSysCacheConfig</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeSysCacheConfig</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="id" property="id">
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="objName" property="objName">
+            <Property name="width">180</Property>
+          </DataColumn>
+          <DataColumn name="cacheName" property="cacheName">
+            <Property name="width">180</Property>
+          </DataColumn>
+          <DataColumn name="tableName" property="tableName">
+            <Property name="width">180</Property>
+          </DataColumn>
+          <DataColumn name="objId" property="objId">
+            <Property name="width">100</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="cacheType" property="cacheType">
+            <Property name="width">100</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+          </DataColumn>
+          <DataColumn name="cachePolicy" property="cachePolicy">
+            <Property name="width">100</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+          </DataColumn>
+          <DataColumn name="refreshFreq" property="refreshFreq">
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="status" property="status">
+            <Property name="width">100</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="tableId" property="tableId">
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="cacheDesc" property="cacheDesc"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysCacheConfig</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysCacheConfigsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysCacheConfigAction#saveSysCacheConfigs</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysCacheConfig</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysCacheConfig">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetSysCacheConfig&quot;).getData().cancel();
+            view.get(&quot;#dialogSysCacheConfig&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveSysCacheConfigsAction&quot;);
+            var dialog=view.get(&quot;#dialogSysCacheConfig&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetSysCacheConfig&quot;).getData().cancel();
+            view.get(&quot;#dialogSysCacheConfig&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysCacheConfig">
+          <Property name="dataType">dataTypeSysCacheConfig</Property>
+          <Property name="dataSet">dataSetSysCacheConfig</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">cacheName</Property>
+            <Property name="property">cacheName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cacheType</Property>
+            <Property name="property">cacheType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheType&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheType&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objName</Property>
+            <Property name="property">objName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">customDropDown1</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableName</Property>
+            <Property name="property">tableName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objId</Property>
+            <Property name="property">objId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableId</Property>
+            <Property name="property">tableId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cachePolicy</Property>
+            <Property name="property">cachePolicy</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cachePolicy&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cachePolicy&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.status&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.status&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cacheDesc</Property>
+            <Property name="property">cacheDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheDesc&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysCacheConfig">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetSysCacheConfig&quot;).getData().cancel();
+         view.get(&quot;#dialogSysCacheConfig&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get(&quot;#saveSysCacheConfigsAction&quot;);
+              var dialog=view.get(&quot;#addDialogSysCacheConfig&quot;);
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetSysCacheConfig&quot;).getData().cancel();
+            view.get(&quot;#addDialogSysCacheConfig&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysCacheConfig">
+          <Property name="dataType">dataTypeSysCacheConfig</Property>
+          <Property name="dataSet">dataSetSysCacheConfig</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">cacheName</Property>
+            <Property name="property">cacheName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cacheType</Property>
+            <Property name="property">cacheType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheType&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheType&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objName</Property>
+            <Property name="property">objName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">customDropDown1</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objId</Property>
+            <Property name="property">objId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.objId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableName</Property>
+            <Property name="property">tableName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableId</Property>
+            <Property name="property">tableId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.tableId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cachePolicy</Property>
+            <Property name="property">cachePolicy</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cachePolicy&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cachePolicy&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.status&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.status&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cacheDesc</Property>
+            <Property name="property">cacheDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.cache.pojo.SysCacheConfig.cacheDesc&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysCacheConfig">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetSysCacheConfig&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogSysCacheConfig&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysCacheConfig">
+          <Property name="dataType">dataTypeSysCacheConfig</Property>
+          <Property name="dataSet">dataSetSysCacheConfig</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">false</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">cacheName</Property>
+            <Property name="property">cacheName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cacheType</Property>
+            <Property name="property">cacheType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objName</Property>
+            <Property name="property">objName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableName</Property>
+            <Property name="property">tableName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cachePolicy</Property>
+            <Property name="property">cachePolicy</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cacheDesc</Property>
+            <Property name="property">cacheDesc</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="checkPermissionAction">
+      <Property name="service">sysCacheConfigAction#checkUpdDelPermission</Property>
+    </AjaxAction>
+    <AjaxAction id="refressCacheAjaxAction">
+      <Property name="service">sysCacheConfigAction#refressCache</Property>
+      <Property name="successMessage">${messageUtil.getMessage('cache.refressSuccess')}</Property>
+      <Property name="confirmMessage">${messageUtil.getMessage('cache.refressConfirm')}</Property>
+      <Property name="executingMessage">${messageUtil.getMessage('cache.refressIng')}</Property>
+    </AjaxAction>
+    <CustomDropDown id="customDropDown1">
+      <ClientEvent name="onClose">var currBeanPath = arg.selectedValue;&#xD;
+if(!currBeanPath) {&#xD;
+	return;&#xD;
+}&#xD;
+&#xD;
+//获取action对象&#xD;
+var getIntfInfoAjaxAction = view.get(&quot;#getIntfInfoAjaxAction&quot;);&#xD;
+&#xD;
+getIntfInfoAjaxAction.set(&quot;parameter&quot;,{beanPath:currBeanPath});&#xD;
+&#xD;
+getIntfInfoAjaxAction.execute(function(result){&#xD;
+	if(result){&#xD;
+		var beanId = result.beanId;&#xD;
+		var tableId = result.tableId;&#xD;
+		var tableName = result.tableName;&#xD;
+		var objId = result.objId;&#xD;
+	    view.get(&quot;#dataSetSysCacheConfig&quot;).getData(&quot;#&quot;).set({&quot;objName&quot;:beanId,&quot;objId&quot;:objId,&quot;tableId&quot;:tableId,&quot;tableName&quot;:tableName});&#xD;
+	}else{&#xD;
+		view.get(&quot;#dataSetSysCacheConfig&quot;).getData(&quot;#&quot;).set({&quot;objName&quot;:&quot;&quot;,&quot;objId&quot;:&quot;&quot;,&quot;tableId&quot;:&quot;&quot;,&quot;tableName&quot;:&quot;&quot;});&#xD;
+		var msg = &quot;这个类不存在或者配置存在问题，请检查bean的配置:1,是否配置了@component（value='XXX')2,是否继承了满足规范的接口3,服务类及其接口的命名是否满足规范.详细配置方法请参考《09_IPDP通用组件使用及二次开发手册.doc》1.5.公共Webservice开发章节&quot;&#xD;
+		dorado.MessageBox.alert(msg);&#xD;
+	}&#xD;
+});&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="width">500</Property>
+      <Property name="height">350</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/framework/webservice/view/SelectBean.d?beanPath=1&amp;dropdown=customDropDown1</Property>
+      </IFrame>
+    </CustomDropDown>
+    <AjaxAction id="getIntfInfoAjaxAction">
+      <Property name="service">sysServiceBeanConfigAction#getTableInfoAndObjId</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

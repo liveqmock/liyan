@@ -1,0 +1,1299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">IeIeResultManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeIeIeResult">
+      <Property name="creationType">com.innofi.component.indicatorengine.common.result.pojo.IeIeResult</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="busilineCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ccyCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieId"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieValue">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,22)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="orgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="periodCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="productCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="targetCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="targetTypeCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeIeIeResult">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMbusilineCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="busilineCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMccyCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="ccyCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtDate&quot;].propertyLabel}(起)</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDateEnd">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtDate&quot;].propertyLabel}(止)</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcrtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcrtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMieCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="ieCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMieId">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="ieId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMid">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.id"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMieValue">
+        <Property name="defaultValue">eq</Property>
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getQueryMethod&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="ieValue">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMorgCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="orgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMperiodCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="periodCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMproductCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="productCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMtargetCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="targetCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMtargetTypeCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="targetTypeCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updDate&quot;].propertyLabel}(起)</Property>
+      </PropertyDef>
+      <PropertyDef name="updDateEnd">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updDate&quot;].propertyLabel}(止)</Property>
+      </PropertyDef>
+      <PropertyDef name="qMupdOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMupdUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetIeIeResult">
+      <Property name="dataProvider">ieIeResultAction#findIeIeResults</Property>
+      <Property name="dataType">[dataTypeIeIeResult]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.indicatorengine.common.result.pojo.IeIeResult</Property>
+          </Entity>
+        </Collection>
+      </Property>
+    </DataSet>
+    <DataSet id="querydataSetIeIeResult">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeIeIeResult]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#dataSetIeIeResult&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetIeIeResult&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetIeIeResult&quot;).clear();
+                view.get(&quot;#querydataSetIeIeResult&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormIeIeResultQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetIeIeResult</Property>
+            <Property name="dataType">querydataTypeIeIeResult</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">100</Property>
+            <AutoFormElement name="autoFormElementieCode">
+              <Property name="name">ieCode</Property>
+              <Property name="property">ieCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMieCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">ieCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementieValue">
+              <Property name="name">ieValue</Property>
+              <Property name="property">ieValue</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMieValue</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">ieValue</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementorgCode">
+              <Property name="name">orgCode</Property>
+              <Property name="property">orgCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMorgCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">orgCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementproductCode">
+              <Property name="name">productCode</Property>
+              <Property name="property">productCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMproductCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">productCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementccyCode">
+              <Property name="name">ccyCode</Property>
+              <Property name="property">ccyCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMccyCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">ccyCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementbusilineCode">
+              <Property name="name">busilineCode</Property>
+              <Property name="property">busilineCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMbusilineCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">busilineCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementperiodCode">
+              <Property name="name">periodCode</Property>
+              <Property name="property">periodCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMperiodCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">periodCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementtargetCode">
+              <Property name="name">targetCode</Property>
+              <Property name="property">targetCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMtargetCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">targetCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementtargetTypeCode">
+              <Property name="name">targetTypeCode</Property>
+              <Property name="property">targetTypeCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMtargetTypeCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">targetTypeCode</Property>
+                    <Property name="dataSet">querydataSetIeIeResult</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarIeIeResult" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+                    view.get(&quot;#dataSetIeIeResult&quot;).set(&quot;readOnly&quot;,false);
+                    view.get(&quot;#dataSetIeIeResult.data&quot;).insert();
+                    view.get(&quot;#addDialogIeIeResult&quot;).show();
+                </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetIeIeResult&quot;).getData();
+                    var selection = view.get(&quot;#dataGridIeIeResult&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+                    }else if (selection.length == 1) {
+                        var entityClass = view.get('#dataSetIeIeResult').get(&quot;userData&quot;)[0].entityClass;
+                        var idValue = view.get(&quot;#dataSetIeIeResult&quot;).getData(&quot;#.id&quot;);
+                        checkPermission(view,entityClass,idValue,'2');//验证是否包含修改权限
+                        view.get(&quot;#dataSetIeIeResult&quot;).getData().setCurrent(selection[0]);
+                        view.get(&quot;#dialogIeIeResult&quot;).show();
+                        view.get(&quot;#dataSetIeIeResult&quot;).set(&quot;readOnly&quot;,false);
+                    }
+                </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetIeIeResult&quot;).getData();
+                    var selection = view.get(&quot;#dataGridIeIeResult&quot;).get(&quot;selection&quot;);
+                    var action = view.get(&quot;#saveIeIeResultsAction&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if (selection.length != 0) {
+                        dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+                        jQuery.each(selection,function(i,item){
+                            entitys.remove(item);
+                        });
+                        action.execute();
+                        });
+                    }
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetIeIeResult&quot;).getData();
+                    var found = false;
+                    var selection = view.get(&quot;#dataGridIeIeResult&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+                    }else if (selection.length == 1) {
+                        view.get(&quot;#dataSetIeIeResult&quot;).getData().setCurrent(selection[0]);
+                        view.get(&quot;#lookdialogIeIeResult&quot;).show();
+                        view.get(&quot;#dataSetIeIeResult&quot;).set(&quot;readOnly&quot;,true);
+                    }
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridIeIeResult" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetIeIeResult&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetIeIeResult&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetIeIeResult</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeIeIeResult</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="ieCode" property="ieCode"/>
+          <DataColumn name="ieValue" property="ieValue"/>
+          <DataColumn name="orgCode" property="orgCode"/>
+          <DataColumn name="busilineCode" property="busilineCode"/>
+          <DataColumn name="ccyCode" property="ccyCode"/>
+          <DataColumn name="periodCode" property="periodCode"/>
+          <DataColumn name="productCode" property="productCode"/>
+          <DataColumn name="targetCode" property="targetCode"/>
+          <DataColumn name="targetTypeCode" property="targetTypeCode"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetIeIeResult</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveIeIeResultsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">ieIeResultAction#saveIeIeResults</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetIeIeResult</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogIeIeResult">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetIeIeResult&quot;).getData().cancel();
+            view.get(&quot;#dialogIeIeResult&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveIeIeResultsAction&quot;);
+            var dialog=view.get(&quot;#dialogIeIeResult&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetIeIeResult&quot;).getData().cancel();
+            view.get(&quot;#dialogIeIeResult&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormIeIeResult">
+          <Property name="dataType">dataTypeIeIeResult</Property>
+          <Property name="dataSet">dataSetIeIeResult</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">ieCode</Property>
+            <Property name="property">ieCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">ieValue</Property>
+            <Property name="property">ieValue</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">targetCode</Property>
+            <Property name="property">targetCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">targetTypeCode</Property>
+            <Property name="property">targetTypeCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">periodCode</Property>
+            <Property name="property">periodCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">ccyCode</Property>
+            <Property name="property">ccyCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgCode</Property>
+            <Property name="property">orgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">busilineCode</Property>
+            <Property name="property">busilineCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">productCode</Property>
+            <Property name="property">productCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogIeIeResult">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetIeIeResult&quot;).getData().cancel();
+         view.get(&quot;#dialogIeIeResult&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get(&quot;#saveIeIeResultsAction&quot;);
+              var dialog=view.get(&quot;#addDialogIeIeResult&quot;);
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetIeIeResult&quot;).getData().cancel();
+            view.get(&quot;#addDialogIeIeResult&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormIeIeResult">
+          <Property name="dataType">dataTypeIeIeResult</Property>
+          <Property name="dataSet">dataSetIeIeResult</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">busilineCode</Property>
+            <Property name="property">busilineCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">ccyCode</Property>
+            <Property name="property">ccyCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtOrgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtOrgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtUserCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.crtUserCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">ieCode</Property>
+            <Property name="property">ieCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">ieId</Property>
+            <Property name="property">ieId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.id&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.id&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">ieValue</Property>
+            <Property name="property">ieValue</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgCode</Property>
+            <Property name="property">orgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">periodCode</Property>
+            <Property name="property">periodCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">productCode</Property>
+            <Property name="property">productCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">targetCode</Property>
+            <Property name="property">targetCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">targetTypeCode</Property>
+            <Property name="property">targetTypeCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updOrgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updOrgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updUserCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.updUserCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogIeIeResult">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetIeIeResult&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogIeIeResult&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormIeIeResult">
+          <Property name="dataType">dataTypeIeIeResult</Property>
+          <Property name="dataSet">dataSetIeIeResult</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+          <AutoFormElement name="autoFormElementieCode">
+            <Property name="name">ieCode</Property>
+            <Property name="property">ieCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMieCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">ieCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementieValue">
+            <Property name="name">ieValue</Property>
+            <Property name="property">ieValue</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMieValue</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">ieValue</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ieValue&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementorgCode">
+            <Property name="name">orgCode</Property>
+            <Property name="property">orgCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMorgCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">orgCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.orgCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementproductCode">
+            <Property name="name">productCode</Property>
+            <Property name="property">productCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMproductCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">productCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.productCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementccyCode">
+            <Property name="name">ccyCode</Property>
+            <Property name="property">ccyCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMccyCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">ccyCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.ccyCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementbusilineCode">
+            <Property name="name">busilineCode</Property>
+            <Property name="property">busilineCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMbusilineCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">busilineCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.busilineCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementperiodCode">
+            <Property name="name">periodCode</Property>
+            <Property name="property">periodCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMperiodCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">periodCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.periodCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementtargetCode">
+            <Property name="name">targetCode</Property>
+            <Property name="property">targetCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMtargetCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">targetCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement name="autoFormElementtargetTypeCode">
+            <Property name="name">targetTypeCode</Property>
+            <Property name="property">targetTypeCode</Property>
+            <Editor>
+              <Container>
+                <TextEditor layoutConstraint="left">
+                  <Property name="property">qMtargetTypeCode</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="width">60</Property>
+                </TextEditor>
+                <TextEditor>
+                  <Property name="property">targetTypeCode</Property>
+                  <Property name="dataSet">querydataSetIeIeResult</Property>
+                  <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.result.pojo.IeIeResult.targetTypeCode&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Container>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="checkPermissionAction">
+      <Property name="service">ieIeResultAction#checkUpdDelPermission</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

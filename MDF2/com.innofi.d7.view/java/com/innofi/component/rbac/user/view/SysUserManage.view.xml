@@ -1,0 +1,1941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysUserManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysUser" parent="global:dataTypeSysUser">
+      <ClientEvent name="onDataChange">if(arg.property==&quot;userCode&quot;){
+		view.get(&quot;#checkCode&quot;).set(&quot;parameter&quot;,arg.value).execute(function(result) {
+		if(result==&quot;true&quot;)
+		{
+			arg.entity.setMessages(&quot;userCode&quot;,{ state: &quot;error&quot;, text: &quot;该用户编号已经被使用,请重新输入!&quot; });
+		}
+	});
+}</ClientEvent>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="orgName">
+        <Property name="label">部门名称</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysUser">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMuserCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="userCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.userCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMuserName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="userName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.userName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="orgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.orgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMstatus">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.status"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="OrgInfo" parent="dataTypeSysOrgInfo">
+      <Property name="acceptValidationState">warn</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysOrgInfoAction#findSysOrgInfoTreeForPolicy</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="parentOrgId">$${this.id}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="hasChild">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="policyFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="parentOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">父机构名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysUserPost" parent="global:dataTypeSysUserPost">
+      <PropertyDef name="postName">
+        <Property name="dataType">String</Property>
+        <Property name="label">岗位名称</Property>
+      </PropertyDef>
+      <PropertyDef name="orgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="sysPostQuery">
+      <PropertyDef name="postName">
+        <Property name="dataType">String</Property>
+        <Property name="label">岗位名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysPost" parent="global:dataTypeSysPost">
+      <Property name="creationType">com.innofi.component.rbac.post.pojo.SysPost</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+      <PropertyDef name="orgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="userRole" parent="dataTypeSysUserRole" meta="x:330;y:390">
+      <PropertyDef name="roleName">
+        <Property name="dataType">String</Property>
+        <Property name="label">角色名称</Property>
+      </PropertyDef>
+      <PropertyDef name="roleType">
+        <Property name="dataType">String</Property>
+        <Property name="label">角色类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;ROLE_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+        <Property name="label">状态</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="sysRole" parent="dataTypeSysRole">
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeRoleQuery">
+      <PropertyDef name="roleName">
+        <Property name="dataType">String</Property>
+        <Property name="label">角色名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="userBusiness" parent="dataTypeSysObjBusiness">
+      <PropertyDef name="busilineName">
+        <Property name="label">业务条线名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysBusinessLine" parent="global:dataTypeSysBusinessLine">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLineByParentId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <PropertyDef name="busilineBaselName">
+        <Property name="label">Basel业务条线</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="belongOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理部门</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetOrg">
+      <Property name="dataType">[OrgInfo]</Property>
+      <Property name="dataProvider">sysOrgInfoAction#findSysOrgInfoTreeForPolicy</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="parentOrgId">${sys.getString(&quot;mdf.orgRoot&quot;)}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="dataSetSysUser">
+      <Property name="dataProvider">sysUserAction#findSysUsers</Property>
+      <Property name="dataType">[dataTypeSysUser]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysUser">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysUser]</Property>
+    </DataSet>
+    <DataSet id="dataSetUserMainPost">
+      <Property name="dataType">dataTypeSysUserPost</Property>
+      <Property name="dataProvider">sysUserPostAction#findUserMainPostByUserId</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetUserSecondaryPost">
+      <Property name="dataType">[dataTypeSysUserPost]</Property>
+      <Property name="dataProvider">sysUserPostAction#findUserSecondaryPostByUserId</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetPost">
+      <ClientEvent name="onDataLoad">var entityList=self.getData();&#xD;
+var mainId=view.get(&quot;#dataSetUserMainPost&quot;).getData(&quot;#&quot;).get(&quot;postId&quot;);&#xD;
+if(mainId!=undefined){&#xD;
+	entityList.each(function(entity){&#xD;
+		if(mainId==entity.get(&quot;id&quot;)){&#xD;
+			entity.set(&quot;selectFlag&quot;,true);&#xD;
+		}&#xD;
+	});&#xD;
+}</ClientEvent>
+      <Property name="dataProvider">sysPostAction#findSysPostForUserSecondaryPost</Property>
+      <Property name="dataType">[dataTypeSysPost]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="pageSize">10</Property>
+    </DataSet>
+    <DataSet id="dataSetPostQuery">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">sysPostQuery</Property>
+    </DataSet>
+    <DataSet id="dataSetUserRole">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysUserRoleAction#findSysUserRoleByUserId</Property>
+      <Property name="dataType">[userRole]</Property>
+    </DataSet>
+    <DataSet id="dataSetUserBusiness">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysObjBusinessAction#findSysObjBusinesss</Property>
+      <Property name="dataType">[userBusiness]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="dataSetRole">
+      <Property name="dataType">[sysRole]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysUserRoleAction#findSysRoleByUserId</Property>
+      <Property name="pageSize">10</Property>
+    </DataSet>
+    <DataSet id="dataSetRoleQuery">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">dataTypeRoleQuery</Property>
+    </DataSet>
+    <DataSet id="dataSetBizLine">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLines</Property>
+      <Property name="dataType">[dataTypeSysBusinessLine]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">200</Property>
+      <MainControl>
+        <Container>
+          <FieldSet layoutConstraint="top">
+            <Property name="caption">查询条件</Property>
+            <Property name="collapsed">false</Property>
+            <Buttons>
+              <Button id="queryButton">
+                <ClientEvent name="onClick">var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	
+}else{
+	var currentEntity = currentNode.get(&quot;data&quot;);
+	var orgCode=currentEntity.get(&quot;orgCode&quot;);
+	var parentId=currentEntity.get(&quot;parentOrgId&quot;);//判断是否为根节点
+	if(orgCode!=&quot;&quot; &amp;&amp; parentId!=&quot;0&quot;){
+		view.get(&quot;#querydataSetSysUser&quot;).getData(&quot;#&quot;).set(&quot;orgCode&quot;,orgCode);
+	}
+}
+view.get(&quot;#dataSetSysUser&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysUser&quot;).getData(&quot;#&quot;)).flushAsync();
+</ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetButton">
+                <ClientEvent name="onClick">var entity = view.get(&quot;#querydataSetSysUser&quot;).getData(&quot;#&quot;);
+with (entity){
+	set(&quot;userCode&quot;,&quot;&quot;);
+	set(&quot;userName&quot;,&quot;&quot;);
+	set(&quot;status&quot;,&quot;&quot;);
+};
+            
+</ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm id="autoFormSysUserQuery" layoutConstraint="center">
+                <Property name="cols">*,*,*</Property>
+                <Property name="dataSet">querydataSetSysUser</Property>
+                <Property name="dataType">querydataTypeSysUser</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="labelWidth">120</Property>
+                <AutoFormElement name="autoFormElementuserCode">
+                  <Property name="name">userCode</Property>
+                  <Property name="property">userCode</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMuserCode</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetSysUser</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">userCode</Property>
+                        <Property name="dataSet">querydataSetSysUser</Property>
+                        <Property name="blankText">${req[&quot;userCode&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;userCode&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementuserName">
+                  <Property name="name">userName</Property>
+                  <Property name="property">userName</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMuserName</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetSysUser</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">userName</Property>
+                        <Property name="dataSet">querydataSetSysUser</Property>
+                        <Property name="blankText">${req[&quot;userName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;userName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementstatus">
+                  <Property name="name">status</Property>
+                  <Property name="property">status</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMstatus</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetSysUser</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">status</Property>
+                        <Property name="dataSet">querydataSetSysUser</Property>
+                        <Property name="blankText">${req[&quot;status&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;status&quot;].propertyTip}</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <ToolBar id="toolBarSysUser" layoutConstraint="top">
+            <Property name="tags">tags_toolbar</Property>
+            <ToolBarButton id="addButton">
+              <ClientEvent name="onClick">var nodeEntity=view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;).get(&quot;data&quot;);
+if(nodeEntity.get(&quot;parentOrgId&quot;)==&quot;0&quot;){
+	dorado.MessageBox.alert(&quot;根节点不允许添加数据！&quot;);
+}else if(nodeEntity.get('category')=='0'){
+	view.get(&quot;#dataSetSysUser&quot;).set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetSysUser.data&quot;).insert();
+	var entity=view.get(&quot;#dataSetSysUser&quot;).getData(&quot;#&quot;);
+	with(entity){
+		set(&quot;orgName&quot;,nodeEntity.get(&quot;orgName&quot;));
+		set(&quot;orgCode&quot;,nodeEntity.get(&quot;orgCode&quot;));
+		set(&quot;status&quot;,&quot;1&quot;);
+	}
+	view.get(&quot;#addDialogSysUser&quot;).show();
+}else{
+	dorado.MessageBox.alert(&quot;机构节点不允许添加数据，请在部门下添加数据！&quot;);
+}
+</ClientEvent>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+              <Property name="caption">添加</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updateButton">
+              <ClientEvent name="onClick">
+          
+var entitys = view.get(&quot;#dataSetSysUser&quot;).getData();
+var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}
+else if (selection.length == 1) {
+	
+ view.get(&quot;#dataSetSysUser&quot;).getData().setCurrent(selection[0]);
+view.get(&quot;#dialogSysUser&quot;).show();
+view.get(&quot;#dataSetSysUser&quot;).set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+              <Property name="caption">修改</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delButton">
+              <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysUser&quot;).getData();
+var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveSysUsersAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;确定停用？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			item.set(&quot;status&quot;,&quot;0&quot;);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+              <Property name="caption">停用</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="lookButton">
+              <ClientEvent name="onClick">
+var entitys = view.get(&quot;#dataSetSysUser&quot;).getData();
+var found = false;
+var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}
+else if (selection.length == 1) {
+	var userId=selection[0].get(&quot;id&quot;);
+ 	view.get(&quot;#dataSetUserMainPost&quot;).set(&quot;parameter&quot;,userId).flush();
+	 if(view.get(&quot;#dataSetUserMainPost&quot;).get(&quot;data&quot;)==null){
+ 		view.get(&quot;#dataSetUserMainPost&quot;).set(&quot;data&quot;,{userId:userId,postType:&quot;1&quot;});
+ 	}
+ 	view.get(&quot;#dataSetUserSecondaryPost&quot;).set(&quot;parameter&quot;,userId).flushAsync();
+ 	view.get(&quot;#dataSetSysUser&quot;).getData().setCurrent(selection[0]);
+	view.get(&quot;#lookdialogSysUser&quot;).show();
+	view.get(&quot;#dataSetSysUser&quot;).set(&quot;readOnly&quot;,true);
+}
+
+
+</ClientEvent>
+              <Property name="caption">查看</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="addPostButton">
+              <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}
+else if (selection.length == 1) {
+ var userId=selection[0].get(&quot;id&quot;);
+ //view.get(&quot;#dataSetUserMainPost&quot;).set(&quot;data&quot;,null);
+ view.get(&quot;#dataSetUserMainPost&quot;).set(&quot;parameter&quot;,userId).flush();
+ if(view.get(&quot;#dataSetUserMainPost&quot;).get(&quot;data&quot;)==null){
+ 	view.get(&quot;#dataSetUserMainPost&quot;).set(&quot;data&quot;,{userId:userId,postType:&quot;1&quot;});
+ }
+ view.get(&quot;#dataSetUserSecondaryPost&quot;).set(&quot;parameter&quot;,userId).flushAsync();
+ //岗位下拉框
+ var orgCode=selection[0].get(&quot;orgCode&quot;);
+ var path=&quot;${request.contextPath}/com/innofi/module/commons/view/dropdown/PostSelect.d?selectType=singleList&amp;orgCode=&quot;+orgCode+&quot;&amp;dropdown=postSingleDropDown&quot;;
+ view.get(&quot;#postDropDown&quot;).set(&quot;path&quot;,path);
+ view.get(&quot;#addDialogSysUserPost&quot;).show();
+}</ClientEvent>
+              <Property name="icon">>icons/users_family.png</Property>
+              <Property name="caption">添加岗位</Property>
+            </ToolBarButton>
+            <ToolBarButton id="resetPassword">
+              <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysUser&quot;).getData();
+var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#resetPasswordAction&quot;);
+var idArr=new Array();
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;确定重置所选用户密码？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			idArr[i]=item.get(&quot;id&quot;);
+		});
+		action.set(&quot;parameter&quot;,{&quot;userId&quot;:idArr}).execute();
+	});
+}</ClientEvent>
+              <Property name="caption">重置密码</Property>
+              <Property name="icon">>icons/key_go.png</Property>
+            </ToolBarButton>
+            <ToolBarButton id="lookPrivilage">
+              <ClientEvent name="onClick">var path=&quot;${request.contextPath}/com/innofi/component/rbac/user/view/UserPrivilage.d&quot;;&#xD;
+view.get(&quot;#lookPrivilageIframe&quot;).set(&quot;path&quot;,path);&#xD;
+view.get(&quot;#lookPrivilageDialog&quot;).show();&#xD;
+</ClientEvent>
+              <Property name="caption">查看权限</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+            </ToolBarButton>
+            <ToolBarButton id="addRoleButton">
+              <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能对一条记录添加角色！&quot;);
+}
+else if (selection.length == 1) {
+  var userId = selection[0].get(&quot;id&quot;);
+  view.get(&quot;#dataSetUserRole&quot;).set(&quot;parameter&quot;,userId).flushAsync();
+  view.get(&quot;#addDialogSysUserRole&quot;).show();
+}
+
+</ClientEvent>
+              <Property name="caption">添加角色</Property>
+              <Property name="icon">>icons/user_orange.png</Property>
+            </ToolBarButton>
+            <ToolBarButton id="addBusinessButton">
+              <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能对一条记录维护业务条线！&quot;);
+}
+else if (selection.length == 1) {
+  var userId = selection[0].get(&quot;id&quot;);
+  var objBusilineType = &quot;3&quot;;
+  view.get(&quot;#dataSetUserBusiness&quot;).set(&quot;parameter&quot;,{
+  	objId:userId,
+	objBusilineType:objBusilineType
+  }).flushAsync();
+  view.get(&quot;#addDialogSysUserBusiness&quot;).show();
+}
+
+</ClientEvent>
+              <Property name="caption">维护业务条线</Property>
+              <Property name="icon">>icons/layers.png</Property>
+              <Property name="ignored">${sys.getString(&quot;mdf.sysuser.bizline.pattern&quot;) ne &quot;3&quot;}</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <Container>
+            <DataGrid id="dataGridSysUser" layoutConstraint="center">
+              <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetSysUser&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+              <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetSysUser&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+              <Property name="dataSet">dataSetSysUser</Property>
+              <Property name="selectionMode">multiRows</Property>
+              <Property name="readOnly">true</Property>
+              <Property name="dataType">dataTypeSysUser</Property>
+              <Property name="rowHeight">26</Property>
+              <Property name="height">100%</Property>
+              <Property name="width">100%</Property>
+              <Property name="highlightCurrentRow">false</Property>
+              <RowNumColumn/>
+              <RowSelectorColumn/>
+              <DataColumn name="userCode" property="userCode"/>
+              <DataColumn name="userName" property="userName"/>
+              <DataColumn>
+                <Property name="name">orgName</Property>
+                <Property name="property">orgName</Property>
+              </DataColumn>
+              <DataColumn name="mobile" property="mobile"/>
+              <DataColumn name="onlineStatus" property="onlineStatus"/>
+              <DataColumn name="status" property="status"/>
+            </DataGrid>
+          </Container>
+          <ToolBar layoutConstraint="bottom">
+            <DataPilot>
+              <Property name="dataSet">dataSetSysUser</Property>
+              <Property name="itemCodes">pages</Property>
+            </DataPilot>
+            <Separator/>
+          </ToolBar>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <DataTree id="orgTree">
+          <ClientEvent name="onDataRowClick">var node = self.get(&quot;currentNode&quot;);
+var orgCode=node.get(&quot;data&quot;).get(&quot;orgCode&quot;);
+var parentId=node.get(&quot;data&quot;).get(&quot;parentOrgId&quot;);//判断是否为根节点
+var policyFlag=node.get(&quot;data&quot;).get(&quot;policyFlag&quot;);
+
+if(policyFlag){//只对策略的部分数据显示
+var entity = view.get(&quot;#querydataSetSysUser&quot;).getData(&quot;#&quot;);
+with (entity){
+ set(&quot;userCode&quot;,&quot;&quot;);
+ set(&quot;userName&quot;,&quot;&quot;);
+ set(&quot;status&quot;,&quot;&quot;);
+ set(&quot;orgCode&quot;,&quot;&quot;);
+};
+if(parentId!=&quot;0&quot;){
+	entity.set(&quot;orgCode&quot;,orgCode);
+}
+view.get(&quot;#dataSetSysUser&quot;).set(&quot;parameter&quot;, entity).flushAsync();
+}else{
+	dorado.MessageBox.alert(&quot;没有权限查看该机构下的数据！&quot;);
+}
+</ClientEvent>
+          <ClientEvent name="onNodeCheckedChange">if(!arg.node.get('checked')){&#xD;
+	arg.node.set('checked',true);&#xD;
+}</ClientEvent>
+          <ClientEvent name="beforeCurrentChange">&#xD;
+</ClientEvent>
+          <ClientEvent name="onNodeAttached">var node = arg.node;&#xD;
+var entity = node.get('data');&#xD;
+if(entity.get('policyFlag')){&#xD;
+	node.set('checkable',true);&#xD;
+	node.set('checked',true);	&#xD;
+}</ClientEvent>
+          <ClientEvent name="onRefreshDom">&#xD;
+</ClientEvent>
+          <Property name="dataSet">dataSetOrg</Property>
+          <Property name="currentNodeDataPath">CURRENT_ORG</Property>
+          <BindingConfigs>
+            <BindingConfig>
+              <Property name="autoCheckChildren">false</Property>
+              <Property name="expandLevel">1</Property>
+              <Property name="childrenProperty">children</Property>
+              <Property name="labelProperty">orgName</Property>
+              <Property name="recursive">true</Property>
+              <Property name="expandedIcon">>icons/branch_element.png</Property>
+              <Property name="icon">>icons/branch_element.png</Property>
+              <Property name="checkable">false</Property>
+            </BindingConfig>
+          </BindingConfigs>
+        </DataTree>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="dialogSysUser">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysUser&quot;).getData().cancel();
+	view.get(&quot;#dialogSysUser&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysUsersAction&quot;);
+			var dialog=view.get(&quot;#dialogSysUser&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetSysUser&quot;).getData().cancel();
+		view.get(&quot;#dialogSysUser&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysUser">
+          <Property name="dataType">dataTypeSysUser</Property>
+          <Property name="dataSet">dataSetSysUser</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">userCode</Property>
+            <Property name="property">userCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;userCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;userCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">userName</Property>
+            <Property name="property">userName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;userName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;userName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgName</Property>
+            <Property name="property">orgName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">depSingleDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">orgCode</Property>
+              </Entity>
+            </Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;orgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;orgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mobile</Property>
+            <Property name="property">mobile</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;mobile&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;mobile&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">email</Property>
+            <Property name="property">email</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;email&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;email&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">address</Property>
+            <Property name="property">address</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;address&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;address&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">certificate</Property>
+            <Property name="property">certificate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;certificate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;certificate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">assessment</Property>
+            <Property name="property">assessment</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;assessment&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;assessment&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">sex</Property>
+            <Property name="property">sex</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tel</Property>
+            <Property name="property">tel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;tel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;tel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tranHis</Property>
+            <Property name="property">tranHis</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;tranHis&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;tranHis&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysUser">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysUser&quot;).getData().cancel();
+	view.get(&quot;#dialogSysUser&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysUsersAction&quot;);
+			var dialog=view.get(&quot;#addDialogSysUser&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetSysUser&quot;).getData().cancel();
+		view.get(&quot;#addDialogSysUser&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysUser">
+          <Property name="dataType">dataTypeSysUser</Property>
+          <Property name="dataSet">dataSetSysUser</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">userCode</Property>
+            <Property name="property">userCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;userCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;userCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">userName</Property>
+            <Property name="property">userName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;userName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;userName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgName</Property>
+            <Property name="property">orgName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">depSingleDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">orgCode</Property>
+              </Entity>
+            </Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;orgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;orgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mobile</Property>
+            <Property name="property">mobile</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;mobile&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;mobile&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">email</Property>
+            <Property name="property">email</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;email&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;email&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">address</Property>
+            <Property name="property">address</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;address&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;address&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">certificate</Property>
+            <Property name="property">certificate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;certificate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;certificate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">assessment</Property>
+            <Property name="property">assessment</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;assessment&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;assessment&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">sex</Property>
+            <Property name="property">sex</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tel</Property>
+            <Property name="property">tel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;tel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;tel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tranHis</Property>
+            <Property name="property">tranHis</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;tranHis&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;tranHis&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysUser">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysUser&quot;).getData().cancel();
+	view.get(&quot;#lookdialogSysUser&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <TabControl>
+          <ControlTab>
+            <Property name="caption">用户信息</Property>
+            <AutoForm id="lookFormSysUser">
+              <Property name="dataType">dataTypeSysUser</Property>
+              <Property name="dataSet">dataSetSysUser</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                <Property name="name">userCode</Property>
+                <Property name="property">userCode</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">userName</Property>
+                <Property name="property">userName</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">orgName</Property>
+                <Property name="property">orgName</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">mobile</Property>
+                <Property name="property">mobile</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">email</Property>
+                <Property name="property">email</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">address</Property>
+                <Property name="property">address</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">certificate</Property>
+                <Property name="property">certificate</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">assessment</Property>
+                <Property name="property">assessment</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">sex</Property>
+                <Property name="property">sex</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tel</Property>
+                <Property name="property">tel</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tranHis</Property>
+                <Property name="property">tranHis</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">onlineStatus</Property>
+                <Property name="property">onlineStatus</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">status</Property>
+                <Property name="property">status</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+          </ControlTab>
+          <ControlTab>
+            <Property name="caption">岗位信息</Property>
+            <Container>
+              <FieldSet>
+                <Property name="caption">主岗位</Property>
+                <Buttons/>
+                <Children>
+                  <AutoForm id="lookAutoFormSysPostUser">
+                    <Property name="dataType">dataTypeSysUserPost</Property>
+                    <Property name="dataSet">dataSetUserMainPost</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="hideMode">visibility</Property>
+                    <AutoFormElement>
+                      <Property name="name">postName</Property>
+                      <Property name="property">postName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="name">postId</Property>
+                      <Property name="property">postId</Property>
+                      <Property name="hideMode">display</Property>
+                      <Property name="visible">false</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="name">postType</Property>
+                      <Property name="property">postType</Property>
+                      <Property name="visible">false</Property>
+                      <Property name="hideMode">display</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="name">userId</Property>
+                      <Property name="property">userId</Property>
+                      <Property name="label">用户ID</Property>
+                      <Property name="visible">false</Property>
+                      <Property name="hideMode">display</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                  </AutoForm>
+                </Children>
+              </FieldSet>
+              <FieldSet>
+                <Property name="caption">兼岗位</Property>
+                <Buttons/>
+                <Children>
+                  <DataGrid id="lookUserPostGrid">
+                    <Property name="dataSet">dataSetUserSecondaryPost</Property>
+                    <Property name="selectionMode">none</Property>
+                    <Property name="readOnly">true</Property>
+                    <RowNumColumn/>
+                    <DataColumn>
+                      <Property name="name">postName</Property>
+                      <Property name="property">postName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">orgName</Property>
+                      <Property name="property">orgName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                </Children>
+              </FieldSet>
+            </Container>
+          </ControlTab>
+        </TabControl>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysUserPost">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetUserMainPost&quot;).getData().cancel();
+view.get(&quot;#dataSetUserSecondaryPost&quot;).getData().cancel();
+view.get(&quot;#addDialogSysUserPost&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveUserMainPostAction&quot;);
+var action2 = view.get(&quot;#saveUserSecondaryPostAction&quot;);
+var dialog=view.get(&quot;#addDialogSysUserPost&quot;);
+action.execute();
+action2.execute();
+dialog.hide();</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetUserMainPost&quot;).getData().cancel();
+view.get(&quot;#dataSetUserSecondaryPost&quot;).getData().cancel();
+view.get(&quot;#addDialogSysUserPost&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">主岗位</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm id="addAutoFormSysPostUser">
+                <Property name="dataType">dataTypeSysUserPost</Property>
+                <Property name="dataSet">dataSetUserMainPost</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="hideMode">visibility</Property>
+                <AutoFormElement>
+                  <Property name="name">postName</Property>
+                  <Property name="property">postName</Property>
+                  <Property name="trigger">postSingleDropDown</Property>
+                  <Property name="userData">
+                    <Entity>
+                      <Property name="code">postId</Property>
+                    </Entity>
+                  </Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">postId</Property>
+                  <Property name="property">postId</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="visible">false</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">postType</Property>
+                  <Property name="property">postType</Property>
+                  <Property name="visible">false</Property>
+                  <Property name="hideMode">display</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">userId</Property>
+                  <Property name="property">userId</Property>
+                  <Property name="label">用户ID</Property>
+                  <Property name="visible">false</Property>
+                  <Property name="hideMode">display</Property>
+                  <Editor/>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="caption">兼岗位</Property>
+            <Buttons/>
+            <Children>
+              <ToolBar id="addUserPost">
+                <ToolBarButton>
+                  <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+var userId=selection[0].get(&quot;id&quot;);
+view.get(&quot;#dataSetPost&quot;).set(&quot;parameter&quot;,{userId:userId}).flushAsync();
+view.get(&quot;#dialogPost&quot;).show();
+</ClientEvent>
+                  <Property name="caption">添加</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                </ToolBarButton>
+                <ToolBarButton>
+                  <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetUserSecondaryPost&quot;).getData();
+var selection = view.get(&quot;#userPostGrid&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+}</ClientEvent>
+                  <Property name="caption">删除</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                </ToolBarButton>
+              </ToolBar>
+              <DataGrid id="userPostGrid">
+                <Property name="dataSet">dataSetUserSecondaryPost</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+                <DataColumn>
+                  <Property name="name">postName</Property>
+                  <Property name="property">postName</Property>
+                  <Editor/>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="name">orgName</Property>
+                  <Property name="property">orgName</Property>
+                  <Editor/>
+                </DataColumn>
+              </DataGrid>
+            </Children>
+          </FieldSet>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogPost">
+      <Property name="caption">添加岗位</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var dialog = view.get(&quot;#dialogPost&quot;);
+var entitys = view.get(&quot;#dataSetUserSecondaryPost&quot;).getData();
+var selection = view.get(&quot;#postMultiList&quot;).get(&quot;selection&quot;);
+var currUser = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+var userId=currUser[0].get(&quot;id&quot;);
+var mainId=view.get(&quot;#dataSetUserMainPost&quot;).getData(&quot;#&quot;).get(&quot;postId&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	jQuery.each(selection,function(i,item){
+		//忽略已经存在的按钮
+		var bool = true;
+		entitys.each(function(entity){
+			if(item.get(&quot;id&quot;) == entity.get(&quot;postId&quot;)){
+				bool = false;
+				return true;
+			}
+		});
+		if(mainId!=undefined &amp;&amp; mainId==item.get(&quot;id&quot;)){
+			bool = false;
+		}
+		if(bool){
+			var entity = {
+				userId:userId,
+				postId:item.get(&quot;id&quot;),
+				postType:&quot;2&quot;,
+				postName:item.get(&quot;postName&quot;),
+				orgName:item.get(&quot;orgName&quot;)
+			};
+			entitys.insert(entity);
+		}
+	});
+	dialog.hide();
+}</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+          <Property name="caption">确定</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container id="multiList">
+          <Property name="hideMode">display</Property>
+          <Property name="visible">true</Property>
+          <FieldSet>
+            <Property name="collapsed">true</Property>
+            <Property name="buttonAlign">right</Property>
+            <Property name="caption">查询</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm>
+                <Property name="dataSet">dataSetPostQuery</Property>
+                <Property name="cols">*,30</Property>
+                <Property name="labelAlign">right</Property>
+                <AutoFormElement>
+                  <Property name="name">postName</Property>
+                  <Property name="property">postName</Property>
+                  <Property name="showLabel">true</Property>
+                  <Property name="trigger">triggerClear</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <Button id="postMultiListSearch">
+                  <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+var userId=selection[0].get(&quot;id&quot;);
+var postName=view.get(&quot;#dataSetPostQuery&quot;).getData(&quot;#&quot;).get(&quot;postName&quot;);
+view.get(&quot;#dataSetPost&quot;).set(&quot;parameter&quot;, {&quot;userId&quot;:userId,&quot;postName&quot;:postName}).flushAsync();
+</ClientEvent>
+                  <Property name="caption">查询</Property>
+                </Button>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataGrid id="postMultiList">
+            <Property name="dataSet">dataSetPost</Property>
+            <Property name="showHeader">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="rowSelectionProperty">selectFlag</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">postName</Property>
+              <Property name="property">postName</Property>
+              <Property name="readOnly">true</Property>
+              <Editor/>
+            </DataColumn>
+            <DataColumn>
+              <Property name="name">orgName</Property>
+              <Property name="property">orgName</Property>
+              <Property name="readOnly">true</Property>
+              <Editor/>
+            </DataColumn>
+          </DataGrid>
+          <ToolBar id="multiListPilot" layoutConstraint="bottom">
+            <Property name="hideMode">display</Property>
+            <DataPilot>
+              <Property name="itemCodes">pages</Property>
+              <Property name="dataSet">dataSetPost</Property>
+            </DataPilot>
+          </ToolBar>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookPrivilageDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">权限查看</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">90%</Property>
+      <Property name="height">90%</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="lookPrivilageIframe"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysUserRole">
+      <ClientEvent name="onClose">view.get(&quot;#dataTypeSysUserPost&quot;).getData().cancel();
+view.get(&quot;#addDialogSysPostRole&quot;).hide();</ClientEvent>
+      <Property name="caption">添加角色</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveUserRoleAction&quot;);
+var dialog=view.get(&quot;#addDialogSysUserRole&quot;);
+action.execute();
+dialog.hide();</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetUserRole&quot;).getData().cancel();
+view.get(&quot;#addDialogSysUserRole&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflowY">auto</Property>
+          <ToolBar id="addUserRole">
+            <ToolBarButton>
+              <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能对一条记录添加角色！&quot;);
+}
+else if (selection.length == 1) {
+  var userId = selection[0].get(&quot;id&quot;);
+  //var orgLevel = currentNode.get(&quot;data&quot;).get(&quot;orgLevel&quot;);
+  var orgCode = selection[0].get(&quot;orgCode&quot;);
+  view.get(&quot;#dataSetRole&quot;).set(&quot;parameter&quot;,{userId:userId,orgCode:orgCode,status:&quot;1&quot;}).flushAsync();
+  view.get(&quot;#dialogRole&quot;).show();
+
+}
+</ClientEvent>
+              <Property name="caption">添加</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton>
+              <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetUserRole&quot;).getData();
+var selection = view.get(&quot;#userRoleGrid&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+}</ClientEvent>
+              <Property name="caption">删除</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <DataGrid id="userRoleGrid">
+            <Property name="dataSet">dataSetUserRole</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">roleName</Property>
+              <Property name="property">roleName</Property>
+              <Editor/>
+            </DataColumn>
+            <DataColumn>
+              <Property name="name">roleType</Property>
+              <Property name="property">roleType</Property>
+              <Editor/>
+            </DataColumn>
+            <DataColumn>
+              <Property name="property">status</Property>
+              <Property name="name">status</Property>
+              <Editor/>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogRole">
+      <Property name="caption">角色选择</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">70%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var dialog = view.get(&quot;#dialogRole&quot;);
+var entitys = view.get(&quot;#dataSetUserRole&quot;).getData();
+var selection = view.get(&quot;#roleMultiList&quot;).get(&quot;selection&quot;);
+var selection2 = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+var userId = selection2[0].get(&quot;id&quot;);
+//alert(&quot;userId----&quot;+userId);
+var userCode = selection2[0].get(&quot;userCode&quot;);
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	jQuery.each(selection,function(i,item){
+		//忽略已经存在的按钮
+		var bool = true;
+		entitys.each(function(entity){
+			if(item.get(&quot;id&quot;) == entity.get(&quot;roleId&quot;)){
+				bool = false;
+				return true;
+			}
+		});
+		if(bool){
+			var entity = {
+				roleId:item.get(&quot;id&quot;),
+				userId:userId,
+				userCode:userCode,
+				roleName:item.get(&quot;roleName&quot;),
+				roleType:item.get(&quot;roleType&quot;),
+				status:item.get(&quot;status&quot;)
+			};
+			entitys.insert(entity);
+		}
+	});
+	dialog.hide();
+}</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+          <Property name="caption">确定</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container id="multiList2">
+          <Property name="hideMode">display</Property>
+          <Property name="visible">true</Property>
+          <FieldSet>
+            <Property name="collapsed">true</Property>
+            <Property name="buttonAlign">right</Property>
+            <Property name="caption">查询</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm>
+                <Property name="dataSet">dataSetRoleQuery</Property>
+                <Property name="cols">*,*</Property>
+                <Property name="labelAlign">right</Property>
+                <AutoFormElement>
+                  <Property name="name">roleName</Property>
+                  <Property name="property">roleName</Property>
+                  <Property name="showLabel">true</Property>
+                  <Property name="trigger">triggerClear</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <Button id="roleMultiListSearch">
+                  <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysPost&quot;).get(&quot;selection&quot;);
+var postId=selection[0].get(&quot;id&quot;);
+var orgLevel=selection[0].get(&quot;orgLevel&quot;);
+var roleName=view.get(&quot;#dataSetRoleQuery&quot;).getData(&quot;#&quot;).get(&quot;roleName&quot;);
+view.get(&quot;#dataSetUser&quot;).set(&quot;parameter&quot;, {&quot;postId&quot;:postId,&quot;roleName&quot;:roleName,&quot;orgLevel&quot;:orgLevel}).flushAsync();
+</ClientEvent>
+                  <Property name="caption">查询</Property>
+                </Button>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataGrid id="roleMultiList">
+            <Property name="dataSet">dataSetRole</Property>
+            <Property name="showHeader">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="rowSelectionProperty">selectFlag</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">roleName</Property>
+              <Property name="property">roleName</Property>
+              <Property name="readOnly">true</Property>
+              <Editor/>
+            </DataColumn>
+            <DataColumn>
+              <Property name="name">roleType</Property>
+              <Property name="property">roleType</Property>
+              <Editor/>
+            </DataColumn>
+          </DataGrid>
+          <ToolBar id="multiListPilot2" layoutConstraint="bottom">
+            <Property name="hideMode">display</Property>
+            <DataPilot>
+              <Property name="itemCodes">pages</Property>
+              <Property name="dataSet">dataSetRole</Property>
+            </DataPilot>
+          </ToolBar>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysUserBusiness">
+      <ClientEvent name="onClose">view.get(&quot;#dataTypeSysUserPost&quot;).getData().cancel();
+view.get(&quot;#addDialogSysPostRole&quot;).hide();</ClientEvent>
+      <Property name="caption">维护业务条线</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveUserBusinessAction&quot;);
+var dialog=view.get(&quot;#addDialogSysUserBusiness&quot;);
+action.execute(function(){
+	dialog.hide();
+});
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetUserBusiness&quot;).getData().cancel();
+view.get(&quot;#addDialogSysUserBusiness&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflowY">auto</Property>
+          <ToolBar id="addUserBusiness">
+            <ToolBarButton>
+              <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysUser&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能对一条记录维护业务条线！&quot;);
+}
+else if (selection.length == 1) {
+  view.get(&quot;#dataSetBizLine&quot;).set(&quot;parameter&quot;,{parentBusilineId: &quot;0&quot;}).flushAsync(function(){
+		view.get(&quot;#addBizLineDialog&quot;).show();
+	});
+}
+</ClientEvent>
+              <Property name="caption">添加</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton>
+              <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetUserBusiness&quot;).getData();
+var selection = view.get(&quot;#userBusinessGrid&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+}</ClientEvent>
+              <Property name="caption">删除</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <DataGrid id="userBusinessGrid">
+            <Property name="dataSet">dataSetUserBusiness</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn name="busilineName">
+              <Property name="property">busilineName</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addBizLineDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择部门</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">70%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var selection = view.get('#dataGridSysUser').get('selection');&#xD;
+var nodes=view.get('#busiLineTree').getCheckedNodes();&#xD;
+if(nodes.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (nodes.length != 0) {&#xD;
+		var dimenDateList=view.get('#dataSetUserBusiness').getData();&#xD;
+		jQuery.each(nodes,function(i,node){&#xD;
+			var isexists=false;&#xD;
+			var bizlineId=node.get('data').get('id');&#xD;
+			var bizlineName=node.get('data').get('busilineName');&#xD;
+			dimenDateList.each(function(entity){&#xD;
+				var id=entity.get('busilineId');&#xD;
+				if(bizlineId==id){&#xD;
+					isexists=true;&#xD;
+				}&#xD;
+			});&#xD;
+			if(!isexists){&#xD;
+				var entity={&#xD;
+					busilineId:bizlineId,&#xD;
+					busilineName:bizlineName,&#xD;
+					objBusilineType:'3',&#xD;
+					objId:selection[0].get('id'),&#xD;
+					objCode:selection[0].get('userCode')&#xD;
+				}&#xD;
+				dimenDateList.insert(entity);&#xD;
+			}&#xD;
+		});&#xD;
+		view.get(&quot;#addBizLineDialog&quot;).hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addBizLineDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <DataTreeGrid id="busiLineTree">
+            <Property name="dataSet">dataSetBizLine</Property>
+            <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+            <Property name="treeColumn">busilineCode</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="childrenProperty">children</Property>
+                <Property name="labelProperty">busilineCode</Property>
+                <Property name="recursive">true</Property>
+                <Property name="expandedIcon">>icons/layers.png</Property>
+                <Property name="icon">>icons/layers.png</Property>
+                <Property name="checkable">true</Property>
+                <Property name="autoCheckChildren">false</Property>
+              </BindingConfig>
+            </BindingConfigs>
+            <Columns>
+              <DataColumn name="busilineCode" property="busilineCode">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="busilineName" property="busilineName">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="busilineDesc" property="busilineDesc">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+            </Columns>
+          </DataTreeGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <UpdateAction id="saveSysUsersAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysUserAction#saveSysUsers</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysUser</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveUserMainPostAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysUserPostAction#saveSysUserMainPosts</Property>
+      <Property name="async">true</Property>
+      <Property name="modal">false</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetUserMainPost</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveUserSecondaryPostAction">
+      <Property name="dataResolver">sysUserPostAction#saveSysUserPosts</Property>
+      <Property name="async">true</Property>
+      <Property name="modal">false</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetUserSecondaryPost</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveUserRoleAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysUserRoleAction#saveSysUserAddRoles</Property>
+      <Property name="async">true</Property>
+      <Property name="modal">false</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetUserRole</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveUserBusinessAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysObjBusinessAction#saveSysObjBusinesss</Property>
+      <Property name="async">true</Property>
+      <Property name="modal">false</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetUserBusiness</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <CustomDropDown id="depSingleDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;orgCode&quot;));
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;orgName&quot;));
+	
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/OrgSelect.d?selectType=singleTree&amp;category=0&amp;dropdown=depSingleDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="postSingleDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var addFlag=true;
+	var posts=view.get(&quot;#dataSetUserSecondaryPost.data&quot;);
+	posts.each(function(post){
+		if(post.get(&quot;postId&quot;)==entity.get(&quot;id&quot;)){
+			addFlag=false;
+		}
+	});
+	if(addFlag==false){
+		alert(&quot;该岗位在兼岗位中，请先删除后再添加为主岗！&quot;);
+		arg.processDefault = false;
+		return false;
+	}
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;postName&quot;));
+	
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="postDropDown"/>
+    </CustomDropDown>
+    <AjaxAction id="resetPasswordAction">
+      <Property name="successMessage">重置成功</Property>
+      <Property name="service">sysUserAction#resetUserPassword</Property>
+    </AjaxAction>
+    <AjaxAction id="checkCode">
+      <Property name="service">sysUserAction#checkCode</Property>
+    </AjaxAction>
+    <AjaxAction id="aaa">
+      <Property name="service">sysUploadFileAction#copySysUploadFile</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

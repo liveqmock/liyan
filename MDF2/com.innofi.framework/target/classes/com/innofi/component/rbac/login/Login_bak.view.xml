@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View listener="spring:loginViewListener#onInit">
+    <ClientEvent name="onReady">Login={};
+Login.login=function(){
+
+	var userNameValue = view.get(&quot;#userNameEditor&quot;).get(&quot;text&quot;);
+	var passwordValue = view.get(&quot;#passwordEditor&quot;).get(&quot;text&quot;);
+	if(!userNameValue){
+		dorado.MessageBox.alert(&quot;帐号不能为空!&quot;);
+		return ;
+	}
+	if(!passwordValue){
+		dorado.MessageBox.alert(&quot;密码不能为空!&quot;);
+		return ;
+	}
+
+	//创建登录表单，设置提交路径
+	var loginForm = document.createElement(&quot;form&quot;);
+	loginForm.method = 'post';
+	loginForm.action = '${request.contextPath}/loginAction.login.c?clientHeight='+window.screen.availHeight+&quot;&amp;clientWidth=&quot;+window.screen.availWidth;
+	//创建用户名dom节点
+	var userName = document.createElement(&quot;input&quot;);
+	userName.setAttribute(&quot;name&quot;,&quot;userName&quot;);
+	userName.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+	userName.setAttribute(&quot;value&quot;,userNameValue);
+	//创建密码dom节点
+	var password = document.createElement(&quot;input&quot;);
+	password.setAttribute(&quot;name&quot;,&quot;password&quot;);
+	password.setAttribute(&quot;type&quot;,&quot;hidden&quot;);
+	password.setAttribute(&quot;value&quot;,passwordValue);
+	//添加节点登录表单中
+	loginForm.appendChild(userName);
+	loginForm.appendChild(password);
+	//添加表单到body中
+	document.body.appendChild(loginForm);
+	//显示登录等待窗口
+	Login.showLoading();
+	loginForm.submit();
+}
+Login.show = function(editor){
+	if(editor.get('id')==&quot;passwordTextEditor&quot;){
+		editor.set('visible',false);
+	    view.set('#passwordEditor.visible',true);
+	    view.set('#passwordEditor.text','');
+	    view.get('#passwordEditor').setFocus();
+	}else{
+	    var pass = editor.get('text');
+	    if(!pass){
+	    	view.set('#passwordTextEditor.visible',true);
+			editor.set('visible',false);
+	    }
+	}
+	view.get('#userName').refresh();
+	view.get('#password').refresh();
+	view.get('#message').refresh();
+	view.get('#showTiemOut').refresh();
+}
+
+Login.showLoading = function() {
+	var div = document.createElement('div');
+	div.setAttribute(&quot;id&quot;, &quot;maskId&quot;);
+	div.style.height = window.screen.availHeight*0.8;
+	div.style.width = window.screen.availWidth;
+	div.style.top = 0;
+	div.style.left = 0;
+	div.style.position = 'absolute';
+	div.margin='0px';
+	div.padding='0px';
+	div.innerHTML = ['&lt;div style=&quot;position:absolute;left:45%;top:50%;width:150px;height:35px;background: #FFFFFF;text-align:center;border:1px ridge #8DBDD8;color:#555;font-weight:bold;font-size:12px;&quot;>&lt;table>&lt;tr>&lt;td>&lt;img src=&quot;icons/loading (2).gif&quot;>&lt;/td>&lt;td>&lt;b>登录中....&lt;/b>&lt;/td>&lt;/tr>&lt;/table>&lt;/div>'];
+	document.body.appendChild(div),
+	div = null;
+}
+
+
+
+
+
+
+		</ClientEvent>
+    <ClientEvent name="onCreate">var loginUrl = '${sys.getString(&quot;mdf.security.loginFormUrl&quot;)}';
+if(loginUrl.indexOf('/')>-1){
+	loginUrl = loginUrl.substring(1,loginUrl.length);
+}
+if('${param[&quot;resetFullScreen&quot;]}'=='true'){
+	window.open(loginUrl,'_blank','width='+parseInt(window.screen.availWidth*0.98)+',height='+parseInt(window.screen.availHeight*0.95)+',top=5,left=5');
+	window.close();
+}else if('${param[&quot;timeout&quot;]}'=='true'){
+	top.window.location.href=loginUrl+'?showTimeOut=true';
+}</ClientEvent>
+    <Property name="title">正信岳铭产品开发平台</Property>
+    <Container layout="anchor">
+      <Property name="renderTo">#login_form</Property>
+      <Panel layout="form cols:50,*;padding:20" layoutConstraint="left:50%;top:50%">
+        <Property name="caption">欢迎登录产品开发平台</Property>
+        <Property name="border">curve</Property>
+        <Property name="icon">>icons/bricks.png</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">Login.login();</ClientEvent>
+            <Property name="caption">登录</Property>
+            <Property name="icon">>icons/login.gif</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.get(&quot;#userNameEditor&quot;).set(&quot;text&quot;,'');
+view.get(&quot;#passwordEditor&quot;).set(&quot;text&quot;,'');
+Login.show(view.get(&quot;#passwordEditor&quot;));</ClientEvent>
+            <Property name="caption">重置</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <Label id="showTiemOut" layoutConstraint="colSpan:2;padding:0px,10px">
+            <ClientEvent name="onRefreshDom">arg.dom.innerHTML='&lt;b>&lt;font color=&quot;red&quot;>会话超时，请重新登录！&lt;/font>&lt;/b>';</ClientEvent>
+            <Property name="width">100%</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">${validator.isNotNull(param[&quot;showTimeOut&quot;])}</Property>
+          </Label>
+          <Label id="message" layoutConstraint="colSpan:2;padding:0px,10px">
+            <ClientEvent name="onRefreshDom">arg.dom.innerHTML='&lt;b>&lt;font color=&quot;red&quot;>${req[&quot;message&quot;]}&lt;/font>&lt;/b>';</ClientEvent>
+            <Property name="width">100%</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">${validator.isNotNull(req[&quot;message&quot;])}</Property>
+          </Label>
+          <Label id="userName" layoutConstraint="padding:10">
+            <ClientEvent name="onRefreshDom">arg.dom.innerHTML='&lt;img src=&quot;${request.getContextPath()}/icons/user.png&quot;/>';</ClientEvent>
+            <Property name="width">16</Property>
+          </Label>
+          <TextEditor id="userNameEditor" layoutConstraint="padding:5px,0px,0px,0px">
+            <ClientEvent name="onKeyDown">if(arg.event.keyCode==13){
+	view.get(&quot;#passwordEditor&quot;).getDom().focus();
+}</ClientEvent>
+            <Property name="maxLength">16</Property>
+            <Property name="width">180</Property>
+            <Property name="blankText">请输入帐号</Property>
+          </TextEditor>
+          <Label id="password" layoutConstraint="padding:10">
+            <ClientEvent name="onRefreshDom">arg.dom.innerHTML='&lt;img src=&quot;${request.getContextPath()}/icons/keyboard.png&quot;/>';</ClientEvent>
+            <Property name="width">16</Property>
+          </Label>
+          <TextEditor id="passwordTextEditor" layoutConstraint="padding:5px,0px,0px,0px">
+            <ClientEvent name="onFocus">Login.show(self);</ClientEvent>
+            <Property name="blankText">请输入密码</Property>
+            <Property name="width">180</Property>
+            <Property name="maxLength">16</Property>
+            <Property name="hideMode">display</Property>
+          </TextEditor>
+          <PasswordEditor id="passwordEditor" layoutConstraint="padding:5px,0px,0px,0px">
+            <ClientEvent name="onKeyDown">if(arg.event.keyCode==13){
+	Login.login();
+}</ClientEvent>
+            <ClientEvent name="onBlur">Login.show(self);</ClientEvent>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">false</Property>
+            <Property name="width">180</Property>
+            <Property name="maxLength">16</Property>
+          </PasswordEditor>
+        </Children>
+        <Tools/>
+      </Panel>
+    </Container>
+  </View>
+</ViewConfig>

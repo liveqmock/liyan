@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysUserPostManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysUserPost" parent="global:dataTypeSysUserPost">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="querydataTypeSysUserPost">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysUserPost">
+      <Property name="dataProvider">sysUserPostAction#findSysUserPosts</Property>
+      <Property name="dataType">[dataTypeSysUserPost]</Property>
+      <Property name="pageSize">${configure.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysUserPost">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysUserPost]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+	view.get("#dataSetSysUserPost").set("parameter", view.get("#querydataSetSysUserPost").getData("#")).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+            
+            var entity = view.get("#querydataSetSysUserPost").getData("#");
+			with (entity){
+			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysUserPostQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysUserPost</Property>
+            <Property name="dataType">querydataTypeSysUserPost</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysUserPost" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+          view.get("#dataSetSysUserPost").set("readOnly",false);
+          view.get("#dataSetSysUserPost.data").insert();
+
+view.get("#addDialogSysUserPost").show();
+        </ClientEvent>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+          
+var entitys = view.get("#dataSetSysUserPost").getData();
+var selection = view.get("#dataGridSysUserPost").get("selection");
+
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能选择一条记录查看修改！");
+}
+else if (selection.length == 1) {
+	
+ view.get("#dataSetSysUserPost").getData().setCurrent(selection[0]);
+view.get("#dialogSysUserPost").show();
+view.get("#dataSetSysUserPost").set("readOnly",false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get("#dataSetSysUserPost").getData();
+var selection = view.get("#dataGridSysUserPost").get("selection");
+var action = view.get("#saveSysUserPostsAction");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm("确定删除？", function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+var entitys = view.get("#dataSetSysUserPost").getData();
+var found = false;
+var selection = view.get("#dataGridSysUserPost").get("selection");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能查看一条记录！");
+}
+else if (selection.length == 1) {
+ view.get("#dataSetSysUserPost").getData().setCurrent(selection[0]);
+view.get("#lookdialogSysUserPost").show();
+view.get("#dataSetSysUserPost").set("readOnly",true);
+}
+
+
+</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridSysUserPost" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetSysUserPost").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetSysUserPost").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetSysUserPost</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeSysUserPost</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="id" property="id"/>
+          <DataColumn name="userId" property="userId"/>
+          <DataColumn name="postType" property="postType"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysUserPost</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysUserPostsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysUserPostAction#saveSysUserPosts</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysUserPost</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysUserPost">
+      <ClientEvent name="onClose">
+     view.get("#dataSetSysUserPost").getData().cancel();
+	view.get("#dialogSysUserPost").hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get("#saveSysUserPostsAction");
+			var dialog=view.get("#dialogSysUserPost");
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get("#dataSetSysUserPost").getData().cancel();
+		view.get("#dialogSysUserPost").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysUserPost">
+          <Property name="dataType">dataTypeSysUserPost</Property>
+          <Property name="dataSet">dataSetSysUserPost</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.post.pojo.SysUserPost.id"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.post.pojo.SysUserPost.id"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">userId</Property>
+            <Property name="property">userId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.post.pojo.SysUserPost.userId"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.post.pojo.SysUserPost.userId"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">postType</Property>
+            <Property name="property">postType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysUserPost">
+      <ClientEvent name="onClose">
+     view.get("#dataSetSysUserPost").getData().cancel();
+	view.get("#dialogSysUserPost").hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get("#saveSysUserPostsAction");
+			var dialog=view.get("#addDialogSysUserPost");
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get("#dataSetSysUserPost").getData().cancel();
+		view.get("#addDialogSysUserPost").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysUserPost">
+          <Property name="dataType">dataTypeSysUserPost</Property>
+          <Property name="dataSet">dataSetSysUserPost</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.post.pojo.SysUserPost.id"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.post.pojo.SysUserPost.id"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">userId</Property>
+            <Property name="property">userId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.post.pojo.SysUserPost.userId"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.post.pojo.SysUserPost.userId"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">postType</Property>
+            <Property name="property">postType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysUserPost">
+      <ClientEvent name="onClose">
+     view.get("#dataSetSysUserPost").getData().cancel();
+	view.get("#lookdialogSysUserPost").hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysUserPost">
+          <Property name="dataType">dataTypeSysUserPost</Property>
+          <Property name="dataSet">dataSetSysUserPost</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

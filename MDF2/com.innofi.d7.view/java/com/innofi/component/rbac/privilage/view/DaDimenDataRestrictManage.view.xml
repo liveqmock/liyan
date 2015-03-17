@@ -1,0 +1,936 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">DaDimenDataRestrictManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+
+
+
+    <DataType name="dataTypeDaDimenDataRestrict">
+
+
+        <Property name="creationType">com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict</Property>
+        <Property name="autoCreatePropertyDefs">false</Property>
+    
+     	
+	        <PropertyDef name="dimenDataId">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="id">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="parentRestrictId">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="restrictType">
+                <Property name="dataType">String</Property>
+                    <Property name="mapping">
+            <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("RESTRICT_TYPE")}</Property>
+            </Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.restrictType"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="tableAuthId">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyLabel}</Property>
+              </PropertyDef>
+    </DataType>
+
+    <DataType name="querydataTypeDaDimenDataRestrict">
+        <Property name="autoCreatePropertyDefs">false</Property>
+                    <PropertyDef name="qMdimenDataId">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="dimenDataId">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMid">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="id">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMparentRestrictId">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="parentRestrictId">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMrestrictType">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="restrictType">
+            <Property name="dataType">String</Property>
+                        <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("RESTRICT_TYPE")}</Property>
+            </Property>
+                        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.restrictType"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMtableAuthId">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="tableAuthId">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+        </DataType>
+
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetDaDimenDataRestrict">
+        <Property name="dataProvider">daDimenDataRestrictAction#findDaDimenDataRestricts</Property>
+        <Property name="dataType">[dataTypeDaDimenDataRestrict]</Property>
+        <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+        <Property name="userData">
+            <Collection>
+                <Entity>
+                    <Property name="entityClass">com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict</Property> <!--验证是否包含修改权限-->
+                </Entity>
+            </Collection>
+        </Property>
+    </DataSet>
+    <DataSet id="querydataSetDaDimenDataRestrict">
+        <ClientEvent name="onReady">self.insert({});</ClientEvent>
+        <Property name="dataType">[querydataTypeDaDimenDataRestrict]</Property>
+    </DataSet>
+    <Container>
+        <FieldSet layoutConstraint="top">
+            <Property name="caption">查询条件</Property>
+            <Property name="collapsed">false</Property>
+            <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get("#dataSetDaDimenDataRestrict").set("parameter", view.get("#querydataSetDaDimenDataRestrict").getData("#")).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get("#querydataSetDaDimenDataRestrict").clear();
+                view.get("#querydataSetDaDimenDataRestrict").getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+            <Children>
+                <AutoForm id="autoFormDaDimenDataRestrictQuery" layoutConstraint="center">
+                    <Property name="cols">*,*</Property>
+                    <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                    <Property name="dataType">querydataTypeDaDimenDataRestrict</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="labelWidth">100</Property>
+                            <AutoFormElement name="autoFormElementdimenDataId">
+                                <Property name="name">dimenDataId</Property>
+                    <Property name="property">dimenDataId</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMdimenDataId</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">dimenDataId</Property>
+                                                        <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementid">
+                                <Property name="name">id</Property>
+                    <Property name="property">id</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMid</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">id</Property>
+                                                        <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementparentRestrictId">
+                                <Property name="name">parentRestrictId</Property>
+                    <Property name="property">parentRestrictId</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMparentRestrictId</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">parentRestrictId</Property>
+                                                        <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementrestrictType">
+                                <Property name="name">restrictType</Property>
+                    <Property name="property">restrictType</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMrestrictType</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">restrictType</Property>
+                                                        <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.restrictType"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.restrictType"].propertyTip}</Property>
+                                                        <Property name="trigger">autoMappingDropDown1</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementtableAuthId">
+                                <Property name="name">tableAuthId</Property>
+                    <Property name="property">tableAuthId</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMtableAuthId</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">tableAuthId</Property>
+                                                        <Property name="dataSet">querydataSetDaDimenDataRestrict</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                            </AutoForm>
+            </Children>
+        </FieldSet>
+        <ToolBar id="toolBarDaDimenDataRestrict" layoutConstraint="top">
+            <Property name="tags">tags_toolbar</Property>
+            <ToolBarButton  id="addButton">
+                <ClientEvent name="onClick">
+                    view.get("#dataSetDaDimenDataRestrict").set("readOnly",false);
+                    view.get("#dataSetDaDimenDataRestrict.data").insert();
+                    view.get("#addDialogDaDimenDataRestrict").show();
+                </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                <Property name="caption">添加</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updateButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSetDaDimenDataRestrict").getData();
+                    var selection = view.get("#dataGridDaDimenDataRestrict").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert("只能选择一条记录查看修改！");
+                    }else if (selection.length == 1) {
+                        var entityClass = view.get('#dataSetDaDimenDataRestrict').get("userData")[0].entityClass;
+                        var idValue = view.get("#dataSetDaDimenDataRestrict").getData("#.id");
+                        var action=view.get("#checkPermissionAction");
+                        var idValueArray = new Array();
+                        idValueArray[0] = idValue;
+                        action.set("parameter",{
+                            entityClass:entityClass,
+                            idValues:idValueArray,
+                            operationType:'2'
+                        });
+                        action.execute(function(result){
+                            if(result.length>0){
+                                dorado.MessageBox.alert("不能进行此操作，您无选中记录的修改权限！");
+                                return;
+                            }
+                            view.get("#dataSetDaDimenDataRestrict").getData().setCurrent(selection[0]);
+                            view.get("#dialogDaDimenDataRestrict").show();
+                            view.get("#dataSetDaDimenDataRestrict").set("readOnly",false);
+                        });
+                    }
+                </ClientEvent>
+                <Property name="caption">修改</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delButton">
+                <ClientEvent name="onClick">var entitys = view.get("#dataSetDaDimenDataRestrict").getData();
+                    var selection = view.get("#dataGridDaDimenDataRestrict").get("selection");
+                    var action = view.get("#saveDaDimenDataRestrictsAction");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if (selection.length != 0) {
+                    var entityClass = view.get('#dataSetDaDimenDataRestrict').get("userData")[0].entityClass;
+                    var idValue = view.get("#dataSetDaDimenDataRestrict").getData("#.id");
+                    var checkPermissionAction=view.get("#checkPermissionAction");
+                    var idValueArray = new Array();
+                    jQuery.each(selection,function(i,item){
+                    idValueArray[i] = item.get("id");
+                    });
+                    checkPermissionAction.set("parameter",{
+                    entityClass:entityClass,
+                    idValues:idValueArray,
+                    operationType:'3'
+                    });
+
+                    checkPermissionAction.execute(function(result){
+                    if(result.length>0){
+                    var idValueFilter = new Object();
+                    result.each(function(it){
+                    idValueFilter[it] = true;
+                    });
+                    dorado.MessageBox.confirm("确定删除？", function(){
+                    var haveRemove = false;
+                    jQuery.each(selection,function(i,item){
+                    if(!idValueFilter[item.get('id')]){
+                    haveRemove = true;
+                    entitys.remove(item);
+                    }
+                    });
+                    if(haveRemove){
+                    action.execute();
+                    }
+                    dorado.MessageBox.alert("您无选中记录的删除权限！");
+                    return;
+                    });
+                    }else{
+                    dorado.MessageBox.confirm("确定删除？", function(){
+                    jQuery.each(selection,function(i,item){
+                    entitys.remove(item);
+                    });
+                    action.execute();
+                    });
+                    }
+                    });
+                    }
+                </ClientEvent>
+                <Property name="caption">删除</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="lookButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSetDaDimenDataRestrict").getData();
+                    var found = false;
+                    var selection = view.get("#dataGridDaDimenDataRestrict").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert("只能查看一条记录！");
+                    }else if (selection.length == 1) {
+                        view.get("#dataSetDaDimenDataRestrict").getData().setCurrent(selection[0]);
+                        view.get("#lookdialogDaDimenDataRestrict").show();
+                        view.get("#dataSetDaDimenDataRestrict").set("readOnly",true);
+                    }
+                </ClientEvent>
+                <Property name="caption">查看</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+            </ToolBarButton>
+      </ToolBar>
+        <Container>
+            <DataGrid id="dataGridDaDimenDataRestrict" layoutConstraint="center">
+                <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get("selection");
+                    var entity = view.get("#dataSetDaDimenDataRestrict").getData("#");
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get("id") == entity.get("id")) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set("selection", newSelection);*/
+                </ClientEvent>
+                <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get("#dataSetDaDimenDataRestrict").getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+                <Property name="dataSet">dataSetDaDimenDataRestrict</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="dataType">dataTypeDaDimenDataRestrict</Property>
+                <Property name="rowHeight">26</Property>
+                <Property name="height">100%</Property>
+                <Property name="width">100%</Property>
+                <Property name="highlightCurrentRow">false</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+                            <DataColumn name="dimenDataId" property="dimenDataId"/>
+                                        <DataColumn name="id" property="id"/>
+                                        <DataColumn name="parentRestrictId" property="parentRestrictId"/>
+                                        <DataColumn name="restrictType" property="restrictType"/>
+                                        <DataColumn name="tableAuthId" property="tableAuthId"/>
+                        </DataGrid>
+        </Container>
+        <ToolBar layoutConstraint="bottom">
+            <DataPilot>
+                <Property name="dataSet">dataSetDaDimenDataRestrict</Property>
+                <Property name="itemCodes">pages</Property>
+            </DataPilot>
+            <Separator/>
+        </ToolBar>
+    </Container>
+    <UpdateAction id="saveDaDimenDataRestrictsAction">
+        <Property name="executingMessage">正在处理...</Property>
+        <Property name="successMessage">操作成功</Property>
+        <Property name="dataResolver">daDimenDataRestrictAction#saveDaDimenDataRestricts</Property>
+        <UpdateItem>
+        <Property name="dataSet">dataSetDaDimenDataRestrict</Property>
+        </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogDaDimenDataRestrict">
+        <ClientEvent name="onClose">
+            view.get("#dataSetDaDimenDataRestrict").getData().cancel();
+            view.get("#dialogDaDimenDataRestrict").hide();
+        </ClientEvent>
+        <Property name="caption">信息编辑</Property>
+        <Property name="center">true</Property>
+        <Property name="border">normal</Property>
+        <Property name="minimizeable">true</Property>
+        <Property name="maximizeable">true</Property>
+        <Property name="modal">true</Property>
+        <Property name="width">60%</Property>
+        <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get("#saveDaDimenDataRestrictsAction");
+            var dialog=view.get("#dialogDaDimenDataRestrict");
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSetDaDimenDataRestrict").getData().cancel();
+            view.get("#dialogDaDimenDataRestrict").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormDaDimenDataRestrict">
+          <Property name="dataType">dataTypeDaDimenDataRestrict</Property>
+          <Property name="dataSet">dataSetDaDimenDataRestrict</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+                    <Property name="name">dimenDataId</Property>
+            <Property name="property">dimenDataId</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">id</Property>
+            <Property name="property">id</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">parentRestrictId</Property>
+            <Property name="property">parentRestrictId</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">restrictType</Property>
+            <Property name="property">restrictType</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">tableAuthId</Property>
+            <Property name="property">tableAuthId</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+            </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+    <Dialog id="addDialogDaDimenDataRestrict">
+     <ClientEvent name="onClose">
+         view.get("#dataSetDaDimenDataRestrict").getData().cancel();
+         view.get("#dialogDaDimenDataRestrict").hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get("#saveDaDimenDataRestrictsAction");
+              var dialog=view.get("#addDialogDaDimenDataRestrict");
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSetDaDimenDataRestrict").getData().cancel();
+            view.get("#addDialogDaDimenDataRestrict").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormDaDimenDataRestrict">
+          <Property name="dataType">dataTypeDaDimenDataRestrict</Property>
+          <Property name="dataSet">dataSetDaDimenDataRestrict</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                  <Property name="name">dimenDataId</Property>
+          <Property name="property">dimenDataId</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.dimenDataId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">id</Property>
+          <Property name="property">id</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.id"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">parentRestrictId</Property>
+          <Property name="property">parentRestrictId</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.parentRestrictId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">restrictType</Property>
+          <Property name="property">restrictType</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">tableAuthId</Property>
+          <Property name="property">tableAuthId</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict.tableAuthId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+            </AutoForm>
+    </Children>
+    <Tools/>
+    </Dialog>
+
+   <Dialog id="lookdialogDaDimenDataRestrict">
+      <ClientEvent name="onClose">
+        view.get("#dataSetDaDimenDataRestrict").getData().cancel();
+	    view.get("#lookdialogDaDimenDataRestrict").hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormDaDimenDataRestrict">
+          <Property name="dataType">dataTypeDaDimenDataRestrict</Property>
+          <Property name="dataSet">dataSetDaDimenDataRestrict</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+
+											    <AjaxAction id="checkPermissionAction">
+        <Property name="service">daDimenDataRestrictAction#checkUpdDelPermission</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdMdDepend">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">依赖关系ID</Property>
+      </PropertyDef>
+      <PropertyDef name="mdId">
+        <Property name="dataType">String</Property>
+        <Property name="label">元数据ID</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmId">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型ID</Property>
+      </PropertyDef>
+      <PropertyDef name="dMdId">
+        <Property name="dataType">String</Property>
+        <Property name="label">依赖元数据ID</Property>
+      </PropertyDef>
+      <PropertyDef name="dependType">
+        <Property name="dataType">String</Property>
+        <Property name="label">依赖关系类型</Property>
+      </PropertyDef>
+      <PropertyDef name="dependDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">依赖关系描述</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改人</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdMdDepend">
+      <ClientEvent name="onReady">var mdId=&quot;${request.getParameter('mdId')}&quot;;
+if(mdId!=&quot;&quot;||mdId.length!=0){
+	parm={mdId:mdId};
+}
+self.set(&quot;parameter&quot;,parm).flushAsync();</ClientEvent>
+      <Property name="dataProvider">mdMdDependAction#findMdMdDepends</Property>
+      <Property name="dataType">[dataTypeMdMdDepend]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdMdDepend">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdMdDepend]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">view.get(&quot;#dataSetMdMdDepend&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetMdMdDepend&quot;).getData(&quot;#&quot;)).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdMdDepend.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdMdDependQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdMdDepend</Property>
+            <Property name="dataType">dataTypeMdMdDepend</Property>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdId</Property>
+              <Property name="property">mdId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmId</Property>
+              <Property name="property">mdmId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dMdId</Property>
+              <Property name="property">dMdId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dependType</Property>
+              <Property name="property">dependType</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dependDesc</Property>
+              <Property name="property">dependDesc</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdMdDepend" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var mdId=&quot;${request.getParameter('mdId')}&quot;;//从url中获取元数据id
+var mdmId=&quot;${request.getParameter('mdmId')}&quot;;//从url中获取元模型mdmId
+var dataSet = view.get(&quot;#dataSetMdMdDepend&quot;);
+var dialog = view.get(&quot;#MdDependDialog&quot;);
+var ajaxAction = view.get(&quot;#findMetaModelByModelIdAjaxAction&quot;);
+
+var ajaxActionCountMdmDepend = view.get(&quot;#countMdmDepend&quot;);
+ajaxActionCountMdmDepend.set(&quot;parameter&quot;,{mdmId:mdmId}).execute(function(result){
+	if(result == 0){
+		dorado.MessageBox.alert(&quot;请添加该元数据对应的元模型的依赖关系！&quot;);
+	}else{
+		var entitys = dataSet.getData();
+		var dmdIds=&quot;&quot;;//定义一个id串。
+		if(!entitys.isEmpty()){//判断对象是否为空集合，如果为非空
+				entitys.each(function(entity){//获取每个实体对象
+				dmdIds=dmdIds+entity.get(&quot;dMdId&quot;)+&quot;,&quot;;//将实体对象的元数据依赖id拼成字符串。
+			});
+			dmdIds=dmdIds.substring(0,dmdIds.length-1);
+		}
+		var path=&quot;${request.contextPath}/com.innofi.component.metadata.commons.view.TabControlMain.d?mdmId=&quot;+mdmId+&quot;&amp;dmdIds=&quot;+dmdIds+&quot;&amp;mdId=&quot;+mdId+&quot;&amp;lookStyle=depend&amp;randomId=&quot;+Math.random();
+		view.get(&quot;#MdDependIFrame&quot;).set(&quot;path&quot;,path)
+		dialog.show();
+		dataSet.set(&quot;readOnly&quot;,false);
+	}
+});
+</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdMdDepend&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdMdDepend&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="saveButton">
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdMdDependsAction&quot;);
+var dialog = view.get(&quot;#MdDependDialog&quot;);
+action.execute(function(){
+	action.set(&quot;successMessage&quot;,&quot;保存成功!&quot;);
+	dialog.hide();
+});
+         </ClientEvent>
+          <Property name="caption">保存</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdMdDepend" layoutConstraint="center">
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdMdDepend</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">false</Property>
+          <Property name="dataType">dataTypeMdMdDepend</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn>
+            <Property name="property">mdId</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="name">mdId</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">mdmId</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="name">mdmId</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">dMdId</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="name">dMdId</Property>
+          </DataColumn>
+          <DataColumn name="dependType">
+            <Property name="property">dependType</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="trigger">autoMappingDropDown1</Property>
+              </TextEditor>
+            </Editor>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdMdDepend</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdMdDependsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdMdDependAction#saveMdMdDepends</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdMdDepend</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="MdDependDialog">
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">80%</Property>
+      <Property name="caption">依赖关系添加</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#MdDependDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <IFrame id="MdDependIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="countMdmDepend">
+      <Property name="service">mdMdDependAction#countMdmDepend</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

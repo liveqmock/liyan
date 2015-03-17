@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeEntity">
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdEntityObject</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.class')}</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.className')}</Property>
+      </PropertyDef>
+      <PropertyDef name="objPath">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.classPath')}</Property>
+      </PropertyDef>
+      <PropertyDef name="interFace">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.intf')}</Property>
+      </PropertyDef>
+      <PropertyDef name="interFaceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.intfName')}</Property>
+      </PropertyDef>
+      <PropertyDef name="objType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.classType')}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSet3">
+      <Property name="dataType">[dataTypeEntity]</Property>
+      <Property name="dataProvider">sysServiceBeanConfigAction#findEntity</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">${messageUtil.getMessage('webservice.query')}</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">&#xD;
+var autoform = view.get(&quot;#entityAutoform&quot;);&#xD;
+var condition = autoform.get(&quot;entity&quot;);&#xD;
+var dataset = view.get(&quot;#dataSet3&quot;);&#xD;
+dataset.set(&quot;parameter&quot;,condition);&#xD;
+dataset.flush();&#xD;
+&#xD;
+</ClientEvent>
+            <Property name="caption">${messageUtil.getMessage('webservice.query')}</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="entityAutoform">
+            <Property name="cols">*</Property>
+            <AutoFormElement id="beanName">
+              <Property name="name">beanName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="label">类名称</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <DataGrid layoutConstraint="center">
+        <ClientEvent name="onDataRowClick">var entity = view.get(&quot;#dataSet3&quot;).getData(&quot;#.objPath&quot;);&#xD;
+//var json = JSON.stringify(entity);&#xD;
+var dropdown = parent.$id(&quot;${request.getParameter(&quot;dropdown&quot;)}&quot;);&#xD;
+if(dropdown){&#xD;
+	dropdown.invoke(&quot;close&quot;,entity);&#xD;
+}</ClientEvent>
+        <Property name="dataSet">dataSet3</Property>
+        <DataColumn name="objName">
+          <Property name="property">objName</Property>
+          <Property name="readOnly">true</Property>
+        </DataColumn>
+        <DataColumn name="objPath">
+          <Property name="property">objPath</Property>
+          <Property name="readOnly">true</Property>
+        </DataColumn>
+      </DataGrid>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSet3</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+  </View>
+</ViewConfig>

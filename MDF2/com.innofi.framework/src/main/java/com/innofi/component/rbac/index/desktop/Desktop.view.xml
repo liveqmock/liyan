@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View id="desktopApp" listener="spring:desktopViewListener#onViewInit">
+    <ClientEvent name="onReady">window.showJobTodo=function(jobTodo){
+	var appConfig={
+		id:jobTodo.get(&quot;id&quot;),
+		$type:&quot;IFrame&quot;,
+		caption:jobTodo.get(&quot;jobTodoName&quot;),
+		icon32:&quot;>icons/32/text_rich.png&quot;,
+		icon16:&quot;>icons/text_rich.png&quot;,
+		path:jobTodo.get(&quot;gotoUrl&quot;),
+		width:&quot;90%&quot;,
+		height:&quot;90%&quot;,
+		center:true
+	}
+	var shell = view.get('#shell');
+	shell.registerApp(appConfig,true);
+	shell.launchApp(jobTodo.get(&quot;id&quot;));
+}
+
+window.setMainWindowCation=function(caption,parentMenuId){
+	var shell = view.get('#shell');
+	var app = shell.getInstance(parentMenuId);
+	if(caption&amp;&amp;app){
+		var appCaption = app.get('caption');
+		var proceedCaption = &quot;&quot;;
+		if(appCaption.indexOf(&quot;->&quot;)!=-1){
+			proceedCaption = appCaption.substring(0,appCaption.indexOf(&quot;->&quot;))+&quot;->&quot;+caption;;
+		}else{
+			proceedCaption = appCaption+&quot;->&quot;+caption;
+		}
+		app.set('caption',proceedCaption);	
+	}
+}
+
+window.showHelpIntro=function (){
+	var helpInTro = view.get('#helpIntro');
+	helpInTro.start();
+}
+
+
+</ClientEvent>
+    <ClientEvent name="onCreate">if('${param[&quot;isFullScreen&quot;]}'=='true'&amp;&amp;'${param[&quot;opened&quot;]}'!='true'){
+	window.open('com.innofi.component.rbac.index.desktop.Desktop.d?clientWidth=${param[&quot;clientWidth&quot;]}&amp;clientHeight=${param[&quot;clientHeight&quot;]}&amp;opened=true',null,'fullscreen=yes');
+	window.close();
+}</ClientEvent>
+    <Property name="title">工作桌面</Property>
+    <Property name="tags">index</Property>
+    <Property name="pageUri">/WEB-INF/jsp/desktop.jsp</Property>
+    <Container id="leftContainer">
+      <Property name="height">800</Property>
+      <Property name="width">80</Property>
+      <Property name="style">
+        <Property name="background">url(${request.getContextPath()}/icons/new/v-background.png)</Property>
+      </Property>
+      <BlockView id="leftMenuBlockView" dragTags="block" droppableTags="block" fillLine="true">
+        <ClientEvent name="onCreate">self.set(&quot;renderer&quot;, new dorado.widget.blockview.ImageBlockRenderer({ captionProperty: &quot;name&quot; }));
+			</ClientEvent>
+        <ClientEvent name="onBlockClick">alert(arg.data.id);&#xD;
+</ClientEvent>
+        <Property name="blockHeight">65</Property>
+        <Property name="lineSize">1</Property>
+        <Property name="draggable">false</Property>
+        <Property name="droppable">false</Property>
+        <Property name="width">80</Property>
+        <Property name="height">100%</Property>
+        <Property name="horiPadding">0</Property>
+        <Property name="vertPadding">65</Property>
+        <Property name="vertSpacing">0</Property>
+        <Property name="style">
+          <Property name="background">url(${request.getContextPath()}/icons/new/v-background.png)</Property>
+        </Property>
+      </BlockView>
+    </Container>
+    <Shell id="shell">
+      <ClientEvent name="onReady">self.launchApp('jobTodoApp');</ClientEvent>
+      <Property name="wallpaper">${sys.getString(&quot;mdf.detektop.wallIcon&quot;,&quot;>icons/center.png&quot;)}</Property>
+      <Property name="height">713</Property>
+      <Property name="width">100%</Property>
+      <Property name="renderTo">#desktop</Property>
+      <DesktopCarousel id="desCar">
+        <ClientEvent name="onShortcutContextMenu" signature="arg, menus">menus.show({ event: arg.event });		</ClientEvent>
+      </DesktopCarousel>
+      <Apps>
+        <IFrameApp>
+          <Property name="icon16">>icons/workstation1.png</Property>
+          <Property name="caption">我的工作台</Property>
+          <Property name="id">jobTodoApp</Property>
+          <Property name="path">com.innofi.component.rbac.workspace.Workspace.d</Property>
+          <Property name="top">30</Property>
+          <Property name="left">240</Property>
+          <Property name="showTaskButton">true</Property>
+          <Property name="maximizeable">false</Property>
+          <Dialog>
+            <Buttons/>
+            <Children/>
+            <Tools/>
+          </Dialog>
+        </IFrameApp>
+      </Apps>
+      <Taskbar id="taskBar">
+        <ClientEvent name="onTaskButtonContextMenu">menut.show({event: arg.event, direction: &quot;b2t&quot;});</ClientEvent>
+        <Property name="timeLabelFormat">Y-m-d H:i</Property>
+        <Property name="renderTo">#taskBar</Property>
+        <Property name="showTimeLabel">false</Property>
+        <QuickButtons/>
+        <StartButton>
+          <SimpleButton>
+            <ClientEvent name="onClick" signature="self, startMenuPanel">startMenuPanel.addListener(&quot;onShow&quot;, function() {
+	self.set(&quot;toggled&quot;, true);
+}, {once: true});
+startMenuPanel.addListener(&quot;onHide&quot;, function() {
+	self.set(&quot;toggled&quot;, false);
+}, {once: true});
+
+startMenuPanel.show({
+	anchorTarget: self,
+	vAlign: &quot;bottom&quot;,
+	align: &quot;innerleft&quot;,
+	positionOffset: [0, 8]
+});
+						</ClientEvent>
+            <Property name="className">start-button</Property>
+          </SimpleButton>
+        </StartButton>
+      </Taskbar>
+    </Shell>
+    <FloatContainer id="startMenuPanel" layout="padding:0" layoutConstraint="padding:0">
+      <ClientEvent name="onBlur">self.hide();
+			</ClientEvent>
+      <Property name="width">280</Property>
+      <Property name="height">300</Property>
+      <Property name="animateType">fade</Property>
+      <Property name="style">
+        <Property name="position">absolute</Property>
+      </Property>
+      <Property name="contentOverflow">hidden</Property>
+      <Panel>
+        <Property name="exClassName">start-menu-panel</Property>
+        <Property name="icon">>icons/user_suit.png</Property>
+        <Property name="caption">${ctx[&quot;user&quot;].userName},您好！</Property>
+        <Children>
+          <Container layout="padding:0;regionPadding:0">
+            <Property name="height">270</Property>
+            <Menu id="rightMenu">
+              <ClientEvent name="onContextMenu" signature="self, arg, menu">if (!self.get(&quot;focusItem&quot;) || (self.get(&quot;focusItem&quot;) &amp;&amp; self.get(&quot;focusItem&quot;).hasSubmenu())) {
+	return;
+}
+
+self.freeze();
+menu.set(&quot;focusParent&quot;, self);
+menu.show({ event: arg.event });
+menu.addListener(&quot;onHide&quot;, function() {
+	self.unfreeze();
+}, { once: true });
+						</ClientEvent>
+              <Property name="exClassName">right-menu</Property>
+              <Property name="visible">true</Property>
+              <Property name="floating">false</Property>
+            </Menu>
+            <Menu id="leftMenu" layoutConstraint="right ">
+              <Property name="exClassName">left-menu</Property>
+              <Property name="visible">true</Property>
+              <Property name="floating">false</Property>
+              <MenuItem>
+                <ClientEvent name="onClick">var settingDialog = view.get('#settingDialog');
+settingDialog.show();</ClientEvent>
+                <Property name="caption">个人信息维护</Property>
+                <Property name="icon">>icons/group_gear.png</Property>
+              </MenuItem>
+              <Separator/>
+              <MenuItem>
+                <ClientEvent name="onClick">window.location.href='loginAction.logout.c';</ClientEvent>
+                <Property name="caption">退出</Property>
+                <Property name="icon">>icons/c7-16.png</Property>
+              </MenuItem>
+            </Menu>
+          </Container>
+        </Children>
+      </Panel>
+    </FloatContainer>
+    <Menu id="menu">
+      <MenuItem>
+        <ClientEvent name="onClick" signature="self, shell">var shell = this.id(&quot;shell&quot;);
+var menu = self.get(&quot;parent&quot;).get(&quot;focusParent&quot;);
+var focusItem = menu.get(&quot;focusItem&quot;);
+shell.getCurrentDesktop().addItem({ caption: focusItem.get(&quot;caption&quot;) });</ClientEvent>
+        <Property name="caption">发送到桌面</Property>
+      </MenuItem>
+    </Menu>
+    <Menu id="menut">
+      <MenuItem>
+        <ClientEvent name="onClick" signature="shell">var taskbar = shell.get(&quot;taskbar&quot;);
+var contextMenuTaskButton = taskbar.get(&quot;contextMenuTaskButton&quot;);
+if (contextMenuTaskButton &amp;&amp; contextMenuTaskButton.get(&quot;app&quot;)) {
+	contextMenuTaskButton.get(&quot;app&quot;).close();
+}
+				</ClientEvent>
+        <Property name="caption">关闭</Property>
+        <Property name="icon">>icons/cancel.png</Property>
+      </MenuItem>
+    </Menu>
+    <Menu id="menus">
+      <MenuItem>
+        <ClientEvent name="onClick" signature="shell">var desktop = shell.getCurrentDesktop(),
+shortcut = desktop.get(&quot;contextMenuShortcut&quot;);
+shell.launchApp(shortcut.get(&quot;appId&quot;));</ClientEvent>
+        <Property name="caption">运行</Property>
+        <Property name="icon">>icons/application_go.png</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick" signature="shell">var desktop = shell.getCurrentDesktop(),
+shortcut = desktop.get(&quot;contextMenuShortcut&quot;);
+desktop.removeItem(shortcut);
+				</ClientEvent>
+        <Property name="caption">删除</Property>
+        <Property name="icon">>icons/application_delete.png</Property>
+      </MenuItem>
+    </Menu>
+    <Dialog id="settingDialog">
+      <Property name="caption">设置</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons/>
+      <Children>
+        <SubViewHolder id="settingFrame">
+          <Property name="subView">com.innofi.component.rbac.index.Setting</Property>
+        </SubViewHolder>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Intro id="helpIntro">
+      <ClientEvent name="onReady">setTimeout(function(){&#xD;
+	var steps = [{&#xD;
+		element : $(&quot;#userInfo&quot;),&#xD;
+	  	intro : &quot;&lt;h4 style='color:orangered'>用户信息栏&lt;/h4>&quot;+&#xD;
+				&quot;&lt;p>此区域显示:&lt;/p>&lt;ul>&lt;li>登录用户姓名&lt;/li>&quot;+&#xD;
+				&quot;&lt;li>&lt;span style='line-height:1.5;'>客户端本地时间&lt;/span>&lt;span style='line-height:1.2;'>&lt;/span>&lt;/li>&lt;/ul>&quot;+&#xD;
+				&quot;&lt;span style='line-height:1.2;'>&lt;/span>&lt;span style='line-height:1.2;'>单击“姓名”超链接，将打开个人信息维护界面。&lt;/span>&lt;span style='line-height:1.2;'>&lt;br />&lt;/span>&lt;br />&quot;+&#xD;
+				&quot;&lt;p>&lt;br />&lt;/p>&lt;h4 style='color:orangered'>帮助操作快捷键介绍&lt;/h4>&lt;ul>&lt;li>Esc--退出帮助文档。&lt;/li>&lt;li>&amp;rarr;--下一步。&lt;/li>&lt;li>&amp;larr;--上一步。&lt;/li>&lt;/ul>&quot;,&#xD;
+	  	name:'step1'&#xD;
+	},{&#xD;
+		element : $(&quot;li.paworkspace&quot;),&#xD;
+	  	intro : &quot;&lt;h4 style='color:orangered'>菜单栏&lt;/h4>&quot;+&#xD;
+				&quot;&lt;p>单击“图标”，可打开相应功能.&lt;/p>&quot;+&#xD;
+				&quot;&lt;p>&lt;br />&lt;/p>&lt;h4 style='color:orangered'>帮助操作快捷键介绍&lt;/h4>&lt;ul>&lt;li>Esc--退出帮助文档。&lt;/li>&lt;li>&amp;rarr;--下一步。&lt;/li>&lt;li>&amp;larr;--上一步。&lt;/li>&lt;/ul>&quot;,&#xD;
+	  	name:'step2'&#xD;
+	},{&#xD;
+		element : $(&quot;div.start-button&quot;),&#xD;
+		intro : &quot;&lt;h4 style='color:orangered'>开始菜单&lt;/h4>&quot;+&#xD;
+				&quot;&lt;p>单击“菜单中左侧图标”，可实现工作桌面切换.&lt;/p>&lt;p>单击“菜单中右侧图标”，可打开相应功能.&lt;/p>&quot;+&#xD;
+				&quot;&lt;p>&lt;br />&lt;/p>&lt;h4 style='color:orangered'>帮助操作快捷键介绍&lt;/h4>&lt;ul>&lt;li>Esc--退出帮助文档。&lt;/li>&lt;li>&amp;rarr;--下一步。&lt;/li>&lt;li>&amp;larr;--上一步。&lt;/li>&lt;/ul>&quot;,&#xD;
+	  	name:'step3'&#xD;
+	},{&#xD;
+		element : $(&quot;div.task-buttons&quot;),&#xD;
+		intro : &quot;&lt;h4 style='color:orangered'>任务栏&lt;/h4>&quot;+&#xD;
+				&quot;&lt;p>已经打开的应用会在这里显示，单击任务窗框，可实现窗口切换.&lt;/p>&quot;+&#xD;
+				&quot;&lt;p>&lt;br />&lt;/p>&lt;h4 style='color:orangered'>帮助操作快捷键介绍&lt;/h4>&lt;ul>&lt;li>Esc--退出帮助文档。&lt;/li>&lt;li>&amp;rarr;--下一步。&lt;/li>&lt;li>&amp;larr;--上一步。&lt;/li>&lt;/ul>&quot;,&#xD;
+	  	name:'step4'&#xD;
+	},{&#xD;
+		&#xD;
+	},{&#xD;
+		element : $(&quot;span.switch-button&quot;)[0],&#xD;
+	  	intro : &quot;&lt;h4 style='color:orangered'>桌面切换按钮&lt;/h4>&quot;+&#xD;
+				&quot;&lt;p>鼠标停留在按钮上会显示桌面信息.&lt;/p>&lt;p>单击“按钮”，可实现桌面切换。&lt;/p>&quot;+&#xD;
+				&quot;&lt;p>&lt;br />&lt;/p>&lt;h4 style='color:orangered'>帮助操作快捷键介绍&lt;/h4>&lt;ul>&lt;li>Esc--退出帮助文档。&lt;/li>&lt;li>&amp;rarr;--下一步。&lt;/li>&lt;li>&amp;larr;--上一步。&lt;/li>&lt;/ul>&quot;,&#xD;
+	  	name:'step5'	&#xD;
+	},{&#xD;
+	  	element : $(&quot;div.shortcut&quot;)[0],&#xD;
+		intro : &quot;&lt;h4 style='color:orangered'>桌面图标&lt;/h4>&quot;+&#xD;
+				&quot;&lt;p>每个图标对应系统中一个功能，单击“图标”，可打开对应功能.&lt;/p>&quot;+&#xD;
+				&quot;&lt;p>&lt;br />&lt;/p>&lt;h4 style='color:orangered'>帮助操作快捷键介绍&lt;/h4>&lt;ul>&lt;li>Esc--退出帮助文档。&lt;/li>&lt;li>&amp;rarr;--下一步。&lt;/li>&lt;li>&amp;larr;--上一步。&lt;/li>&lt;/ul>&quot;,&#xD;
+	  	name:'step6'		&#xD;
+	}];&#xD;
+	self.set('steps',steps);&#xD;
+},500);</ClientEvent>
+      <Property name="skipLabel">退出</Property>
+      <Property name="doneLabel">完成</Property>
+      <Property name="nextLabel">下一步</Property>
+      <Property name="prevLabel">上一步</Property>
+      <Property name="showPrevButton">false</Property>
+      <Property name="showSkipButton">false</Property>
+      <Property name="showNextButton">false</Property>
+    </Intro>
+  </View>
+</ViewConfig>

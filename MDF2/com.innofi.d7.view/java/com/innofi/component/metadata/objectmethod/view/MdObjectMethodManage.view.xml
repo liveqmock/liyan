@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdObjectMethod">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象ID</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象名</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法名</Property>
+      </PropertyDef>
+      <PropertyDef name="methodDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法描述</Property>
+      </PropertyDef>
+      <PropertyDef name="methodParameter">
+        <Property name="dataType">String</Property>
+        <Property name="label">参数</Property>
+      </PropertyDef>
+      <PropertyDef name="methodOprType">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法操作类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;OPER_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="methodReturn">
+        <Property name="dataType">String</Property>
+        <Property name="label">返回类型</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdObjectMethod">
+      <ClientEvent name="onReady">var lookStyle=&quot;${request.getParameter('lookStyle')}&quot;;
+var mdId=&quot;${request.getParameter('mdId')}&quot;;
+if(lookStyle ==&quot;look&quot;){
+	parm={objId:mdId};
+	self.set(&quot;parameter&quot;, parm).flushAsync();
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;visible&quot;,false);
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;hideMode&quot;,&quot;display&quot;);
+}</ClientEvent>
+      <Property name="dataProvider">mdObjectMethodAction#findMdObjectMethods</Property>
+      <Property name="dataType">[dataTypeMdObjectMethod]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdObjectMethod">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdObjectMethod]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet id="queryFieldSet" layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+view.get(&quot;#dataSetMdObjectMethod&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetMdObjectMethod&quot;).getData(&quot;#&quot;)).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdObjectMethod.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdObjectMethodQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdObjectMethod</Property>
+            <Property name="dataType">dataTypeMdObjectMethod</Property>
+            <AutoFormElement>
+              <Property name="name">methodName</Property>
+              <Property name="property">methodName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">methodParameter</Property>
+              <Property name="property">methodParameter</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">methodOprType</Property>
+              <Property name="property">methodOprType</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">methodReturn</Property>
+              <Property name="property">methodReturn</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">methodDesc</Property>
+              <Property name="property">methodDesc</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdObjectMethod" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdObjectMethod&quot;);
+var dialog = view.get(&quot;#addMdObjectMethodDialog&quot;);
+	dataSet.set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetMdObjectMethod.data&quot;).insert();
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdObjectMethod&quot;);
+var dialog = view.get(&quot;#updateMdObjectMethodDialog&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdObjectMethod&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdObjectMethod&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdObjectMethod&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveMdObjectMethodsAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdObjectMethod&quot;);
+var selection = view.get(&quot;#dataGridMdObjectMethod&quot;).get(&quot;selection&quot;);
+var mdmId=&quot;${request.getParameter('mdmId')}&quot;;
+var dialog = view.get(&quot;#lookDialog&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData(&quot;#&quot;);
+	var iframe = view.get(&quot;#lookIframe&quot;);
+	var path = &quot;${request.contextPath}/com.innofi.component.metadata.commons.view.TabControlMain.d?mdmId=&quot;+mdmId+&quot;&amp;mdId=&quot;+entity.get(&quot;id&quot;)+&quot;&amp;lookStyle=look&amp;randomId=&quot;+Math.random();
+		iframe.set(&quot;path&quot;,path);
+	dialog.show();
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdObjectMethod" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdObjectMethod</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdObjectMethod</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn>
+            <Property name="property">methodName</Property>
+            <Property name="name">methodName</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">objName</Property>
+            <Property name="name">objName</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn name="methodOprType">
+            <Property name="property">methodOprType</Property>
+          </DataColumn>
+          <DataColumn name="methodParameter">
+            <Property name="property">methodParameter</Property>
+          </DataColumn>
+          <DataColumn name="methodDesc">
+            <Property name="property">methodDesc</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdObjectMethod</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdObjectMethodsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdObjectMethodAction#saveMdObjectMethods</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdObjectMethod</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdObjectMethodDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdObjectMethod&quot;).getData().cancel();
+view.get(&quot;#updateMdObjectMethodDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdObjectMethodsAction&quot;);
+var dialog = view.get(&quot;#updateMdObjectMethodDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdObjectMethod&quot;).getData().cancel();
+view.get(&quot;#updateMdObjectMethodDialog&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormMdObjectMethod">
+          <Property name="dataType">dataTypeMdObjectMethod</Property>
+          <Property name="dataSet">dataSetMdObjectMethod</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">methodName</Property>
+            <Property name="property">methodName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodParameter</Property>
+            <Property name="property">methodParameter</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodReturn</Property>
+            <Property name="property">methodReturn</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodOprType</Property>
+            <Property name="property">methodOprType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodDesc</Property>
+            <Property name="property">methodDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdObjectMethodDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdObjectMethod&quot;).getData().cancel();
+view.get(&quot;#addMdObjectMethodDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdObjectMethodsAction&quot;);
+var dialog = view.get(&quot;#addMdObjectMethodDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdObjectMethod&quot;).getData().cancel();
+view.get(&quot;#addMdObjectMethodDialog&quot;).hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormMdObjectMethod">
+          <Property name="dataType">dataTypeMdObjectMethod</Property>
+          <Property name="dataSet">dataSetMdObjectMethod</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">objId</Property>
+            <Property name="property">objId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodName</Property>
+            <Property name="property">methodName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodDesc</Property>
+            <Property name="property">methodDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodParameter</Property>
+            <Property name="property">methodParameter</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodOprType</Property>
+            <Property name="property">methodOprType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodReturn</Property>
+            <Property name="property">methodReturn</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdObjectMethodDialog">
+      <ClientEvent name="onClose">view.get(&quot;#lookMdObjectMethodDialog&quot;).hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#lookMdObjectMethodDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="lookFormMdObjectMethod">
+          <Property name="dataType">dataTypeMdObjectMethod</Property>
+          <Property name="dataSet">dataSetMdObjectMethod</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objId</Property>
+            <Property name="property">objId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodName</Property>
+            <Property name="property">methodName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodDesc</Property>
+            <Property name="property">methodDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodParameter</Property>
+            <Property name="property">methodParameter</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodOprType</Property>
+            <Property name="property">methodOprType</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">methodReturn</Property>
+            <Property name="property">methodReturn</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <Button id="WfProcessButton">
+      <ClientEvent name="onClick">var businessId = view.get(&quot;#${acomp.prop('businessObjectDataSet')}&quot;).getData('#.id');&#xD;
+var entitys = view.get(&quot;#${acomp.prop('businessObjectDataSet')}&quot;).getData();&#xD;
+var selection = view.get(&quot;#${acomp.prop('businessObjectDataGrid')}&quot;).get(&quot;selection&quot;);&#xD;
+var action = new dorado.widget.AjaxAction({service:&quot;wfProcessAction#checkOperPermission&quot;,async:false});&#xD;
+if(selection.length==0){&#xD;
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if(selection.length>1){&#xD;
+	var idValueStr = '';&#xD;
+	var statusEq = true;&#xD;
+	var busiStatus = '';&#xD;
+	jQuery.each(selection,function(i,item){&#xD;
+		idValueStr += item.get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		if(!busiStatus){&#xD;
+			busiStatus = item.get(&quot;${acomp.prop('statusField')}&quot;);&#xD;
+		}else if(busiStatus!=item.get(&quot;${acomp.prop('statusField')}&quot;)){&#xD;
+			statusEq = false;	&#xD;
+		}&#xD;
+	});&#xD;
+	if(statusEq){&#xD;
+		idValueStr = idValueStr.substring(0,idValueStr.length-1);&#xD;
+		action.set('parameter',{moduleCode:&quot;${acomp.prop('moduleCode')}&quot;,businessObjectId:idValueStr});&#xD;
+		if(!&quot;${acomp.prop('viewPath')}&quot;){&#xD;
+			throw new dorado.Exception(&quot;请定义wfProcessButton[viewPath]属性!&quot;);&#xD;
+		}&#xD;
+		action.execute(function(result){&#xD;
+			if(result=='1'){&#xD;
+				var path = 'com.innofi.component.sie.view.WfProcessManage.d?'+&#xD;
+				'id='+idValueStr+&#xD;
+				'&amp;moduleCode='+&quot;${acomp.prop('moduleCode')}&quot;+&#xD;
+				'&amp;dataset='+&quot;${acomp.prop('businessObjectDataSet')}&quot;+&#xD;
+				'&amp;viewPath='+&quot;${acomp.prop('viewPath')}&quot;+&#xD;
+				'&amp;dataControlGroupId='+&quot;${acomp.prop('dataControlGroupId')}&quot;+&#xD;
+				'&amp;updateAutoFormId='+&quot;${acomp.prop('updateAutoFormId')}&quot;+&#xD;
+				'&amp;dialogId='+&quot;${acomp.prop('WfProcessDialogId')}&quot;+&#xD;
+				'&amp;statusField='+&quot;${acomp.prop('statusField')}&quot;+&#xD;
+				'&amp;nodeNameField='+&quot;${acomp.prop('nodeNameField')}&quot;;&#xD;
+				view.get(&quot;#${acomp.prop('WfProcessIFrameId')}&quot;).set('path',path);&#xD;
+				view.get(&quot;#${acomp.prop('WfProcessDialogId')}&quot;).show();	&#xD;
+				view.get('#wfProcessCommit').set('visible',true);&#xD;
+			}else if(result=='0'){&#xD;
+				dorado.MessageBox.alert(&quot;多条记录中存在无权限处理记录，请重新选择!&quot;);&#xD;
+			}else{&#xD;
+				dorado.MessageBox.alert(&quot;已审批的记录只能单条进行查看！&quot;);		&#xD;
+			}&#xD;
+		});&#xD;
+	}else{&#xD;
+		dorado.MessageBox.alert(&quot;只能选择状态一致的多条记录，进行批量操作，请重新选择！&quot;);	&#xD;
+	}    &#xD;
+}else if (selection.length == 1) {&#xD;
+	view.get(&quot;#${acomp.prop('businessObjectDataSet')}&quot;).getData().setCurrent(selection[0]);&#xD;
+	var idValue = view.get(&quot;#${acomp.prop('businessObjectDataSet')}&quot;).getData(&quot;#.id&quot;);&#xD;
+	var action = new dorado.widget.AjaxAction({service:&quot;wfProcessAction#checkOperPermission&quot;,async:false});&#xD;
+	action.set('parameter',{moduleCode:&quot;${acomp.prop('moduleCode')}&quot;,businessObjectId:idValue});&#xD;
+	if(!&quot;${acomp.prop('viewPath')}&quot;){&#xD;
+		throw new dorado.Exception(&quot;请定义wfProcessButton[viewPath]属性!&quot;);&#xD;
+	}&#xD;
+	action.execute(function(result){&#xD;
+		if(result=='1'){&#xD;
+			var path = 'com.innofi.component.sie.view.WfProcessManage.d?'+&#xD;
+			'id='+idValue+&#xD;
+			'&amp;moduleCode='+&quot;${acomp.prop('moduleCode')}&quot;+&#xD;
+			'&amp;dataset='+&quot;${acomp.prop('businessObjectDataSet')}&quot;+&#xD;
+			'&amp;viewPath='+&quot;${acomp.prop('viewPath')}&quot;+&#xD;
+			'&amp;dataControlGroupId='+&quot;${acomp.prop('dataControlGroupId')}&quot;+&#xD;
+			'&amp;updateAutoFormId='+&quot;${acomp.prop('updateAutoFormId')}&quot;+&#xD;
+			'&amp;dialogId='+&quot;${acomp.prop('WfProcessDialogId')}&quot;+&#xD;
+			'&amp;statusField='+&quot;${acomp.prop('statusField')}&quot;+&#xD;
+			'&amp;nodeNameField='+&quot;${acomp.prop('nodeNameField')}&quot;;&#xD;
+			view.get(&quot;#${acomp.prop('WfProcessIFrameId')}&quot;).set('path',path);&#xD;
+			view.get(&quot;#${acomp.prop('WfProcessDialogId')}&quot;).show();	&#xD;
+			view.get('#wfProcessCommit').set('visible',true);&#xD;
+		}else if(result=='0'){&#xD;
+			dorado.MessageBox.alert(&quot;您没有权限处理这条记录!&quot;);&#xD;
+		}else{&#xD;
+			var path = 'com.innofi.component.sie.view.WfProcessManage.d?'+&#xD;
+			'id='+idValue+&#xD;
+			'&amp;moduleCode='+&quot;${acomp.prop('moduleCode')}&quot;+&#xD;
+			'&amp;dataset='+&quot;${acomp.prop('businessObjectDataSet')}&quot;+&#xD;
+			'&amp;viewPath='+&quot;${acomp.prop('viewPath')}&quot;+&#xD;
+			'&amp;dataControlGroupId='+&quot;${acomp.prop('dataControlGroupId')}&quot;+&#xD;
+			'&amp;updateAutoFormId='+&quot;${acomp.prop('updateAutoFormId')}&quot;+&#xD;
+			'&amp;dialogId='+&quot;${acomp.prop('WfProcessDialogId')}&quot;+&#xD;
+			'&amp;statusField='+&quot;${acomp.prop('statusField')}&quot;+&#xD;
+			'&amp;nodeNameField='+&quot;${acomp.prop('nodeNameField')}&quot;+&#xD;
+			'&amp;readOnly=true';&#xD;
+			view.get(&quot;#${acomp.prop('WfProcessIFrameId')}&quot;).set('path',path);&#xD;
+			view.get(&quot;#${acomp.prop('WfProcessDialogId')}&quot;).show();	&#xD;
+			view.get('#wfProcessCommit').set('visible',false);&#xD;
+		}&#xD;
+	});&#xD;
+}</ClientEvent>
+      <Property name="caption">业务处理</Property>
+      <Property name="icon">>icons/businessman_find.png</Property>
+    </Button>
+    <Dialog id="WfProcessDialog">
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="caption">业务处理</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Buttons>
+        <Button id="wfProcessCommit">
+          <ClientEvent name="onClick">view.get(&quot;#${acomp.prop('WfProcessIFrameId')}&quot;).getIFrameWindow().commitProcess();</ClientEvent>
+          <Property name="caption">确 定</Property>
+        </Button>
+        <Button id="wfProcessCancel">
+          <ClientEvent name="onClick">self.get('parent').hide();</ClientEvent>
+          <Property name="caption">取 消</Property>
+        </Button>
+      </Buttons>
+      <Children/>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="checkOperPermission">
+      <Property name="service">wfProcessAction#checkOperPermission</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

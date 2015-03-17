@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdObjectMethod">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象ID</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法名</Property>
+      </PropertyDef>
+      <PropertyDef name="methodDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法描述</Property>
+      </PropertyDef>
+      <PropertyDef name="methodParameter">
+        <Property name="dataType">String</Property>
+        <Property name="label">参数</Property>
+      </PropertyDef>
+      <PropertyDef name="methodOprType">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法操作类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("METHOD_OPR_TYPE")}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="methodReturn">
+        <Property name="dataType">String</Property>
+        <Property name="label">返回类型</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType meta="x:945;y:405" name="dataTypeMdObjectMethod">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdObjectMethod</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.id"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.objId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodDesc"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodParameter">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodParameter"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodOprType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodOprType"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("METHOD_OPR_TYPE")}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="methodReturn">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodReturn"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdObjectMethod">
+      <ClientEvent name="onReady">
+var objId="${request.getParameter('objId')}";
+parm={objId:objId};
+self.set("parameter", parm).flushAsync();
+</ClientEvent>
+      <Property name="dataProvider">mdObjectMethodAction#findServiceImplMethod</Property>
+      <Property name="dataType">[dataTypeMdObjectMethod]</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+      <Property name="loadMode">lazy</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdObjectMethod">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdObjectMethod]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet id="queryFieldSet" layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons/>
+        <Children>
+          <AutoForm id="autoFormMdObjectMethodQuery" layoutConstraint="center">
+            <Property name="cols">*,30</Property>
+            <Property name="dataSet">querydataSetMdObjectMethod</Property>
+            <Property name="dataType">dataTypeMdObjectMethod</Property>
+            <AutoFormElement>
+              <Property name="name">methodName</Property>
+              <Property name="property">methodName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <Button id="dictSingleListSearch">
+              <ClientEvent name="onClick">var objName=view.get("#querydataSetMdObjectMethod").getData("#").get("methodName");
+var objId="${request.getParameter('objId')}";
+parm={objId:objId,methodName:methodName};
+view.get("#dataSetMdObjectMethod").set("parameter", parm).flushAsync();
+</ClientEvent>
+              <Property name="caption">查询</Property>
+            </Button>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <Container>
+        <DataGrid id="dataGridMdObjectMethod" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">var entity = view.get("#dataSetMdObjectMethod").getData("#");
+var json = JSON.stringify(entity);
+var dropdown = parent.$id("${request.getParameter('dropdown')}");
+if(dropdown){
+	dropdown.invoke("close",json);
+}</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetMdTable").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdObjectMethod</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <DataColumn>
+            <Property name="property">methodName</Property>
+            <Property name="name">methodName</Property>
+          </DataColumn>
+          <DataColumn name="methodDesc">
+            <Property name="property">methodDesc</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdObjectMethod</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+  </View>
+</ViewConfig>

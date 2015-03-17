@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		
+	<bean id="mdf.pdfToSwfConverter" class="com.innofi.component.report.pdf.PdfToSwfConverter">
+	    <property name="pdfToSwfPath" value="${mdf.report.pdfToSwf}"></property>
+	    <property name="xpdfPath" value="${mdf.report.xpdfPath}"></property>
+    </bean>
+	
+	<!-- Builder -->
+	<bean id="bdf.jasperReportBuilder" class="com.innofi.component.report.jasper.JasperReportBuilder">
+	<!-- 
+		<property name="uploadService" ref="bdf.uploadService"/>
+		 -->
+		<property name="dataJasperPrintBuilder" ref="bdf.dataJasperPrintBuilder"/>
+		<property name="jdbcJasperPrintBuilder" ref="bdf.jdbcJasperPrintBuilder"/>
+		<property name="springBeanJasperPrintBuilder" ref="bdf.springBeanJasperPrintBuilder"/>
+	</bean>
+	
+	<bean id="bdf.dataJasperPrintBuilder" class="com.innofi.component.report.jasper.impl.DataJasperPrintBuilder"/>
+	<bean id="bdf.jdbcJasperPrintBuilder" class="com.innofi.component.report.jasper.impl.JdbcJasperPrintBuilder" />
+	<bean id="bdf.springBeanJasperPrintBuilder" class="com.innofi.component.report.jasper.impl.SpringBeanJasperPrintBuilder"/>
+	
+	<!-- Manager -->
+	<bean id="bdf.reportManager" class="com.innofi.component.report.manager.ReportManager" ></bean>
+	<bean id="bdf.reportJobManager" class="com.innofi.component.report.manager.ReportJobManager" />
+	<bean id="bdf.reportJobConfigManager" class="com.innofi.component.report.manager.ReportJobConfigManager" />
+	<bean id="bdf.reportMemberManager" class="com.innofi.component.report.manager.ReportMemberManager" >
+	<!-- 
+		<property name="frameworkService" ref="bdf.frameworkService"/>
+		<property name="groupService" ref="bdf.groupService"/>
+		 -->
+	</bean>
+	
+	<!-- Service -->
+	<bean id="bdf.reportService" class="com.innofi.component.report.service.ReportServiceImpl">
+		<property name="reportManager" ref="bdf.reportManager"/>
+		<property name="reportJobManager" ref="bdf.reportJobManager"/>
+		<property name="reportMemberManager" ref="bdf.reportMemberManager"/>
+		<property name="reportJobConfigManager" ref="bdf.reportJobConfigManager"/>
+		<!-- 
+		<property name="reportSecurityCenter" ref="bdf.reportSecurityCenter"/>
+		 -->
+		<property name="jasperReportBuilder" ref="bdf.jasperReportBuilder"/>
+<!--		<property name="variableService" ref="mdf.variableService"/>-->
+	</bean>
+	
+	<bean id="bdf.pdfFormGridReportService" class="com.innofi.component.report.pdf.service.impl.PdfFormGridReportServiceImpl" depends-on="mdf.contextHolder"/>
+	<bean id="bdf.pdfFormReportService" class="com.innofi.component.report.pdf.service.impl.PdfFormReportSerivceImpl" depends-on="mdf.contextHolder"/>
+	<bean id="bdf.pdfGridReportService" class="com.innofi.component.report.pdf.service.impl.PdfGridReportServiceImpl" depends-on="mdf.contextHolder"/>
+	
+	<!-- Report Security Center
+	<bean id="bdf.reportSecurityCenter" class="com.innofi.component.report.security.ReportSecurityCenter" depends-on="mdf.contextHolder,mdf.applicationCache">
+		<property name="applicationCache" ref="mdf.applicationCache"/>
+	</bean>
+	-->
+	<!-- Report Job Service And Listener
+	<bean id="bdf.reportJobService" class="com.innofi.component.report.job.impl.DefaultReportJobService">
+		<property name="reportService" ref="bdf.reportService"/>
+	</bean>
+	<bean class="com.innofi.component.report.job.impl.SendMailReportJobListener">
+		<property name="reportService" ref="bdf.reportService"/>
+		<property name="groupService" ref="bdf.groupService"/>
+		<property name="frameworkService" ref="bdf.frameworkService"/>
+		<property name="messageService" ref="bdf.messageService" />
+		<property name="preferenceService" ref="bdf.preferenceService"/>
+		<property name="messageTemplateService" ref="bdf.messageTemplateService"/>
+	</bean>
+	 -->
+	 
+	<!-- excel bean start -->
+	<bean id="bdf.defaultExcelProcessor" class="com.innofi.component.report.excel.processor.DefaultProcessor" >
+		<property name="excelModelManager" ref="bdf.excelModelManager"></property>
+	</bean>
+	<bean id="bdf.excelParser" class="com.innofi.component.report.excel.ExcelParser">
+		<property name="excelModelManager" ref="bdf.excelModelManager"></property>
+		<property name="sysCacheConfigService" ref="sysCacheConfigService" />
+	</bean>
+	<bean id="bdf.excelModelManager" class="com.innofi.component.report.excel.manager.ExcelModelManager" />
+	<bean id="bdf.cellFormatInterceptor" class="com.innofi.component.report.excel.interceptor.CellFormatInterceptor"/>
+	<bean id="bdf.exportExcelGridService" class="com.innofi.component.report.excel.service.ExportExcelGridServiceImpl"/>
+	<bean id="bdf.exportExcelFormService" class="com.innofi.component.report.excel.service.ExportExcelFormServiceImpl"/>
+	<bean id="bdf.exportExcelFormGridService" class="com.innofi.component.report.excel.service.ExportExcelFormGridServiceImpl"/>
+	<!-- excel bean end -->
+	
+	<!-- upload -->
+	<bean id="bdf.tempFilePersister" class="com.innofi.component.report.upload.impl.DefaultTempFilePersister"></bean>
+	
+	
+	
+	<!-- report d7 begin -->
+	<bean parent="dorado.dataConfigLoader"> <property name="configLocation" 
+		value="classpath:com/innofi/component/report/d7/models/*.model.xml"/> </bean>
+	<!-- controller -->
+	<bean id="bdf.reportController" class="com.innofi.component.report.d7.ReportController">
+	    <property name="tempFilePersister" ref="bdf.tempFilePersister"></property>
+	</bean>
+	
+	<bean id="bdf.viewManagerHelper" class="com.innofi.component.report.manager.ViewManagerHelper">
+		<property name="viewConfigManager" ref="dorado.viewConfigManager"/>
+		<property name="dataProviderManager" ref="dorado.dataProviderManager"/>
+		<property name="dataTypeManager" ref="dorado.dataTypeManager"/>
+		<property name="filterCriterionParser" ref="dorado.filterCriterionParser"/>
+	</bean>
+	
+	
+	<bean id="bdf.pdfReportController" class="com.innofi.component.report.d7.pdf.PdfReportController">
+		<property name="pdfToSwfConverter" ref="mdf.pdfToSwfConverter"/>
+		<property name="tempFilePersister" ref="bdf.tempFilePersister"/>
+		<property name="pdfFormReportService" ref="bdf.pdfFormReportService"/>
+		<property name="pdfGridReportService" ref="bdf.pdfGridReportService"/>
+		<property name="pdfFormGridReportService" ref="bdf.pdfFormGridReportService"/>
+		<property name="viewManagerHelper" ref="bdf.viewManagerHelper"/>
+		<property name="generator" ref="bdf.generateModels"/>
+	</bean>	
+	<bean id="bdf.generateModels" class="com.innofi.component.report.d7.online.GenerateModels">
+		<property name="viewManagerHelper" ref="bdf.viewManagerHelper"/>
+	</bean>
+	
+	<bean id="bdf.jasperReportsController" class="com.innofi.component.report.d7.jasper.JasperReportsController">
+		<property name="reportService" ref="bdf.reportService"/>
+		<property name="dataProviderManager" ref="dorado.dataProviderManager"/>
+		<property name="tempFilePersister" ref="bdf.tempFilePersister"></property>
+	</bean>
+	
+	<!-- Exception Interceptor -->
+	<bean class="com.innofi.component.report.d7.exception.ReportExceptionInterceptor">
+		<property name="accessDeniedPath" value="${bdf.report.accessDeniedPath}"/>
+	</bean>
+	
+	<!-- PR -->
+	<bean id="bdf.reportManagerPR" class="com.innofi.component.report.d7.ReportManagerPR">
+		<property name="reportService" ref="bdf.reportService"/>
+		<!-- 
+		<property name="enumService" ref="bdf.enumService"/>
+		 -->
+<!--		<property name="variableService" ref="mdf.variableService"/>-->
+	</bean>
+	<bean id="bdf.reportJobManagerPR" class="com.innofi.component.report.d7.ReportJobManagerPR" parent="bdf.reportManagerPR">
+	<!-- 
+		<property name="jobService" ref="bdf.quartz.jobService"/>
+		 -->
+	</bean>
+	<bean id="bdf.reportSecurityManagerPR" class="com.innofi.component.report.d7.ReportSecurityManagerPR" parent="bdf.reportManagerPR">
+	</bean>
+	
+	<!-- control listener 
+	<bean id="bdf.reportJobConfigListener" class="com.innofi.component.report.d7.listener.ReportJobConfigListener"/>
+	<bean id="bdf.sendReportMailUserConfigPR" class="com.innofi.component.report.d7.config.SendReportMailUserConfigPR">
+		<property name="reportService" ref="bdf.reportService"/>
+		<property name="messageTemplateService" ref="bdf.messageTemplateService"/>
+	</bean>
+	-->
+	
+	<!-- Demo -->
+	<bean id="testSpringBean" class="com.innofi.component.report.d7.demo.SpringBeanTest"/>
+	
+	<!-- excel -->
+	<bean id="bdf.excelManagerPR" class="com.innofi.component.report.d7.ExcelManagerPR">
+	   <property name="excelModelManager" ref="bdf.excelModelManager"></property>
+	   <property name="excelParser" ref="bdf.excelParser"></property>
+	   <property name="dataSourceRepository" ref="mdf.dataSourceRepository"></property>
+	   <property name="rowDataCount" value="${mdf.reprot.view.count}"></property>
+	</bean>
+	<bean id="bdf.excelReportController" class="com.innofi.component.report.d7.excel.ExcelReportController">
+		<property name="exportExcelGridService" ref="bdf.exportExcelGridService"/>
+		<property name="exportExcelFormService" ref="bdf.exportExcelFormService" />
+		<property name="tempFilePersister" ref="bdf.tempFilePersister"/>
+		<property name="exportExcelFormGridService" ref="bdf.exportExcelFormGridService"/>
+		<property name="generator" ref="bdf.generateModels"/>
+	</bean>
+	<!-- report d7 end -->
+</beans>

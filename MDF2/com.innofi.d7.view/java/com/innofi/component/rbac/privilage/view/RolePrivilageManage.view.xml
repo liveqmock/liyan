@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysRoleManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysRole" parent="global:dataTypeSysRole">
+      <Property name="creationType">com.innofi.component.rbac.role.pojo.SysRole</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="querydataTypeSysRole">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMroleCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="roleCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMroleName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="roleName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMroleLevel">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="roleLevel">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_ORG_LEVEL&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleLevel"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMstatus">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.status"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="roleType"/>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysRole">
+      <ClientEvent name="onReady">view.get(&quot;#querydataSetSysRole&quot;).insert({});&#xD;
+var queryEntity=view.get(&quot;#querydataSetSysRole&quot;).getData(&quot;#&quot;);&#xD;
+queryEntity.set(&quot;roleType&quot;,&quot;1&quot;);&#xD;
+queryEntity.set(&quot;status&quot;,&quot;1&quot;);&#xD;
+view.get(&quot;#dataSetSysRole&quot;).set(&quot;parameter&quot;, queryEntity).flush();</ClientEvent>
+      <ClientEvent name="onLoadData">try {&#xD;
+	var roleId = self.getData(&quot;#&quot;).get(&quot;id&quot;);&#xD;
+	var roleName = self.getData(&quot;#&quot;).get(&quot;roleName&quot;);&#xD;
+if(roleId){&#xD;
+	//var roleMenu = view.get(&quot;#roleMenuManage.subView&quot;);&#xD;
+	//roleMenu.get(&quot;#dataSetMenu&quot;).set(&quot;parameter.roleId&quot;,roleId).flushAsync();&#xD;
+	//roleMenu.get(&quot;#menuLabel&quot;).set('text','当前角色:'+roleName);&#xD;
+	//view.get(&quot;#roleMenuManage&quot;).set(&quot;visible&quot;,&quot;true&quot;);&#xD;
+    view.get(&quot;#roleMenuManagerframe&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com.innofi.component.rbac.privilage.view.RoleMenuManage.d?roleId=&quot;+roleId).refresh();&#xD;
+	view.get(&quot;#bottomIframe&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com.innofi.component.rbac.privilage.view.RoleBottomManage.d?roleId=&quot;+roleId+&quot;&amp;roleName=&quot;+encodeURI(encodeURI(roleName))).refresh();&#xD;
+}&#xD;
+}catch(e){&#xD;
+	dorado.MessageBox.alert(&quot;请添加功能角色!&quot;); &#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="dataProvider">sysRoleAction#findSysRoles</Property>
+      <Property name="dataType">[dataTypeSysRole]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysRole">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysRole]</Property>
+    </DataSet>
+    <SplitPanel id="roleSplit">
+      <Property name="direction">bottom</Property>
+      <Property name="position">50%</Property>
+      <MainControl>
+        <SplitPanel id="menuSplit">
+          <Property name="position">45%</Property>
+          <Property name="direction">right</Property>
+          <MainControl>
+            <Container>
+              <Panel>
+                <Property name="caption">角色</Property>
+                <Property name="contentOverflow">auto</Property>
+                <Buttons/>
+                <Children>
+                  <FieldSet layoutConstraint="top">
+                    <Property name="caption">查询条件</Property>
+                    <Property name="collapsed">true</Property>
+                    <Buttons>
+                      <Button id="queryButton">
+                        <ClientEvent name="onClick">var queryEntity=view.get(&quot;#querydataSetSysRole&quot;).getData(&quot;#&quot;);
+queryEntity.set(&quot;roleType&quot;,&quot;1&quot;);
+queryEntity.set(&quot;status&quot;,&quot;1&quot;);
+view.get(&quot;#dataSetSysRole&quot;).set(&quot;parameter&quot;, queryEntity).flushAsync();
+</ClientEvent>
+                        <Property name="caption">查询</Property>
+                        <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+                      </Button>
+                      <Button id="resetButton">
+                        <ClientEvent name="onClick">
+            
+            var entity = view.get(&quot;#querydataSetSysRole&quot;).getData(&quot;#&quot;);
+			with (entity){
+			 			 			 			 			 set(&quot;roleCode&quot;,&quot;&quot;);
+			 			 			 			 set(&quot;roleName&quot;,&quot;&quot;);
+			 			 			 			 			 			 set(&quot;roleLevel&quot;,&quot;&quot;);
+			 			 			 			 set(&quot;status&quot;,&quot;&quot;);
+			 			 			 			 			 			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+                        <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                        <Property name="caption">重置</Property>
+                      </Button>
+                    </Buttons>
+                    <Children>
+                      <AutoForm id="autoFormSysRoleQuery" layoutConstraint="center">
+                        <Property name="cols">*,*</Property>
+                        <Property name="dataSet">querydataSetSysRole</Property>
+                        <Property name="dataType">querydataTypeSysRole</Property>
+                        <Property name="labelAlign">right</Property>
+                        <Property name="labelWidth">80</Property>
+                        <AutoFormElement name="autoFormElementroleCode">
+                          <Property name="name">roleCode</Property>
+                          <Property name="property">roleCode</Property>
+                          <Editor>
+                            <Container>
+                              <TextEditor layoutConstraint="left">
+                                <Property name="property">qMroleCode</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="width">60</Property>
+                              </TextEditor>
+                              <TextEditor>
+                                <Property name="property">roleCode</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode"].propertyTip}</Property>
+                              </TextEditor>
+                            </Container>
+                          </Editor>
+                        </AutoFormElement>
+                        <AutoFormElement name="autoFormElementroleName">
+                          <Property name="name">roleName</Property>
+                          <Property name="property">roleName</Property>
+                          <Editor>
+                            <Container>
+                              <TextEditor layoutConstraint="left">
+                                <Property name="property">qMroleName</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="width">60</Property>
+                              </TextEditor>
+                              <TextEditor>
+                                <Property name="property">roleName</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName"].propertyTip}</Property>
+                              </TextEditor>
+                            </Container>
+                          </Editor>
+                        </AutoFormElement>
+                        <AutoFormElement name="autoFormElementstatus">
+                          <Property name="name">status</Property>
+                          <Property name="property">status</Property>
+                          <Property name="visible">false</Property>
+                          <Editor>
+                            <Container>
+                              <TextEditor layoutConstraint="left">
+                                <Property name="property">qMstatus</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="width">60</Property>
+                              </TextEditor>
+                              <TextEditor>
+                                <Property name="property">status</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.status"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.status"].propertyTip}</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                              </TextEditor>
+                            </Container>
+                          </Editor>
+                        </AutoFormElement>
+                      </AutoForm>
+                    </Children>
+                  </FieldSet>
+                  <Container>
+                    <DataGrid id="dataGridSysRole" layoutConstraint="center">
+                      <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetSysRole&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+                      <ClientEvent name="onDataRowClick">var roleId = view.get(&quot;#dataSetSysRole&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);
+var roleName=view.get(&quot;#dataSetSysRole&quot;).getData(&quot;#&quot;).get(&quot;roleName&quot;);
+if(roleId){
+	view.get(&quot;#roleMenuManagerframe&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com.innofi.component.rbac.privilage.view.RoleMenuManage.d?roleId=&quot;+roleId+&quot;&amp;time=&quot;+new Date()).refresh();
+	view.get(&quot;#bottomIframe&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com.innofi.component.rbac.privilage.view.RoleBottomManage.d?roleId=&quot;+roleId+&quot;&amp;roleName=&quot;+encodeURI(encodeURI(roleName))).refresh();
+}</ClientEvent>
+                      <Property name="dataSet">dataSetSysRole</Property>
+                      <Property name="selectionMode">none</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="dataType">dataTypeSysRole</Property>
+                      <Property name="rowHeight">26</Property>
+                      <Property name="height">100%</Property>
+                      <Property name="width">100%</Property>
+                      <Property name="highlightCurrentRow">true</Property>
+                      <RowNumColumn/>
+                      <DataColumn name="roleCode" property="roleCode">
+                        <Property name="width">100</Property>
+                      </DataColumn>
+                      <DataColumn name="roleName" property="roleName"/>
+                      <DataColumn name="roleLevel" property="roleLevel">
+                        <Property name="width">80</Property>
+                      </DataColumn>
+                      <DataColumn name="remark" property="remark"/>
+                    </DataGrid>
+                  </Container>
+                  <ToolBar layoutConstraint="bottom">
+                    <DataPilot>
+                      <Property name="dataSet">dataSetSysRole</Property>
+                      <Property name="itemCodes">pages</Property>
+                    </DataPilot>
+                    <Separator/>
+                  </ToolBar>
+                </Children>
+                <Tools/>
+              </Panel>
+            </Container>
+          </MainControl>
+          <SideControl>
+            <Container>
+              <Panel>
+                <Property name="caption">菜单功能</Property>
+                <Buttons/>
+                <Children>
+                  <Container>
+                    <IFrame id="roleMenuManagerframe"/>
+                  </Container>
+                </Children>
+                <Tools/>
+              </Panel>
+            </Container>
+          </SideControl>
+        </SplitPanel>
+      </MainControl>
+      <SideControl>
+        <IFrame id="bottomIframe"/>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="lookdialogSysRole">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysRole&quot;).getData().cancel();
+	view.get(&quot;#lookdialogSysRole&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysRole">
+          <Property name="dataType">dataTypeSysRole</Property>
+          <Property name="dataSet">dataSetSysRole</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">DB.Console</Property>
+  </Property>
+  <Arguments/>
+  <Context>
+    <Attribute name="groupId">
+      <Property name="value">${request.getParameter("groupId")}</Property>
+    </Attribute>
+    <Attribute name="connName">
+      <Property name="value">${request.getParameter("connName")}</Property>
+    </Attribute>
+    <Attribute name="schemaName">
+      <Property name="value">${request.getParameter("schema")}</Property>
+    </Attribute>
+    <Attribute name="tableName">
+      <Property name="value">${request.getParameter("tableName")}</Property>
+    </Attribute>
+  </Context>
+  <Model>
+    <DataType listener="spring:mdf.dbConsoleDataTabInterceptor#onInit" name="dataTypeData">
+      <ClientEvent name="onStateChange">this.$checkSaveButton();
+</ClientEvent>
+      <Property name="autoCreatePropertyDefs">true</Property>
+    </DataType>
+  </Model>
+  <View listener="spring:mdf.dbConsoleDataTabInterceptor#onInit">
+    <ClientEvent name="onReady">this.$checkSaveButton = function(){
+    var toolBarButtonSave = this.id("toolBarButtonSave");
+    var dataSet = this.id("dataSetData");
+    var data = dataSet.queryData("[#dirty]");
+    if (data!="") {
+        toolBarButtonSave.set("disabled", false);
+    }
+    else {
+        toolBarButtonSave.set("disabled", true);
+    }
+    
+}
+</ClientEvent>
+    <DataSet id="dataSetData" listener="spring:mdf.dbConsoleDataTabInterceptor#onReady">
+      <Property name="dataProvider">mdf.dbConsoleAction#loadQueryTableData</Property>
+      <Property name="dataType">[dataTypeData]</Property>
+      <Property name="pageSize">100</Property>
+      <Property name="loadMode">onReady</Property>
+    </DataSet>
+    <DataGrid id="dataGridData" layoutConstraint="center" listener="spring:mdf.dbConsoleDataTabInterceptor#onReady">
+      <Property name="height">95%</Property>
+      <Property name="dataSet">dataSetData</Property>
+      <Property name="stretchColumnsMode">off</Property>
+      <Property name="readOnly">false</Property>
+      <Property name="selectionMode">multiRows</Property>
+    </DataGrid>
+    <ToolBar id="toolBarData">
+      <DataPilot id="dataPilotData">
+        <ClientEvent name="onSubControlAction">var code = arg.code;
+switch (code) {
+    case "-":
+        var datas = this.id("dataGridData").get("selection");
+        var dataSetData = this.id("dataSetData").getData();
+        if (!datas || datas.length == 0) {
+            dorado.MessageBox.alert("请勾选要删除的记录！");
+        }
+        else {
+            dorado.MessageBox.confirm("您真的要删除当前所选【"+datas.length+"】条记录吗？", function(){
+                $.each(datas, function(i, item){
+                    dataSetData.remove(item);
+                });
+            });
+        }
+        arg.processDefault = false;
+        break;
+        
+}
+</ClientEvent>
+        <Property name="dataSet">dataSetData</Property>
+        <Property name="itemCodes">pages,+,-</Property>
+      </DataPilot>
+      <ToolBarButton id="toolBarButtonSave">
+        <ClientEvent name="onClick">var action=this.id("updateActionData");
+var dataSetData=this.id("dataSetData");
+var parameter=dataSetData.get("parameter");
+if(parameter){
+	dorado.MessageBox.confirm("您真的要保存操作吗 ？",function(){
+		action.set("parameter",parameter);
+		action.execute();
+	});
+	
+}
+</ClientEvent>
+        <Property name="caption">保存</Property>
+        <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -20px</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton>
+        <Property name="menu">menuButton</Property>
+        <Property name="caption">导出Excel文件</Property>
+        <Property name="icon">&gt;icons/page_excel.png</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <UpdateAction id="updateActionData">
+      <ClientEvent name="onSuccess"> var toolBarButtonSave = this.id("toolBarButtonSave");
+ toolBarButtonSave.set("disabled", true);
+</ClientEvent>
+      <Property name="dataResolver">mdf.dbConsoleAction#saveTableData</Property>
+      <Property name="successMessage">保存成功！</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetData</Property>
+        <Property name="submitOldData">true</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Menu id="menuButton">
+      <MenuItem>
+        <ClientEvent name="onClick">var dataSet=this.id("dataSetData");
+var parameter=dataSet.get("parameter");
+var pageNo=dataSet.getData().pageNo;
+var pageSize=dataSet.get("pageSize");
+var dbInfoId=parameter.get("dbInfoId");
+var tableName=parameter.get("tableName");
+if(!tableName){
+	tableName="";
+}
+var sql=parameter.get("sql");
+if(!sql){
+	sql="";
+}
+var urlparameter="dbInfoId="+dbInfoId+"&amp;tableName="+tableName+"&amp;sql="+sql+"&amp;pageNo="+pageNo+"&amp;pageSize="+pageSize;
+window.location="bdf.dbController.downloadExcel.c?"+urlparameter;
+</ClientEvent>
+        <Property name="caption">导出当前页记录</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var dataSet=this.id("dataSetData");
+var parameter=dataSet.get("parameter");
+var dbInfoId=parameter.get("dbInfoId");
+var tableName=parameter.get("tableName");
+if(!tableName){
+	tableName="";
+}
+var sql=parameter.get("sql");
+if(!sql){
+	sql="";
+}
+
+window.location="bdf.dbController.downloadExcel.c?dbInfoId="+dbInfoId+"&amp;tableName="+tableName+"&amp;sql="+sql;
+</ClientEvent>
+        <Property name="caption">导出所有记录</Property>
+      </MenuItem>
+    </Menu>
+  </View>
+</ViewConfig>

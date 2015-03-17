@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments>
+    <Argument name="groupId">
+      <Property name="value">${param["groupId"]}</Property>
+    </Argument>
+    <Argument name="connName">
+      <Property name="value">${param["connName"]}</Property>
+    </Argument>
+  </Arguments>
+  <Context/>
+  <Model>
+    <DataType name="Form">
+      <PropertyDef name="schema">
+        <Property name="label">Schema</Property>
+        <Property name="defaultValue">${param["user"]}</Property>
+      </PropertyDef>
+      <PropertyDef name="objType">
+        <Property name="label">对象类型</Property>
+        <Property name="defaultValue">*</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="label">对象名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="filterConditionList">
+      <PropertyDef name="name"/>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">var editor = view.get('#objectDDLEditor');    
+editor.set({            
+	'language'  :'plsql',            
+	'theme'     :'ambiance',  
+	'indentUnit':4,
+	'lineNumbers':false,
+	'matchBrackets':true,
+	'readOnly':true     
+});
+
+/**
+ * 数据库浏览JavaScript对象
+ */
+DbBrowser = {
+	version:1.0,
+	conditionFilter:new dorado.util.Map(),//对象名称过滤条件
+	currentTab:view.get('#detailTab.currentTab')
+};
+
+/**
+ * 加载数据库对象方法
+ * @param {Object} schema	模式
+ * @param {Object} objectName	对象名称
+ * @param {Object} objectType	对象类型
+ */
+DbBrowser.loadObjects = function(schema,objectName,objectType){	
+	view.set('#DbObjects.parameter.schema',schema);
+	view.set('#DbObjects.parameter.objectName',objectName);
+	view.set('#DbObjects.parameter.types',objectType);	
+	view.get('#DbObjects').flush();
+}
+
+/**
+ * 加载对象信息
+ */
+DbBrowser.loadObjectInfo = function(){
+	var entity = view.get('#DbObjects.data.current');
+	var groupId = '${argument.groupId}';
+	var connName = '${argument.connName}';
+	var schema = entity.get('schema');
+	var tableName = entity.get('tableName');
+	var detailTab = view.get('#detailTab');
+	var seqTab = detailTab.getTab('seqInfo');
+	var colTab = detailTab.getTab('columnInfo');
+	var ddlTab = detailTab.getTab('DDLInfo');
+	var dataTab = detailTab.getTab('data');
+	var curTab = DbBrowser.currentTab;
+
+	if(entity.get('type')!='SEQUENCE'){
+		if(seqTab.get('visible')){
+			seqTab.set('visible',false);
+			colTab.set('visible',true);
+			dataTab.set('visible',true);
+		}
+		if(curTab==seqTab){//当前记录为表格，标签为Seq标签,切换为column标签
+			var path = 'com.innofi.component.dbconsole.view.TableDetail.d';
+			path += "?groupId="+groupId+"&amp;connName="+connName+"&amp;schema="+schema+"&amp;tableName="+tableName;	
+			colTab.set('path',path);
+			detailTab.set('currentTab',colTab);	
+		}else{
+			if(DbBrowser.currentTab.get('name')!='DDLInfo'){
+				path = curTab.get('path');
+				if(path.indexOf('?')&gt;-1){
+					path = path.substring(0,path.indexOf('?'));
+				}
+				path += "?groupId="+groupId+"&amp;connName="+connName+"&amp;schema="+schema+"&amp;tableName="+tableName;
+				curTab.set('path',path);
+				detailTab.set('currentTab',curTab);				
+			}else{
+				DbBrowser.loadObjectDLL(detailTab,ddlTab,groupId,connName,'TABLE',schema,tableName);		
+			}	
+		}
+	}else{//当前记录为Seq
+		if(colTab.get('visible')){
+			colTab.set('visible',false);
+			dataTab.set('visible',false);
+			seqTab.set('visible',true);			
+		}
+		if(curTab==colTab){
+			var path = 'SequenceDetail.d';
+			path += "?groupId="+groupId+"&amp;connName="+connName+"&amp;schema="+schema+"&amp;seqName="+tableName;
+			seqTab.set('path',path);
+			detailTab.set('currentTab',seqTab);	
+		}else{
+			if(DbBrowser.currentTab.get('name')!='DDLInfo'){
+				var path = curTab.get('path');
+				if(path.indexOf('?')&gt;-1){
+					path = path.substring(0,path.indexOf('?'));
+				}
+				path += "?groupId="+groupId+"&amp;connName="+connName+"&amp;schema="+schema+"&amp;seqName="+tableName;
+				curTab.set('path',path);
+				detailTab.set('currentTab',curTab);			
+			}else{
+				DbBrowser.loadObjectDLL(detailTab,ddlTab,groupId,connName,'SEQUENCE',schema,tableName);		
+			}
+		}
+	}
+}
+
+/**
+ * 加载对象DDL
+ * @param {Object} detailTab TabControl
+ * @param {Object} ddlTab DDLTab
+ * @param {Object} groupId 工作组
+ * @param {Object} connName 连接
+ * @param {Object} type 类型
+ * @param {Object} schema 模式
+ * @param {Object} objectName 对象名称
+ */
+DbBrowser.loadObjectDLL=function(detailTab,ddlTab,groupId,connName,type,schema,objectName){
+
+	var action=view.get("#ajaxActionloadObjectDDL");
+	action.set("parameter",{
+			groupId:groupId,
+			connName:connName,
+			type:type,
+			schema:schema,
+			objectName:objectName
+		}).execute(function(result){
+			if(result){
+				editor.setValue(result);
+			}else{
+				alert("生成DDL出错groupId["+groupId+"]connName["+connName+"]")
+			}	
+		});
+	detailTab.set('currentTab',ddlTab);	
+}
+
+//默认加载当前数据库用户对象
+DbBrowser.loadObjects('${param["user"]}','','*');
+
+</ClientEvent>
+    <Menu id="menuTableInfo">
+      <MenuItem>
+        <Property name="name">createTable</Property>
+        <Property name="caption">创建表</Property>
+        <Property name="icon">&gt;icons/table_add.png</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var entity = view.get('#DbObjects.data.current')
+var groupId = '${argument.groupId}';
+var connName = '${argument.connName}';
+var schema = entity.get('schema');
+var tableName = entity.get('tableName');
+var action=view.get("#ajaxActionDropTable");
+if (tableName) {
+	dorado.MessageBox.show({
+		title:"提示",
+		icon:dorado.MessageBox.INFO_ICON,
+		message:"确定要删除【"+tableName+"】表吗？",
+		buttons:["yes","no"],
+		detailCallback:function(buttonId){	
+			if(buttonId=="yes"){
+				entity.remove();
+				action.set("parameter",{
+					groupId:groupId,
+					connName:connName,
+					schema:schema,
+					tableName:tableName
+				}).execute();
+			}
+		}
+
+	});
+}
+
+
+
+
+</ClientEvent>
+        <Property name="caption">删除表</Property>
+        <Property name="icon">&gt;icons/table_delete.png
+                </Property>
+        <Property name="name">dropTable</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var entity = view.get('#DbObjects.data.current')
+var groupId = '${argument.groupId}';
+var connName = '${argument.connName}';
+var schema = entity.get('schema');
+var tableName = entity.get('tableName');
+
+var action=view.get("#ajaxActionRenameTable");
+if (tableName) { 
+	dorado.MessageBox.prompt("请输入表名称",{
+	defaultText:tableName,
+	callback:function(text){ 
+		if(!text){
+			dorado.MessageBox.alert("输入的名称不能为空！");
+			return;
+		}
+		if(text.toLowerCase()==tableName.toLowerCase()){
+			dorado.MessageBox.alert("表名称不能重复！");
+			return ;
+		}
+		entity.set("tableName",text);
+		action.set("parameter",{
+			groupId:groupId,
+			connName:connName,
+			schema:schema,
+			tableName:tableName,
+			newTableName:text
+		}).execute();
+		}
+	});
+}
+</ClientEvent>
+        <Property name="caption">重命名表</Property>
+        <Property name="icon">&gt;icons/table_edit.png
+                </Property>
+        <Property name="name">renameTable</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var entity = view.get('#DbObjects.data.current')
+var groupId = '${argument.groupId}';
+var connName = '${argument.connName}';
+var schema = entity.get('schema');
+var tableName = entity.get('tableName');
+
+if(entity.get('type')=='TABLE'){
+	var action=view.get("#ajaxActionClearTableData");
+	if (tableName) { 
+		dorado.MessageBox.show({
+			title:"提示",
+			icon:dorado.MessageBox.INFO_ICON,
+			message:"确定要清除【"+tableName+"】表中所有数据吗？",
+			buttons:["yes","no"],
+			detailCallback:function(buttonId){
+				if(buttonId=="yes"){
+					action.set("parameter",{
+						groupId:groupId,
+						connName:connName,
+						schema:schema,
+						tableName:tableName
+						}
+					).execute();		
+				}
+			}
+		});
+	}
+}
+</ClientEvent>
+        <Property name="caption">清空表数据</Property>
+        <Property name="icon">&gt;icons/table_go.png
+                </Property>
+        <Property name="name">clearTableData</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var entity = view.get('#DbObjects.data.current')
+var groupId = '${argument.groupId}';
+var connName = '${argument.connName}';
+var schema = entity.get('schema');
+var tableName = entity.get('tableName');
+var action=view.get("#ajaxActionDropSequence");
+if (tableName) {
+	dorado.MessageBox.show({
+		title:"提示",
+		icon:dorado.MessageBox.INFO_ICON,
+		message:"确定要删除【"+tableName+"】序列吗？",
+		buttons:["yes","no"],
+		detailCallback:function(buttonId){	
+			if(buttonId=="yes"){
+				entity.remove();
+				action.set("parameter",{
+					groupId:groupId,
+					connName:connName,
+					schema:schema,
+					sequenceName:tableName
+				}).execute();
+			}
+		}
+
+	});
+}
+
+</ClientEvent>
+        <Property name="caption">删除序列</Property>
+        <Property name="icon">&gt;icons/plugin_delete.png</Property>
+        <Property name="name">dropSeq</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var entity = view.get('#DbObjects.data.current')
+var groupId = '${argument.groupId}';
+var connName = '${argument.connName}';
+var schema = entity.get('schema');
+var tableName = entity.get('tableName');
+var action=view.get("#ajaxActionRenameSequence");
+if (tableName) { 
+	dorado.MessageBox.prompt("请输入序列名称",{
+	defaultText:tableName,
+	callback:function(text){ 
+		if(!text){
+			dorado.MessageBox.alert("输入的序列名称不能为空！");
+			return;
+		}
+		if(text.toLowerCase()==tableName.toLowerCase()){
+			dorado.MessageBox.alert("序列名称不能重复！");
+			return ;
+		}
+		entity.set("tableName",text);
+		action.set("parameter",{
+			groupId:groupId,
+			connName:connName,
+			schema:schema,
+			seqName:tableName,
+			newSeqName:text
+		}).execute();
+		}
+	});
+}</ClientEvent>
+        <Property name="name">renameSeq</Property>
+        <Property name="icon">&gt;icons/plugin_edit.png</Property>
+        <Property name="caption">重命名序列</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var entity = view.get('#DbObjects.data.current')
+var groupId = '${argument.groupId}';
+var connName = '${argument.connName}';
+var schema = entity.get('schema');
+var tableName = entity.get('tableName');
+var action=view.get("#ajaxActionRestSequence");
+
+if (tableName) { 
+	dorado.MessageBox.prompt("请输调整后的序列当前值",{
+	defaultText:'',
+	callback:function(text){ 
+		if(!text){
+			dorado.MessageBox.alert("输入的序列值不能为空！");
+			return;
+		}
+		var reg = /\d*/;
+		if(text.match(reg)==''||text.match(reg)==null){
+			dorado.MessageBox.alert("输入的序列值必须为数字！");
+			return;		
+		}
+		action.set("parameter",{
+			groupId:groupId,
+			connName:connName,
+			schema:schema,
+			seqName:tableName,
+			newSeqValue:text
+		}).execute(function(){
+			DbBrowser.loadObjectInfo();
+		});
+		}
+	});
+}</ClientEvent>
+        <Property name="caption">设置序列值</Property>
+        <Property name="name">resetSeq</Property>
+        <Property name="icon">&gt;icons/plugin_go.png</Property>
+      </MenuItem>
+    </Menu>
+    <DataSet id="Form">
+      <ClientEvent name="onReady">self.insert();
+</ClientEvent>
+      <Property name="dataType">Form</Property>
+    </DataSet>
+    <DataSet id="DbConsoleSchema">
+      <Property name="dataProvider">mdf.dbConsoleAction#loadSchemas</Property>
+      <Property name="dataType">[DbConsoleSchema]</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+        </Entity>
+      </Property>
+      <Property name="loadMode">lazy</Property>
+    </DataSet>
+    <DataSet id="DbConsoleObjectType">
+      <Property name="dataType">[DbConsoleObjectType]</Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadObjectTypes</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="FilterConditionList">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataType">[filterConditionList]</Property>
+    </DataSet>
+    <DataSet id="DbObjects">
+      <ClientEvent name="onDataLoad">var objSize = self.get('data.entityCount');
+view.set("#objCountLabel._text",objSize+"个对象");
+view.get("#objCountLabel").refresh();
+DbBrowser.loadObjectInfo();</ClientEvent>
+      <Property name="dataType">[DbConsoleTable]</Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadObjects</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+          <Property name="schema">*</Property>
+          <Property name="objectName"/>
+          <Property name="types"/>
+        </Entity>
+      </Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <Panel>
+      <Property name="border">curve</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="schemaFilter" layoutConstraint="top">
+          <Property name="cols">*,*</Property>
+          <Property name="dataSet">Form</Property>
+          <Property name="dataType">Form</Property>
+          <Property name="width">240</Property>
+          <Property name="colPadding">0</Property>
+          <Property name="padding">0</Property>
+          <AutoFormElement>
+            <Property name="name">schema</Property>
+            <Property name="property">schema</Property>
+            <Property name="trigger">schemaTrigger</Property>
+            <Property name="width">240</Property>
+            <Property name="showHintMessage">true</Property>
+            <Property name="hint">sdfsdfsdfsdfsdfsdfsdfdsfsdf</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+        <Panel>
+          <Property name="border">curve</Property>
+          <Buttons/>
+          <Children>
+            <TabControl id="objBrowser">
+              <Property name="tabPlacement">top</Property>
+              <ControlTab>
+                <Property name="caption">对象</Property>
+                <SplitPanel id="centerSplit">
+                  <ClientEvent name="onReady">self.set('position',(window.innerWidth/2));</ClientEvent>
+                  <Property name="position">400</Property>
+                  <MainControl>
+                    <TabControl id="detailTab">
+                      <ClientEvent name="onTabChange">try{
+	DbBrowser.currentTab = arg.newTab;
+	DbBrowser.loadObjectInfo();
+}catch(e){
+}</ClientEvent>
+                      <IFrameTab>
+                        <Property name="path">com.innofi.component.dbconsole.view.TableDetail.d</Property>
+                        <Property name="caption">列信息</Property>
+                        <Property name="visible">true</Property>
+                        <Property name="name">columnInfo</Property>
+                      </IFrameTab>
+                      <IFrameTab>
+                        <Property name="caption">序列信息</Property>
+                        <Property name="path">SequenceDetail.d</Property>
+                        <Property name="name">seqInfo</Property>
+                      </IFrameTab>
+                      <ControlTab>
+                        <Property name="caption">DDL信息</Property>
+                        <Property name="name">DDLInfo</Property>
+                        <SourceEditor id="objectDDLEditor"/>
+                      </ControlTab>
+                      <IFrameTab>
+                        <Property name="caption">数据</Property>
+                        <Property name="path">com.innofi.component.dbconsole.view.BrowserDataTab.d</Property>
+                        <Property name="name">data</Property>
+                      </IFrameTab>
+                    </TabControl>
+                  </MainControl>
+                  <SideControl>
+                    <Panel>
+                      <Property name="border">curve</Property>
+                      <Buttons/>
+                      <Children>
+                        <AutoForm id="objFilter" layoutConstraint="top">
+                          <Property name="dataSet">Form</Property>
+                          <Property name="dataType">Form</Property>
+                          <Property name="showLabel">false</Property>
+                          <Property name="cols">*,*,*</Property>
+                          <Property name="padding">0</Property>
+                          <AutoFormElement>
+                            <Property name="name">objType</Property>
+                            <Property name="property">objType</Property>
+                            <Property name="labelWidth">0</Property>
+                            <Property name="showLabel">false</Property>
+                            <Property name="trigger">objectTypeTrigger</Property>
+                            <Editor/>
+                          </AutoFormElement>
+                          <HtmlContainer>
+                            <Panel>
+                              <Property name="border">none</Property>
+                              <Buttons>
+                                <Button>
+                                  <ClientEvent name="onClick">var schema = view.get('#Form.data.schema');
+var objectType = view.get('#Form.data.objType');
+DbBrowser.loadObjects(schema,'',objectType);
+view.get('#btnResetFilter').set('disabled',true);
+</ClientEvent>
+                                  <Property name="icon">&gt;icons/refresh.png</Property>
+                                  <Property name="tip">刷新</Property>
+                                </Button>
+                                <Button>
+                                  <ClientEvent name="onClick">var objectName = view.get('#Form.data.objName');
+if(objectName){
+	var schema = view.get('#Form.data.schema');
+	var objectType = view.get('#Form.data.objType');
+	view.set('#btnResetFilter.disabled',false);
+	DbBrowser.loadObjects(schema,'%'+objectName.toUpperCase()+'%',objectType);
+	
+	
+	
+	if(!DbBrowser.conditionFilter.get(objectName.toUpperCase())){
+		view.get('#FilterConditionList.data').insert({name:objectName},'begin');
+		DbBrowser.conditionFilter.put(objectName.toUpperCase(),true);
+	}else{
+		view.get('#FilterConditionList.data').each(
+			function(entity){
+				if(objectName==entity.get('name')){
+					entity.remove(true);
+				}
+			}
+		);
+		view.get('#FilterConditionList.data').insert({name:objectName},'begin');	
+	}
+}</ClientEvent>
+                                  <Property name="icon">&gt;icons/filter.gif</Property>
+                                  <Property name="tip">按条件过滤</Property>
+                                </Button>
+                                <Button id="btnResetFilter">
+                                  <ClientEvent name="onClick">var schema = view.get('#Form.data.schema');
+var objectType = view.get('#Form.data.objType');
+view.get('#objName').setFocus();
+DbBrowser.loadObjects(schema,'',objectType);
+view.get('#btnResetFilter').set('disabled',true);</ClientEvent>
+                                  <Property name="icon">&gt;icons/resetFilter.gif</Property>
+                                  <Property name="disabled">true</Property>
+                                  <Property name="tip">重置过滤条件</Property>
+                                </Button>
+                              </Buttons>
+                              <Children/>
+                              <Tools/>
+                            </Panel>
+                          </HtmlContainer>
+                          <AutoFormElement id="objName">
+                            <ClientEvent name="onKeyPress">if(arg.keyCode==13){//回车
+	var objectName = view.get('#Form.data.objName');
+	if(objectName){
+		var schema = view.get('#Form.data.schema');
+		var objectType = view.get('#Form.data.objType');
+		view.get('#btnResetFilter').set('disabled',false);
+		DbBrowser.loadObjects(schema,'%'+objectName.toUpperCase()+'%',objectType);
+		
+		
+		if(!DbBrowser.conditionFilter.get(objectName.toUpperCase())){
+			view.get('#FilterConditionList.data').insert({name:objectName},'begin');
+			DbBrowser.conditionFilter.put(objectName.toUpperCase(),true);
+		}else{
+			view.get('#FilterConditionList.data').each(
+				function(entity){
+					if(objectName==entity.get('name')){
+						entity.remove(true);
+					}
+				}
+			);
+			view.get('#FilterConditionList.data').insert({name:objectName},'begin');	
+		}
+	}
+}</ClientEvent>
+                            <Property name="name">objName</Property>
+                            <Property name="property">objName</Property>
+                            <Property name="showLabel">false</Property>
+                            <Property name="labelWidth">0</Property>
+                            <Property name="trigger">filterConditonTrigger</Property>
+                            <Editor/>
+                          </AutoFormElement>
+                        </AutoForm>
+                        <DataGrid id="objGrid" layoutConstraint="center">
+                          <ClientEvent name="onCurrentChange">DbBrowser.loadObjectInfo();</ClientEvent>
+                          <ClientEvent name="onContextMenu">var menuTableInfo = view.get("#menuTableInfo");
+if(self.getCurrentItem().get('type')=='SEQUENCE'){
+	menuTableInfo.findItem('dropTable').set('visible',false);
+	menuTableInfo.findItem('renameTable').set('visible',false);
+	menuTableInfo.findItem('clearTableData').set('visible',false);
+	menuTableInfo.findItem('dropSeq').set('visible',true);
+	menuTableInfo.findItem('renameSeq').set('visible',true);
+	menuTableInfo.findItem('resetSeq').set('visible',true);
+	menuTableInfo.show({
+		position: {
+			left: arg.event.pageX,
+			top: arg.event.pageY
+		}
+	});
+}else if(self.getCurrentItem().get('type')=='TABLE'){
+	menuTableInfo.findItem('dropTable').set('visible',true);
+	menuTableInfo.findItem('renameTable').set('visible',true);
+	menuTableInfo.findItem('clearTableData').set('visible',true);
+	menuTableInfo.findItem('dropSeq').set('visible',false);
+	menuTableInfo.findItem('renameSeq').set('visible',false);
+	menuTableInfo.findItem('resetSeq').set('visible',false);
+	menuTableInfo.show({
+		position: {
+			left: arg.event.pageX,
+			top: arg.event.pageY
+		}
+	});
+}</ClientEvent>
+                          <Property name="dataSet">DbObjects</Property>
+                          <Property name="dataType">DbConsoleTable</Property>
+                          <DataColumn name="schema">
+                            <Property name="property">schema</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="width">60</Property>
+                          </DataColumn>
+                          <DataColumn name="tableName">
+                            <Property name="property">tableName</Property>
+                            <Property name="width">180</Property>
+                          </DataColumn>
+                          <DataColumn name="tableComment">
+                            <Property name="property">tableComment</Property>
+                            <Property name="readOnly">true</Property>
+                          </DataColumn>
+                          <DataColumn name="type">
+                            <Property name="property">type</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="width">100</Property>
+                          </DataColumn>
+                        </DataGrid>
+                        <ToolBar layoutConstraint="bottom">
+                          <ToolBarLabel id="objCountLabel"/>
+                        </ToolBar>
+                      </Children>
+                      <Tools/>
+                    </Panel>
+                  </SideControl>
+                </SplitPanel>
+              </ControlTab>
+              <ControlTab>
+                <Property name="caption">存储过程</Property>
+              </ControlTab>
+              <ControlTab>
+                <Property name="caption">触发器</Property>
+              </ControlTab>
+            </TabControl>
+          </Children>
+          <Tools/>
+        </Panel>
+      </Children>
+      <Tools/>
+    </Panel>
+    <DataSetDropDown id="schemaTrigger">
+      <ClientEvent name="onValueSelect">var schema = arg.selectedValue;
+var objectType = view.get('#Form.data.objType');
+view.set('#Form.data.schema',schema);
+arg.editor.set('value',arg.selectedValue);
+arg.processDefault=false;
+DbBrowser.loadObjects(schema,'',objectType);
+view.get('#btnResetFilter').set('disabled',true);
+return false;</ClientEvent>
+      <Property name="dataSet">DbConsoleSchema</Property>
+      <Property name="editable">false</Property>
+      <Property name="property">schemaName</Property>
+      <Property name="displayProperty">schemaName</Property>
+    </DataSetDropDown>
+    <DataSetDropDown id="objectTypeTrigger">
+      <ClientEvent name="onValueSelect">var schema = view.get('#Form.data.schema');
+var objectType = arg.selectedValue;
+view.set('#Form.data.objType',objectType);
+arg.editor.set('value',arg.selectedValue);
+arg.processDefault=false;
+DbBrowser.loadObjects(schema,'',objectType);
+view.get('#btnResetFilter').set('disabled',true);
+return false;
+</ClientEvent>
+      <Property name="dataSet">DbConsoleObjectType</Property>
+      <Property name="property">typeName</Property>
+    </DataSetDropDown>
+    <DataSetDropDown id="filterConditonTrigger">
+      <Property name="dataSet">FilterConditionList</Property>
+      <Property name="property">name</Property>
+    </DataSetDropDown>
+    <AjaxAction id="ajaxActionDropTable">
+      <ClientEvent name="onSuccess">
+            </ClientEvent>
+      <Property name="service">mdf.dbConsoleAction#dropTable</Property>
+      <Property name="successMessage">删除成功！</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionDropSequence">
+      <Property name="service">mdf.dbConsoleAction#dropSequence</Property>
+      <Property name="successMessage">删除成功！</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionRenameTable">
+      <Property name="service">mdf.dbConsoleAction#renameTableName</Property>
+      <Property name="successMessage">修改表名称成功！</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionClearTableData">
+      <Property name="service">mdf.dbConsoleAction#clearTableData</Property>
+      <Property name="successMessage">清空表数据成功！</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionRenameSequence">
+      <Property name="service">mdf.dbConsoleAction#renameSequence</Property>
+      <Property name="successMessage">修改序列名成功！</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionRestSequence">
+      <Property name="service">mdf.dbConsoleAction#resetSequence</Property>
+      <Property name="successMessage">重置序列值成功！</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionloadObjectDDL">
+      <Property name="service">mdf.dbConsoleAction#loadObjectDDL</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

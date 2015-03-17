@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <DataSet id="DbConsoleSequence">
+      <Property name="dataType">DbConsoleSequence</Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadSequence</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+          <Property name="schema">${param["schema"]}</Property>
+          <Property name="seqName">${param["seqName"]}</Property>
+        </Entity>
+      </Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <FieldSet id="seqDetail">
+      <Property name="caption">序列信息</Property>
+      <Property name="collapseable">false</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="seqDetailForm">
+          <ClientEvent name="onReady">if('${param["groupId"]}'&amp;&amp;'${param["connName"]}'){
+	view.get('#DbConsoleSequence').flushAsync();
+}</ClientEvent>
+          <Property name="cols">*</Property>
+          <Property name="dataSet">DbConsoleSequence</Property>
+          <Property name="dataType">DbConsoleSequence</Property>
+          <Property name="readOnly">true</Property>
+          <AutoFormElement>
+            <Property name="name">sequenceName</Property>
+            <Property name="property">sequenceName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dataType</Property>
+            <Property name="property">dataType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">startValue</Property>
+            <Property name="property">startValue</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">currentValue</Property>
+            <Property name="property">currentValue</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">increment</Property>
+            <Property name="property">increment</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">minValue</Property>
+            <Property name="property">minValue</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">maxValue</Property>
+            <Property name="property">maxValue</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cycle</Property>
+            <Property name="property">cycle</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">comment</Property>
+            <Property name="property">comment</Property>
+            <Property name="editorType">TextArea</Property>
+            <Property name="height">60</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </FieldSet>
+  </View>
+</ViewConfig>

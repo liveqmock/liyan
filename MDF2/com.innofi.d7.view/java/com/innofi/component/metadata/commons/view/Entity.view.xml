@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="queryDataType">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="entityDataType"/>
+  </Model>
+  <View>
+    <DataSet id="queryDataSet">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">queryDataType</Property>
+    </DataSet>
+    <DataSet id="entityDataSet">
+      <ClientEvent name="onReady">var dmdIds=&quot;${request.getParameter('dmdIds')}&quot;;
+if(dmdIds!=&quot;&quot;||dmdIds.length!=0){
+	parm={dmdIds:dmdIds};
+	self.set(&quot;parameter&quot;,parm).flushAsync();
+}</ClientEvent>
+      <Property name="dataType">[entityDataType]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="dataProvider">mdTableAction#findMdTables</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">true</Property>
+        <Property name="collapseable">true</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">view.get(&quot;#entityDataSet&quot;).set(&quot;parameter&quot;,view.get(&quot;#queryDataSet&quot;).getData(&quot;#&quot;)).flushAsync();
+                        </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">view.set(&quot;#queryDataSet.data&quot;,{});
+                        </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">queryDataSet</Property>
+            <Property name="dataType">queryDataType</Property>
+            <Property name="autoCreateElements">true</Property>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysRole" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="lookRoleButton">
+          <ClientEvent name="onClick">//com.innofi.component.metadata.commons.Entity.d?mdIds=&quot;+mdIds+&quot;&amp;mdmId=&quot;+mdmId+&quot;&amp;savePath=&quot;+savePath
+var mdmId=&quot;${request.getParameter('mdmId')}&quot;;
+var mdId=&quot;${request.getParameter('mdId')}&quot;;
+var dmdIds=&quot;${request.getParameter('dmdIds')}&quot;;
+var selections = view.get(&quot;#dataGridEntity&quot;).get(&quot;selection&quot;);
+if(selections.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selections.length != 0){
+/**
+ * 获取父窗口ds中的数据集合
+ */
+var entityList=parent.parent.$id(&quot;dataSetMdMdDepend&quot;).objects[0].getData();
+	jQuery.each(selections,function(i,selection){
+			var mdName = &quot;&quot;;
+			var isexists=false;
+			var id=selection._data.id;
+			var dMdName=selection._data.mdName;
+			entityList.each(function(entity){
+				var dMdId=entity.get(&quot;dMdId&quot;);
+				mdName=entity.get(&quot;mdName&quot;);
+				if(dMdId==id){
+					isexists=true;
+				}
+			});
+			if(!isexists){
+				var entity={
+					mdId:mdId,
+					mdName:mdName,
+					mdmId:mdmId,
+					mdmName:&quot;&quot;,
+					dMdId:id,
+					dMdName:mdName
+				}
+				entityList.insert(entity);
+			}
+		});
+		//parent.$id(&quot;mdMdDependDialog&quot;).objects[0].hide();
+}                    </ClientEvent>
+          <Property name="caption">添加</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridEntity" layoutConstraint="center">
+          <ClientEvent name="onSelectionChange">if (arg.added){
+    view.get(&quot;#dataSetSysRole&quot;).getData().setCurrent(arg.added[0])
+}              </ClientEvent>
+          <Property name="dataSet">entityDataSet</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">entityDataType</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">entityDataSet</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+  </View>
+</ViewConfig>

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="schemas" parent="DbConsoleSchema">
+      <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleSchema</Property>
+      <Reference name="objects">
+        <Property name="dataType">[tables]</Property>
+        <Property name="dataProvider">mdf.dbConsoleAction#loadObjects</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="groupId">${param["groupId"]}</Property>
+            <Property name="connName">${param["connName"]}</Property>
+            <Property name="schema">$${this.schemaName}</Property>
+            <Property name="objectName"/>
+            <Property name="types">*</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="schemaName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="connName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+    </DataType>
+    <DataType name="tables" parent="DbConsoleTable">
+      <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleTable</Property>
+      <PropertyDef name="schema">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="catalog">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="fullQualifyName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="type">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="tableComment">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="tableSpace">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <Reference name="columns">
+        <Property name="dataType">[DbConsoleColumn]</Property>
+        <Property name="dataProvider">mdf.dbConsoleAction#loadColumns</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="groupId">${param["groupId"]}</Property>
+            <Property name="connName">${param["connName"]}</Property>
+            <Property name="schema">$${this.schema}</Property>
+            <Property name="tableName">$${this.tableName}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">var editor = view.get('#sqlEditor');    
+editor.set({            
+	'language'  :'plsql',            
+	'theme'     :'neat',  
+	'indentUnit':4,
+	'lineNumbers':true,
+	'gutter':true,
+	'matchBrackets':true      
+});  
+
+var DbConsole;
+window.getCodeValue=function(){
+	var editor = view.get("#sqlEditor");
+	return editor.getCodeMirror().getValue();
+}
+
+window.getSelectedValue=function(){
+	var editor = view.get("#sqlEditor");
+	return editor.getCodeMirror().getSelection();
+}
+
+window.getCurLineValue=function(){
+	var editor = view.get("#sqlEditor");
+    var line = editor.getCodeMirror().getCursor().line;
+	return editor.getCodeMirror().lineInfo(line).text;
+}
+
+window.replaceEditorContent=function(formatSql){
+	var editor = view.get("#sqlEditor");
+	editor.getCodeMirror().replaceSelection(formatSql);
+}
+
+window.getCurLineContent=function(){
+	var editor = view.get("#sqlEditor");
+	return editor.getCodeMirror().getCurLineContent();
+}
+
+window.undo=function(){
+	var editor = view.get("#sqlEditor");
+	editor.getCodeMirror().undo();
+}
+
+window.redo=function(){
+	var editor = view.get("#sqlEditor");
+	editor.getCodeMirror().redo();
+}
+
+window.selectAll=function(){
+	var editor = view.get("#sqlEditor");
+    editor.getCodeMirror().focus();
+    var linCount = editor.getCodeMirror().lineCount();
+    editor.getCodeMirror().setSelection({line:0, ch:0}, {line:linCount - 1, ch:2000});
+}
+
+window.expandSqlEditor=function(){
+	if(view.get('#Hsp.position')&gt;0){
+		view.set('#Hsp.position',0);
+		view.set('#Vsp.position',0);
+	}else{
+		view.set('#Hsp.position',260);
+		view.set('#Vsp.position',370);	
+	}
+}
+
+window.expandDBBrowser=function(){
+	if(view.get('#Hsp.position')&gt;0){
+		view.set('#Hsp.position',0);
+		view.set('#Vsp.position',window.innerHeight);
+	}else{
+		view.set('#Hsp.position',260);
+		view.set('#Vsp.position',370);	
+	}
+}
+
+window.defaultWindow=function(){
+	view.set('#Hsp.position',260);
+	view.set('#Vsp.position',370);	
+}
+
+window.getMessageTab= function(){
+	var messageTab = view.get('#console').getTab('message');
+	return messageTab;
+}
+
+window.setCodeValue=function(value){
+	var editor = view.get("#sqlEditor");
+	editor.getCodeMirror().setValue(value);
+}
+
+window.replaceRange=function(text){
+	var editor = view.get("#sqlEditor");
+    var startCursor = editor.getCodeMirror().getCursor();
+	var endCursor = {line:startCursor.line,ch:(startCursor.ch+text.length)};
+	editor.getCodeMirror().replaceRange(text, startCursor, endCursor);
+}
+
+window.insertObjectName=function(){
+	var objectsTree = view.get('#mainTree')
+	var currentNode = objectsTree.get("currentNode");
+	var level = currentNode.get("level");
+	var entity = currentNode.get("data");
+	var objectName = '';
+	if (1 == level) {
+		objectName = entity.get('schemaName');		
+	}else if(2 == level){
+		objectName = entity.get('tableName');
+	}else if(3 == level){
+		objectName = entity.get('columnName');
+	}		
+	replaceRange(objectName.toLowerCase());			
+}
+
+window.putSelect = function(){
+	var tree = view.get("#mainTree");
+	var currentNode = tree.get("currentNode");
+	var sql = "SELECT ";
+	var parentNode = currentNode.get('parent');
+	var children = currentNode.get('nodes');
+	if(!currentNode.get('expanded')){
+		currentNode.expand();
+		children = currentNode.get('nodes');
+	}
+	var entity = currentNode.get('data');
+	var parentEntity = parentNode.get('data');
+	var tableName = parentEntity.get('schemaName').toLowerCase()+'.'+entity.get('tableName').toLowerCase();
+	children.each(function(child){
+		var childEntity = child.get('data');	
+		var columnName = childEntity.get('columnName');
+		sql+=" "+columnName.toLowerCase()+',\n';
+	});
+	sql = sql.substring(0,sql.length-2);
+	sql += " FROM "+tableName+";";
+	replaceRange(sql);
+}
+
+window.putInsert = function(){
+	var tree = view.get("#mainTree");
+	var currentNode = tree.get("currentNode");
+	var sql = "INSERT INTO ";
+	var parentNode = currentNode.get('parent');
+	var children = currentNode.get('nodes');
+	if(!currentNode.get('expanded')){
+		currentNode.expand();
+		children = currentNode.get('nodes');
+	}
+	var entity = currentNode.get('data');
+	var parentEntity = parentNode.get('data');
+	var tableName = parentEntity.get('schemaName').toLowerCase()+'.'+entity.get('tableName').toLowerCase();
+	sql += tableName+"(\n";
+	var valueSql = "";
+	
+	children.each(function(child){
+		var childEntity = child.get('data');	
+		var columnName = childEntity.get('columnName');
+		var columnType = childEntity.get('typeDisplay');
+		sql+=" "+columnName.toLowerCase()+',\n';
+		valueSql +=getColValue(columnName.toLowerCase(),columnType)+"\n";
+	});
+	sql = sql.substring(0,sql.length-2);
+	valueSql = valueSql.substring(0,valueSql.length-2);
+	sql += ") \n VALUES("+valueSql+");";
+	replaceRange(sql);
+}
+
+window.putUpdate = function(){
+	var tree = view.get("#mainTree");
+	var currentNode = tree.get("currentNode");
+	var sql = "UPDATE ";
+	var parentNode = currentNode.get('parent');
+	var children = currentNode.get('nodes');
+	if(!currentNode.get('expanded')){
+		currentNode.expand();
+		children = currentNode.get('nodes');
+	}
+	var entity = currentNode.get('data');
+	var parentEntity = parentNode.get('data');
+	var tableName = parentEntity.get('schemaName').toLowerCase()+'.'+entity.get('tableName').toLowerCase();
+	var valueSql = "";
+	sql += tableName;
+	sql += '\n SET '
+	
+	children.each(function(child){
+		var childEntity = child.get('data');	
+		var columnName = childEntity.get('columnName');
+		var columnType = childEntity.get('typeDisplay');
+		valueSql +=" "+columnName.toLowerCase()+"="+getColValue(columnName.toLowerCase(),columnType)+"\n";
+	});
+
+	valueSql = valueSql.substring(0,valueSql.length-2);
+	sql += valueSql+";";
+	replaceRange(sql);
+}
+
+window.putDelete = function(){
+	var tree = view.get("#mainTree");
+	var currentNode = tree.get("currentNode");
+	var entity = currentNode.get('data');
+	var tableName = entity.get('tableName').toLowerCase();
+	var sql = "DELETE FROM "+tableName+";";
+	replaceRange(sql);
+}
+
+window.loadData = function(console,dataTabName,token){
+
+	var tabControl = view.get("#console");
+	if(!dataTabName){
+		var newTab = tabControl.addTab({
+			$type : 'IFrame',
+			caption : '查询结果'+(tabControl.get("tabs").size+1),
+			name : 'data'+(tabControl.get("tabs").size+1),
+			closeable : true,
+			path : 'com.innofi.component.dbconsole.view.DataTab.d?token='+token
+		},tabControl.get("tabs").size,true);
+	}else{
+		var dataTab = tabControl.getTab(dataTabName);
+		dataTab.set('path','com.innofi.component.dbconsole.view.DataTab.d?token='+token);
+		tabControl.set('currentTab',dataTab);		
+	}
+	DbConsole = console;
+}
+
+window.executeQuery = function(sql,pageNo,limitSize){
+	var curTabName = view.get("#console.currentTab.name");
+	if(DbConsole){
+		DbConsole.executeSelect(sql,pageNo,limitSize,curTabName);	
+	}else{
+		dorado.MessageBox.alert("...有bug请与开发人员联系!");
+	}
+}
+
+
+function getColValue(colName,typeText){
+	if(typeText.indexOf('CHAR')&gt;-1){
+		return "'"+colName+"_value',";
+	}else if(typeText.indexOf('TIME')&gt;-1){
+		var curDate = new Date();
+		var dateStr = curDate.formatDate('Y-m-d');
+		var timeStr = curDate.formatDate('H:i:s');
+		return "'"+dateStr+" "+timeStr+"',";
+	}else if(typeText.indexOf('DATE')&gt;-1){
+		var curDate = new Date();
+		curDate.formatDate('Y-m-d')
+		return "'"+curDate+"',";
+	}
+	return colName+"_value,";
+}
+
+
+</ClientEvent>
+    <DataSet id="DbConsoleSchema">
+      <Property name="dataType">[schemas]</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+        </Entity>
+      </Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadSchemasForSqlEditor</Property>
+    </DataSet>
+    <SplitPanel id="Hsp">
+      <Property name="position">260</Property>
+      <MainControl>
+        <SplitPanel id="Vsp">
+          <Property name="direction">bottom</Property>
+          <Property name="collapsed">false</Property>
+          <Property name="position">200</Property>
+          <MainControl>
+            <SourceEditor id="sqlEditor"/>
+          </MainControl>
+          <SideControl>
+            <TabControl id="console">
+              <IFrameTab>
+                <Property name="caption">控制台</Property>
+                <Property name="path">com.innofi.component.dbconsole.view.ExecuteMessage.d</Property>
+                <Property name="name">message</Property>
+              </IFrameTab>
+            </TabControl>
+          </SideControl>
+        </SplitPanel>
+      </MainControl>
+      <SideControl>
+        <DataTree id="mainTree">
+          <ClientEvent name="onRenderNode">var node = arg.node;
+var data = node.get('data');
+arg.processDefault=true;
+
+if(node.get('tags')=='objectInfo'){
+	var type = data.get('type');
+	if(type=='SEQUENCE'){
+		node.set('icon','&gt;icons/plugin.png');
+	}else if(type=='VIEW'){
+		node.set('icon','&gt;icons/view.gif')
+	}else if(type!='TABLE'){
+		node.set('icon','&gt;icons/system.png')
+	}
+}</ClientEvent>
+          <ClientEvent name="onDoubleClick">window.insertObjectName();</ClientEvent>
+          <ClientEvent name="onContextMenu">var tree = view.get("#mainTree");
+var currentNode = tree.get("currentNode");
+var level = currentNode.get("level");
+if(level==2&amp;&amp;currentNode.get('data.type')=='TABLE'){
+	view.get("#treeMenu").show({
+		position: {
+	    	left: arg.event.pageX,
+	    	top: arg.event.pageY
+	    }
+	});
+}</ClientEvent>
+          <Property name="dataSet">DbConsoleSchema</Property>
+          <BindingConfigs>
+            <BindingConfig>
+              <Property name="tipProperty">schemaName</Property>
+              <Property name="hasChild">true</Property>
+              <Property name="icon">&gt;icons/schema.png</Property>
+              <Property name="labelProperty">schemaName</Property>
+              <Property name="name">schemaInfo</Property>
+              <Property name="tags">schemaInfo</Property>
+              <BindingConfig>
+                <Property name="icon">&gt;icons/table.gif</Property>
+                <Property name="childrenProperty">objects</Property>
+                <Property name="hasChild">true</Property>
+                <Property name="labelProperty">tableName</Property>
+                <Property name="name">objectInfo</Property>
+                <Property name="tags">objectInfo</Property>
+                <Property name="tipProperty">tableName</Property>
+                <BindingConfig>
+                  <Property name="name">columnInfo</Property>
+                  <Property name="icon">&gt;icons/column.png</Property>
+                  <Property name="labelProperty">columnName</Property>
+                  <Property name="hasChild">false</Property>
+                  <Property name="tipProperty">columnName</Property>
+                  <Property name="childrenProperty">columns</Property>
+                  <Property name="tags">columnInfo</Property>
+                </BindingConfig>
+              </BindingConfig>
+            </BindingConfig>
+          </BindingConfigs>
+        </DataTree>
+      </SideControl>
+    </SplitPanel>
+    <Menu id="treeMenu">
+      <MenuItem>
+        <ClientEvent name="onClick">window.putSelect();</ClientEvent>
+        <Property name="caption">Select语句</Property>
+        <Property name="name">genSelect</Property>
+        <Property name="icon">&gt;icons/zoom.png</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">window.putInsert();</ClientEvent>
+        <Property name="name">genInsert</Property>
+        <Property name="caption">Insert语句</Property>
+        <Property name="icon">&gt;icons/transmit_add.png</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">window.putUpdate();</ClientEvent>
+        <Property name="name">genUpdate</Property>
+        <Property name="caption">Update语句</Property>
+        <Property name="icon">&gt;icons/transmit_edit.png</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">window.putDelete();</ClientEvent>
+        <Property name="name">genDelete</Property>
+        <Property name="caption">Delete语句</Property>
+        <Property name="icon">&gt;icons/transmit_delete.png</Property>
+      </MenuItem>
+    </Menu>
+  </View>
+</ViewConfig>

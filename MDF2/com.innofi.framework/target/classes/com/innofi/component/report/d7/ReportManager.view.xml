@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">Report.Manager</Property>
+  </Property>
+  <Model>
+    <DataType name="dataTypeReport" parent="$dataTypeReport" matchType="com.bstek.bdf.report.domain.Report">
+      <Property name="creationType">com.bstek.bdf.report.domain.Report</Property>
+      <PropertyDef name="ename">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label">${res.ename}</Property>
+        <Validator type="ajax">
+          <ClientEvent name="beforeExecute">arg.parameter = {&#xD;
+	id : arg.entity.get(&quot;id&quot;),&#xD;
+	data : arg.data&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="service">bdf.reportManagerPR#checkReportUnique</Property>
+          <Property name="runAt">server</Property>
+        </Validator>
+      </PropertyDef>
+      <Reference name="variables">
+        <Property name="dataType">[$dataTypeVariable]</Property>
+        <Property name="dataProvider">bdf.reportManagerPR#findVariables</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">jasperreports,swfviewer,bdfFileUpload,bdfComponentProfile,bdfreport</Property>
+    <DataSet id="dataSetReport">
+      <Property name="dataType">[dataTypeReport]</Property>
+      <Property name="dataProvider">bdf.reportManagerPR#findReports</Property>
+      <Property name="pageSize">25</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot>
+        <ClientEvent name="onSubControlAction">switch (arg.code) {&#xD;
+    case &quot;+&quot;:&#xD;
+        var dialog = this.id(&quot;dialogReport&quot;);&#xD;
+		dialog.set(&quot;caption&quot;,&quot;${res.addCaption}&quot;);  //${res.addCaption}&#xD;
+		dialog.show();&#xD;
+		this.id(&quot;dataSetReport&quot;).getData().insert({});&#xD;
+        arg.processDefault = false;&#xD;
+		break;&#xD;
+    case &quot;-&quot;:&#xD;
+        var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+        if (entity) {&#xD;
+        	var action=this.id(&quot;updateActionSaveReport&quot;);  //&#xD;
+        	dorado.MessageBox.confirm(&quot;${res.deleteConfirm}&quot;,function(){&#xD;
+	            entity.remove();&#xD;
+	            action.execute();&#xD;
+        	});&#xD;
+        }&#xD;
+        arg.processDefault = false;&#xD;
+		break;&#xD;
+    default:&#xD;
+        arg.processDefault = true;&#xD;
+}&#xD;
+</ClientEvent>
+        <Property name="dataSet">dataSetReport</Property>
+        <Property name="itemCodes">pages,+,-</Property>
+      </DataPilot>
+      <ToolBarButton id="btnModify">
+        <ClientEvent name="onClick">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+	var dialog = this.id(&quot;dialogReport&quot;)&#xD;
+	dialog.set(&quot;caption&quot;, &quot;${res.modifyCaption}&quot;);  &#xD;
+	dialog.show();&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectModifyTip}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+        <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/building_edit.png</Property>
+      </ToolBarButton>
+      <ToolBarButton id="runVariables">
+        <ClientEvent name="onClick">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+	this.id(&quot;dialogReportVariable&quot;).show();&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.reportSelectTip}&quot;);  //&#xD;
+}&#xD;
+</ClientEvent>
+        <Property name="icon">>dorado/res/com/bstek/bdf/d7/resources/icons/text_allcaps.png</Property>
+      </ToolBarButton>
+      <ToolBarButton id="onLineShow">
+        <ClientEvent name="onClick">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+	var report = new bdf.JasperReports();&#xD;
+	report.showReport(entity.get(&quot;ename&quot;));&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectReportTip}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+        <Property name="icon">>dorado/res/com/bstek/bdf/d7/resources/icons/picture.png</Property>
+      </ToolBarButton>
+      <ToolBarButton id="importReport">
+        <ClientEvent name="onClick">&#xD;
+var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+	var report = new bdf.JasperReports();&#xD;
+	report.downloadReport(entity.get(&quot;ename&quot;));&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectReportTip}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+        <Property name="icon">>dorado/res/com/bstek/bdf/d7/resources/icons/table.png</Property>
+        <Property name="caption">${res.importReport}</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <DataGrid id="dataGridMain">
+      <Property name="dataSet">dataSetReport</Property>
+      <Property name="readOnly">true</Property>
+      <Property name="filterMode">serverSide</Property>
+      <Property name="showFilterBar">true</Property>
+      <DataColumn name="group">
+        <Property name="property">group</Property>
+      </DataColumn>
+      <DataColumn name="ename">
+        <Property name="property">ename</Property>
+        <Property name="caption">${res.ename}</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">jasperName</Property>
+        <Property name="property">jasperName</Property>
+        <Property name="filterable">false</Property>
+      </DataColumn>
+      <DataColumn name="dataSourceName">
+        <Property name="property">dataSourceName</Property>
+        <Property name="filterable">false</Property>
+      </DataColumn>
+      <DataColumn name="createUser">
+        <Property name="property">createUser</Property>
+        <Property name="filterable">false</Property>
+      </DataColumn>
+      <DataColumn name="createDate">
+        <Property name="property">createDate</Property>
+        <Property name="filterable">false</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="property">cmnt</Property>
+        <Property name="name">cmnt</Property>
+        <Property name="filterable">false</Property>
+      </DataColumn>
+    </DataGrid>
+    <Dialog id="dialogReport">
+      <ClientEvent name="onHide">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+entity.cancel();&#xD;
+</ClientEvent>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">500</Property>
+      <Property name="height">300</Property>
+      <Buttons>
+        <Button id="btnOk">
+          <ClientEvent name="onClick">var view = this;&#xD;
+this.id(&quot;updateActionSaveReport&quot;).execute(function(){&#xD;
+	view.id(&quot;dialogReport&quot;).hide();&#xD;
+});&#xD;
+</ClientEvent>
+          <Property name="caption">${res.btnOk}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/disk.png</Property>
+        </Button>
+        <Button id="btnCancel">
+          <ClientEvent name="onClick">this.id(&quot;dialogReport&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">${res.btnCancel}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/cancel.png</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dataSetReport</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="labelWidth">160</Property>
+          <AutoFormElement>
+            <Property name="name">ename</Property>
+            <Property name="property">ename</Property>
+            <Property name="label">${res.ename}</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">group</Property>
+            <Property name="property">group</Property>
+            <Property name="label">${res.group}</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dataSourceName</Property>
+            <Property name="property">dataSourceName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="property">jasperName</Property>
+            <Property name="name">jasperName</Property>
+            <Property name="trigger">triggerUploadFile</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="editable">false</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">cmnt</Property>
+            <Property name="property">cmnt</Property>
+            <Property name="type">textArea</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </Dialog>
+    <UpdateAction id="updateActionSaveReport">
+      <Property name="dataResolver">bdf.reportManagerPR#saveReports</Property>
+      <Property name="successMessage">${res.actionSuccess}</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetReport</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Trigger id="triggerUploadFile">
+      <ClientEvent name="onExecute">var view=this;&#xD;
+var config = {&#xD;
+    caption: &quot;${res.uploadTemplateCaption}&quot;,&#xD;
+    height: 200,&#xD;
+    allowedTypes: [&quot;jasper&quot;],&#xD;
+    onSuccess: function(result){&#xD;
+			var uploadId = result[0].id;&#xD;
+			var uploadName = result[0].fileName;&#xD;
+			var entity = view.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+			entity.set(&quot;uploadFileName&quot;,uploadId);&#xD;
+			entity.set(&quot;jasperName&quot;,uploadName);&#xD;
+        }&#xD;
+};&#xD;
+var upload = new bdf.UploadFile();&#xD;
+upload.show(config);&#xD;
+</ClientEvent>
+    </Trigger>
+    <Dialog id="dialogReportVariable">
+      <ClientEvent name="onHide">this.id(&quot;dataSetReport&quot;).getData(&quot;#.variables&quot;).cancel();&#xD;
+</ClientEvent>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">300</Property>
+      <Property name="width">500</Property>
+      <Buttons>
+        <Button id="btnClose">
+          <ClientEvent name="onClick">this.id(&quot;dialogReportVariable&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/cancel.png</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <ToolBar>
+          <ToolBarButton id="btnAdd">
+            <ClientEvent name="onClick">this.id(&quot;dataSetReport&quot;).getData(&quot;#.variables&quot;).insert({});&#xD;
+</ClientEvent>
+            <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/add.png</Property>
+          </ToolBarButton>
+          <ToolBarButton id="btnDelete">
+            <ClientEvent name="onClick">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#.#variables&quot;);&#xD;
+if (entity) {&#xD;
+	entity.remove();&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.deleteVarTip}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+            <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/delete.png</Property>
+          </ToolBarButton>
+          <ToolBarButton id="btnSave">
+            <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/disk.png</Property>
+            <Property name="action">updateActionSaveReport</Property>
+          </ToolBarButton>
+        </ToolBar>
+        <DataGrid>
+          <Property name="dataSet">dataSetReport</Property>
+          <Property name="dataPath">#.variables</Property>
+          <DataColumn name="name">
+            <Property name="property">name</Property>
+          </DataColumn>
+          <DataColumn name="dataType">
+            <Property name="property">dataType</Property>
+          </DataColumn>
+          <DataColumn name="value">
+            <Property name="property">value</Property>
+          </DataColumn>
+        </DataGrid>
+      </Children>
+    </Dialog>
+  </View>
+</ViewConfig>

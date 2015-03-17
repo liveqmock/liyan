@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">Report.Denied</Property>
+  </Property>
+  <View>
+    <ClientEvent name="onReady">this.id(&quot;dialogInfo&quot;).show();</ClientEvent>
+    <Dialog id="dialogInfo" layout="anchor">
+      <Property name="closeable">false</Property>
+      <Property name="center">true</Property>
+      <Property name="width">400</Property>
+      <Property name="height">200</Property>
+      <Property name="contentOverflow">hidden</Property>
+      <Children>
+        <HtmlContainer>
+          <Property name="content">&lt;center>&lt;h1>${res.htmlContext}&lt;/h1>&lt;/center></Property>
+        </HtmlContainer>
+      </Children>
+    </Dialog>
+  </View>
+</ViewConfig>

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdMetaModel">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型ID</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property name="dataType">String</Property>
+        <Property name="label">父元模型ID</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型编码</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmName">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型名称</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型描述</Property>
+      </PropertyDef>
+      <PropertyDef name="nodePic">
+        <Property name="dataType">String</Property>
+        <Property name="label">显示图标</Property>
+      </PropertyDef>
+      <PropertyDef name="isDiscSonId">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否显示子类</Property>
+      </PropertyDef>
+      <PropertyDef name="savePath">
+        <Property name="dataType">String</Property>
+        <Property name="label">保存路径</Property>
+      </PropertyDef>
+      <PropertyDef name="saveType">
+        <Property name="dataType">String</Property>
+        <Property name="label">保存类型</Property>
+      </PropertyDef>
+      <PropertyDef name="uiName">
+        <Property name="dataType">String</Property>
+        <Property name="label">UI界面</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmLevel">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">层级</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">有效状态</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改人</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdDataView">
+      <Property name="dataProvider">mdDataViewAction#findDataViewsByParentId</Property>
+      <Property name="dataType">[dataTypeMdDataView]</Property>
+    </DataSet>
+    <DataSet id="dataSetMdMetaModel">
+      <ClientEvent name="onReady">//获取元模型表名
+var savePath=&quot;${request.getParameter('savePath')}&quot;;
+//通过元模型id,获得依赖元模型id的集合.
+var ajaxAction = view.get(&quot;#findTableRelateAjaxAction&quot;);
+if(savePath == &quot;undefined&quot;){
+	parm={savePaths:savePath};
+	self.set(&quot;parameter&quot;,parm).flushAsync();
+}else{
+	ajaxAction.set(&quot;parameter&quot;,{savePath:savePath}).execute(function(savePaths){//返回依赖元模型id的字符串组.
+		if(savePaths!=&quot;&quot;||savePaths.length!=0){
+			parm={savePaths:savePaths};
+			self.set(&quot;parameter&quot;,parm).flushAsync();
+		}
+	});
+}
+</ClientEvent>
+      <Property name="dataProvider">mdMetaModelAction#findMdMetaModels</Property>
+      <Property name="dataType">[dataTypeMdMetaModel]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdMetaModel">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdMetaModel]</Property>
+    </DataSet>
+    <Panel>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdDataViewsAction&quot;);
+action.execute(function(){
+	//parent.$id(&quot;businessViewDialog&quot;).objects[0].hide();
+	//dorado.widget.NotifyTipManager.notify(&quot;操作成功ing!&quot;);
+});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">parent.$id(&quot;businessViewDialog&quot;).objects[0].hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Panel>
+          <Children>
+            <Container layoutConstraint="left">
+              <Property name="width">50%</Property>
+              <Panel>
+                <Property name="caption">元模型选择</Property>
+                <Children>
+                  <FieldSet layoutConstraint="center">
+                    <Property name="caption">查询条件</Property>
+                    <Property name="collapsed">false</Property>
+                    <Buttons>
+                      <Button>
+                        <ClientEvent name="onClick">/*//获取元模型表名
+var savePath=&quot;${request.getParameter('savePath')}&quot;;
+
+//通过元模型id,获得依赖元模型id的集合.
+var ajaxAction = view.get(&quot;#findTableRelateAjaxAction&quot;);
+ajaxAction.set(&quot;parameter&quot;,{savePath:savePath}).execute(function(savePaths){//返回依赖元模型id的字符串组.
+
+	if(savePaths!=&quot;&quot;||savePaths.length!=0){
+		parm={
+			savePaths:savePaths,
+			mdmCode:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;mdmCode&quot;),
+			mdmName:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;mdmName&quot;),
+			};
+		view.get(&quot;#dataSetMdMetaModel&quot;).set(&quot;parameter&quot;,parm).flushAsync();
+	}
+});*/
+parm={
+	busiManage:&quot;busiManage&quot;,
+	mdmCode:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;mdmCode&quot;),
+	mdmName:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;mdmName&quot;),
+	status:&quot;1&quot;
+			};
+view.get(&quot;#dataSetMdMetaModel&quot;).set(&quot;parameter&quot;,parm).flushAsync();</ClientEvent>
+                        <Property name="caption">查询</Property>
+                        <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+                      </Button>
+                      <Button>
+                        <ClientEvent name="onClick">view.set(&quot;#querydataSetMdMetaModel.data&quot;,{});
+</ClientEvent>
+                        <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                        <Property name="caption">重置</Property>
+                      </Button>
+                    </Buttons>
+                    <Children>
+                      <AutoForm id="autoFormMdMetaModelQuery" layoutConstraint="center">
+                        <Property name="cols">*,*</Property>
+                        <Property name="dataSet">querydataSetMdMetaModel</Property>
+                        <Property name="dataType">dataTypeMdMetaModel</Property>
+                        <AutoFormElement>
+                          <Property name="name">mdmCode</Property>
+                          <Property name="property">mdmCode</Property>
+                          <Property name="trigger">triggerClear</Property>
+                          <Editor>
+                            <TextEditor/>
+                          </Editor>
+                        </AutoFormElement>
+                        <AutoFormElement>
+                          <Property name="name">mdmName</Property>
+                          <Property name="property">mdmName</Property>
+                          <Property name="trigger">triggerClear</Property>
+                          <Editor>
+                            <TextEditor/>
+                          </Editor>
+                        </AutoFormElement>
+                      </AutoForm>
+                    </Children>
+                  </FieldSet>
+                  <Container>
+                    <DataGrid id="dataGridMdMetaModel" layoutConstraint="center">
+                      <Property name="selectionMode">singleRow</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="rowHeight">26</Property>
+                      <Property name="height">100%</Property>
+                      <Property name="width">100%</Property>
+                      <Property name="highlightCurrentRow">false</Property>
+                      <Property name="dataType">dataTypeMdMetaModel</Property>
+                      <Property name="dataSet">dataSetMdMetaModel</Property>
+                      <RowNumColumn/>
+                      <RowSelectorColumn/>
+                      <DataColumn name="mdmCode">
+                        <Property name="property">mdmCode</Property>
+                      </DataColumn>
+                      <DataColumn name="mdmName">
+                        <Property name="property">mdmName</Property>
+                      </DataColumn>
+                      <DataColumn name="mdmDesc">
+                        <Property name="property">mdmDesc</Property>
+                      </DataColumn>
+                    </DataGrid>
+                  </Container>
+                  <ToolBar layoutConstraint="bottom">
+                    <DataPilot>
+                      <Property name="dataSet">dataSetMdMetaModel</Property>
+                      <Property name="itemCodes">pages</Property>
+                    </DataPilot>
+                  </ToolBar>
+                </Children>
+              </Panel>
+            </Container>
+            <Container layoutConstraint="center">
+              <Property name="width">10%</Property>
+              <Panel layout="vbox pack:center;align:center" layoutConstraint="center">
+                <Property name="width">100%</Property>
+                <Children>
+                  <Button>
+                    <ClientEvent name="onClick">var dataSetMetaModel = view.get(&quot;#dataSetMdMetaModel&quot;);
+var dataTreeGrid = view.get(&quot;#dataViewDataTreeGrid&quot;);
+var selection = view.get(&quot;#dataGridMdMetaModel&quot;).get(&quot;selection&quot;);
+if (!selection) {
+	throw new dorado.Exception(&quot;请选择一条记录！&quot;);
+}
+dataSetMetaModel.getData().setCurrent(selection);
+var entity = dataSetMetaModel.getData(&quot;#&quot;);
+var ajaxAction = view.get(&quot;#checkTableRelateAjaxAction&quot;);
+var currentNode = dataTreeGrid.get(&quot;currentNode&quot;);
+var currentEntity = currentNode.get(&quot;data&quot;);
+
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+para={
+	mainTableNameId:currentEntity.get(&quot;mdmId&quot;),
+	foreignTableName:entity.get(&quot;savePath&quot;)
+}
+if(currentEntity.get(&quot;parentId&quot;)!= &quot;0&quot;)
+	ajaxAction.set(&quot;parameter&quot;,para).execute(function(result){
+		if(result==&quot;0&quot;){
+			var child = currentEntity.createChild(&quot;children&quot;, {
+				mdmId:entity.get(&quot;id&quot;),
+				mdmName:entity.get(&quot;mdmName&quot;),
+				parentId:currentEntity.get(&quot;id&quot;),
+				mdmLevel:currentEntity.get(&quot;mdmLevel&quot;)+1,
+				status:&quot;1&quot;
+			});
+			currentNode.expand();
+			dataTreeGrid.set(&quot;currentEntity&quot;,child);
+		}else{
+			dorado.MessageBox.alert(&quot;元模型与业务视图没有关联关系,请重新选择!&quot;);
+		}
+	});
+else{
+	var child = currentEntity.createChild(&quot;children&quot;, {
+		mdmId:entity.get(&quot;id&quot;),
+		mdmName:entity.get(&quot;mdmName&quot;),
+		parentId:currentEntity.get(&quot;id&quot;),
+		mdmLevel:currentEntity.get(&quot;mdmLevel&quot;)+1,
+		status:&quot;1&quot;
+	});
+	currentNode.expand();
+	dataTreeGrid.set(&quot;currentEntity&quot;,child);
+}
+</ClientEvent>
+                    <Property name="caption">添加</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                  </Button>
+                  <Button>
+                    <ClientEvent name="onClick">var dataViewTreeGrid = view.get(&quot;#dataViewDataTreeGrid&quot;);
+var entity = dataViewTreeGrid.get(&quot;currentEntity&quot;);
+	if(entity){
+		if(entity.get(&quot;parentId&quot;)==&quot;0&quot;){
+			dorado.MessageBox.alert(&quot;根节点不能删除!&quot;);
+		}else if(!entity.get(&quot;children&quot;).isEmpty()){
+			dorado.MessageBox.confirm(&quot;含有子节点,是否删除?&quot;,function(){
+				entity.remove();
+				//action.execute(function(){
+				//	action.set(&quot;successMessage&quot;,&quot;停用成功！&quot;)
+				//});
+			});
+		}else{
+			dorado.MessageBox.confirm(&quot;是否删除?&quot;,function(){
+				entity.remove();
+			});
+		}
+	}</ClientEvent>
+                    <Property name="caption">删除</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                  </Button>
+                </Children>
+              </Panel>
+            </Container>
+            <Container layoutConstraint="right">
+              <Property name="width">40%</Property>
+              <Panel>
+                <Property name="caption">业务元模型</Property>
+                <Children>
+                  <Container>
+                    <DataTreeGrid id="dataViewDataTreeGrid">
+                      <Property name="currentNodeDataPath">CURRENT_DATAVIEW</Property>
+                      <Property name="dataSet">dataSetMdDataView</Property>
+                      <Property name="treeColumn">mdmName</Property>
+                      <Property name="highlightCurrentRow">true</Property>
+                      <Property name="readOnly">true</Property>
+                      <BindingConfigs>
+                        <BindingConfig>
+                          <Property name="childrenProperty">children</Property>
+                          <Property name="expandLevel">1</Property>
+                          <Property name="labelProperty">mdmName</Property>
+                          <Property name="recursive">true</Property>
+                        </BindingConfig>
+                      </BindingConfigs>
+                      <Columns>
+                        <DataColumn>
+                          <Property name="property">mdmName</Property>
+                          <Property name="name">mdmName</Property>
+                          <Property name="visible">true</Property>
+                          <Editor/>
+                        </DataColumn>
+                      </Columns>
+                    </DataTreeGrid>
+                  </Container>
+                  <ToolBar layoutConstraint="bottom">
+                    <DataPilot>
+                      <Property name="dataSet">dataSetMdDataView</Property>
+                      <Property name="itemCodes">pages</Property>
+                    </DataPilot>
+                  </ToolBar>
+                </Children>
+              </Panel>
+            </Container>
+          </Children>
+        </Panel>
+      </Children>
+      <Tools/>
+    </Panel>
+    <UpdateAction id="saveMdMetaModelsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdMetaModelAction#saveMdMetaModels</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdMetaModel</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveMdDataViewsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdDataViewAction#saveMdDataViews</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdDataView</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="findTableRelateAjaxAction">
+      <Property name="service">mdTableRelateAction#findTableRelateByName</Property>
+    </AjaxAction>
+    <AjaxAction id="checkTableRelateAjaxAction">
+      <Property name="service">mdTableRelateAction#checkMetaModelRelate</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

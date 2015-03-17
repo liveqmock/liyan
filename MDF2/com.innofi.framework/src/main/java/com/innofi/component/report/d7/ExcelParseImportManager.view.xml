@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">BDF.Excel</Property>
+  </Property>
+  <Model>
+    <DataType name="$dataTypeExcelModel" parent="global:$dataTypeExcelModel">
+      <ClientEvent name="onDataChange">if(arg.property == &quot;processorType&quot;){&#xD;
+	var autoFormExcelModel=this.id(&quot;autoFormExcelModel&quot;);&#xD;
+	if(&quot;1&quot;==arg.newValue){&#xD;
+		autoFormExcelModel.getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		&#xD;
+		autoFormExcelModel.getElement(&quot;datasourceName&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;tableName&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;tablePrimaryKey&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;primaryKeyType&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		&#xD;
+		arg.entity.set(&quot;processor&quot;,null);&#xD;
+	}else{&#xD;
+		autoFormExcelModel.getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		&#xD;
+		autoFormExcelModel.getElement(&quot;datasourceName&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;tableName&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;tablePrimaryKey&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;primaryKeyType&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		arg.entity.set(&quot;datasourceName&quot;,null);&#xD;
+		arg.entity.set(&quot;tableName&quot;,null);&#xD;
+		arg.entity.set(&quot;tablePrimaryKey&quot;,null);&#xD;
+		arg.entity.set(&quot;primaryKeyType&quot;,null);&#xD;
+		&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+      <Reference name="listExcelModelDetail">
+        <Property name="dataProvider">bdf.excelManagerPR#loadExcelModelDetails</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataType">[$$dataTypeExcelModelDetail]</Property>
+      </Reference>
+      <PropertyDef name="processorType">
+        <Property name="mapping">
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="label">${messageUtil.getMessage('sysProcessType')}</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="label">${messageUtil.getMessage('customerProcessType')}</Property>
+              </Entity>
+            </Collection>
+          </Property>
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+        </Property>
+        <Property name="defaultValue">1</Property>
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label">${messageUtil.getMessage('excelModel.processorType')}</Property>
+      </PropertyDef>
+      <PropertyDef name="dbType">
+        <Property name="mapping">
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">Oracle</Property>
+                <Property name="label">Oracle</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">DB2</Property>
+                <Property name="label">DB2</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <Reference name="tableColumns">
+        <Property name="dataProvider">bdf.excelManagerPR#loadTableColumnNames</Property>
+        <Property name="dataType">[dataTypeTableInfo]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dataSourceName">$${this.datasourceName}</Property>
+            <Property name="tableName">$${this.tableName}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Validator type="ajax" async="true" defaultResultState="error" revalidateOldValue="true" runAt="client">
+          <Property name="service">bdf.excelManagerPR#checkId</Property>
+        </Validator>
+        <Validator type="length" defaultResultState="error" revalidateOldValue="true" runAt="client">
+          <Property name="minLength">6</Property>
+          <Property name="maxLength">50</Property>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeTableInfo" matchType="com.innofi.component.report.d7.domain.TableInfo">
+      <ClientEvent name="onDataChange">if(arg.property == &quot;tableName&quot;){&#xD;
+	var data=this.id(&quot;dataSetExcelDataWrapper&quot;).getData(&quot;#&quot;);&#xD;
+	if(arg.newValue){&#xD;
+		 data.set(&quot;tablePrimaryKey&quot;,&quot;id_&quot;); &#xD;
+	}&#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="creationType">com.innofi.component.report.d7.domain.TableInfo</Property>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="tablePrimaryKey">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="tableColumn">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="primaryKeyType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="$$dataTypeExcelModelDetail" parent="global:$$dataTypeExcelModelDetail">
+      <ClientEvent name="onDataChange">if(arg.property==&quot;interceptorType&quot;){&#xD;
+	var element=this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;interceptor&quot;)&#xD;
+	if(&quot;1&quot;==arg.newValue){&#xD;
+	   element.set(&quot;readOnly&quot;,true);&#xD;
+	   arg.entity.set(&quot;interceptor&quot;,null);&#xD;
+	}else {&#xD;
+		element.set(&quot;readOnly&quot;,false);&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="creationType">com.innofi.component.report.excel.domain.ExcelModelDetail</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="modelId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="excelColumn">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="tableColumn">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="interceptor">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="interceptorType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">1</Property>
+        <Property name="label">是否使用拦截器</Property>
+        <Property name="mapping">
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="label">不使用拦截器</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="label">使用用户自定义的拦截器</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">var view = this;&#xD;
+var dialogRow = view.id(&quot;dialogRow&quot;);&#xD;
+var dataSetRow = view.id(&quot;dataSetRow&quot;);&#xD;
+var ajaxAction = this.id(&quot;ajaxActionSaveRow&quot;);&#xD;
+&#xD;
+var config = {&#xD;
+    caption: &quot;${messageUtil.getMessage('uploadExcelFile')}&quot;,&#xD;
+    height: 200,&#xD;
+    allowedTypes: [&quot;xls&quot;, &quot;xlsx&quot;],&#xD;
+    onSuccess: function(result){&#xD;
+        dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('confirmTip')}&quot;, function(){&#xD;
+            var uploadFileId = result[0].id;&#xD;
+            dataSetRow.set(&quot;parameter&quot;, {&#xD;
+                excelModelId: view.excelModelId,&#xD;
+                uploadFileId: uploadFileId&#xD;
+            });&#xD;
+            var floatPanelProcess = view.id(&quot;floatPanelProcess&quot;);&#xD;
+            floatPanelProcess.show();&#xD;
+            dataSetRow.flush();&#xD;
+            floatPanelProcess.hide();&#xD;
+            if (view.startRow) {&#xD;
+                dataSetRow.getData().set({&#xD;
+                    startRow: view.startRow&#xD;
+                });&#xD;
+            }&#xD;
+            if (view.endRow) {&#xD;
+                dataSetRow.getData().set({&#xD;
+                    endRow: view.endRow&#xD;
+                });&#xD;
+            }&#xD;
+            &#xD;
+            //临时存放上传文件的id&#xD;
+            dataSetRow.getData().set(&quot;id&quot;, uploadFileId);&#xD;
+            if (view.showRownum &amp;&amp; view.showRownum == &quot;true&quot;) {&#xD;
+                dialogRow.show();&#xD;
+            }&#xD;
+            else &#xD;
+                if (view.showImportData &amp;&amp; view.showImportData == &quot;true&quot;) {&#xD;
+                    var data = dataSetRow.getData();&#xD;
+                    var startRow = data.get(&quot;startRow&quot;);&#xD;
+                    var endRow = data.get(&quot;endRow&quot;);&#xD;
+                    &#xD;
+                    var ajaxAction = view.id(&quot;ajaxActionSaveRow&quot;);&#xD;
+                    ajaxAction.set(&quot;parameter&quot;, {&#xD;
+                        excelModelId: view.excelModelId,&#xD;
+                        startRow: startRow,&#xD;
+                        endRow: endRow&#xD;
+                    });&#xD;
+                    dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('confirmTip')}&quot;, function(){&#xD;
+                        ajaxAction.execute();&#xD;
+                        floatPanelProcess.show();&#xD;
+                    });&#xD;
+                }&#xD;
+                else {&#xD;
+                    var data = dataSetRow.getData();&#xD;
+                    var startRow = data.get(&quot;startRow&quot;);&#xD;
+                    var endRow = data.get(&quot;endRow&quot;);&#xD;
+                    var action = view.id(&quot;ajaxActionSaveExcelData&quot;);&#xD;
+                    action.set(&quot;parameter&quot;, {&#xD;
+                        excelModelId: view.excelModelId,&#xD;
+                        startRow: startRow,&#xD;
+                        endRow: endRow,&#xD;
+                        uploadFileId: uploadFileId&#xD;
+                    });&#xD;
+                    dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('analyExcelToDatabase')}&quot;, function(){&#xD;
+                        action.execute();&#xD;
+                    });&#xD;
+                }&#xD;
+        });&#xD;
+    }&#xD;
+};&#xD;
+//var upload = new bdf.UploadFile();&#xD;
+//upload.show(config);&#xD;
+view.get(&quot;#uploadExcel&quot;).show();&#xD;
+</ClientEvent>
+    <ClientEvent name="onCreate">self.excelModelId=&quot;${request.getParameter(&quot;modelId&quot;)}&quot;;&#xD;
+self.showRownum=&quot;${request.getParameter(&quot;showRownum&quot;)}&quot;;&#xD;
+self.showImportData=&quot;${request.getParameter(&quot;showImportData&quot;)}&quot;;&#xD;
+self.startRow=&quot;${request.getParameter(&quot;startRow&quot;)}&quot;;&#xD;
+self.endRow=&quot;${request.getParameter(&quot;endRow&quot;)}&quot;;&#xD;
+</ClientEvent>
+    <Property name="packages">idfReport</Property>
+    <DataSet id="dataSetRow">
+      <Property name="dataProvider">bdf.excelManagerPR#loadExcelRow</Property>
+      <Property name="dataType">$dataTypeExcelModel</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetExcelModel">
+      <Property name="dataProvider">bdf.excelManagerPR#loadExcelModels</Property>
+      <Property name="dataType">[$dataTypeExcelModel]</Property>
+      <Property name="pageSize">10</Property>
+    </DataSet>
+    <AjaxAction id="ajaxActionSaveExcelData">
+      <ClientEvent name="onSuccess">this.id(&quot;floatPanelProcess&quot;).hide();&#xD;
+dorado.MessageBox.show({&#xD;
+    title: &quot;${messageUtil.getMessage('tipInfo')}&quot;,&#xD;
+    icon: dorado.MessageBox.INFO_ICON,&#xD;
+    message: &quot;${messageUtil.getMessage('importSuccess')}&quot;,&#xD;
+    buttons: [&quot;${messageUtil.getMessage('btnClose')}&quot;],&#xD;
+    detailCallback: function(buttonId){&#xD;
+        if (buttonId == &quot;${messageUtil.getMessage('btnClose')}&quot;) {&#xD;
+            var dialog = dorado.widget.findParentControl(document.body, dorado.widget.View);&#xD;
+            dialog.hide();&#xD;
+        }&#xD;
+    }&#xD;
+});&#xD;
+</ClientEvent>
+      <Property name="service">bdf.excelManagerPR#saveParserExcelData</Property>
+      <Property name="successMessage">${messageUtil.getMessage('ajaxActionSuccess')}</Property>
+      <Property name="executingMessage">${messageUtil.getMessage('ajaxActionConfirm')}</Property>
+    </AjaxAction>
+    <Dialog id="dialogRow">
+      <Property name="center">true</Property>
+      <Property name="width">400</Property>
+      <Property name="height">160</Property>
+      <Property name="modal">true</Property>
+      <Property name="resizeable">true</Property>
+      <Buttons>
+        <Button id="buttonRowOk" layoutConstraint="padding:center">
+          <ClientEvent name="onClick">var view = this;&#xD;
+var data = view.id(&quot;dataSetRow&quot;).getData();&#xD;
+var startRow = data.get(&quot;startRow&quot;);&#xD;
+var endRow = data.get(&quot;endRow&quot;);&#xD;
+&#xD;
+var ajaxAction = this.id(&quot;ajaxActionSaveRow&quot;);&#xD;
+ajaxAction.set(&quot;parameter&quot;, {&#xD;
+    excelModelId: view.excelModelId,&#xD;
+    startRow: startRow,&#xD;
+    endRow: endRow&#xD;
+});&#xD;
+var floatPanelProcess = this.id(&quot;floatPanelProcess&quot;);&#xD;
+dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('confirmTip')}&quot;, function(){&#xD;
+    ajaxAction.execute();&#xD;
+    floatPanelProcess.show();&#xD;
+});&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+          <Property name="caption">${messageUtil.getMessage('btnOK')}</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormRow">
+          <Property name="dataSet">dataSetRow</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="dataPath">#</Property>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">startRow</Property>
+            <Property name="property">startRow</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">endRow</Property>
+            <Property name="property">endRow</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </Dialog>
+    <DataSet id="dataSetExcelDataWrapper">
+      <Property name="dataType">$dataTypeExcelDataWrapper</Property>
+      <Property name="dataProvider">bdf.excelManagerPR#loadParsedExcelWrapper</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <AjaxAction id="ajaxActionSaveRow">
+      <ClientEvent name="onSuccess">var view = this;&#xD;
+this.id(&quot;dialogRow&quot;).hide();&#xD;
+var dataRow = view.id(&quot;dataSetRow&quot;).getData();&#xD;
+var MoreUploader = view.get(&quot;#uploadExcel&quot;);&#xD;
+var uploadFileId = MoreUploader.get(&quot;userData&quot;); &#xD;
+if (view.showImportData &amp;&amp; view.showImportData == &quot;true&quot;) {&#xD;
+    var floatPanelProcess = this.id(&quot;floatPanelProcess&quot;);&#xD;
+    var dataSet = this.id(&quot;dataSetExcelDataWrapper&quot;);&#xD;
+    var dialog = this.id(&quot;dialogExcelDataWrapper&quot;);&#xD;
+    dataSet.set(&quot;parameter&quot;, {&#xD;
+        excelModelId: view.excelModelId,&#xD;
+        uploadFileId: uploadFileId&#xD;
+    });&#xD;
+    dataSet.flushAsync(function(){&#xD;
+        floatPanelProcess.hide();&#xD;
+		if(!getDataValid()) {&#xD;
+			view.get(&quot;#parseLabel&quot;).set(&quot;style&quot;,{color : &quot;red&quot;});&#xD;
+			view.get(&quot;#buttonExcelParse&quot;).set(&quot;disabled&quot;,true);&#xD;
+			view.get(&quot;#parseLabel&quot;).set(&quot;text&quot;,'${messageUtil.getMessage(&quot;excelModel.importDataError&quot;)}');&#xD;
+		} else {&#xD;
+			view.get(&quot;#parseLabel&quot;).set(&quot;style&quot;,{color : &quot;red&quot;});&#xD;
+			view.get(&quot;#buttonExcelParse&quot;).set(&quot;disabled&quot;,false);&#xD;
+			view.get(&quot;#parseLabel&quot;).set(&quot;text&quot;,'${messageUtil.getMessage(&quot;excelModel.importDataOk&quot;)}');&#xD;
+		}&#xD;
+		view.get(&quot;#dialogParse&quot;).show();&#xD;
+    });&#xD;
+}&#xD;
+else {&#xD;
+    var startRow = dataRow.get(&quot;startRow&quot;);&#xD;
+    var endRow = dataRow.get(&quot;endRow&quot;);&#xD;
+    var action = view.id(&quot;ajaxActionSaveExcelData&quot;);&#xD;
+    action.set(&quot;parameter&quot;, {&#xD;
+        excelModelId: view.excelModelId,&#xD;
+        startRow: startRow,&#xD;
+        endRow: endRow,&#xD;
+        uploadFileId: uploadFileId&#xD;
+    });&#xD;
+    dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('paseIntoDatabase')}&quot;, function(){&#xD;
+        action.execute();&#xD;
+    });&#xD;
+}&#xD;
+&#xD;
+function getDataValid(){&#xD;
+	return view.get(&quot;#dataSetExcelDataWrapper&quot;).getData(&quot;#.validate&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="service">bdf.excelManagerPR#saveExcelModelRow</Property>
+      <Property name="executingMessage">系统正在解析预览数据...</Property>
+    </AjaxAction>
+    <FloatPanel id="floatPanelProcess">
+      <Property name="modal">true</Property>
+      <Property name="center">true</Property>
+      <Property name="closeable">true</Property>
+      <Property name="draggable">true</Property>
+      <Property name="droppable">true</Property>
+      <Children>
+        <ProgressBar id="progressBar">
+          <ClientEvent name="onReady">window.setInterval(function(){&#xD;
+	var s=Math.floor(Math.random()*100+1);&#xD;
+	if(s>90){&#xD;
+		s=100;&#xD;
+	}&#xD;
+	self.set(&quot;value&quot;,s);&#xD;
+},150);&#xD;
+</ClientEvent>
+          <Property name="effectEnable">true</Property>
+          <Property name="minValue">0</Property>
+          <Property name="showText">true</Property>
+          <Property name="textPattern">${messageUtil.getMessage('sysTip')}</Property>
+        </ProgressBar>
+      </Children>
+    </FloatPanel>
+    <OneUploader id="uploadExcel">
+      <Property name="fileSaveType">BLOB</Property>
+      <Property name="maxFileSize">1MB</Property>
+      <Property name="uploadExtensions">xls</Property>
+      <Property name="uploadTittle">Excel文档</Property>
+      <Property name="width">100%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var MoreUploader = view.get(&quot;#uploadExcel&quot;);&#xD;
+var fileId = MoreUploader.get(&quot;userData&quot;); &#xD;
+var modelId = '${request.getParameter(&quot;modelId&quot;)}';&#xD;
+var dataSetRow = view.get(&quot;#dataSetRow&quot;);&#xD;
+dataSetRow.set(&quot;parameter&quot;, {&quot;excelModelId&quot;:modelId,&quot;uploadFileId&quot;:fileId});&#xD;
+dataSetRow.flush();&#xD;
+		&#xD;
+view.get(&quot;#dialogRow&quot;).show();&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+        </Button>
+      </Buttons>
+      <Children/>
+      <Tools/>
+    </OneUploader>
+    <Dialog id="dialogParse">
+      <Property name="width">600</Property>
+      <Property name="height">350</Property>
+      <Property name="modal">true</Property>
+      <Property name="caption">${messageUtil.getMessage('excelModel.import')}</Property>
+      <Buttons>
+        <Button id="buttonExcelParse">
+          <ClientEvent name="onClick">var action = this.id(&quot;ajaxActionSaveExcelData&quot;);&#xD;
+var floatPanelProcess = this.id(&quot;floatPanelProcess&quot;);&#xD;
+dorado.MessageBox.confirm(&quot;您确定要解析入库吗？&quot;, function(){&#xD;
+    action.execute();&#xD;
+});</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+          <Property name="caption">${messageUtil.getMessage('excelMode.btn.parseDb')}</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Label id="parseLabel"/>
+        <SplitPanel id="splitPanel1">
+          <Property name="position">300</Property>
+          <MainControl>
+            <DataGrid>
+              <Property name="dataSet">dataSetExcelDataWrapper</Property>
+              <Property name="dataPath">#.rowWrappers[#current].cellWrappers</Property>
+            </DataGrid>
+          </MainControl>
+          <SideControl>
+            <DataGrid>
+              <Property name="dataSet">dataSetExcelDataWrapper</Property>
+              <Property name="dataPath">#.rowWrappers</Property>
+            </DataGrid>
+          </SideControl>
+        </SplitPanel>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysNoticeContentManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysNoticeContent" parent="global:dataTypeSysNoticeContent">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="img"/>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysNoticeContent">
+      <Property name="dataProvider">sysNoticeContentAction#findSysNoticeContentDisp</Property>
+      <Property name="dataType">dataTypeSysNoticeContent</Property>
+      <Property name="parameter">${request.getParameter("id")}</Property>
+    </DataSet>
+    <Container>
+      <AutoForm id="lookFormSysNoticeContent">
+        <Property name="dataType">dataTypeSysNoticeContent</Property>
+        <Property name="dataSet">dataSetSysNoticeContent</Property>
+        <Property name="labelAlign">right</Property>
+        <Property name="hideMode">visibility</Property>
+        <Property name="readOnly">true</Property>
+        <Property name="width">100%</Property>
+        <Property name="height">100%</Property>
+        <AutoFormElement>
+          <Property name="name">noticeNo</Property>
+          <Property name="property">noticeNo</Property>
+          <Editor/>
+        </AutoFormElement>
+        <AutoFormElement>
+          <Property name="name">title</Property>
+          <Property name="property">title</Property>
+          <Editor/>
+        </AutoFormElement>
+        <AutoFormElement>
+          <Property name="name">releaseDate</Property>
+          <Property name="property">releaseDate</Property>
+          <Editor/>
+        </AutoFormElement>
+        <AutoFormElement>
+          <Property name="name">completeDate</Property>
+          <Property name="property">completeDate</Property>
+          <Editor/>
+        </AutoFormElement>
+        <AutoFormElement>
+          <Property name="name">noticeType</Property>
+          <Property name="property">noticeType</Property>
+          <Editor/>
+        </AutoFormElement>
+        <HtmlEditor layoutConstraint="colSpan:2">
+          <ClientEvent name="onCreate">dorado.htmleditor.registerMode("custom", ['FullScreen',
+'Bold','Italic','Underline','StrikeThrough','Superscript','Subscript','RemoveFormat','|',
+'JustifyLeft','JustifyCenter','JustifyRight','JustifyJustify'
+]);</ClientEvent>
+          <Property name="property">content</Property>
+          <Property name="mode">custom</Property>
+          <Property name="dataSet">dataSetSysNoticeContent</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="height">300</Property>
+        </HtmlEditor>
+      </AutoForm>
+    </Container>
+  </View>
+</ViewConfig>

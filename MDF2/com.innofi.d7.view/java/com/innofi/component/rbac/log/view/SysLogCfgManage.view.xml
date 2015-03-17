@@ -1,0 +1,1218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysLogCfgManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysLogCfg">
+      <Property name="creationType">com.innofi.component.rbac.log.pojo.SysLogCfg</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="logRule">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.logRule"].propertyLabel}</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="methodId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.methodId"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.methodName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.objName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="operType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.operType"].propertyLabel}</Property>
+        <Property name="required">false</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;OPER_TYPE&quot;)}</Property>
+        </Property>
+        <Validator type="required"/>
+      </PropertyDef>
+      <PropertyDef name="resourceCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.resourceCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="resourceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象ID</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.status"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysLogCfg">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.crtDate&quot;].propertyLabel}(起)</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDateEnd">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.crtDate&quot;].propertyLabel}(止)</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcrtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMcrtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMid">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.id"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMlogRule">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="logRule">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.logRule"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMmethodId">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="methodId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.methodId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMmethodName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.methodName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMobjName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.objName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMoperType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="operType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.operType"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMresourceCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="resourceCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.resourceCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMresourceName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="resourceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.updDate&quot;].propertyLabel}(起)</Property>
+      </PropertyDef>
+      <PropertyDef name="updDateEnd">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.updDate&quot;].propertyLabel}(止)</Property>
+      </PropertyDef>
+      <PropertyDef name="qMupdOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.updOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMupdUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.log.pojo.SysLogCfg.updUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeMdObjectMethod">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象ID</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法名</Property>
+      </PropertyDef>
+      <PropertyDef name="methodDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法描述</Property>
+      </PropertyDef>
+      <PropertyDef name="methodParameter">
+        <Property name="dataType">String</Property>
+        <Property name="label">参数</Property>
+      </PropertyDef>
+      <PropertyDef name="methodOprType">
+        <Property name="dataType">String</Property>
+        <Property name="label">方法操作类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;METHOD_OPR_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="methodReturn">
+        <Property name="dataType">String</Property>
+        <Property name="label">返回类型</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeMdObjectMethod" meta="x:945;y:405">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdObjectMethod</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.id"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.objId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodDesc"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodParameter">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodParameter"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodOprType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodOprType"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;METHOD_OPR_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="methodReturn">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.methodReturn"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdObjectMethod.updUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetMdObjectMethod">
+      <Property name="dataProvider">mdObjectMethodAction#lookServiceImplMethod</Property>
+      <Property name="dataType">[dataTypeMdObjectMethod]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="basedataSetMdObjectMethod">
+      <Property name="dataProvider">mdObjectMethodAction#lookBaseServiceImplMethod</Property>
+      <Property name="dataType">[dataTypeMdObjectMethod]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetSysLogCfg">
+      <Property name="dataProvider">sysLogCfgAction#findSysLogCfgs</Property>
+      <Property name="dataType">[dataTypeSysLogCfg]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysLogCfg">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysLogCfg]</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdObjectMethod">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdObjectMethod]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#dataSetSysLogCfg&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysLogCfg&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetSysLogCfg&quot;).clear();
+                view.get(&quot;#querydataSetSysLogCfg&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysLogCfgQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysLogCfg</Property>
+            <Property name="dataType">querydataTypeSysLogCfg</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+            <AutoFormElement name="autoFormElementobjName">
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMobjName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysLogCfg</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">objName</Property>
+                    <Property name="dataSet">querydataSetSysLogCfg</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementresourceName">
+              <Property name="name">resourceName</Property>
+              <Property name="property">resourceName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMresourceName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysLogCfg</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">resourceName</Property>
+                    <Property name="dataSet">querydataSetSysLogCfg</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysLogCfg" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+                    view.get(&quot;#dataSetSysLogCfg&quot;).set(&quot;readOnly&quot;,false);
+                    view.get(&quot;#dataSetSysLogCfg.data&quot;).insert();
+                    view.get(&quot;#addDialogSysLogCfg&quot;).show();
+                </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetSysLogCfg&quot;).getData();
+                    var selection = view.get(&quot;#dataGridSysLogCfg&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+                    }else if (selection.length == 1) {
+                        view.get(&quot;#dataSetSysLogCfg&quot;).getData().setCurrent(selection[0]);
+                        view.get(&quot;#dialogSysLogCfg&quot;).show();
+                        view.get(&quot;#dataSetSysLogCfg&quot;).set(&quot;readOnly&quot;,false);
+                    }
+                </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysLogCfg&quot;).getData();
+                    var selection = view.get(&quot;#dataGridSysLogCfg&quot;).get(&quot;selection&quot;);
+                    var action = view.get(&quot;#saveSysLogCfgsAction&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if (selection.length != 0) {
+                        dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+                        jQuery.each(selection,function(i,item){
+                            entitys.remove(item);
+                        });
+                        action.execute();
+                        });
+                    }
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetSysLogCfg&quot;).getData();
+                    var found = false;
+                    var selection = view.get(&quot;#dataGridSysLogCfg&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+                    }else if (selection.length == 1) {
+                    view.get(&quot;#dataSetSysLogCfg&quot;).getData().setCurrent(selection[0]);
+                    view.get(&quot;#lookdialogSysLogCfg&quot;).show();
+                    view.get(&quot;#dataSetSysLogCfg&quot;).set(&quot;readOnly&quot;,true);
+                    }
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="saveButton">
+          <ClientEvent name="onClick">  var action = view.get(&quot;#saveSysLogCfgsAction&quot;);
+            var dialog=view.get(&quot;#dialogSysLogCfg&quot;);
+            action.execute(function(){
+               // dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">保存</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridSysLogCfg" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetSysLogCfg&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetSysLogCfg</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">false</Property>
+          <Property name="dataType">dataTypeSysLogCfg</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="resourceName" property="resourceName">
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn name="resourceCode" property="resourceCode">
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn name="objName" property="objName">
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn name="methodName" property="methodName">
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn name="operType" property="operType">
+            <Property name="trigger">autoMappingDropDown1</Property>
+          </DataColumn>
+          <DataColumn name="logRule" property="logRule"/>
+          <DataColumn>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="caption">状态</Property>
+            <Editor/>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysLogCfg</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysLogCfgsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysLogCfgAction#saveSysLogCfgs</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysLogCfg</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysLogCfg">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetSysLogCfg&quot;).getData().cancel();
+            view.get(&quot;#dialogSysLogCfg&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">50%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveSysLogCfgsAction&quot;);
+            var dialog=view.get(&quot;#dialogSysLogCfg&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetSysLogCfg&quot;).getData().cancel();
+            view.get(&quot;#dialogSysLogCfg&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysLogCfg">
+          <Property name="dataType">dataTypeSysLogCfg</Property>
+          <Property name="dataSet">dataSetSysLogCfg</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">resourceName</Property>
+            <Property name="property">resourceName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">selectMenuDropDown</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objName</Property>
+            <Property name="property">objName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">serviceDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">objName</Property>
+              </Entity>
+            </Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="umethodName">
+            <ClientEvent name="onFocus">var objId = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;objId&quot;);
+var resourceName = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;resourceName&quot;);
+
+
+if (typeof(objId) == &quot;undefined&quot;||typeof(resourceName) == &quot;undefined&quot;) { 
+	dorado.MessageBox.alert(&quot;请先选择资源名称与实体对象&quot;);
+}
+else
+{
+	view.get(&quot;#methodDialog&quot;).show();
+}
+</ClientEvent>
+            <Property name="name">methodName</Property>
+            <Property name="property">methodName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="tags">sss</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.methodName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.methodName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operType</Property>
+            <Property name="property">operType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.operType&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.operType&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">logRule</Property>
+            <Property name="property">logRule</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.logRule&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.logRule&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysLogCfg">
+      <ClientEvent name="onClose">         view.get(&quot;#dataSetSysLogCfg&quot;).getData().cancel();
+         view.get(&quot;#dialogSysLogCfg&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">50%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+       		view.get(&quot;#dataSetSysLogCfg&quot;).getData().cancel();
+            view.get(&quot;#addDialogSysLogCfg&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysLogCfg">
+          <Property name="dataType">dataTypeSysLogCfg</Property>
+          <Property name="dataSet">dataSetSysLogCfg</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">resourceName</Property>
+            <Property name="property">resourceName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">selectMenuDropDown</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objName</Property>
+            <Property name="property">objName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">serviceDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">objName</Property>
+              </Entity>
+            </Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="methodName">
+            <ClientEvent name="onFocus">var objId = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;objId&quot;);
+var resourceName = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;resourceName&quot;);
+
+
+if (typeof(objId) == &quot;undefined&quot;||typeof(resourceName) == &quot;undefined&quot;) { 
+	dorado.MessageBox.alert(&quot;请先选择资源名称与实体对象&quot;);
+}
+else
+{
+	view.get(&quot;#methodDialog&quot;).show();
+}
+
+</ClientEvent>
+            <Property name="name">methodName</Property>
+            <Property name="property">methodName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.methodName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.methodName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysLogCfg">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetSysLogCfg&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogSysLogCfg&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">50%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysLogCfg">
+          <Property name="dataType">dataTypeSysLogCfg</Property>
+          <Property name="dataSet">dataSetSysLogCfg</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">false</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <ClientEvent name="onBlur">var objId = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;objId&quot;);
+
+if (typeof(objId) == &quot;undefined&quot;) { 
+	//dorado.MessageBox.alert(&quot;请先选择实体对象&quot;);
+}
+else
+{
+ 
+ view.get(&quot;#methodName&quot;).set(&quot;trigger&quot;,&quot;methodDropDown&quot;);
+ var path=&quot;${request.contextPath}/com/innofi/component/rbac/log/view/MethodSelect.d?dropdown=methodDropDown&amp;objId=&quot;+objId+&quot;&quot;;
+ view.get(&quot;#methodIframe&quot;).set(&quot;path&quot;,path);
+
+}</ClientEvent>
+            <Property name="name">objName</Property>
+            <Property name="property">objName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">serviceDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">objName</Property>
+              </Entity>
+            </Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.objName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="lmethodName">
+            <ClientEvent name="onFocus">var objId = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;objId&quot;);
+
+if (typeof(objId) == &quot;undefined&quot;) { 
+	dorado.MessageBox.alert(&quot;请先选择实体对象&quot;);
+}
+else
+{
+ 
+ self.set(&quot;trigger&quot;,&quot;methodDropDown&quot;);
+ var path=&quot;${request.contextPath}/com/innofi/component/rbac/log/view/MethodSelect.d?dropdown=methodDropDown&amp;objId=&quot;+objId+&quot;&quot;;
+ view.get(&quot;#methodIframe&quot;).set(&quot;path&quot;,path);
+
+}
+</ClientEvent>
+            <Property name="name">methodName</Property>
+            <Property name="property">methodName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="tags">sss</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.methodName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.methodName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operType</Property>
+            <Property name="property">operType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.operType&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.operType&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">resourceName</Property>
+            <Property name="property">resourceName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">selectMenuDropDown</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.resourceName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">logRule</Property>
+            <Property name="property">logRule</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.logRule&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.log.pojo.SysLogCfg.logRule&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <CustomDropDown id="serviceDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=view.get(&quot;#dataSetSysLogCfg&quot;);
+	dataSet.getData(&quot;#&quot;).set(&quot;objName&quot;,entity.get(&quot;objName&quot;));
+	dataSet.getData(&quot;#&quot;).set(&quot;objId&quot;,entity.get(&quot;id&quot;));
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="height">300</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/component/rbac/log/view/ServiceImplSelect.d?dropdown=serviceDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="methodDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=view.get(&quot;#dataSetSysLogCfg&quot;);
+	dataSet.getData(&quot;#&quot;).set(&quot;methodId&quot;,entity.get(&quot;id&quot;));
+	dataSet.getData(&quot;#&quot;).set(&quot;methodName&quot;,entity.get(&quot;methodName&quot;));
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="height">300</Property>
+      <IFrame id="methodIframe">
+        <ClientEvent name="onBlur">var objId = view.get(&quot;#&quot;)
+var path =&quot;&quot;;
+</ClientEvent>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="selectMenuDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=view.get(&quot;#dataSetSysLogCfg&quot;);
+	dataSet.getData(&quot;#&quot;).set(&quot;resourceCode&quot;,entity.get(&quot;menuCode&quot;));
+	dataSet.getData(&quot;#&quot;).set(&quot;resourceName&quot;,entity.get(&quot;menuName&quot;));
+	
+	var menuUrl = entity.get(&quot;menuUrl&quot;);
+	
+	var serviceName='';
+	view.get('#findServiceByMenuUrl').set('parameter',menuUrl).execute(function(result){
+		serviceName=result;
+	});
+	if(serviceName!=''){
+		var array = serviceName.split('|');
+		dataSet.getData(&quot;#&quot;).set(&quot;objName&quot;,array[0]);
+		dataSet.getData(&quot;#&quot;).set(&quot;objId&quot;,array[1]);	
+	}
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="height">300</Property>
+      <IFrame id="menuIframe">
+        <ClientEvent name="onBlur">var objId = view.get(&quot;#&quot;)
+var path =&quot;&quot;;
+</ClientEvent>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/SysMenuSelect.d?dropdown=selectMenuDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <Dialog id="methodDialog">
+      <ClientEvent name="onShow">var objName = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;objName&quot;);
+param={objName:objName};
+view.get(&quot;#basedataSetMdObjectMethod&quot;).set(&quot;parameter&quot;, param).flushAsync();
+
+var objId = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;objId&quot;);
+parm={objId:objId};
+view.get(&quot;#dataSetMdObjectMethod&quot;).set(&quot;parameter&quot;, parm).flushAsync();
+
+</ClientEvent>
+      <Property name="width">80%</Property>
+      <Property name="height">100%</Property>
+      <Property name="center">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick"> var baseSelection = view.get(&quot;#bdataGridMdObjectMethod&quot;).get(&quot;selection&quot;);
+ var selection = view.get(&quot;#dataGridMdObjectMethod&quot;).get(&quot;selection&quot;);
+ 
+var dialog = view.get(&quot;#methodDialog&quot;);
+var entitys = view.get(&quot;#dataSetSysLogCfg&quot;).getData();
+var objId = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get(&quot;objId&quot;);
+var currentity = view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;);
+var listGird = new Array();
+jQuery.each(selection,function(i,item){
+	listGird.push(item);
+	});
+	
+jQuery.each(baseSelection,function(i,item){
+	listGird.push(item);
+	});
+
+if(listGird.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (listGird.length != 0) {
+	jQuery.each(listGird,function(i,item){
+		//忽略已经存在的按钮
+		var bool = true;
+		entitys.each(function(entity){
+			if(item.get(&quot;methodName&quot;) == entity.get(&quot;methodName&quot;)&amp;&amp;item.get(&quot;objId&quot;) ==entity.get(&quot;objId&quot;)){
+				bool = false;
+				return true;
+			}
+		});
+		if(bool){
+			var entity = {
+				objId:objId,
+				objName:view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get('objName'),
+				methodId:item.get(&quot;id&quot;),
+				methodName:item.get(&quot;methodName&quot;),
+				operType:item.get(&quot;methodOprType&quot;),
+				resourceName:view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get('resourceName'),
+				resourceCode:view.get(&quot;#dataSetSysLogCfg&quot;).getData(&quot;#&quot;).get('resourceCode'),
+				status:'1'
+			};
+			entitys.insert(entity);
+			
+		}
+		
+	});
+	entitys.remove(currentity);
+	dialog.hide();
+	view.setFocus();
+	view.get(&quot;#addDialogSysLogCfg&quot;).hide();
+}
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#methodDialog&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">基类BaseServiceImpl方法</Property>
+            <Property name="height">40%</Property>
+            <Buttons/>
+            <Children>
+              <Container>
+                <Container>
+                  <DataGrid id="bdataGridMdObjectMethod" layoutConstraint="center">
+                    <ClientEvent name="onDataRowClick">var entity = view.get(&quot;#dataSetMdObjectMethod&quot;).getData(&quot;#&quot;);
+var json = JSON.stringify(entity);
+var dropdown = parent.$id(&quot;${request.getParameter('dropdown')}&quot;);
+if(dropdown){
+	dropdown.invoke(&quot;close&quot;,json);
+}</ClientEvent>
+                    <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+                    <Property name="dataSet">basedataSetMdObjectMethod</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <Property name="readOnly">true</Property>
+                    <Property name="rowHeight">26</Property>
+                    <Property name="height">100%</Property>
+                    <Property name="width">100%</Property>
+                    <Property name="highlightCurrentRow">false</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">methodName</Property>
+                      <Property name="name">methodName</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">methodParameter</Property>
+                      <Property name="name">methodParameter</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn name="methodDesc">
+                      <Property name="property">methodDesc</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <ToolBar layoutConstraint="bottom">
+                  <DataPilot>
+                    <Property name="dataSet">basedataSetMdObjectMethod</Property>
+                    <Property name="itemCodes">pages</Property>
+                  </DataPilot>
+                </ToolBar>
+              </Container>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="caption">当前实列实现方法</Property>
+            <Buttons/>
+            <Children>
+              <Container>
+                <Container>
+                  <DataGrid id="dataGridMdObjectMethod" layoutConstraint="center">
+                    <ClientEvent name="onDataRowClick">var entity = view.get(&quot;#dataSetMdObjectMethod&quot;).getData(&quot;#&quot;);
+var json = JSON.stringify(entity);
+var dropdown = parent.$id(&quot;${request.getParameter('dropdown')}&quot;);
+if(dropdown){
+	dropdown.invoke(&quot;close&quot;,json);
+}</ClientEvent>
+                    <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+                    <Property name="dataSet">dataSetMdObjectMethod</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <Property name="readOnly">true</Property>
+                    <Property name="rowHeight">26</Property>
+                    <Property name="height">100%</Property>
+                    <Property name="width">100%</Property>
+                    <Property name="highlightCurrentRow">false</Property>
+                    <RowNumColumn/>
+                    <RowSelectorColumn/>
+                    <DataColumn>
+                      <Property name="property">methodName</Property>
+                      <Property name="name">methodName</Property>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">methodParameter</Property>
+                      <Property name="name">methodParameter</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn name="methodDesc">
+                      <Property name="property">methodDesc</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+                <ToolBar layoutConstraint="bottom">
+                  <DataPilot>
+                    <Property name="dataSet">dataSetMdObjectMethod</Property>
+                    <Property name="itemCodes">pages</Property>
+                  </DataPilot>
+                </ToolBar>
+              </Container>
+            </Children>
+          </FieldSet>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="findServiceByMenuUrl">
+      <Property name="service">sysLogCfgAction#findServiceByMenuUrl</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataProvider name="dataProviderReportGroup" type="direct" interceptor="spring:bdf.reportManagerPR#findGroups"/>
+  <DataProvider name="dataProviderReportDataSource" type="direct" interceptor="spring:bdf.reportManagerPR#findDataSources"/>
+  <DataType name="$dataTypeReport" matchType="com.innofi.component.report.domain.Report">
+    <Property name="creationType">com.innofi.component.report.domain.Report</Property>
+    <PropertyDef name="ename">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/$dataTypeReport.ename&quot;]}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="group">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/$dataTypeReport.group&quot;]}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider(&quot;dataProviderReportGroup&quot;).getResult()}</Property>
+        <Property name="keyProperty">name</Property>
+        <Property name="valueProperty">desc</Property>
+      </Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="jasperName">
+      <Property name="label">${res[&quot;Report/$dataTypeReport.jasperName&quot;]}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="uploadFileName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/$dataTypeReport.uploadFileName&quot;]}</Property>
+      <Property name="readOnly">false</Property>
+    </PropertyDef>
+    <PropertyDef name="dataSourceName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/$dataTypeReport.dataSourceName&quot;]}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider(&quot;dataProviderReportDataSource&quot;).getResult()}</Property>
+        <Property name="keyProperty">dataSourceName</Property>
+        <Property name="valueProperty">dataSourceName</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="createDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${res[&quot;Report/createDate&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="updateDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${res[&quot;Report/updateDate&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/createUser&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="updateUser">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/updateUser&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="cmnt">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/cmnt&quot;]}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="$dataTypeReportMember" matchType="com.innofi.component.report.domain.ReportMember">
+    <Property name="creationType">com.innofi.component.report.domain.ReportMember</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="masterId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="type">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="memberId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="memberName">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="createDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${res[&quot;Report/createDate&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/createUser&quot;]}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="$dataTypeReportJob" matchType="com.innofi.component.report.domain.ReportJob">
+    <Property name="creationType">com.innofi.component.report.domain.ReportJob</Property>
+    <PropertyDef name="jobId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="type">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/type&quot;]}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">
+          <Collection>
+            <Entity>
+              <Property name="key">pdf</Property>
+              <Property name="label">PDF</Property>
+            </Entity>
+            <Entity>
+              <Property name="key">rtf</Property>
+              <Property name="label">RTF</Property>
+            </Entity>
+            <Entity>
+              <Property name="key">excel</Property>
+              <Property name="label">EXCEL</Property>
+            </Entity>
+            <Entity>
+              <Property name="key">html</Property>
+              <Property name="label">HTML</Property>
+            </Entity>
+          </Collection>
+        </Property>
+        <Property name="keyProperty">key</Property>
+        <Property name="valueProperty">label</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="fileName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/fileName&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/createUser&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="createDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${res[&quot;Report/createDate&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="updateDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${res[&quot;Report/updateDate&quot;]}</Property>
+    </PropertyDef>
+    <PropertyDef name="updateUser">
+      <Property name="dataType">String</Property>
+      <Property name="label">${res[&quot;Report/updateUser&quot;]}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="$dataTypeJobConfig" matchType="com.innofi.component.report.domain.ReportJobConfig">
+    <Property name="creationType">com.innofi.component.report.domain.ReportJobConfig</Property>
+    <PropertyDef name="jobId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="configId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+  </DataType>
+</Model>

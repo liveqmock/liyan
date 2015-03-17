@@ -1,0 +1,1654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdField">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="tableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">表结构ID</Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">表名</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldName">
+        <Property name="dataType">String</Property>
+        <Property name="label">字段名</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">字段中文名</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">字段描述</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldType">
+        <Property name="dataType">String</Property>
+        <Property name="label">字段类型</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldLen">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">字段长度</Property>
+      </PropertyDef>
+      <PropertyDef name="precision">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">小数位数</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldSeq">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">显示顺序</Property>
+      </PropertyDef>
+      <PropertyDef name="dataFmt">
+        <Property name="dataType">String</Property>
+        <Property name="label">数据格式</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldDict">
+        <Property name="dataType">String</Property>
+        <Property name="label">代码字典</Property>
+      </PropertyDef>
+      <PropertyDef name="entityAttriName">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体类属性名</Property>
+      </PropertyDef>
+      <PropertyDef name="consCond">
+        <Property name="dataType">String</Property>
+        <Property name="label">约束条件</Property>
+      </PropertyDef>
+      <PropertyDef name="defaultValue">
+        <Property name="dataType">String</Property>
+        <Property name="label">默认值</Property>
+      </PropertyDef>
+      <PropertyDef name="isNull">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否为空</Property>
+      </PropertyDef>
+      <PropertyDef name="isPk">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否主键PK</Property>
+      </PropertyDef>
+      <PropertyDef name="isPkIndex">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否唯一索引</Property>
+      </PropertyDef>
+      <PropertyDef name="isStati">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否统计字段</Property>
+      </PropertyDef>
+      <PropertyDef name="isRedundant">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否冗余字段</Property>
+      </PropertyDef>
+      <PropertyDef name="srcReduField">
+        <Property name="dataType">String</Property>
+        <Property name="label">冗余源字段</Property>
+      </PropertyDef>
+      <PropertyDef name="isOrgAuth">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否机构权限控制项</Property>
+      </PropertyDef>
+      <PropertyDef name="isDataAuth">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否数据权限项</Property>
+      </PropertyDef>
+      <PropertyDef name="bankTextInf">
+        <Property name="dataType">String</Property>
+        <Property name="label">bankText输入框默认信息</Property>
+      </PropertyDef>
+      <PropertyDef name="tipInf">
+        <Property name="dataType">String</Property>
+        <Property name="label">tip提示信息</Property>
+      </PropertyDef>
+      <PropertyDef name="labelInf">
+        <Property name="dataType">String</Property>
+        <Property name="label">label文本</Property>
+      </PropertyDef>
+      <PropertyDef name="queryMethod">
+        <Property name="dataType">String</Property>
+        <Property name="label">查询方式</Property>
+      </PropertyDef>
+      <PropertyDef name="isTableView">
+        <Property name="dataType">String</Property>
+        <Property name="label">列表是否显示</Property>
+      </PropertyDef>
+      <PropertyDef name="isAddRead">
+        <Property name="dataType">String</Property>
+        <Property name="label">新增是否只读</Property>
+      </PropertyDef>
+      <PropertyDef name="isUpdRead">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改是否只读</Property>
+      </PropertyDef>
+      <PropertyDef name="regExp">
+        <Property name="dataType">String</Property>
+        <Property name="label">正则表达式</Property>
+      </PropertyDef>
+      <PropertyDef name="eleType">
+        <Property name="dataType">String</Property>
+        <Property name="label">控件类型</Property>
+      </PropertyDef>
+      <PropertyDef name="isAddView">
+        <Property name="dataType">String</Property>
+        <Property name="label">新增是否显示</Property>
+      </PropertyDef>
+      <PropertyDef name="isUpdView">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改是否显示</Property>
+      </PropertyDef>
+      <PropertyDef name="isQueryCond">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否查询条件</Property>
+      </PropertyDef>
+      <PropertyDef name="isParentid">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否父ID字段</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">有效状态</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdField">
+      <ClientEvent name="onReady">var lookStyle=&quot;${request.getParameter('lookStyle')}&quot;;
+var mdId=&quot;${request.getParameter('mdId')}&quot;;
+var tableId=&quot;${request.getParameter('tableId')}&quot;;
+if(lookStyle ==&quot;look&quot;){
+	parm={tableId:mdId,status:&quot;1&quot;};
+	self.set(&quot;parameter&quot;, parm).flushAsync();
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;visible&quot;,false);
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;hideMode&quot;,&quot;display&quot;);
+}else{
+	parm={tableId:tableId,status:&quot;1&quot;};
+	self.set(&quot;parameter&quot;, parm).flushAsync();
+}</ClientEvent>
+      <Property name="dataProvider">mdFieldAction#findMdFields</Property>
+      <Property name="dataType">[dataTypeMdField]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdField">
+      <ClientEvent name="onReady">self.insert({});
+self.getData(&quot;#&quot;).set(&quot;status&quot;,&quot;1&quot;);</ClientEvent>
+      <Property name="dataType">[querydataTypeMdField]</Property>
+      <Property name="parameter"></Property>
+    </DataSet>
+    <Container>
+      <FieldSet id="queryFieldSet" layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+view.get(&quot;#dataSetMdField&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetMdField&quot;).getData(&quot;#&quot;)).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdField.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdTableQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdField</Property>
+            <Property name="dataType">querydataTypeMdField</Property>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldName</Property>
+              <Property name="property">fieldName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldCnName</Property>
+              <Property name="property">fieldCnName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDict</Property>
+              <Property name="property">fieldDict</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableId</Property>
+              <Property name="property">tableId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDesc</Property>
+              <Property name="property">fieldDesc</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldType</Property>
+              <Property name="property">fieldType</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldLen</Property>
+              <Property name="property">fieldLen</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">precision</Property>
+              <Property name="property">precision</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldSeq</Property>
+              <Property name="property">fieldSeq</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dataFmt</Property>
+              <Property name="property">dataFmt</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">entityAttriName</Property>
+              <Property name="property">entityAttriName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">consCond</Property>
+              <Property name="property">consCond</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">defaultValue</Property>
+              <Property name="property">defaultValue</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isNull</Property>
+              <Property name="property">isNull</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPk</Property>
+              <Property name="property">isPk</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPkIndex</Property>
+              <Property name="property">isPkIndex</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isStati</Property>
+              <Property name="property">isStati</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isRedundant</Property>
+              <Property name="property">isRedundant</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isDataAuth</Property>
+              <Property name="property">isDataAuth</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isParentid</Property>
+              <Property name="property">isParentid</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">bankTextInf</Property>
+              <Property name="property">bankTextInf</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tipInf</Property>
+              <Property name="property">tipInf</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">srcReduField</Property>
+              <Property name="property">srcReduField</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">labelInf</Property>
+              <Property name="property">labelInf</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">queryMethod</Property>
+              <Property name="property">queryMethod</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isTableView</Property>
+              <Property name="property">isTableView</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddRead</Property>
+              <Property name="property">isAddRead</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdRead</Property>
+              <Property name="property">isUpdRead</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">regExp</Property>
+              <Property name="property">regExp</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">eleType</Property>
+              <Property name="property">eleType</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddView</Property>
+              <Property name="property">isAddView</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdView</Property>
+              <Property name="property">isUpdView</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isQueryCond</Property>
+              <Property name="property">isQueryCond</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdField" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdField&quot;);
+var dialog = view.get(&quot;#updateMdFieldDialog&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdField&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdField&quot;);
+var dialog = view.get(&quot;#lookMdFieldDialog&quot;);
+var selection = view.get(&quot;#dataGridMdField&quot;).get(&quot;selection&quot;);
+	if(selection.length==0){
+		dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+	}else if(selection.length>1){
+		dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+	}else if (selection.length == 1) {
+		dataSet.getData().setCurrent(selection[0]);
+		dialog.show();
+		dataSet.set(&quot;readOnly&quot;,true);
+	}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="saveButton">
+          <ClientEvent name="onClick">var fieldAction = view.get(&quot;#saveMdFieldsAction&quot;);
+var dataSet = view.get(&quot;#dataSetMdField&quot;);
+var fieldEntityList = dataSet.getData();
+var num = 0;
+	fieldEntityList.each(function(fieldEntity){
+
+		if(fieldEntity.state == 2){
+			num = num + 1;
+		}
+	});
+if(num > 0){
+	dorado.MessageBox.confirm(&quot;有&quot;+num+&quot;条未保存的表字段数据,是否保存？&quot;, {
+		detailCallback: function(button, text) {
+			if(button == &quot;yes&quot;){
+				fieldAction.execute();
+				parent.$id(&quot;updateFieldDialog&quot;).objects[0].hide();
+			}
+			if(button == &quot;no&quot;){
+				parent.$id(&quot;updateFieldDialog&quot;).objects[0].hide();
+			}
+		}
+	});
+}else{
+	parent.$id(&quot;updateFieldDialog&quot;).objects[0].hide();
+}</ClientEvent>
+          <Property name="caption">保存</Property>
+          <Property name="icon">>icons/disk_blue_ok.png</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdField&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdField&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveMdFieldsAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+          <Property name="visible">false</Property>
+          <Property name="hideMode">display</Property>
+        </ToolBarButton>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdField&quot;);
+var dialog = view.get(&quot;#addMdFieldDialog&quot;);
+	dataSet.set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetMdField.data&quot;).insert();
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+          <Property name="visible">false</Property>
+          <Property name="hideMode">display</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdField" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <ClientEvent name="onReady">MyDefaultCellRenderer1 = $extend(dorado.widget.grid.DefaultCellRenderer, {&#xD;
+    render: function(dom, arg) {&#xD;
+        var text = this.getText(arg.data, arg.column);&#xD;
+        dom.innerText = text;&#xD;
+&#xD;
+        var entity = arg.data;&#xD;
+    	if (entity &amp;&amp; entity.getPrevious()){&#xD;
+    		var previousEntity = entity.getPrevious();&#xD;
+    		if (entity.get(&quot;tableName&quot;)==previousEntity.get(&quot;tableName&quot;)){&#xD;
+    			dom.innerText = &quot;&quot;;&#xD;
+    		}&#xD;
+    	}&#xD;
+    }&#xD;
+});&#xD;
+self.set(&quot;#tableName.renderer&quot;, new MyDefaultCellRenderer1());&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+          <Property name="dataSet">dataSetMdField</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdField</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="tableName">
+            <Property name="property">tableName</Property>
+            <Property name="align">center</Property>
+          </DataColumn>
+          <DataColumn name="fieldName">
+            <Property name="property">fieldName</Property>
+          </DataColumn>
+          <DataColumn name="fieldCnName">
+            <Property name="property">fieldCnName</Property>
+          </DataColumn>
+          <DataColumn name="fieldDesc">
+            <Property name="property">fieldDesc</Property>
+          </DataColumn>
+          <DataColumn name="fieldType">
+            <Property name="property">fieldType</Property>
+          </DataColumn>
+          <DataColumn name="isPk">
+            <Property name="property">isPk</Property>
+          </DataColumn>
+          <DataColumn name="isPkIndex">
+            <Property name="property">isPkIndex</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdField</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdFieldsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdFieldAction#saveMdFields</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdField</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdFieldDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdField&quot;).getData().cancel();
+view.get(&quot;#updateMdFieldDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">100%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var tableId=&quot;${request.getParameter('tableId')}&quot;;
+var action = view.get(&quot;#saveMdFieldsAction&quot;);
+var dialog = view.get(&quot;#updateMdFieldDialog&quot;);
+if(tableId==&quot;&quot;){
+	action.execute(function(){
+		dialog.hide();
+	});
+}else{
+	dialog.hide();
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdField&quot;).getData().cancel();
+view.get(&quot;#updateMdFieldDialog&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="updateMdFieldAutoForm">
+            <Property name="dataType">dataTypeMdField</Property>
+            <Property name="dataSet">dataSetMdField</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="readOnly">true</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldName</Property>
+              <Property name="property">fieldName</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="readOnly">true</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldCnName</Property>
+              <Property name="property">fieldCnName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDesc</Property>
+              <Property name="property">fieldDesc</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldType</Property>
+              <Property name="property">fieldType</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldLen</Property>
+              <Property name="property">fieldLen</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">precision</Property>
+              <Property name="property">precision</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldSeq</Property>
+              <Property name="property">fieldSeq</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dataFmt</Property>
+              <Property name="property">dataFmt</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDict</Property>
+              <Property name="property">fieldDict</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">entityAttriName</Property>
+              <Property name="property">entityAttriName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">consCond</Property>
+              <Property name="property">consCond</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">defaultValue</Property>
+              <Property name="property">defaultValue</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isNull</Property>
+              <Property name="property">isNull</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPk</Property>
+              <Property name="property">isPk</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPkIndex</Property>
+              <Property name="property">isPkIndex</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isStati</Property>
+              <Property name="property">isStati</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isRedundant</Property>
+              <Property name="property">isRedundant</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">srcReduField</Property>
+              <Property name="property">srcReduField</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isOrgAuth</Property>
+              <Property name="property">isOrgAuth</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isDataAuth</Property>
+              <Property name="property">isDataAuth</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isParentid</Property>
+              <Property name="property">isParentid</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">bankTextInf</Property>
+              <Property name="property">bankTextInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tipInf</Property>
+              <Property name="property">tipInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">labelInf</Property>
+              <Property name="property">labelInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">queryMethod</Property>
+              <Property name="property">queryMethod</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isTableView</Property>
+              <Property name="property">isTableView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddRead</Property>
+              <Property name="property">isAddRead</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdRead</Property>
+              <Property name="property">isUpdRead</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">regExp</Property>
+              <Property name="property">regExp</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">eleType</Property>
+              <Property name="property">eleType</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddView</Property>
+              <Property name="property">isAddView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdView</Property>
+              <Property name="property">isUpdView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isQueryCond</Property>
+              <Property name="property">isQueryCond</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdFieldDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdField&quot;).getData().cancel();
+view.get(&quot;#addMdFieldDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">100%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdFieldsAction&quot;);
+var dialog = view.get(&quot;#addMdFieldDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdField&quot;).getData().cancel();
+view.get(&quot;#addMdFieldDialog&quot;).hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="addMdFieldAutoForm">
+            <Property name="dataType">dataTypeMdField</Property>
+            <Property name="dataSet">dataSetMdField</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldName</Property>
+              <Property name="property">fieldName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldCnName</Property>
+              <Property name="property">fieldCnName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDesc</Property>
+              <Property name="property">fieldDesc</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldType</Property>
+              <Property name="property">fieldType</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldLen</Property>
+              <Property name="property">fieldLen</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">precision</Property>
+              <Property name="property">precision</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldSeq</Property>
+              <Property name="property">fieldSeq</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dataFmt</Property>
+              <Property name="property">dataFmt</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDict</Property>
+              <Property name="property">fieldDict</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">entityAttriName</Property>
+              <Property name="property">entityAttriName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">consCond</Property>
+              <Property name="property">consCond</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">defaultValue</Property>
+              <Property name="property">defaultValue</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isNull</Property>
+              <Property name="property">isNull</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPk</Property>
+              <Property name="property">isPk</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPkIndex</Property>
+              <Property name="property">isPkIndex</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isStati</Property>
+              <Property name="property">isStati</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isRedundant</Property>
+              <Property name="property">isRedundant</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">srcReduField</Property>
+              <Property name="property">srcReduField</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isOrgAuth</Property>
+              <Property name="property">isOrgAuth</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isDataAuth</Property>
+              <Property name="property">isDataAuth</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isParentid</Property>
+              <Property name="property">isParentid</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">bankTextInf</Property>
+              <Property name="property">bankTextInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tipInf</Property>
+              <Property name="property">tipInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">labelInf</Property>
+              <Property name="property">labelInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">queryMethod</Property>
+              <Property name="property">queryMethod</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isTableView</Property>
+              <Property name="property">isTableView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddRead</Property>
+              <Property name="property">isAddRead</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdRead</Property>
+              <Property name="property">isUpdRead</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">regExp</Property>
+              <Property name="property">regExp</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">eleType</Property>
+              <Property name="property">eleType</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddView</Property>
+              <Property name="property">isAddView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdView</Property>
+              <Property name="property">isUpdView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isQueryCond</Property>
+              <Property name="property">isQueryCond</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdFieldDialog">
+      <ClientEvent name="onClose">view.get(&quot;#lookMdFieldDialog&quot;).hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">100%</Property>
+      <Property name="width">100%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#lookMdFieldDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="lookMdFieldAutoForm">
+            <Property name="dataType">dataTypeMdField</Property>
+            <Property name="dataSet">dataSetMdField</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldName</Property>
+              <Property name="property">fieldName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldCnName</Property>
+              <Property name="property">fieldCnName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDesc</Property>
+              <Property name="property">fieldDesc</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldType</Property>
+              <Property name="property">fieldType</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldLen</Property>
+              <Property name="property">fieldLen</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">precision</Property>
+              <Property name="property">precision</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldSeq</Property>
+              <Property name="property">fieldSeq</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dataFmt</Property>
+              <Property name="property">dataFmt</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldDict</Property>
+              <Property name="property">fieldDict</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">entityAttriName</Property>
+              <Property name="property">entityAttriName</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">consCond</Property>
+              <Property name="property">consCond</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">defaultValue</Property>
+              <Property name="property">defaultValue</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isNull</Property>
+              <Property name="property">isNull</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPk</Property>
+              <Property name="property">isPk</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isPkIndex</Property>
+              <Property name="property">isPkIndex</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isStati</Property>
+              <Property name="property">isStati</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isRedundant</Property>
+              <Property name="property">isRedundant</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">srcReduField</Property>
+              <Property name="property">srcReduField</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isOrgAuth</Property>
+              <Property name="property">isOrgAuth</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isDataAuth</Property>
+              <Property name="property">isDataAuth</Property>
+              <Property name="labelWidth">140</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isParentid</Property>
+              <Property name="property">isParentid</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">bankTextInf</Property>
+              <Property name="property">bankTextInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tipInf</Property>
+              <Property name="property">tipInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">labelInf</Property>
+              <Property name="property">labelInf</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">queryMethod</Property>
+              <Property name="property">queryMethod</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isTableView</Property>
+              <Property name="property">isTableView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddRead</Property>
+              <Property name="property">isAddRead</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdRead</Property>
+              <Property name="property">isUpdRead</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">regExp</Property>
+              <Property name="property">regExp</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">eleType</Property>
+              <Property name="property">eleType</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isAddView</Property>
+              <Property name="property">isAddView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isUpdView</Property>
+              <Property name="property">isUpdView</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isQueryCond</Property>
+              <Property name="property">isQueryCond</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">140</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

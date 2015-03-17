@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">Report.Job</Property>
+  </Property>
+  <Model>
+    <DataType name="dataTypeJobConfig" parent="$dataTypeJobConfig" matchType="com.bstek.bdf.d7.report.config.ReportJobUserConfig">
+      <Property name="creationType">com.bstek.bdf.d7.report.config.ReportJobUserConfig</Property>
+      <Reference name="userMembers">
+        <Property name="dataType">[$dataTypeReportMember]</Property>
+        <Property name="dataProvider">bdf.sendReportMailUserConfigPR#findReportMembers</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="id">$${this.id}</Property>
+            <Property name="type">U</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <Reference name="groupMembers">
+        <Property name="dataType">[$dataTypeReportMember]</Property>
+        <Property name="dataProvider">bdf.sendReportMailUserConfigPR#findReportMembers</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="id">$${this.id}</Property>
+            <Property name="type">G</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <Reference name="deptMembers">
+        <Property name="dataType">[$dataTypeReportMember]</Property>
+        <Property name="dataProvider">bdf.sendReportMailUserConfigPR#findReportMembers</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="id">$${this.id}</Property>
+            <Property name="type">D</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="messageTemplateUse">
+        <Property name="dataType">$dataTypeMessageTemplateUse</Property>
+        <Property name="label">${res.messageTemplateUse}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onCreate">self.jobId = null;&#xD;
+self.configId = null;&#xD;
+self.jobConfigId = null;&#xD;
+&#xD;
+self.subViewInit = function(entity){&#xD;
+    if (entity) {&#xD;
+        self.jobId = entity.jobId;&#xD;
+        self.configId = entity.configId;&#xD;
+        self.jobConfigId = entity.id;&#xD;
+        var ds = self.id(&quot;dataSetJobConfig&quot;);&#xD;
+        ds.set(&quot;parameter&quot;, {&#xD;
+            jobId: entity.jobId,&#xD;
+            configId: entity.configId&#xD;
+        })&#xD;
+        ds.flushAsync(function(){&#xD;
+            if (ds.getData().entityCount == 0) {&#xD;
+                ds.getData().insert({&#xD;
+                    jobId: entity.jobId,&#xD;
+                    configId: entity.configId,&#xD;
+                    messageTemplateUse: {}&#xD;
+                });&#xD;
+            }&#xD;
+        });&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+</ClientEvent>
+    <DataSet id="dataSetJobConfig">
+      <Property name="dataProvider">bdf.sendReportMailUserConfigPR#findReportJobById</Property>
+      <Property name="dataType">[dataTypeJobConfig]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetMessageTemplate">
+      <Property name="dataProvider">bdf.sendReportMailUserConfigPR#findMessageTemplates</Property>
+      <Property name="dataType">[$dataTypeMessageTemplate]</Property>
+    </DataSet>
+    <AutoForm id="autoFormMessageTemplate" layoutConstraint="top">
+      <Property name="dataSet">dataSetJobConfig</Property>
+      <Property name="cols">*</Property>
+      <Property name="labelWidth">80</Property>
+      <AutoFormElement>
+        <Property name="property">messageTemplate</Property>
+        <Property name="name">messageTemplateUse</Property>
+        <Property name="trigger">triggerMessageTemplate</Property>
+        <Property name="hintPosition">right</Property>
+        <Property name="dataPath">#.messageTemplateUse</Property>
+        <Property name="label">${res.messageTemplateUse}</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <TabControl>
+      <ControlTab>
+        <Property name="caption">${res.tabUser}</Property>
+        <Property name="name">tabUser</Property>
+        <Container>
+          <ToolBar>
+            <ToolBarButton id="userAdd">
+              <ClientEvent name="onClick">var view = this;&#xD;
+var ds=view.id(&quot;dataSetJobConfig&quot;);&#xD;
+var selectedMembers=ds.getData(&quot;#.userMembers&quot;);&#xD;
+var jobId = view.jobId;&#xD;
+if(!jobId){&#xD;
+	dorado.MessageBox.alert(&quot;${res.userAlterTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var dialog=this.id(&quot;$dialogSelectUser&quot;);&#xD;
+var updateAction = this.id(&quot;updateActionSaveMembers&quot;);&#xD;
+var config={&#xD;
+	caption:&quot;${res.userCaption}&quot;,&#xD;
+	onSelect:function(users){&#xD;
+		var errorInfo=&quot;&quot;;&#xD;
+		var userMembers = new Array();&#xD;
+		for(var i=0;i&lt;users.length;i++){&#xD;
+			var user = {&#xD;
+				memberId: users[i].get(&quot;username&quot;),&#xD;
+				type:&quot;U&quot;&#xD;
+			};&#xD;
+			userMembers.push(user);&#xD;
+			if (selectedMembers) {&#xD;
+				selectedMembers.each(function(member){&#xD;
+					if (users[i].get(&quot;username&quot;) == member.get(&quot;memberId&quot;)) {&#xD;
+						errorInfo += member.get(&quot;memberName&quot;) + &quot; &quot;&#xD;
+					}&#xD;
+				});&#xD;
+			}&#xD;
+		}&#xD;
+		for(var i =0;i&lt;userMembers.length;i++){&#xD;
+			ds.getData(&quot;#.userMembers&quot;).insert(userMembers[i]);&#xD;
+		}&#xD;
+		if(errorInfo!=&quot;&quot;){&#xD;
+			dorado.MessageBox.alert(&quot;${res.recordIsExist}&quot;);&#xD;
+			//return;&#xD;
+		}&#xD;
+		dorado.MessageBox.confirm(&quot;${res.selectConfirm}&quot;,function(){&#xD;
+			updateAction.execute(function(){&#xD;
+				dialog.$hide();&#xD;
+				ds.getData(&quot;#&quot;).reset(&quot;userMembers&quot;);&#xD;
+			});&#xD;
+		});&#xD;
+	}&#xD;
+}&#xD;
+dialog.$show(config);&#xD;
+</ClientEvent>
+              <Property name="caption">${res.btnAdd}</Property>
+              <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/user_add.png</Property>
+            </ToolBarButton>
+            <ToolBarButton id="userDelete">
+              <ClientEvent name="onClick">var ds=this.id(&quot;dataSetJobConfig&quot;);&#xD;
+var selectMembers=this.id(&quot;dataGridUserMember&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+var ajaxAction=this.id(&quot;ajaxActionDeleteReportMember&quot;);&#xD;
+if(selectMembers.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectDeleteTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var memberIds=new Array();&#xD;
+for(var i=0;i&lt;selectMembers.length;i++){&#xD;
+	memberIds.push(selectMembers[i].get(&quot;id&quot;))&#xD;
+}&#xD;
+dorado.MessageBox.confirm(&quot;${res.selectDeleteConfirm}&quot;,function(){&#xD;
+	ajaxAction.set(&quot;parameter&quot;,{memberIds:memberIds});&#xD;
+	ajaxAction.execute(function(){&#xD;
+		ds.getData(&quot;#&quot;).reset(&quot;userMembers&quot;);&#xD;
+	});&#xD;
+});&#xD;
+</ClientEvent>
+              <Property name="caption">${res.btnDelete}</Property>
+              <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/user_delete.png</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <DataGrid id="dataGridUserMember">
+            <Property name="dataSet">dataSetJobConfig</Property>
+            <Property name="dataPath">#.userMembers</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">memberName</Property>
+              <Property name="property">memberName</Property>
+              <Property name="caption">${res.userNameCaption}</Property>
+            </DataColumn>
+            <DataColumn name="createUser">
+              <Property name="property">createUser</Property>
+            </DataColumn>
+            <DataColumn name="createDate">
+              <Property name="property">createDate</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </ControlTab>
+      <ControlTab>
+        <Property name="caption">${res.tabDept}</Property>
+        <Property name="name">tabDept</Property>
+        <Container>
+          <ToolBar>
+            <ToolBarButton id="deptAdd">
+              <ClientEvent name="onClick">var view = this;&#xD;
+var ds = this.id(&quot;dataSetJobConfig&quot;);&#xD;
+&#xD;
+var selectedMembers = ds.getData(&quot;#.deptMembers&quot;);&#xD;
+var jobId = view.jobId;&#xD;
+if (!jobId) {&#xD;
+    dorado.MessageBox.alert(&quot;${res.userAlterTip}&quot;);&#xD;
+    return;&#xD;
+}&#xD;
+var dialog = this.id(&quot;$dialogSelectDept&quot;);&#xD;
+var updateAction = this.id(&quot;updateActionSaveMembers&quot;);&#xD;
+var config = {&#xD;
+    caption: &quot;${res.DeptCaption}&quot;,&#xD;
+    onSelect: function(depts){&#xD;
+        var deptMembers = new Array();&#xD;
+        var errorInfo = &quot;&quot;;&#xD;
+        for (var i = 0; i &lt; depts.length; i++) {&#xD;
+            var dept = {&#xD;
+                memberId: depts[i].get(&quot;id&quot;),&#xD;
+                type: &quot;D&quot;&#xD;
+            }&#xD;
+            deptMembers.push(dept);&#xD;
+            if (selectedMembers) {&#xD;
+                selectedMembers.each(function(member){&#xD;
+                    if (depts[i].get(&quot;id&quot;) == member.get(&quot;memberId&quot;)) {&#xD;
+                        errorInfo += member.get(&quot;memberName&quot;) + &quot; &quot;&#xD;
+                    }&#xD;
+                });&#xD;
+            }&#xD;
+        }&#xD;
+        if (errorInfo != &quot;&quot;) {&#xD;
+            dorado.MessageBox.alert(&quot;${res.recordIsExist}&quot;);&#xD;
+            //return;&#xD;
+        }&#xD;
+        var entityList = ds.getData(&quot;#.deptMembers&quot;);&#xD;
+        for (var i = 0; i &lt; deptMembers.length; i++) {&#xD;
+            entityList.insert(deptMembers[i]);&#xD;
+            &#xD;
+        }&#xD;
+        dorado.MessageBox.confirm(&quot;${res.selectConfirm}&quot;, function(){&#xD;
+            updateAction.execute(function(){&#xD;
+                dialog.$hide();&#xD;
+                ds.getData(&quot;#&quot;).reset(&quot;deptMembers&quot;);&#xD;
+            });&#xD;
+        });&#xD;
+    }&#xD;
+}&#xD;
+dialog.$show(config);&#xD;
+</ClientEvent>
+              <Property name="caption">${res.btnAdd}</Property>
+              <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/chart_organisation_add.png</Property>
+            </ToolBarButton>
+            <ToolBarButton id="deptDelete">
+              <ClientEvent name="onClick">var ds=this.id(&quot;dataSetJobConfig&quot;);&#xD;
+&#xD;
+var selectMembers=this.id(&quot;dataGridDeptMember&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+var ajaxAction=this.id(&quot;ajaxActionDeleteReportMember&quot;);&#xD;
+if(selectMembers.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectDeleteTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var memberIds= new Array();&#xD;
+for(var i=0;i&lt;selectMembers.length;i++){&#xD;
+	memberIds.push(selectMembers[i].get(&quot;id&quot;));&#xD;
+}&#xD;
+dorado.MessageBox.confirm(&quot;${res.selectDeleteConfirm}&quot;,function(){&#xD;
+	ajaxAction.set(&quot;parameter&quot;,{memberIds:memberIds});&#xD;
+	ajaxAction.execute(function(){&#xD;
+		ds.getData(&quot;#&quot;).reset(&quot;deptMembers&quot;);&#xD;
+	});&#xD;
+});&#xD;
+</ClientEvent>
+              <Property name="caption">${res.btnDelete}</Property>
+              <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/chart_organisation_delete.png</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <DataGrid id="dataGridDeptMember">
+            <Property name="dataSet">dataSetJobConfig</Property>
+            <Property name="dataPath">#.deptMembers</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">memberName</Property>
+              <Property name="property">memberName</Property>
+              <Property name="caption">${res.deptName}</Property>
+            </DataColumn>
+            <DataColumn name="createUser">
+              <Property name="property">createUser</Property>
+            </DataColumn>
+            <DataColumn name="createDate">
+              <Property name="property">createDate</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </ControlTab>
+      <ControlTab>
+        <Property name="caption">${res.tabGroup}</Property>
+        <Property name="name">tabGroup</Property>
+        <Container>
+          <ToolBar>
+            <ToolBarButton id="groupAdd">
+              <ClientEvent name="onClick">var view = this;&#xD;
+var ds= this.id(&quot;dataSetJobConfig&quot;)&#xD;
+&#xD;
+var selectedMembers=ds.getData(&quot;#.groupMembers&quot;);&#xD;
+var jobId = view.jobId;&#xD;
+if(!jobId){&#xD;
+	dorado.MessageBox.alert(&quot;${res.userAlterTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var dialog=this.id(&quot;$dialogSelectGroup&quot;);&#xD;
+var updateAction=this.id(&quot;updateActionSaveMembers&quot;);&#xD;
+var config={&#xD;
+	caption:&quot;${res.GroupCaption}&quot;,&#xD;
+	onSelect:function(groups){&#xD;
+		var groupMembers = new Array();&#xD;
+		var errorInfo=&quot;&quot;;&#xD;
+		for(var i=0;i&lt;groups.length;i++){&#xD;
+			groupMembers.push({&#xD;
+				memberId: groups[i].get(&quot;id&quot;),&#xD;
+				type: &quot;G&quot;&#xD;
+			});&#xD;
+			if (selectedMembers) {&#xD;
+				selectedMembers.each(function(member){&#xD;
+					if (groups[i].get(&quot;id&quot;) == member.get(&quot;memberId&quot;)) {&#xD;
+						errorInfo += member.get(&quot;memberName&quot;) + &quot; &quot;&#xD;
+					}&#xD;
+				});&#xD;
+			}&#xD;
+		}&#xD;
+		if(errorInfo!=&quot;&quot;){&#xD;
+			dorado.MessageBox.alert(&quot;${res.recordIsExist}&quot;);&#xD;
+			//return;&#xD;
+		}&#xD;
+		var entityList = ds.getData(&quot;#.groupMembers&quot;);&#xD;
+        for (var i = 0; i &lt; groupMembers.length; i++) {&#xD;
+            entityList.insert(groupMembers[i]);&#xD;
+            &#xD;
+        }&#xD;
+		dorado.MessageBox.confirm(&quot;${res.selectConfirm}&quot;,function(){&#xD;
+			updateAction.execute(function(){&#xD;
+				ds.getData(&quot;#&quot;).reset(&quot;groupMembers&quot;);&#xD;
+				dialog.$hide();&#xD;
+			});&#xD;
+		});&#xD;
+	}&#xD;
+}&#xD;
+dialog.$show(config);&#xD;
+</ClientEvent>
+              <Property name="caption">${res.btnAdd}</Property>
+              <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/database_add.png</Property>
+            </ToolBarButton>
+            <ToolBarButton id="groupDelete">
+              <ClientEvent name="onClick">var ds=this.id(&quot;dataSetJobConfig&quot;);&#xD;
+&#xD;
+var selectMembers=this.id(&quot;dataGridGroupMember&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+var ajaxAction=this.id(&quot;ajaxActionDeleteReportMember&quot;);&#xD;
+if(selectMembers.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectDeleteTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var memberIds=new Array();&#xD;
+for(var i=0;i&lt;selectMembers.length;i++){&#xD;
+	memberIds.push(selectMembers[i].get(&quot;id&quot;));&#xD;
+}&#xD;
+dorado.MessageBox.confirm(&quot;${res.selectDeleteConfirm}&quot;,function(){&#xD;
+	ajaxAction.set(&quot;parameter&quot;,{memberIds:memberIds});&#xD;
+	ajaxAction.execute(function(){&#xD;
+		ds.flush();&#xD;
+	});&#xD;
+});&#xD;
+</ClientEvent>
+              <Property name="caption">${res.btnDelete}</Property>
+              <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/database_delete.png</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <DataGrid id="dataGridGroupMember">
+            <Property name="dataSet">dataSetJobConfig</Property>
+            <Property name="dataPath">#.groupMembers</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">memberName</Property>
+              <Property name="property">memberName</Property>
+              <Property name="caption">${res.GroupName}</Property>
+            </DataColumn>
+            <DataColumn name="createUser">
+              <Property name="property">createUser</Property>
+            </DataColumn>
+            <DataColumn name="createDate">
+              <Property name="property">createDate</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </ControlTab>
+    </TabControl>
+    <Import id="importGroupSelect" src="d7.commons.Common#$dialogSelectGroup"/>
+    <Import id="importUserSelect" src="d7.commons.Common#$dialogSelectUser"/>
+    <Import id="importDeptSelect" src="d7.commons.Common#$dialogSelectDept"/>
+    <UpdateAction id="updateActionSaveMembers">
+      <Property name="dataResolver">bdf.sendReportMailUserConfigPR#saveReportJobConfig</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetJobConfig</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="ajaxActionDeleteReportMember">
+      <Property name="service">bdf.sendReportMailUserConfigPR#deleteReportMembers</Property>
+    </AjaxAction>
+    <Dialog id="dialogMessageTemplate">
+      <Property name="width">550</Property>
+      <Property name="height">300</Property>
+      <Property name="modal">true</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">${res.dialogMessageTemplate}</Property>
+      <Buttons>
+        <Button id="btnConfirm">
+          <ClientEvent name="onClick">var entity = this.id(&quot;dataSetJobConfig&quot;).getData(&quot;#&quot;);&#xD;
+var dialog = this.id(&quot;dialogMessageTemplate&quot;);&#xD;
+if (entity) {&#xD;
+	var use = entity.get(&quot;messageTemplateUse&quot;);&#xD;
+	var template = this.id(&quot;dataSetMessageTemplate&quot;).getData(&quot;#&quot;);&#xD;
+	var action = this.id(&quot;ajaxActionSaveMessageTemplateUse&quot;);&#xD;
+	if (use.get(&quot;messageTemplate&quot;)) {&#xD;
+		if (use.get(&quot;messageTemplate&quot;).get(&quot;id&quot;) != template.get(&quot;id&quot;)) {&#xD;
+			use.set(&quot;messageTemplate&quot;, template.toJSON());&#xD;
+			action.set(&quot;parameter&quot;, use);&#xD;
+			action.execute(function(){&#xD;
+				dialog.hide();&#xD;
+			});&#xD;
+		}&#xD;
+		else {&#xD;
+			dialog.hide();&#xD;
+		}&#xD;
+	}&#xD;
+	else {&#xD;
+		use.set(&quot;messageTemplate&quot;,template.toJSON());&#xD;
+		use.set(&quot;masterId&quot;,entity.get(&quot;id&quot;));&#xD;
+		&#xD;
+		action.set(&quot;parameter&quot;, use);&#xD;
+		action.execute(function(result){&#xD;
+			use.set(&quot;id&quot;,result.id);&#xD;
+			use.set(&quot;trigger&quot;,result.trigger);&#xD;
+			use.set(&quot;module&quot;,result.module);&#xD;
+			&#xD;
+			dialog.hide();&#xD;
+		});&#xD;
+	}&#xD;
+}else{&#xD;
+	dialog.hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">${res.ConfirmBtn}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/disk.png</Property>
+        </Button>
+        <Button id="btnClose">
+          <ClientEvent name="onClick">this.id(&quot;dialogMessageTemplate&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">${res.btnClose}</Property>
+          <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/cancel.png</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <DataGrid>
+          <Property name="dataSet">dataSetMessageTemplate</Property>
+          <Property name="readOnly">true</Property>
+          <DataColumn name="name">
+            <Property name="property">name</Property>
+          </DataColumn>
+          <DataColumn name="title">
+            <Property name="property">title</Property>
+          </DataColumn>
+        </DataGrid>
+      </Children>
+    </Dialog>
+    <Trigger id="triggerMessageTemplate">
+      <ClientEvent name="onExecute">this.id(&quot;dialogMessageTemplate&quot;).show();&#xD;
+</ClientEvent>
+    </Trigger>
+    <AjaxAction id="ajaxActionSaveMessageTemplateUse">
+      <Property name="service">bdf.sendReportMailUserConfigPR#saveMessageTemplateUse</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

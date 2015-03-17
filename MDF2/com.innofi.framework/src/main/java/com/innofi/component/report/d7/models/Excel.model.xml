@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataType name="$dataTypeExcelModel" matchType="com.innofi.component.report.excel.domain.ExcelModel">
+    <Property name="creationType">com.innofi.component.report.excel.domain.ExcelModel</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.id')}</Property>
+    </PropertyDef>
+    <PropertyDef name="name">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.name')}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.createDate')}</Property>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.updateDate')}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.createorg')}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.updateorg')}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.createuser')}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.updateuser')}</Property>
+    </PropertyDef>
+    <PropertyDef name="sheet">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.sheet')}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.tableName')}</Property>
+    </PropertyDef>
+    <PropertyDef name="tablePrimaryKey">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.tablePrimaryKey')}</Property>
+    </PropertyDef>
+    <PropertyDef name="primaryKeyType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.primaryKeyType')}</Property>
+    </PropertyDef>
+    <PropertyDef name="sequenceName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.keySequenceName')}</Property>
+    </PropertyDef>
+    <PropertyDef name="dbType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.dbType')}</Property>
+    </PropertyDef>
+    <PropertyDef name="startRow">
+      <Property name="dataType">int</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.startrow')}</Property>
+    </PropertyDef>
+    <PropertyDef name="endRow">
+      <Property name="dataType">int</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.endrow')}</Property>
+    </PropertyDef>
+    <PropertyDef name="startColumn">
+      <Property name="dataType">int</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.startColum')}</Property>
+    </PropertyDef>
+    <PropertyDef name="endColumn">
+      <Property name="dataType">int</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.endColum')}</Property>
+    </PropertyDef>
+    <PropertyDef name="processor">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.processerClass')}</Property>
+    </PropertyDef>
+    <PropertyDef name="helpDoc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.helpDoc')}</Property>
+    </PropertyDef>
+    <PropertyDef name="cmnt">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.remark')}</Property>
+    </PropertyDef>
+    <PropertyDef name="datasourceName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModel.dataSourceName')}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="$$dataTypeExcelModelDetail" meta="x:180;y:45" matchType="com.innofi.component.report.excel.domain.ExcelModelDetail">
+    <Property name="creationType">com.innofi.component.report.excel.domain.ExcelModelDetail</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="modelId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="excelColumn">
+      <Property name="dataType">int</Property>
+      <Property name="label">${messageUtil.getMessage('excelModelDetail.excelColum')}</Property>
+      <Property name="required">true</Property>
+    </PropertyDef>
+    <PropertyDef name="tableColumn">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModelDetail.tableColum')}</Property>
+      <Property name="readOnly">false</Property>
+      <Property name="required">false</Property>
+    </PropertyDef>
+    <PropertyDef name="interceptor">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelModelDetail.intercepter')}</Property>
+      <Property name="required">false</Property>
+    </PropertyDef>
+    <PropertyDef name="excelModel">
+      <Property name="dataType">$dataTypeExcelModel</Property>
+      <Property name="label">${messageUtil.getMessage('excelModelDetail.excelMode')}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="$dataTypeExcelDataWrapper" matchType="com.innofi.component.report.excel.domain.ExcelDataWrapper">
+    <Property name="creationType">com.innofi.component.report.excel.domain.ExcelDataWrapper</Property>
+    <PropertyDef name="excelModel">
+      <Property name="dataType">$dataTypeExcelModel</Property>
+    </PropertyDef>
+    <PropertyDef name="rowWrappers">
+      <Property name="dataType">[$dataTypeRowWrapper]</Property>
+    </PropertyDef>
+    <PropertyDef name="validate">
+      <Property name="dataType">boolean</Property>
+    </PropertyDef>
+    <PropertyDef name="processor">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="excelModelId">
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="$dataTypeRowWrapper" matchType="com.innofi.component.report.excel.domain.RowWrapper">
+    <Property name="creationType">com.innofi.component.report.excel.domain.RowWrapper</Property>
+    <PropertyDef name="row">
+      <Property name="dataType">int</Property>
+      <Property name="label">${messageUtil.getMessage('excelDataWrraper.row')}</Property>
+    </PropertyDef>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelDataWrraper.tableName')}</Property>
+    </PropertyDef>
+    <PropertyDef name="cellWrappers">
+      <Property name="dataType">[$dataTypeCellWrapper]</Property>
+    </PropertyDef>
+    <PropertyDef name="valid">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">${messageUtil.getMessage('excelDataWrraper.validate')}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="$dataTypeCellWrapper" matchType="com.innofi.component.report.excel.domain.CellWrapper">
+    <Property name="creationType">com.innofi.component.report.excel.domain.CellWrapper</Property>
+    <PropertyDef name="column">
+      <Property name="dataType">int</Property>
+      <Property name="label">${messageUtil.getMessage('excelDataCellWrraper.colum')}</Property>
+    </PropertyDef>
+    <PropertyDef name="value">
+      <Property name="dataType"></Property>
+      <Property name="label">${messageUtil.getMessage('excelDataCellWrraper.value')}</Property>
+    </PropertyDef>
+    <PropertyDef name="columnName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${messageUtil.getMessage('excelDataCellWrraper.columName')}</Property>
+    </PropertyDef>
+    <PropertyDef name="valid">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">${messageUtil.getMessage('excelDataCellWrraper.valid')}</Property>
+    </PropertyDef>
+    <PropertyDef name="isPrimaryKey">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">${messageUtil.getMessage('excelDataCellWrraper.isPrimaryKey')}</Property>
+    </PropertyDef>
+  </DataType>
+</Model>

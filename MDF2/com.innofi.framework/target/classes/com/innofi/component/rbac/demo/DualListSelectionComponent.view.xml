@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+    <Arguments/>
+    <Context/>
+    <Model/>
+    <View>
+        <Container id="DualListSelection" layout="anchor">
+            <ClientEvent name="onReady">self.ATTRIBUTES.added.getter = function() {
+                return self.added;
+                };
+                self.ATTRIBUTES.removed.getter = function() {
+                return self.removed;
+                };
+                self.ATTRIBUTES.selection.getter = function() {
+                var selection = [];
+                var dsRight = view.get("#${acomp.prop('dataSetRight')}");
+                dsRight.getData("${acomp.prop('dataPathRight')}").each(function(entity) {
+                selection.push(entity);
+                });
+                return selection;
+                };
+                
+                self.add = function(entities) {
+                var dsLeft = view.get("#${acomp.prop('dataSetLeft')}"); 
+                var dsRight = view.get("#${acomp.prop('dataSetRight')}"); 
+                var listRight = dsRight.getData("${acomp.prop('dataPathRight')}");
+                if (entities.length &gt; 10) {
+                dsLeft.disableObservers();
+                dsRight.disableObservers();
+                }
+                entities.each(function(entity) {
+                entity.remove();
+                listRight.insert(entity);
+                if (self.removed.remove(entity) &lt; 0) {
+                if (self.added.indexOf(entity) &lt; 0) {
+                self.added.push(entity);
+                }
+                }
+                });
+                if (entities.length &gt; 10) {
+                dsLeft.enableObservers();
+                dsRight.enableObservers();
+                dsLeft.notifyObservers();
+                dsRight.notifyObservers();
+                }
+                self.fireEvent("onSelectionChange", self);
+                }
+                
+                self.remove = function(entities) {
+                var dsLeft = view.get("#${acomp.prop('dataSetLeft')}"); 
+                var dsRight = view.get("#${acomp.prop('dataSetRight')}"); 
+                var listLeft = dsLeft.getData("${acomp.prop('dataPathLeft')}");
+                if (entities.length &gt; 10) {
+                dsLeft.disableObservers();
+                dsRight.disableObservers();
+                }
+                entities.each(function(entity) {
+                listLeft.insert(entity);
+                
+                if (self.added.remove(entity) &lt; 0) {
+                if (self.removed.indexOf(entity) &lt; 0) {
+                self.removed.push(entity);
+                }
+                }
+                });
+                if (entities.length &gt; 10) {
+                dsLeft.enableObservers();
+                dsRight.enableObservers();
+                dsLeft.notifyObservers();
+                dsRight.notifyObservers();
+                }
+                self.fireEvent("onSelectionChange", self);
+                }
+                
+                self.reset = function() {
+                self.added = [];
+                self.removed = [];
+                }
+                
+                self.reset();
+            </ClientEvent>
+            <Property name="width">600</Property>
+            <Property name="height">400</Property>
+            <Container layout="vbox pack:center;align:center" layoutConstraint="left:50%">
+                <Property name="width">80</Property>
+                <Property name="height">100%</Property>
+                <Button>
+                    <ClientEvent name="onClick">var selection = [];
+                        view.get("#${acomp.prop('dataSetLeft')}").getData("${acomp.prop('dataPathLeft')}").each(function(entity)
+                        {
+                        selection.push(entity);
+                        });
+                        view.get("#${acomp.id('DualListSelection')}").add(selection);
+                    </ClientEvent>
+                    <Property name="width">70</Property>
+                    <Property name="caption">全部添加</Property>
+                </Button>
+                <Button>
+                    <ClientEvent name="onClick">var gridLeft = view.get("#${acomp.id('gridLeft')}");
+                        var selection = gridLeft.get("selection");
+                        if (!selection || !selection.length) selection = [gridLeft.get("currentEntity")];
+                        view.get("#${acomp.id('DualListSelection')}").add(selection);
+                        gridLeft.set("selection", []);
+                    </ClientEvent>
+                    <Property name="width">70</Property>
+                    <Property name="caption">添加</Property>
+                </Button>
+                <Button>
+                    <ClientEvent name="onClick">var gridRight = view.get("#${acomp.id('gridRight')}");
+                        var selection = gridRight.get("selection");
+                        if (!selection || !selection.length) selection = [gridRight.get("currentEntity")];
+                        view.get("#${acomp.id('DualListSelection')}").remove(selection);
+                        gridRight.set("selection", []);
+                    </ClientEvent>
+                    <Property name="width">70</Property>
+                    <Property name="caption">删除</Property>
+                </Button>
+                <Button>
+                    <ClientEvent name="onClick">var selection = [];
+                        view.get("#${acomp.prop('dataSetRight')}").getData("${acomp.prop('dataPathRight')}").each(function(entity)
+                        {
+                        selection.push(entity);
+                        });
+                        view.get("#${acomp.id('DualListSelection')}").remove(selection);
+                    </ClientEvent>
+                    <Property name="width">70</Property>
+                    <Property name="caption">全部删除</Property>
+                </Button>
+            </Container>
+            <Panel layout="padding:1" layoutConstraint="widthOffset:-40;top:0;left:0;bottom:0">
+                <Property name="width">50%</Property>
+                <Property name="caption">${util.defaultValue(acomp.prop('captionLeft'), '可选择的项目')}</Property>
+                <Buttons/>
+                <Children>
+                    <DataGrid id="${acomp.id(&quot;gridLeft&quot;)}">
+                        <ClientEvent name="onDataRowDoubleClick">var selection = [self.get("currentEntity")];
+                            view.get("#${acomp.id('DualListSelection')}").add(selection);
+                        </ClientEvent>
+                        <Property name="dataSet">dsLeft</Property>
+                        <Property name="readOnly">true</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <RowSelectorColumn/>
+                    </DataGrid>
+                </Children>
+                <Tools/>
+            </Panel>
+            <Panel layout="padding:1" layoutConstraint="widthOffset:-40;top:0;bottom:0;right:0">
+                <Property name="width">50%</Property>
+                <Property name="caption">${util.defaultValue(acomp.prop('captionRight'), '已选择的项目')}</Property>
+                <Buttons/>
+                <Children>
+                    <DataGrid id="${acomp.id(&quot;gridRight&quot;)}" layoutConstraint="right:0">
+                        <ClientEvent name="onDataRowDoubleClick">var selection = [self.get("currentEntity")];
+                            view.get("#${acomp.id('DualListSelection')}").remove(selection);
+                        </ClientEvent>
+                        <Property name="dataSet">dsRight</Property>
+                        <Property name="readOnly">true</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <RowSelectorColumn/>
+                    </DataGrid>
+                </Children>
+                <Tools/>
+            </Panel>
+        </Container>
+    </View>
+</ViewConfig>

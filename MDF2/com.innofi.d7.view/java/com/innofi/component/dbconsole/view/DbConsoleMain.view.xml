@@ -1,0 +1,1629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeGroup">
+      <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleGroup</Property>
+      <PropertyDef name="id">
+        <Property name="label"></Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property name="label"></Property>
+      </PropertyDef>
+      <Reference name="dbConsoleConnections">
+        <Property name="dataProvider">mdf.dbConsoleAction#loadConnections</Property>
+        <Property name="dataType">[dataTypeCons]</Property>
+        <Property name="label">name</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+    <DataType name="dataTypeCons">
+      <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleConnection</Property>
+      <PropertyDef name="groupId">
+        <Property name="label"></Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property name="dataType">String</Property>
+        <Property name="label">连接名称</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="driver">
+        <Property name="dataType">String</Property>
+        <Property name="label">驱动</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="url">
+        <Property name="dataType">String</Property>
+        <Property name="label">URL</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="user">
+        <Property name="dataType">String</Property>
+        <Property name="label">用户</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="password">
+        <Property name="dataType">String</Property>
+        <Property name="label">密码</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="autoCommit">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">自动提交</Property>
+      </PropertyDef>
+      <PropertyDef name="fetchSize">
+        <Property name="dataType">int</Property>
+        <Property name="label">提取量（条）</Property>
+      </PropertyDef>
+      <PropertyDef name="savePassword">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">保存密码</Property>
+      </PropertyDef>
+      <PropertyDef name="defaults">
+        <Property name="dataType">boolean</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">/**
+ * 数据库控制JavaScript对象
+ */
+DbConsole = {
+	version:1.0,
+	isConn:false,
+	groupId:&quot;&quot;,
+	connName:&quot;&quot;,
+	user:&quot;&quot;,
+	currentEditorTab:view.get('#mainTabControl.currentTab'),
+	defGrpId:&quot;&quot;,
+	defConName:&quot;&quot;,
+	token:&quot;&quot;,
+	taskId:&quot;&quot;,
+	intervalId:&quot;&quot;,
+	dataTabName:&quot;&quot;,
+	stoppingQuery:false
+};
+
+/**
+ * 显示数据库工作组、连接维护窗口 
+ */
+DbConsole.showConnWin = function(){
+	view.get(&quot;#dbConsoleConnection&quot;).show();
+}
+
+/**
+ * 隐藏数据库工作组、连接维护窗口 
+ */
+DbConsole.hideConnWin = function(){
+	view.get(&quot;#dbConsoleConnection&quot;).hide();
+}
+
+/**
+ * 测试数据库连接
+ */
+DbConsole.testConn = function(){
+	var currentNode = view.get(&quot;#mainTree.currentNode&quot;);
+	var level = currentNode.get(&quot;level&quot;);
+	if(level==1){
+		dorado.MessageBox.alert(&quot;请选择要测试的数据库连接!&quot;);
+	}else if(level==2){
+		var currentEntity = currentNode.get(&quot;data&quot;);
+		var parentEntity = currentNode.get(&quot;parent.data&quot;);
+		var action=view.get(&quot;#ajaxActionTestConn&quot;);
+		var groupId = parentEntity.get(&quot;id&quot;);
+		var connName=currentEntity.get(&quot;name&quot;);
+		action.set(&quot;parameter&quot;,{
+		groupId:groupId,
+		connName:connName
+		});
+		
+		action.execute(function(result){
+	     if(result!=null){
+		 	dorado.MessageBox.alert(result);
+		 }else {
+		 	dorado.MessageBox.alert(&quot;连接成功！&quot;);
+		 }
+		});
+	}
+}
+
+/**
+ * 打开数据库连接
+ */
+DbConsole.openConn = function(){
+	var currentNode = view.get(&quot;#mainTree.currentNode&quot;);
+	var level = currentNode.get(&quot;level&quot;);
+		if(level==1){
+			dorado.MessageBox.alert(&quot;请选择数据库连接!&quot;);
+		}else if(level==2){
+			var currentEntity = currentNode.get(&quot;data&quot;);
+			var parentEntity = currentNode.get(&quot;parent.data&quot;);
+			var action=view.get(&quot;#ajaxActionOpenConn&quot;);
+			var groupId = parentEntity.get(&quot;id&quot;);
+			var connName = currentEntity.get(&quot;name&quot;);
+			var url = currentEntity.get(&quot;url&quot;);
+			var user = currentEntity.get(&quot;user&quot;);
+			action.set(&quot;parameter&quot;,{
+			groupId:groupId,
+			connName:connName
+			});
+			
+			action.execute(function(result){
+		     if(result){
+			 	dorado.MessageBox.alert(result);
+			 }else {
+			 	DbConsole.isConn = true;
+			 	DbConsole.groupId = groupId;
+			 	DbConsole.connName = connName;
+			 	DbConsole.user=user;
+			 	view.get(&quot;#file.menu&quot;).getItem('disConn').set('disabled',false);
+			 	var connInfo = &quot;当前数据库连接：[User=&quot;+user+&quot;,URL=&quot;+url+&quot;]&quot;;
+				view.set(&quot;#connInfo._text&quot;,connInfo);
+				view.get(&quot;#connInfo&quot;).refresh();
+				var dbConsoleDbInfo = view.get(&quot;#DbConsoleDbInfo&quot;);
+				dbConsoleDbInfo.set('parameter',{
+					groupId:groupId,
+					connName:connName
+				});
+				dbConsoleDbInfo.flushAsync();
+				DbConsole.hideConnWin();
+				DbConsole.addSqlTab(false);
+			 }
+			});
+		}
+}
+
+/**
+ * 展开SQL编辑器标签
+ */
+DbConsole.expSqlTab = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	sqlEditorWin.expandSqlEditor();
+}
+
+/**
+ * 展开数据库浏览器标签
+ */
+DbConsole.expDBBrowserTab = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	sqlEditorWin.expandDBBrowser();
+}
+
+/**
+ * 恢复默认窗口
+ */
+DbConsole.defaultWindow = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	sqlEditorWin.defaultWindow();
+}
+
+/**
+ * 获取选中SQL
+ */
+DbConsole.getSelectSql = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	return sqlEditorWin.getSelectedValue();
+}
+
+/**
+ * 获取全部SQL
+ */
+DbConsole.getAllSql = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	return sqlEditorWin.getCodeValue();
+}
+
+/**
+ * 获取当前行SQL
+ */
+DbConsole.getCurLineSql = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	return sqlEditorWin.getCurLineValue();
+}
+
+/**
+ * 格式化SQL
+ */
+DbConsole.formatSQL = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	var inputSql = sqlEditorWin.getSelectedValue();
+	var action = view.get(&quot;#ajaxActionFormatSql&quot;);
+	action.set(&quot;parameter&quot;, {sql:inputSql});
+	action.execute(function(formatSql){
+		sqlEditorWin.replaceEditorContent(formatSql);
+	});
+}
+
+/**
+ * 上一步操作
+ */
+DbConsole.undo = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	sqlEditorWin.undo();
+}
+
+/**
+ * 下一步操作
+ */
+DbConsole.redo = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	sqlEditorWin.redo();
+}
+
+/**
+ * 全选
+ */
+DbConsole.selectAll = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	sqlEditorWin.selectAll();
+}
+
+/**
+ * 删除
+ */
+DbConsole.removeContent = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	sqlEditorWin.replaceEditorContent('');
+}
+
+/**
+ * 注释
+ */
+DbConsole.comment = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	var content = sqlEditorWin.getSelectedValue();
+	var rows = content.split('\n');
+	var commentContent = '';
+	for(var i = 0 ; i &lt; rows.length ; i++){
+		commentContent += &quot;--&quot;+rows[i]+'\n';
+	}
+	sqlEditorWin.replaceEditorContent(commentContent);
+}
+
+/**
+ * 取消注释
+ */
+DbConsole.unComment = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	var commentContent = sqlEditorWin.getSelectedValue();
+	var rows = commentContent.split('\n');
+	var content = '';
+	for(var i = 0 ; i &lt; rows.length ; i++){
+		var row = rows[i];
+		if($.trim(row).indexOf('--')!=0){
+			content += row+'\n';
+		}else{
+			content += row.replace('--','')+'\n';	
+		} 
+	}
+	sqlEditorWin.replaceEditorContent(content);
+}
+
+/**
+ * 拷贝Java代码片段
+ */
+DbConsole.copyJavaSnippet = function(){
+	var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+	var content = sqlEditorWin.getSelectedValue();	
+	var rows = content.split('\n');
+	var javaSnippet = 'StringBuffer sql= new StringBuffer();\n';
+	for(var i = 0 ; i &lt; rows.length ; i++){
+		var row = rows[i];
+		javaSnippet +='sql.append(&quot; '+row+'&quot;);\n';
+	}
+	return javaSnippet;
+}
+
+/**
+ * 添加SQL编辑器标签
+ */
+DbConsole.addSqlTab = function(closeable){
+	if(DbConsole.isConn){
+		var groupId = DbConsole.groupId;
+		var connName = DbConsole.connName;
+		var tabControl = view.get(&quot;#mainTabControl&quot;);
+		var newTab = tabControl.addTab({
+			$type : 'IFrame',
+			caption : 'SQL编辑器'+(tabControl.get(&quot;tabs&quot;).size+1),
+			name : 'SQL'+(tabControl.get(&quot;tabs&quot;).size+1),
+			closeable : closeable,
+			path : 'com.innofi.component.dbconsole.view.SQLEditor.d?groupId='+groupId+'&amp;connName='+connName
+		},tabControl.get(&quot;tabs&quot;).size,true);
+	}
+}
+
+/**
+ * 关闭标签
+ */
+DbConsole.closeTab = function(){
+	var tabControl = view.get(&quot;#mainTabControl&quot;);
+	var tab = tabControl.get(&quot;currentTab&quot;);
+	if (tab&amp;&amp;tab.get('closeable')) {
+		tab.close();
+	}
+}
+
+/**
+ * 插入SQL编辑器标签
+ */
+DbConsole.insertSqlTab = function(){
+	if(DbConsole.isConn){
+		var groupId = DbConsole.groupId;
+		var connName = DbConsole.connName;
+		var tabControl = view.get(&quot;#mainTabControl&quot;);
+		var newTab = tabControl.addTab({
+			$type : &quot;IFrame&quot;,
+			caption : &quot;SQL编辑器&quot;+(tabControl.get(&quot;tabs&quot;).size+1),
+			name : 'SQL'+(tabControl.get(&quot;tabs&quot;).size+1),
+			closeable : true,
+			path : 'com.innofi.component.dbconsole.view.SQLEditor.d?groupId='+groupId+'&amp;connName='+connName
+		},tabControl.get(&quot;currentIndex&quot;),true);
+	}
+}
+
+/**
+ * 添加数据库浏览器标签
+ */
+DbConsole.addBrowserTab = function(){
+	if(DbConsole.isConn){
+		var groupId = DbConsole.groupId;
+		var connName = DbConsole.connName;
+		var user = DbConsole.user;
+		var tabControl = view.get(&quot;#mainTabControl&quot;);
+		var newTab = tabControl.addTab({
+		$type : &quot;IFrame&quot;,
+		tags:'dbBrowser',
+		name : 'DBObjectBrowser'+(tabControl.get(&quot;tabs&quot;).size+1),
+		caption : &quot;数据库浏览器&quot;+(tabControl.get(&quot;tabs&quot;).size+1),
+		closeable : true,
+		path : 'com.innofi.component.dbconsole.view.DbBrowser.d?groupId='+groupId+'&amp;connName='+connName+&quot;&amp;user=&quot;+user.toUpperCase()
+		},tabControl.get(&quot;tabs&quot;).size,true);
+		DbConsole.currentEditorTab = newTab;
+	}else{
+		dorado.MessageBox.alert(&quot;请先连接数据库!&quot;);
+	}
+}
+
+/**
+ * 打开默认连接
+ */
+DbConsole.setDefault = function(){
+	var group = view.get('#dataSetGroup.data.current');
+	conns = group.get('dbConsoleConnections');	
+	if(conns){
+		var iterator = conns.iterator();
+		while(iterator.hasNext()){
+			var conn = iterator.next();
+			if(conn.get('defaults')==true){
+				vie.set('mainTree.currentEtity'.conn);
+			}	
+		}
+	}
+}
+
+/**
+ * 打开SQL编辑器标签
+ */
+DbConsole.expandSQLEditor = function(){
+	var group = view.get('#dataSetGroup.data.current');
+	conns = group.get('dbConsoleConnections');	
+	if(conns){
+		var iterator = conns.iterator();
+		while(iterator.hasNext()){
+			var conn = iterator.next();
+			if(conn.get('defaults')==true){
+				vie.set('mainTree.currentEtity'.conn);
+			}	
+		}
+	}
+}
+
+/**
+ * 执行SQL语句
+ */
+DbConsole.execute = function (inputSql){
+	if(inputSql){
+		var groupId = DbConsole.groupId;
+		var connName = DbConsole.connName;
+		var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+		var messageTab = sqlEditorWin.getMessageTab();
+		var selectSqls = new dorado.util.KeyedList();
+		var paramSql = &quot;&quot;;
+		var sqls = inputSql.split(&quot;\n&quot;);
+		for(var i = 0 ; i &lt; sqls.length ; i++){//传递参数将\n替换为url中\n的转义字符'%0D%0A'
+			var sql = sqls[i];
+			if($.trim(sql).length==0){continue;}
+			paramSql += sql+'%0D%0A';
+		}
+		
+		sqls = paramSql.split(&quot;;&quot;);
+		for(var i = 0 ; i &lt; sqls.length ; i++){//查找select语句
+			var sql = sqls[i];
+			if(sql.toUpperCase().indexOf('SELECT')>-1){
+				selectSqls.append(sql.substring(sql.toUpperCase().indexOf('SELECT'),sql.length));	
+			}
+		}
+
+		if(!paramSql){//如果paramSql为空说明只有一行SQL
+			paramSql = inputSql;
+		}
+		var path = 'com.innofi.component.dbconsole.view.ExecuteMessage.d?groupId='+groupId+'&amp;connName='+connName+&quot;&amp;sql=&quot;+paramSql;
+		messageTab.set('path',path);
+		if(selectSqls.size > 0 ){//SQL片段中如果有Select，执行最后一条
+			var selectSql = selectSqls.getLast();
+			while(selectSql.indexOf('%0D%0A')>-1){
+				selectSql = selectSql.replace('%0D%0A','');
+			}
+			DbConsole.executeSelect(selectSql,1,1000,&quot;&quot;);//todo添加提取量参数
+		}
+	}else{
+		dorado.MessageBox.alert(&quot;执行的SQL语句不能为空!&quot;);
+	}
+}
+
+/**
+ * 执行Select语句
+ * @param {Object} selectSql 
+ */
+DbConsole.executeSelect = function(selectSql,pageNo,limitSize,dataTabName){
+	var action = view.get('#ajaxActionExecuteSelect');
+	if(!pageNo||pageNo&lt;0){
+		pageNo = 1;
+	}
+	if(!limitSize||limitSize&lt;0){
+		limitSize = 1000;
+	}
+	
+	action.set('parameter',{
+		groupId:DbConsole.groupId,
+		connName:DbConsole.connName,
+		querySql:selectSql,
+		pageNo:pageNo,
+		limitSize:limitSize
+	});
+	
+	action.execute(function(token){
+		if(token){
+			var promptMsg = selectSql;
+			if(selectSql.length>17){
+				promptMsg = selectSql.substring(0,17)+'...';
+			}
+			DbConsole.taskId = dorado.util.TaskIndicator.showTaskIndicator(&quot;【&quot;+promptMsg+&quot;】&quot;);
+			DbConsole.token = token;
+			DbConsole.intervalId=$setInterval(view,&quot;DbConsole.querySelectStatus()&quot;, 500);
+			DbConsole.dataTabName = dataTabName;
+			DbConsole.setExecStatus(true);
+		}else{
+			dorado.MessageBox.alert('远程调用出现错误，请检查网络是否正常...');
+		}
+	});
+}
+
+/**
+ * 获得Select执行状态
+ */
+DbConsole.querySelectStatus = function(){
+	var action = view.get('#ajaxActionGetSelectStatus');
+	action.set('parameter',{
+		token:DbConsole.token
+	});	
+	action.execute(function(taskStatus){
+		if(taskStatus){
+			//$log(taskStatus)打印debug日志
+			if(taskStatus.indexOf('已完成')>-1){
+				dorado.util.TaskIndicator.hideTaskIndicator(DbConsole.taskId);
+				clearInterval(DbConsole.intervalId);
+				DbConsole.setExecStatus(false);
+				var sqlEditorWin = DbConsole.currentEditorTab.get(&quot;control.iFrameWindow&quot;);
+				sqlEditorWin.loadData(DbConsole,DbConsole.dataTabName,DbConsole.token);
+				DbConsole.clearTaskStatus();
+			}else if(taskStatus.indexOf('运行中...')>-1){
+				$log('执行运行中...['+taskStatus+']')
+			}else if(taskStatus.indexOf('停止中')>-1){
+				if(!DbConsole.stoppingQuery){
+					dorado.util.TaskIndicator.hideTaskIndicator(DbConsole.taskId);
+					DbConsole.setExecStatus(false);	
+					DbConsole.taskId = dorado.util.TaskIndicator.showTaskIndicator(&quot;【正在停止查询任务...】&quot;,&quot;main&quot;);
+					DbConsole.stoppingQuery = true;
+				}
+			}else {
+				dorado.util.TaskIndicator.hideTaskIndicator(DbConsole.taskId);
+				clearInterval(DbConsole.intervalId);
+				dorado.MessageBox.alert(taskStatus.split('|')[1]);
+				DbConsole.setExecStatus(false);
+				DbConsole.clearTaskStatus();
+			}
+		}
+	});
+}
+
+/**
+ * 禁用执行按钮
+ */
+DbConsole.setExecStatus = function(disableExec){
+	var objects = view.get('^SQLEditor');
+	objects.each(function(object){
+		if(object.get('userData')=='execute'){
+			object.set('disabled',disableExec);
+		}
+		view.set('^cancelExec.disabled',!disableExec);
+	});
+}
+
+/**
+ * 停止查询任务
+ */
+DbConsole.stopExecuteQuery = function(){
+	if(DbConsole.token&amp;&amp;DbConsole.taskId){
+		var action = view.get('#ajaxActionStopQuery');
+		action.set('parameter',{
+			token:DbConsole.token
+		});
+		action.execute(function(){
+			dorado.util.TaskIndicator.hideTaskIndicator(DbConsole.taskId);
+			DbConsole.setExecStatus(false);	
+			DbConsole.taskId = dorado.util.TaskIndicator.showTaskIndicator(&quot;【正在停止查询任务...】&quot;,&quot;main&quot;);
+			DbConsole.stoppingQuery = true;
+		});
+	}else{
+		dorado.MessageBox.alert('...任务令牌丢失，有bug，请与开发人员联系！');
+	}
+}
+
+/**
+ * 清空任务状态参数
+ */
+DbConsole.clearTaskStatus = function(){
+	DbConsole.taskId = '';
+	DbConsole.token = '';
+	DbConsole.intervalId = '';
+	DbConsole.stoppingQuery = false;
+	DbConsole.dataTabName = '';
+}
+
+$('span#d_copyJavaCode').zclip({
+        path:'${request.getContextPath()}/scripts/ZeroClipboard.swf',
+        copy:DbConsole.copyJavaSnippet
+    });
+
+DbConsole.showConnWin();
+
+</ClientEvent>
+    <Property name="javaScriptFile">classpath:com/innofi/component/dbconsole/view/jquery.zclip.min.js</Property>
+    <DataSet id="dataSetGroup">
+      <Property name="dataProvider">mdf.dbConsoleAction#loadGroups</Property>
+      <Property name="dataType">[dataTypeGroup]</Property>
+    </DataSet>
+    <DataSet id="DbConsoleDbInfo">
+      <Property name="dataType">DbConsoleDbInfo</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadDbInfo</Property>
+    </DataSet>
+    <ToolBar id="mainMenuBar">
+      <ClientEvent name="onCreateDom">
+</ClientEvent>
+      <MenuButton id="file">
+        <Property name="caption">文件</Property>
+        <Property name="tags">menuButton</Property>
+        <MenuItem>
+          <ClientEvent name="onClick">if(DbConsole.groupId){
+dorado.MessageBox.alert(&quot;同一个浏览器下同时只能操作一个数据库，当前数据库为【&quot;+DbConsole.connName+&quot;】,请先执行断开连接，再尝试此操作!&quot;);	
+}else{
+	DbConsole.showConnWin();
+}</ClientEvent>
+          <Property name="caption">打开连接窗口</Property>
+          <Property name="icon">${request.getContextPath()}/icons/database_add.png</Property>
+          <Property name="name">openConnWin</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">断开连接</Property>
+          <Property name="icon">${request.getContextPath()}/icons/database_link.png</Property>
+          <Property name="name">disConn</Property>
+          <Property name="tags">disConn</Property>
+          <Property name="disabled">true</Property>
+        </MenuItem>
+        <Separator/>
+        <MenuItem>
+          <Property name="caption">打开文件</Property>
+          <Property name="icon">${request.getContextPath()}/icons/folder_page_white.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">保存文件</Property>
+          <Property name="icon">${request.getContextPath()}/icons/script_save.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+      </MenuButton>
+      <Separator/>
+      <MenuButton>
+        <Property name="caption">编辑</Property>
+        <Property name="tags">menuButton</Property>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.undo();</ClientEvent>
+          <Property name="caption">上一步</Property>
+          <Property name="icon">>icons/undo.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.redo();</ClientEvent>
+          <Property name="caption">下一步</Property>
+          <Property name="icon">>icons/redo.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <Separator/>
+        <Separator/>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.selectAll();</ClientEvent>
+          <Property name="caption">全选</Property>
+          <Property name="icon">${request.getContextPath()}/icons/selectall.gif</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.removeContent();</ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">${request.getContextPath()}/icons/delete2.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <Separator/>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.comment();</ClientEvent>
+          <Property name="caption">注释</Property>
+          <Property name="icon">${request.getContextPath()}/icons/comment_add.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.unComment();</ClientEvent>
+          <Property name="caption">取消注释</Property>
+          <Property name="icon">${request.getContextPath()}/icons/comment_delete.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+      </MenuButton>
+      <Separator/>
+      <MenuButton>
+        <Property name="caption">视图</Property>
+        <Property name="tags">menuButton</Property>
+        <MenuItem>
+          <ClientEvent name="onClick">var tabControl = view.get(&quot;#mainTabControl&quot;);
+var index = tabControl.get(&quot;currentIndex&quot;), count = tabControl.get(&quot;tabs&quot;).size;
+index++;
+if (index >= count) {
+	index = 0;
+}
+tabControl.set(&quot;currentIndex&quot;, index);</ClientEvent>
+          <Property name="caption">下一个标签</Property>
+          <Property name="icon">${request.getContextPath()}/icons/forward.png</Property>
+          <Property name="visible">true</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">var tabControl = view.get(&quot;#mainTabControl&quot;);
+var index = tabControl.get(&quot;currentIndex&quot;), count = tabControl.get(&quot;tabs&quot;).size;
+index--;
+if (index &lt; 0 ) {
+	index = count-1;
+}
+tabControl.set(&quot;currentIndex&quot;, index);</ClientEvent>
+          <Property name="caption">前一个标签</Property>
+          <Property name="icon">${request.getContextPath()}/icons/back.png</Property>
+        </MenuItem>
+        <Separator/>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.expSqlTab();</ClientEvent>
+          <Property name="caption">展开SQL编辑器标签</Property>
+          <Property name="icon">>icons/table_go.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.expDBBrowserTab();</ClientEvent>
+          <Property name="caption">展开控制台标签</Property>
+          <Property name="icon">>icons/application_osx.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.defaultWindow();</ClientEvent>
+          <Property name="caption">恢复默认</Property>
+          <Property name="icon">>icons/application_side_list.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <Separator/>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.addSqlTab(true);</ClientEvent>
+          <Property name="caption">新增标签</Property>
+          <Property name="icon">${request.getContextPath()}/icons/tab_add.png</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.insertSqlTab();</ClientEvent>
+          <Property name="caption">插入标签</Property>
+          <Property name="icon">${request.getContextPath()}/icons/tab_go.png</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.closeTab();</ClientEvent>
+          <Property name="caption">关闭标签</Property>
+          <Property name="icon">${request.getContextPath()}/icons/tab_delete.png</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">view.get('#reNameTab').show();</ClientEvent>
+          <Property name="caption">重命名标签</Property>
+          <Property name="icon">${request.getContextPath()}/icons/tab_edit.png</Property>
+        </MenuItem>
+      </MenuButton>
+      <Separator/>
+      <MenuButton>
+        <Property name="caption">数据</Property>
+        <Property name="tags">menuButton</Property>
+        <MenuItem>
+          <Property name="caption">导出数据</Property>
+          <Property name="icon">>icons/export1.png</Property>
+        </MenuItem>
+      </MenuButton>
+      <Separator/>
+      <MenuButton>
+        <Property name="caption">SQL</Property>
+        <Property name="tags">menuButton</Property>
+        <MenuItem>
+          <ClientEvent name="onClick">var inputSql = DbConsole.getSelectSql();
+DbConsole.execute(inputSql);</ClientEvent>
+          <Property name="caption">执行选中</Property>
+          <Property name="icon">>icons/control_play_blue.png</Property>
+          <Property name="tags">SQLEditor</Property>
+          <Property name="userData">execute</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">var inputSql = DbConsole.getCurLineSql();
+DbConsole.execute(inputSql);</ClientEvent>
+          <Property name="caption">执行当前行</Property>
+          <Property name="icon">>icons/control_end_blue.png</Property>
+          <Property name="tags">SQLEditor</Property>
+          <Property name="userData">execute</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">var inputSql = DbConsole.getAllSql();
+DbConsole.execute(inputSql);</ClientEvent>
+          <Property name="caption">执行所有</Property>
+          <Property name="icon">>icons/control_fastforward_blue.png</Property>
+          <Property name="tags">SQLEditor</Property>
+          <Property name="userData">execute</Property>
+        </MenuItem>
+        <Separator/>
+        <MenuItem>
+          <Property name="caption">提交</Property>
+          <Property name="icon">>icons/commit.gif</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">回滚</Property>
+          <Property name="icon">>icons/rollback.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <Separator/>
+        <MenuItem>
+          <Property name="caption">第1条</Property>
+          <Property name="icon">>icons/arrow_turn_left.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">前1条</Property>
+          <Property name="icon">>icons/arrow_left.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">后1条</Property>
+          <Property name="icon">>icons/arrow_right.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">最后1条</Property>
+          <Property name="icon">>icons/arrow_turn_right.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">浏览历史</Property>
+          <Property name="icon">>icons/page_find.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">清除历史</Property>
+          <Property name="icon">>icons/page_delete.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+        <Separator/>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.formatSQL();</ClientEvent>
+          <Property name="caption">格式化 SQL</Property>
+          <Property name="icon">>icons/autodesk.png</Property>
+          <Property name="tags">SQLEditor</Property>
+        </MenuItem>
+      </MenuButton>
+      <Separator/>
+      <MenuButton>
+        <Property name="caption">工作空间</Property>
+        <Property name="tags">menuButton</Property>
+        <MenuItem>
+          <Property name="caption">加载工作空间</Property>
+          <Property name="icon">>icons/loading.gif</Property>
+        </MenuItem>
+        <MenuItem>
+          <Property name="caption">保存工作空间</Property>
+          <Property name="icon">>icons/save.gif</Property>
+        </MenuItem>
+      </MenuButton>
+      <Separator/>
+      <MenuButton>
+        <Property name="caption">工具</Property>
+        <Property name="tags">menuButton</Property>
+        <Separator/>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.addSqlTab(true);</ClientEvent>
+          <Property name="caption">新建SQL编辑器</Property>
+          <Property name="icon">>icons/table_add.png</Property>
+        </MenuItem>
+        <MenuItem>
+          <ClientEvent name="onClick">DbConsole.addBrowserTab();</ClientEvent>
+          <Property name="caption">新建数据库浏览器</Property>
+          <Property name="icon">>icons/database_add.png</Property>
+        </MenuItem>
+      </MenuButton>
+      <Separator/>
+      <MenuButton>
+        <Property name="caption">帮助</Property>
+        <Property name="tags">menuButton</Property>
+        <MenuItem>
+          <ClientEvent name="onClick">dorado.MessageBox.show({
+	title: &quot;版本&quot;,
+	icon: dorado.MessageBox.INFO_ICON,
+	message: &quot;Company:INNOFI;\nProduct:PLATFORM CONTROL CENTER;\nModule:PCC-DBConsole;\nVersion:1.0-SNAPSHOT;\nWebsite:http://www.innofi.com.cn;&quot;,
+	buttons: [&quot;ok&quot;]
+});	</ClientEvent>
+          <Property name="caption">版本</Property>
+          <Property name="icon">>icons/about.gif</Property>
+        </MenuItem>
+      </MenuButton>
+    </ToolBar>
+    <ToolBar id="commandToolBar">
+      <ToolBarButton id="exeSelect">
+        <ClientEvent name="onClick">var inputSql = DbConsole.getSelectSql();
+DbConsole.execute(inputSql);</ClientEvent>
+        <Property name="icon">>icons/control_play_blue.png</Property>
+        <Property name="tip">执行选中</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+        <Property name="userData">execute</Property>
+      </ToolBarButton>
+      <ToolBarButton id="execCurrent">
+        <ClientEvent name="onClick">var inputSql = DbConsole.getCurLineSql();
+DbConsole.execute(inputSql);</ClientEvent>
+        <Property name="tip">执行当前行</Property>
+        <Property name="icon">>icons/control_end_blue.png</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+        <Property name="userData">execute</Property>
+      </ToolBarButton>
+      <ToolBarButton id="execAll">
+        <ClientEvent name="onClick">var inputSql = DbConsole.getAllSql();
+DbConsole.execute(inputSql);</ClientEvent>
+        <Property name="tip">执行全部</Property>
+        <Property name="icon">>icons/control_fastforward_blue.png</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+        <Property name="userData">execute</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="cancelExec">
+        <ClientEvent name="onClick">DbConsole.stopExecuteQuery();</ClientEvent>
+        <Property name="icon">${request.getContextPath()}/icons/control_stop_blue.png</Property>
+        <Property name="tip">撤销</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">cancelExec</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="first">
+        <Property name="icon">>icons/arrow_turn_left.png</Property>
+        <Property name="tip">第1条</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+      </ToolBarButton>
+      <ToolBarButton id="prev">
+        <Property name="icon">>icons/arrow_left.png</Property>
+        <Property name="tip">前1条</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+      </ToolBarButton>
+      <ToolBarButton id="next">
+        <Property name="icon">>icons/arrow_right.png</Property>
+        <Property name="tip">后1条</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+      </ToolBarButton>
+      <ToolBarButton id="last">
+        <Property name="icon">>icons/arrow_turn_right.png</Property>
+        <Property name="tip">最后1条</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="commit">
+        <Property name="icon">>icons/commit.gif</Property>
+        <Property name="tip">提交</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+      </ToolBarButton>
+      <ToolBarButton id="rollback">
+        <Property name="icon">>icons/rollback.png</Property>
+        <Property name="tip">回滚</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">SQLEditor</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="copyJavaCode">
+        <ClientEvent name="onClick">DbConsole.copyJavaSnippet();</ClientEvent>
+        <Property name="icon">>icons/java.png</Property>
+        <Property name="tip">拷贝为Java代码片段</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarLabel id="connInfo"/>
+    </ToolBar>
+    <TabControl id="mainTabControl" layoutConstraint="center">
+      <ClientEvent name="onTabChange">try{
+if(DbConsole){
+	DbConsole.currentEditorTab = arg.newTab;
+	if(arg.newTab.get('name').indexOf('SQL')>-1){
+		view.set('^SQLEditor.disabled',false);
+	}else{
+		view.set('^SQLEditor.disabled',true);
+	}
+}
+}catch(e){
+}</ClientEvent>
+      <Property name="showMenuButton">true</Property>
+      <ControlTab>
+        <Property name="name">dbInfo</Property>
+        <Property name="caption">数据库信息</Property>
+        <Panel>
+          <Property name="border">curve</Property>
+          <Buttons/>
+          <Children>
+            <FieldSet id="baseInfo">
+              <ClientEvent name="beforeCollapsedChange">if(self.get('collapsed')){
+ view.set('#detailInfo.collapsed',true);
+}</ClientEvent>
+              <Property name="caption">基本信息</Property>
+              <Property name="collapsed">false</Property>
+              <Buttons/>
+              <Children>
+                <AutoForm id="dbInfo">
+                  <Property name="cols">*,*</Property>
+                  <Property name="dataSet">DbConsoleDbInfo</Property>
+                  <Property name="dataType">DbConsoleDbInfo</Property>
+                  <Property name="readOnly">true</Property>
+                  <Property name="labelWidth">130</Property>
+                  <AutoFormElement>
+                    <Property name="name">productName</Property>
+                    <Property name="property">productName</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">jdbcDriver</Property>
+                    <Property name="property">jdbcDriver</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">jdbcNormVersion</Property>
+                    <Property name="property">jdbcNormVersion</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsANSI92SQLGrade</Property>
+                    <Property name="property">supportsANSI92SQLGrade</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxStatementLength</Property>
+                    <Property name="property">maxStatementLength</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxSchemaNameLength</Property>
+                    <Property name="property">maxSchemaNameLength</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxProcedureNameLength</Property>
+                    <Property name="property">maxProcedureNameLength</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxTableNameLength</Property>
+                    <Property name="property">maxTableNameLength</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxColumnNameLength</Property>
+                    <Property name="property">maxColumnNameLength</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxCursorNameLength</Property>
+                    <Property name="property">maxCursorNameLength</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">sqlKeywords</Property>
+                    <Property name="property">sqlKeywords</Property>
+                    <Property name="height">75</Property>
+                    <Property name="editorType">TextArea</Property>
+                    <Property name="labelWidth">120</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">systemFunctions</Property>
+                    <Property name="property">systemFunctions</Property>
+                    <Property name="height">75</Property>
+                    <Property name="labelWidth">120</Property>
+                    <Property name="editorType">TextArea</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">numericFunctions</Property>
+                    <Property name="property">numericFunctions</Property>
+                    <Property name="editorType">TextArea</Property>
+                    <Property name="height">75</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">stringFunctions</Property>
+                    <Property name="property">stringFunctions</Property>
+                    <Property name="editorType">TextArea</Property>
+                    <Property name="height">75</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement layoutConstraint="rowSpan:2">
+                    <Property name="name">timeDateFunctions</Property>
+                    <Property name="property">timeDateFunctions</Property>
+                    <Property name="editorType">TextArea</Property>
+                    <Property name="height">75</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxTablesInSelect</Property>
+                    <Property name="property">maxTablesInSelect</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxColumnsInSelect</Property>
+                    <Property name="property">maxColumnsInSelect</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                </AutoForm>
+              </Children>
+            </FieldSet>
+            <FieldSet id="detailInfo">
+              <ClientEvent name="beforeCollapsedChange">if(self.get('collapsed')){
+ view.set('#baseInfo.collapsed',true);
+}</ClientEvent>
+              <Property name="caption">更多信息</Property>
+              <Property name="collapsed">true</Property>
+              <Buttons/>
+              <Children>
+                <AutoForm id="detailForm">
+                  <Property name="cols">*,*,*</Property>
+                  <Property name="dataSet">DbConsoleDbInfo</Property>
+                  <Property name="dataType">DbConsoleDbInfo</Property>
+                  <Property name="labelWidth">240</Property>
+                  <Property name="colPadding">2</Property>
+                  <Property name="readOnly">true</Property>
+                  <AutoFormElement>
+                    <Property name="name">maxColumnsInGroupBy</Property>
+                    <Property name="property">maxColumnsInGroupBy</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxColumnsInOrderBy</Property>
+                    <Property name="property">maxColumnsInOrderBy</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxColumnsInIndex</Property>
+                    <Property name="property">maxColumnsInIndex</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxColumnsInSelect</Property>
+                    <Property name="property">maxColumnsInSelect</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxColumnsStringable</Property>
+                    <Property name="property">maxColumnsStringable</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxConnections</Property>
+                    <Property name="property">maxConnections</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxIndexLength</Property>
+                    <Property name="property">maxIndexLength</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxRowSize</Property>
+                    <Property name="property">maxRowSize</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">maxTablesInSelect</Property>
+                    <Property name="property">maxTablesInSelect</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsTrans</Property>
+                    <Property name="property">supportsTrans</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsProcedure</Property>
+                    <Property name="property">supportsProcedure</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsBatchUpdate</Property>
+                    <Property name="property">supportsBatchUpdate</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsGetGenerKey</Property>
+                    <Property name="property">supportsGetGenerKey</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsConvert</Property>
+                    <Property name="property">supportsConvert</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsSubqueriesInComparisons</Property>
+                    <Property name="property">supportsSubqueriesInComparisons</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsSubqueriesInExists</Property>
+                    <Property name="property">supportsSubqueriesInExists</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsSubqueriesInIns</Property>
+                    <Property name="property">supportsSubqueriesInIns</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsCorrelatedSubqueries</Property>
+                    <Property name="property">supportsCorrelatedSubqueries</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsSubqueriesInQuantifieds</Property>
+                    <Property name="property">supportsSubqueriesInQuantifieds</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsSelectForUpdate</Property>
+                    <Property name="property">supportsSelectForUpdate</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsUnion</Property>
+                    <Property name="property">supportsUnion</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsUnionAll</Property>
+                    <Property name="property">supportsUnionAll</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsGroupBy</Property>
+                    <Property name="property">supportsGroupBy</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsOuterJoins</Property>
+                    <Property name="property">supportsOuterJoins</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsLimitedOuterJoins</Property>
+                    <Property name="property">supportsLimitedOuterJoins</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsFullOuterJoins</Property>
+                    <Property name="property">supportsFullOuterJoins</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">usesLocalFilePerTable</Property>
+                    <Property name="property">usesLocalFilePerTable</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsSavepoStrings</Property>
+                    <Property name="property">supportsSavepoStrings</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">supportsOrderByUnrelated</Property>
+                    <Property name="property">supportsOrderByUnrelated</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">nullsAreSortedHigh</Property>
+                    <Property name="property">nullsAreSortedHigh</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">nullsAreSortedLow</Property>
+                    <Property name="property">nullsAreSortedLow</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">nullsAreSortedAtEnd</Property>
+                    <Property name="property">nullsAreSortedAtEnd</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">nullsAreSortedAtStart</Property>
+                    <Property name="property">nullsAreSortedAtStart</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                </AutoForm>
+              </Children>
+            </FieldSet>
+          </Children>
+          <Tools/>
+        </Panel>
+      </ControlTab>
+    </TabControl>
+    <Dialog id="dbConsoleConnection">
+      <ClientEvent name="onReady">this.get(&quot;#dbConsoleConnection&quot;).show();</ClientEvent>
+      <Property name="caption">选择数据库连接</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">800</Property>
+      <Property name="height">320</Property>
+      <Property name="animateType">fade</Property>
+      <Property name="resizeable">false</Property>
+      <Buttons/>
+      <Children>
+        <Panel>
+          <Property name="showCaptionBar">false</Property>
+          <Buttons/>
+          <Children>
+            <Dialog id="newGroup">
+              <Property name="caption">新建组</Property>
+              <Property name="width">200</Property>
+              <Property name="height">120</Property>
+              <Property name="modal">true</Property>
+              <Property name="center">true</Property>
+              <Buttons>
+                <Button>
+                  <ClientEvent name="onClick">var name = view.get('#dataSetGroup').getData('#current.name');
+if(name){
+	view.get(&quot;#newGroup&quot;).hide();
+}else{
+	dorado.MessageBox.alert('请输入组的名称！');
+}</ClientEvent>
+                  <Property name="caption">确定</Property>
+                </Button>
+                <Button>
+                  <ClientEvent name="onClick">var entity = this.get('#dataSetGroup.data');
+entity.remove();
+view.get(&quot;#newGroup&quot;).hide();</ClientEvent>
+                  <Property name="caption">取消</Property>
+                </Button>
+              </Buttons>
+              <Children>
+                <AutoForm>
+                  <Property name="dataSet">dataSetGroup</Property>
+                  <Property name="dataPath">#current</Property>
+                  <Property name="dataType">dataTypeGroup</Property>
+                  <Property name="cols">*</Property>
+                  <AutoFormElement>
+                    <Property name="showLabel">false</Property>
+                    <Property name="property">name</Property>
+                    <Property name="labelWidth">20</Property>
+                  </AutoFormElement>
+                </AutoForm>
+              </Children>
+              <Tools/>
+            </Dialog>
+            <SplitPanel layoutConstraint="center">
+              <Property name="position">323</Property>
+              <MainControl>
+                <CardBook id="book1">
+                  <Property name="currentIndex">0</Property>
+                  <Panel>
+                    <Buttons/>
+                    <Children/>
+                    <Tools/>
+                  </Panel>
+                  <Panel>
+                    <Buttons/>
+                    <Children>
+                      <AutoForm id="AutoFormConnection">
+                        <Property name="dataSet">dataSetGroup</Property>
+                        <Property name="cols">*,*,*</Property>
+                        <Property name="dataPath">!CURRENT_CON</Property>
+                        <AutoFormElement layoutConstraint="colSpan:3">
+                          <Property name="property">name</Property>
+                        </AutoFormElement>
+                        <AutoFormElement layoutConstraint="colSpan:3">
+                          <Property name="property">driver</Property>
+                          <Property name="trigger">dbDriver</Property>
+                        </AutoFormElement>
+                        <AutoFormElement layoutConstraint="colSpan:3">
+                          <Property name="property">url</Property>
+                          <Property name="trigger">url</Property>
+                        </AutoFormElement>
+                        <AutoFormElement layoutConstraint="colSpan:3">
+                          <Property name="property">user</Property>
+                        </AutoFormElement>
+                        <AutoFormElement layoutConstraint="colSpan:3">
+                          <Property name="property">password</Property>
+                        </AutoFormElement>
+                        <AutoFormElement>
+                          <Property name="property">autoCommit</Property>
+                        </AutoFormElement>
+                        <AutoFormElement>
+                          <Property name="property">savePassword</Property>
+                        </AutoFormElement>
+                        <AutoFormElement>
+                          <Property name="property">fetchSize</Property>
+                        </AutoFormElement>
+                      </AutoForm>
+                    </Children>
+                    <Tools/>
+                  </Panel>
+                </CardBook>
+              </MainControl>
+              <SideControl>
+                <Panel layout="vbox">
+                  <Children>
+                    <ToolBar>
+                      <ToolBarButton>
+                        <ClientEvent name="onClick">var currentNode = view.get(&quot;#mainTree.currentNode&quot;);
+if (!currentNode) {
+	dorado.MessageBox.alert(&quot;请先点中一个树节点！&quot;);
+}
+var level = currentNode.get(&quot;level&quot;);
+if(level==1){
+	var currentEntity = currentNode.get(&quot;data&quot;);
+	currentNode.expandAsync(function() {
+		currentEntity.get(&quot;dbConsoleConnections&quot;).insert({
+			groupId:currentEntity.get('id')
+		}, &quot;before&quot;);
+	});
+}else if(level==2){
+	var currentEntity = currentNode.get(&quot;data&quot;);
+	var newEntity = currentEntity.parent.insert({
+		groupId:currentEntity.get('groupId')
+	},&quot;after&quot;,currentEntity);
+}
+</ClientEvent>
+                        <Property name="tip">新建连接</Property>
+                        <Property name="icon">${request.getContextPath()}/icons/database_add.png</Property>
+                      </ToolBarButton>
+                      <ToolBarButton>
+                        <ClientEvent name="onClick">var currentNode = this.get(&quot;#mainTree.currentNode&quot;);
+var level = currentNode.get(&quot;level&quot;);
+if(level==1){
+	dorado.MessageBox.alert(&quot;请选择要复制的数据库连接!&quot;);
+}else if(level==2){
+	var currentEntity = currentNode.get(&quot;data&quot;);
+	currentEntity.parent.insert(currentEntity.getData(),&quot;after&quot;,currentEntity);
+}
+</ClientEvent>
+                        <Property name="tip">复制连接</Property>
+                        <Property name="icon">${request.getContextPath()}/icons/database_gear.png</Property>
+                      </ToolBarButton>
+                      <ToolBarButton>
+                        <ClientEvent name="onClick">var currentNode = this.get(&quot;#mainTree.currentNode&quot;);
+if (!currentNode) {
+	dorado.MessageBox.alert(&quot;请先点中一个树节点！&quot;);
+}
+var level = currentNode.get(&quot;level&quot;);
+if(level==1){
+	dorado.MessageBox.alert(&quot;目前dorado存在BUG，在一级节点新增会报错，请选择一个二级节点！&quot;);
+}else if(level==2){
+	var entityList = view.get('#dataSetGroup.data');
+	entityList.insert();
+	view.get('#newGroup').show();
+}
+</ClientEvent>
+                        <Property name="tip">新建组</Property>
+                        <Property name="icon">${request.getContextPath()}/icons/folder_database.png</Property>
+                      </ToolBarButton>
+                      <Separator/>
+                      <ToolBarButton>
+                        <ClientEvent name="onClick">var level = this.get('#mainTree.currentNode.level');
+var current = this.get('#dataSetGroup').getData('!CURRENT_CON');
+var data = this.get('#dataSetGroup.data');
+if(level==1){
+	data.remove(current);
+}else if(level==2){
+	var dbConsoleGroup = data.getFirst();
+	while(dbConsoleGroup){
+		if(dbConsoleGroup.get('id')==current.get('groupId')){
+			dbConsoleGroup.get('dbConsoleConnections').remove(current);
+			break;
+		}	
+		dbConsoleGroup = dbConsoleGroup.getNext();		
+	}
+}
+</ClientEvent>
+                        <Property name="tip">删除</Property>
+                        <Property name="icon">>icons/database_delete.png</Property>
+                      </ToolBarButton>
+                      <Separator/>
+                      <ToolBarButton>
+                        <ClientEvent name="onClick">var action = view.get(&quot;#updateActionGroup&quot;);
+action.execute();</ClientEvent>
+                        <Property name="tip">保存</Property>
+                        <Property name="icon">${request.getContextPath()}/icons/database_save.png</Property>
+                      </ToolBarButton>
+                      <ToolBarButton>
+                        <ClientEvent name="onClick">function collapse(nodes) {
+	nodes.each(function(node) {
+		collapse(node.get(&quot;nodes&quot;));
+		if (node.get(&quot;expanded&quot;)) node.collapse();
+	});
+}
+
+collapse(this.get(&quot;#mainTree.nodes&quot;));
+</ClientEvent>
+                        <Property name="tip">收缩全部</Property>
+                        <Property name="icon">${request.getContextPath()}/icons/arrow_in.png</Property>
+                      </ToolBarButton>
+                      <ToolBarButton>
+                        <ClientEvent name="onClick">function expand(nodes) {
+	nodes.each(function(node) {
+		if (!node.get(&quot;expanded&quot;)) node.expand();
+		expand(node.get(&quot;nodes&quot;));
+	});
+}
+
+expand(this.get(&quot;#mainTree.nodes&quot;));</ClientEvent>
+                        <Property name="tip">展开全部</Property>
+                        <Property name="icon">${request.getContextPath()}/icons/arrow_out.png</Property>
+                      </ToolBarButton>
+                    </ToolBar>
+                    <DataTree id="mainTree">
+                      <ClientEvent name="onCurrentChange">var currentNode = self.get(&quot;currentNode&quot;);
+var level = currentNode.get(&quot;level&quot;);
+var cardBook = this.get('#book1');
+
+if(level=='1'){
+	cardBook.set(&quot;currentControl&quot;, 0);
+	view.get('#btnOk').set('disabled',true);
+	view.get('#btnTestConn').set('disabled',true);
+}else if(level='2'){
+	cardBook.set(&quot;currentControl&quot;, 1);
+	view.get('#btnOk').set('disabled',false);
+	view.get('#btnTestConn').set('disabled',false);
+}</ClientEvent>
+                      <Property name="dataSet">dataSetGroup</Property>
+                      <Property name="height">91%</Property>
+                      <Property name="currentNodeDataPath">CURRENT_CON</Property>
+                      <BindingConfigs>
+                        <BindingConfig>
+                          <Property name="labelProperty">name</Property>
+                          <Property name="name">group</Property>
+                          <Property name="hasChild">true</Property>
+                          <Property name="icon">${request.getContextPath()}/icons/folder_database.png</Property>
+                          <Property name="expandLevel">1</Property>
+                          <BindingConfig>
+                            <Property name="childrenProperty">dbConsoleConnections</Property>
+                            <Property name="name">connections</Property>
+                            <Property name="labelProperty">name</Property>
+                            <Property name="icon">${request.getContextPath()}/icons/database_connect.png</Property>
+                          </BindingConfig>
+                        </BindingConfig>
+                      </BindingConfigs>
+                    </DataTree>
+                  </Children>
+                </Panel>
+              </SideControl>
+            </SplitPanel>
+            <ToolBar layoutConstraint="bottom">
+              <Button id="btnTestConn">
+                <ClientEvent name="onClick">self.set(&quot;disabled&quot;,true);
+DbConsole.testConn();
+self.set(&quot;disabled&quot;,false);</ClientEvent>
+                <Property name="caption">测试连接</Property>
+              </Button>
+              <Fill/>
+              <Button id="btnOk">
+                <ClientEvent name="onClick">self.set(&quot;disabled&quot;,true);
+DbConsole.openConn();
+self.set(&quot;disabled&quot;,false);</ClientEvent>
+                <Property name="caption">确定</Property>
+                <Property name="disabled">true</Property>
+              </Button>
+              <Button id="btnCancel">
+                <ClientEvent name="onClick">DbConsole.hideConnWin();</ClientEvent>
+                <Property name="caption">取消</Property>
+              </Button>
+            </ToolBar>
+          </Children>
+          <Tools/>
+        </Panel>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <ListDropDown id="dbDriver">
+      <Property name="items">${dorado.getDataProvider(&quot;mdf.dbConsoleAction#loadDbTemplates&quot;).getResult()}</Property>
+      <Property name="property">driver</Property>
+    </ListDropDown>
+    <ListDropDown id="url">
+      <Property name="items">${dorado.getDataProvider(&quot;mdf.dbConsoleAction#loadDbTemplates&quot;).getResult()}</Property>
+      <Property name="property">url</Property>
+    </ListDropDown>
+    <AjaxAction id="ajaxActionFormatSql">
+      <Property name="service">mdf.dbConsoleAction#formatSql</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionTestConn">
+      <Property name="service">mdf.dbConsoleAction#testConnection</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionOpenConn">
+      <Property name="service">mdf.dbConsoleAction#openConnection</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionExecuteSelect">
+      <Property name="service">mdf.dbConsoleAction#executeQuery</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionGetSelectStatus">
+      <Property name="service">mdf.dbConsoleAction#getQueryStatus</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionStopQuery">
+      <Property name="service">mdf.dbConsoleAction#stopQuery</Property>
+    </AjaxAction>
+    <UpdateAction id="updateActionGroup">
+      <Property name="dataResolver">mdf.dbConsoleAction#saveConfig</Property>
+      <Property name="successMessage">保存成功!</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetGroup</Property>
+        <Property name="dataPath">*</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="reNameTab">
+      <Property name="caption">标签重命名</Property>
+      <Property name="width">200</Property>
+      <Property name="height">120</Property>
+      <Property name="modal">true</Property>
+      <Property name="center">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var name = view.get('#newTabName.text');
+if(name){
+	var tabControl = view.get(&quot;#mainTabControl&quot;);
+	tabControl.set(&quot;currentTab.caption&quot;,name);
+	view.get('#reNameTab').hide();
+}else{
+	dorado.MessageBox.alert('请输入新的标签名称！');
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get('#reNameTab').hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <TextEditor id="newTabName">
+          <Property name="blankText">请输入新的标签名称</Property>
+        </TextEditor>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

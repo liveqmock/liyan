@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysMenu" parent="global:dataTypeSysMenu">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">sysMenuAction#findSysMenusByRoles</Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">var parentMenuId = '${param[&quot;parentMenuId&quot;]}';&#xD;
+view.set('#dataSetMenu.parameter',{parentMenuId:parentMenuId})&#xD;
+view.get('#dataSetMenu').flushAsync();&#xD;
+</ClientEvent>
+    <DataSet id="dataSetMenu">
+      <Property name="dataType">[dataTypeSysMenu]</Property>
+      <Property name="dataProvider">sysMenuAction#findSysMenusByRoles</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataTree id="treeMenu">
+      <ClientEvent name="onDataRowClick">var node = self.get(&quot;currentNode&quot;);
+if (node) {
+	var entity = node.get(&quot;data&quot;);
+	if(entity.get(&quot;menuUrl&quot;)){
+		var tabset = top.getTabSet();
+		var frameTab = tabset.getTab(&quot;menuId&quot;+entity.get(&quot;id&quot;));
+		if(!frameTab){
+			tabset.addTab({
+				$type : 'IFrame',
+				caption : entity.get(&quot;menuName&quot;),
+				name : &quot;menuId&quot;+entity.get(&quot;id&quot;),
+				closeable : true,
+				path : &quot;${request.contextPath}/&quot;+entity.get(&quot;menuUrl&quot;),
+				icon:entity.get(&quot;menuPict&quot;)
+			},tabset.get(&quot;tabs&quot;).size,true);
+		}
+		var index = tabset.get(&quot;currentIndex&quot;);
+		if(index > 3){
+			var tab = tabset.getTab(0);
+			tab.close();
+		}
+	}
+}</ClientEvent>
+      <Property name="dataSet">dataSetMenu</Property>
+      <Property name="currentNodeDataPath">CURRENT_MENU</Property>
+      <BindingConfigs>
+        <BindingConfig>
+          <Property name="childrenProperty">children</Property>
+          <Property name="hasChild">true</Property>
+          <Property name="recursive">true</Property>
+          <Property name="labelProperty">menuLabel</Property>
+          <Property name="expandedIcon">url(>skin>common/icons.gif) -200px -60px</Property>
+          <Property name="iconProperty">menuPict</Property>
+          <Property name="expandLevel">2</Property>
+        </BindingConfig>
+      </BindingConfigs>
+    </DataTree>
+  </View>
+</ViewConfig>

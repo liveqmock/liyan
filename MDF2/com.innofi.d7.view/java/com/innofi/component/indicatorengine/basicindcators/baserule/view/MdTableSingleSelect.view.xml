@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeMdDataTitleTree" parent="dataTypeMdDataTitle">
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">mdDataTitleAction#findMdDataTitlesByParentId</Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetMdDataTitle">
+      <Property name="dataProvider">mdDataTitleAction#findMdDataTitlesByParentId</Property>
+      <Property name="dataType">[dataTypeMdDataTitleTree]</Property>
+      <Property name="parameter">0</Property>
+    </DataSet>
+    <DataSet id="dataSetMdTable">
+      <ClientEvent name="onReady">var status=&quot;${request.getParameter('status')}&quot;;
+
+if(!status){
+	status = &quot;0&quot; ;
+}
+
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+if(entity){
+	var dataTitleId=entity.get(&quot;id&quot;);
+    view.get(&quot;#dataSetMdTable&quot;).set(&quot;parameter&quot;, {&quot;status&quot;:status,&quot;dataTitleId&quot;:dataTitleId}).flushAsync();
+}</ClientEvent>
+      <Property name="dataProvider">ieBaseIeRuleAction#findMdTablesByMdTableTitleId</Property>
+      <Property name="pageSize">10</Property>
+      <Property name="dataType">[dataTypeMdTable]</Property>
+    </DataSet>
+    <Container>
+      <Property name="contentOverflow">hidden</Property>
+      <Property name="contentOverflowY">auto</Property>
+      <SplitPanel>
+        <MainControl>
+          <Container>
+            <DataGrid id="dataGridTable">
+              <ClientEvent name="onDataRowClick">var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var json = {id:entity.get(&quot;id&quot;),code:entity.get(&quot;tableName&quot;),name:entity.get(&quot;tableCnName&quot;)};
+
+var rejson = JSON.stringify(json);
+
+var dropdown = parent.$id(&quot;${request.getParameter(&quot;dropdown&quot;)}&quot;);
+if(dropdown){
+	dropdown.invoke(&quot;close&quot;,rejson);
+}</ClientEvent>
+              <Property name="dataSet">dataSetMdTable</Property>
+              <Property name="showHeader">true</Property>
+              <DataColumn>
+                <Property name="name">tableName</Property>
+                <Property name="property">tableName</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+              <DataColumn>
+                <Property name="name">tableCnName</Property>
+                <Property name="property">tableCnName</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+            </DataGrid>
+            <ToolBar id="sigleListPilot" layoutConstraint="bottom">
+              <Property name="hideMode">display</Property>
+              <DataPilot>
+                <Property name="itemCodes">pages</Property>
+                <Property name="dataSet">dataSetMdTable</Property>
+              </DataPilot>
+            </ToolBar>
+          </Container>
+        </MainControl>
+        <SideControl>
+          <Container>
+            <DataTree id="dataTreeMdDataTitle">
+              <ClientEvent name="onDataRowClick">var status=&quot;${request.getParameter('status')}&quot;;&#xD;
+&#xD;
+if(!status){&#xD;
+	status = &quot;0&quot; ;&#xD;
+}&#xD;
+&#xD;
+var currentNode = view.get(&quot;#dataTreeMdDataTitle&quot;).get(&quot;currentNode&quot;);&#xD;
+var entity = currentNode.get(&quot;data&quot;);&#xD;
+&#xD;
+if(entity){&#xD;
+	var dataTitleId=entity.get(&quot;id&quot;);&#xD;
+    view.get(&quot;#dataSetMdTable&quot;).set(&quot;parameter&quot;, {&quot;status&quot;:status,&quot;dataTitleId&quot;:dataTitleId}).flushAsync();&#xD;
+}&#xD;
+</ClientEvent>
+              <Property name="dataSet">dataSetMdDataTitle</Property>
+              <Property name="currentNodeDataPath">parentId</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="name">dataTitleName</Property>
+                  <Property name="recursive">true</Property>
+                  <Property name="childrenProperty">children</Property>
+                  <Property name="labelProperty">dataTitleName</Property>
+                  <Property name="expandLevel">2</Property>
+                </BindingConfig>
+              </BindingConfigs>
+            </DataTree>
+          </Container>
+        </SideControl>
+      </SplitPanel>
+    </Container>
+  </View>
+</ViewConfig>

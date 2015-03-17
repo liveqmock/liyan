@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdDataViewManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdDataView">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMstatus">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.status"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="statusName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.status"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMmdmLevel">
+        <Property name="defaultValue">eq</Property>
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getQueryMethod&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="mdmLevel">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmLevel"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmName">
+        <Property name="dataType">String</Property>
+        <Property name="label">业务视图</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property name="visible">false</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetMdDataView">
+      <Property name="dataProvider">mdDataViewAction#findMdDataViews</Property>
+      <Property name="dataType">[dataTypeMdDataView]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="parentId">${param[&quot;mdmId&quot;]}</Property>
+          <Property name="isVisible">${param[&quot;mdmId&quot;]}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="querydataSetMdDataView">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdDataView]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">var parameter = view.get(&quot;#querydataSetMdDataView&quot;).getData(&quot;#&quot;);
+var parentId = '${param[&quot;mdmId&quot;]}';
+parameter.set('parentId',parentId);
+view.get(&quot;#dataSetMdDataView&quot;).set(&quot;parameter&quot;, parameter).flushAsync();            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetMdDataView&quot;).clear();
+                view.get(&quot;#querydataSetMdDataView&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdDataViewQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetMdDataView</Property>
+            <Property name="dataType">querydataTypeMdDataView</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+            <AutoFormElement id="mdmName">
+              <Property name="name">mdmName</Property>
+              <Property name="property">mdmName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementmdmLevel">
+              <Property name="name">mdmLevel</Property>
+              <Property name="property">mdmLevel</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdDataView" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+                    view.get(&quot;#dataSetMdDataView&quot;).set(&quot;readOnly&quot;,false);
+                    view.get(&quot;#dataSetMdDataView.data&quot;).insert();
+                    view.get(&quot;#addDialogMdDataView&quot;).show();
+                </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+          <Property name="ignored">${param[&quot;isVisible&quot;]}</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetMdDataView&quot;).getData();
+                    var selection = view.get(&quot;#dataGridMdDataView&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+                    }else if (selection.length == 1) {
+                        view.get(&quot;#dataSetMdDataView&quot;).getData().setCurrent(selection[0]);
+                        view.get(&quot;#dialogMdDataView&quot;).show();
+                        view.get(&quot;#dataSetMdDataView&quot;).set(&quot;readOnly&quot;,false);
+                    }
+                </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+          <Property name="ignored">${param[&quot;isVisible&quot;]}</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetMdDataView&quot;).getData();
+                    var selection = view.get(&quot;#dataGridMdDataView&quot;).get(&quot;selection&quot;);
+                    var action = view.get(&quot;#saveMdDataViewsAction&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if (selection.length != 0) {
+                        dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+                        jQuery.each(selection,function(i,item){
+                            entitys.remove(item);
+                        });
+                        action.execute();
+                        });
+                    }
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+          <Property name="ignored">${param[&quot;isVisible&quot;]}</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetMdDataView&quot;).getData();
+                    var found = false;
+                    var selection = view.get(&quot;#dataGridMdDataView&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+                    }else if (selection.length == 1) {
+                    view.get(&quot;#dataSetMdDataView&quot;).getData().setCurrent(selection[0]);
+                    view.get(&quot;#lookdialogMdDataView&quot;).show();
+                    view.get(&quot;#dataSetMdDataView&quot;).set(&quot;readOnly&quot;,true);
+                    }
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdDataView" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetMdDataView&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetMdDataView&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetMdDataView</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdDataView</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn>
+            <Property name="property">mdmName</Property>
+            <Property name="name">mdmName</Property>
+          </DataColumn>
+          <DataColumn name="parentId" property="parentId">
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="mdmLevel" property="mdmLevel"/>
+          <DataColumn name="statusName" property="statusName"/>
+          <DataColumn>
+            <Property name="property">mdmSeq</Property>
+            <Property name="name">mdmSeq</Property>
+            <Property name="visible">false</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn name="mdmId" property="mdmId">
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="id" property="id">
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="treeSeq" property="treeSeq">
+            <Property name="visible">false</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdDataView</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdDataViewsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdDataViewAction#saveMdDataViews</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdDataView</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogMdDataView">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetMdDataView&quot;).getData().cancel();
+            view.get(&quot;#dialogMdDataView&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveMdDataViewsAction&quot;);
+            var dialog=view.get(&quot;#dialogMdDataView&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetMdDataView&quot;).getData().cancel();
+            view.get(&quot;#dialogMdDataView&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormMdDataView">
+          <Property name="dataType">dataTypeMdDataView</Property>
+          <Property name="dataSet">dataSetMdDataView</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">mdmId</Property>
+            <Property name="property">mdmId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">parentId</Property>
+            <Property name="property">parentId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.parentId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.parentId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">treeSeq</Property>
+            <Property name="property">treeSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmName</Property>
+            <Property name="property">mdmName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.updDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.updDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">statusName</Property>
+            <Property name="property">statusName</Property>
+            <Property name="trigger">statusDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">status</Property>
+              </Entity>
+            </Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.status&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.status&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmLevel</Property>
+            <Property name="property">mdmLevel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmLevel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmLevel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmSeq</Property>
+            <Property name="property">mdmSeq</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.id&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.id&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.updOrgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.updOrgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.crtUserCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.crtUserCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.crtOrgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.crtOrgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.crtDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.crtDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.updDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.updDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.updUserCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.updUserCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogMdDataView">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetMdDataView&quot;).getData().cancel();
+         view.get(&quot;#dialogMdDataView&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get(&quot;#saveMdDataViewsAction&quot;);
+              var dialog=view.get(&quot;#addDialogMdDataView&quot;);
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetMdDataView&quot;).getData().cancel();
+            view.get(&quot;#addDialogMdDataView&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormMdDataView">
+          <Property name="dataType">dataTypeMdDataView</Property>
+          <Property name="dataSet">dataSetMdDataView</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">treeSeq</Property>
+            <Property name="property">treeSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">statusName</Property>
+            <Property name="property">statusName</Property>
+            <Property name="trigger">statusDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">status</Property>
+              </Entity>
+            </Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.status&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.status&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">parentId</Property>
+            <Property name="property">parentId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.parentId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.parentId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmLevel</Property>
+            <Property name="property">mdmLevel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmLevel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmLevel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">treeSeq</Property>
+            <Property name="property">treeSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmId</Property>
+            <Property name="property">mdmId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.mdmId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.id&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.id&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmName</Property>
+            <Property name="property">mdmName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.updDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.updDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogMdDataView">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetMdDataView&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogMdDataView&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormMdDataView">
+          <Property name="dataType">dataTypeMdDataView</Property>
+          <Property name="dataSet">dataSetMdDataView</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">mdmId</Property>
+            <Property name="property">mdmId</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">parentId</Property>
+            <Property name="property">parentId</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmName</Property>
+            <Property name="property">mdmName</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">treeSeq</Property>
+            <Property name="property">treeSeq</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">statusName</Property>
+            <Property name="property">statusName</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mdmLevel</Property>
+            <Property name="property">mdmLevel</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">treeSeq</Property>
+            <Property name="property">treeSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdDataView.treeSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Property name="labelWidth">120</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <CustomDropDown id="statusDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+            var entity = new dorado.Entity();
+            entity.fromJSON(JSON.parse(arg.selectedValue));
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));
+            
+            dataSet.notifyObservers();
+            }
+            arg.selectedValue = undefined;
+            return false;
+        </ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=statusDropDown&amp;dictId=COMM_Y_N</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="qMstatusDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+            var entity = new dorado.Entity();
+            entity.fromJSON(JSON.parse(arg.selectedValue));
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));
+            
+            dataSet.notifyObservers();
+            }
+            arg.selectedValue = undefined;
+            return false;
+        </ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=qMstatusDropDown&amp;dictId=COMM_Y_N</Property>
+      </IFrame>
+    </CustomDropDown>
+  </View>
+</ViewConfig>

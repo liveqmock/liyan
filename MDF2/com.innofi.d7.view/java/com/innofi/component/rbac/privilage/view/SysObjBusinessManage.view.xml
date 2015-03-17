@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysObjBusinessManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysObjBusiness" parent="global:dataTypeSysObjBusiness">
+      <Property name="creationType">com.innofi.component.rbac.privilage.pojo.SysObjBusiness</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="querydataTypeSysObjBusiness">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMbusilineId">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="busilineId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMid">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMobjBusilineType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="objBusilineType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMobjCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="objCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMobjId">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysObjBusiness">
+      <Property name="dataProvider">sysObjBusinessAction#findSysObjBusinesss</Property>
+      <Property name="dataType">[dataTypeSysObjBusiness]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.rbac.privilage.pojo.SysObjBusiness</Property>
+          </Entity>
+        </Collection>
+      </Property>
+    </DataSet>
+    <DataSet id="querydataSetSysObjBusiness">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysObjBusiness]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#dataSetSysObjBusiness&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysObjBusiness&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetSysObjBusiness&quot;).clear();
+                view.get(&quot;#querydataSetSysObjBusiness&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysObjBusinessQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysObjBusiness</Property>
+            <Property name="dataType">querydataTypeSysObjBusiness</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">100</Property>
+            <AutoFormElement name="autoFormElementbusilineId">
+              <Property name="name">busilineId</Property>
+              <Property name="property">busilineId</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMbusilineId</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">busilineId</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementid">
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMid</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">id</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementobjBusilineType">
+              <Property name="name">objBusilineType</Property>
+              <Property name="property">objBusilineType</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMobjBusilineType</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">objBusilineType</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementobjCode">
+              <Property name="name">objCode</Property>
+              <Property name="property">objCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMobjCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">objCode</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementobjId">
+              <Property name="name">objId</Property>
+              <Property name="property">objId</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMobjId</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">objId</Property>
+                    <Property name="dataSet">querydataSetSysObjBusiness</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysObjBusiness" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+                    view.get(&quot;#dataSetSysObjBusiness&quot;).set(&quot;readOnly&quot;,false);
+                    view.get(&quot;#dataSetSysObjBusiness.data&quot;).insert();
+                    view.get(&quot;#addDialogSysObjBusiness&quot;).show();
+                </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetSysObjBusiness&quot;).getData();
+                    var selection = view.get(&quot;#dataGridSysObjBusiness&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+                    }else if (selection.length == 1) {
+                        var entityClass = view.get('#dataSetSysObjBusiness').get(&quot;userData&quot;)[0].entityClass;
+                        var idValue = view.get(&quot;#dataSetSysObjBusiness&quot;).getData(&quot;#.id&quot;);
+                        var action=view.get(&quot;#checkPermissionAction&quot;);
+                        var idValueArray = new Array();
+                        idValueArray[0] = idValue;
+                        action.set(&quot;parameter&quot;,{
+                            entityClass:entityClass,
+                            idValues:idValueArray,
+                            operationType:'2'
+                        });
+                        action.execute(function(result){
+                            if(result.length>0){
+                                dorado.MessageBox.alert(&quot;不能进行此操作，您无选中记录的修改权限！&quot;);
+                                return;
+                            }
+                            view.get(&quot;#dataSetSysObjBusiness&quot;).getData().setCurrent(selection[0]);
+                            view.get(&quot;#dialogSysObjBusiness&quot;).show();
+                            view.get(&quot;#dataSetSysObjBusiness&quot;).set(&quot;readOnly&quot;,false);
+                        });
+                    }
+                </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysObjBusiness&quot;).getData();
+                    var selection = view.get(&quot;#dataGridSysObjBusiness&quot;).get(&quot;selection&quot;);
+                    var action = view.get(&quot;#saveSysObjBusinesssAction&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if (selection.length != 0) {
+                    var entityClass = view.get('#dataSetSysObjBusiness').get(&quot;userData&quot;)[0].entityClass;
+                    var idValue = view.get(&quot;#dataSetSysObjBusiness&quot;).getData(&quot;#.id&quot;);
+                    var checkPermissionAction=view.get(&quot;#checkPermissionAction&quot;);
+                    var idValueArray = new Array();
+                    jQuery.each(selection,function(i,item){
+                    idValueArray[i] = item.get(&quot;id&quot;);
+                    });
+                    checkPermissionAction.set(&quot;parameter&quot;,{
+                    entityClass:entityClass,
+                    idValues:idValueArray,
+                    operationType:'3'
+                    });
+
+                    checkPermissionAction.execute(function(result){
+                    if(result.length>0){
+                    var idValueFilter = new Object();
+                    result.each(function(it){
+                    idValueFilter[it] = true;
+                    });
+                    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+                    var haveRemove = false;
+                    jQuery.each(selection,function(i,item){
+                    if(!idValueFilter[item.get('id')]){
+                    haveRemove = true;
+                    entitys.remove(item);
+                    }
+                    });
+                    if(haveRemove){
+                    action.execute();
+                    }
+                    dorado.MessageBox.alert(&quot;您无选中记录的删除权限！&quot;);
+                    return;
+                    });
+                    }else{
+                    dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+                    jQuery.each(selection,function(i,item){
+                    entitys.remove(item);
+                    });
+                    action.execute();
+                    });
+                    }
+                    });
+                    }
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetSysObjBusiness&quot;).getData();
+                    var found = false;
+                    var selection = view.get(&quot;#dataGridSysObjBusiness&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+                    }else if (selection.length == 1) {
+                        view.get(&quot;#dataSetSysObjBusiness&quot;).getData().setCurrent(selection[0]);
+                        view.get(&quot;#lookdialogSysObjBusiness&quot;).show();
+                        view.get(&quot;#dataSetSysObjBusiness&quot;).set(&quot;readOnly&quot;,true);
+                    }
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridSysObjBusiness" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetSysObjBusiness&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetSysObjBusiness&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetSysObjBusiness</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeSysObjBusiness</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="busilineId" property="busilineId"/>
+          <DataColumn name="id" property="id"/>
+          <DataColumn name="objBusilineType" property="objBusilineType"/>
+          <DataColumn name="objCode" property="objCode"/>
+          <DataColumn name="objId" property="objId"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysObjBusiness</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysObjBusinesssAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysObjBusinessAction#saveSysObjBusinesss</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysObjBusiness</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysObjBusiness">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetSysObjBusiness&quot;).getData().cancel();
+            view.get(&quot;#dialogSysObjBusiness&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveSysObjBusinesssAction&quot;);
+            var dialog=view.get(&quot;#dialogSysObjBusiness&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetSysObjBusiness&quot;).getData().cancel();
+            view.get(&quot;#dialogSysObjBusiness&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysObjBusiness">
+          <Property name="dataType">dataTypeSysObjBusiness</Property>
+          <Property name="dataSet">dataSetSysObjBusiness</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">busilineId</Property>
+            <Property name="property">busilineId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objBusilineType</Property>
+            <Property name="property">objBusilineType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objCode</Property>
+            <Property name="property">objCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objId</Property>
+            <Property name="property">objId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysObjBusiness">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetSysObjBusiness&quot;).getData().cancel();
+         view.get(&quot;#dialogSysObjBusiness&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get(&quot;#saveSysObjBusinesssAction&quot;);
+              var dialog=view.get(&quot;#addDialogSysObjBusiness&quot;);
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetSysObjBusiness&quot;).getData().cancel();
+            view.get(&quot;#addDialogSysObjBusiness&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysObjBusiness">
+          <Property name="dataType">dataTypeSysObjBusiness</Property>
+          <Property name="dataSet">dataSetSysObjBusiness</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">busilineId</Property>
+            <Property name="property">busilineId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objBusilineType</Property>
+            <Property name="property">objBusilineType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objCode</Property>
+            <Property name="property">objCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">objId</Property>
+            <Property name="property">objId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysObjBusiness">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetSysObjBusiness&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogSysObjBusiness&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysObjBusiness">
+          <Property name="dataType">dataTypeSysObjBusiness</Property>
+          <Property name="dataSet">dataSetSysObjBusiness</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="checkPermissionAction">
+      <Property name="service">sysObjBusinessAction#checkUpdDelPermission</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

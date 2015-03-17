@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View layout="regionPadding:15">
+    <Panel id="OneUploader">
+      <Property name="width">100%</Property>
+      <Property name="height">100</Property>
+      <Property name="caption">一键上传</Property>
+      <Property name="tags">OneUploader</Property>
+      <Property name="userData"></Property>
+      <Buttons/>
+      <Children>
+        <Container/>
+        <DataSet id="${util.defaultValue(acomp.prop('dsFiles'), 'dsFiles')}">
+          <ClientEvent name="onCreate">self.set([]);</ClientEvent>
+          <Property name="dataType">[dataTypeFiles]</Property>
+          <Property name="dataProvider">sysUploadFileAction#findSysUploadFilesByIds</Property>
+          <Property name="pageSize">999</Property>
+          <Property name="parameter">
+            <Entity>
+              <Property name="ids">noIds</Property>
+            </Entity>
+          </Property>
+        </DataSet>
+        <UploadAction id="${acomp.id('uaUpload')}">
+          <ClientEvent name="uploadProgress">try {&#xD;
+	view.set('#${util.defaultValue(acomp.prop(&quot;pbUpload&quot;), acomp.id(&quot;pbUpload&quot;))}.value',arg.total.percent);&#xD;
+}catch(e){&#xD;
+	alert('error')&#xD;
+}&#xD;
+</ClientEvent>
+          <ClientEvent name="onFileUploaded">view.set('#${util.defaultValue(acomp.prop(&quot;pbUpload&quot;), acomp.id(&quot;pbUpload&quot;))}.value',1);&#xD;
+var data = arg.response.response;&#xD;
+data = data.substring(0,data.indexOf('}')+1);&#xD;
+var dataObj = eval(&quot;(&quot;+data+&quot;)&quot;);&#xD;
+&#xD;
+var saveNewId = dataObj.fileId;&#xD;
+var OneUploader = view.get(&quot;#${acomp.id('OneUploader')}&quot;);&#xD;
+var file = arg.file;&#xD;
+view.get('#${util.defaultValue(acomp.prop('dsFiles'), 'dsFiles')}').insert({&#xD;
+		fileId : saveNewId,&#xD;
+		fileName :file.name,&#xD;
+		fileSize : file.size,&#xD;
+		percent : file.percent,&#xD;
+		status : file.status&#xD;
+});&#xD;
+OneUploader.set('userData',saveNewId);//返回新的ID值 &#xD;
+	&#xD;
+</ClientEvent>
+          <ClientEvent name="onFilesAdded">var fileSaveType = '${acomp.prop(&quot;fileSaveType&quot;)}';&#xD;
+var onlineView = '${acomp.prop(&quot;onlineView&quot;)}';&#xD;
+if(!fileSaveType){&#xD;
+	alert('调用组件时需配置fileSaveType属性，确定文件保存形式!');&#xD;
+}&#xD;
+self.set(&quot;multipartParams&quot;, {fileSaveType:fileSaveType,onlineView:onlineView});</ClientEvent>
+          <ClientEvent name="onError">	var error = arg.error;&#xD;
+	dorado.MessageBox.show({&#xD;
+		title:error.message,&#xD;
+		message:error.file.name + &quot; 超过大小限制:&quot;+ self.get('maxFileSize'),&#xD;
+		icon: &quot;ERROR&quot;,&#xD;
+		buttons: [&quot;ok&quot;]&#xD;
+	});</ClientEvent>
+          <Property name="url">>dorado/uploader/fileupload</Property>
+          <Property name="maxFileSize">${util.defaultValue(acomp.prop('maxFileSize'), '5MB')}</Property>
+          <Property name="multipartParams">
+            <Property name="type">autoUpload</Property>
+          </Property>
+          <Filters>
+            <Filter>
+              <Property name="title">${util.defaultValue(acomp.prop('uploadTittle'), 'All Files')}</Property>
+              <Property name="extensions">${util.defaultValue(acomp.prop('uploadExtensions'), '*')}</Property>
+            </Filter>
+          </Filters>
+        </UploadAction>
+        <ProgressBar id="${util.defaultValue(acomp.prop('pbUpload'), acomp.id(&quot;pbUpload&quot;))}" layoutConstraint="left">
+          <Property name="textPattern">{percent}%</Property>
+          <Property name="width">90%</Property>
+        </ProgressBar>
+        <Button layoutConstraint="right">
+          <Property name="action">${acomp.id(&quot;uaUpload&quot;)}</Property>
+          <Property name="caption">上传</Property>
+        </Button>
+      </Children>
+      <Tools/>
+    </Panel>
+    <Panel id="MoreUploader">
+      <Property name="caption">批量上传</Property>
+      <Property name="tags">MoreUploader</Property>
+      <Property name="width">100%</Property>
+      <Children>
+        <ToolBar>
+          <ToolBarButton id="${acomp.id(&quot;btAdd&quot;)}">
+            <Property name="caption">添加文件</Property>
+            <Property name="action">${acomp.id(&quot;uaUpload2&quot;)}</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -120px 0px</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('btAddVisible'), 'true')}</Property>
+            <Property name="hideMode">display</Property>
+          </ToolBarButton>
+          <ToolBarButton id="${acomp.id(&quot;btDelete&quot;)}">
+            <ClientEvent name="onClick">	var uploadAction = view.get('#${acomp.id(&quot;uaUpload2&quot;)}');&#xD;
+	//var selections = view.get('#${util.defaultValue(acomp.prop('dsFiles'), 'dsFiles')}.selection');&#xD;
+	var selections = view.get('#${acomp.id(&quot;dgFiles&quot;)}.selection');&#xD;
+     //alert(&quot;selections&quot;+selections);&#xD;
+	if(selections.length==0){&#xD;
+	    dorado.MessageBox.alert(&quot;请选择要删除的文件！&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+&#xD;
+	if(!selections.length){&#xD;
+		selections = [selections];&#xD;
+	}&#xD;
+&#xD;
+	var selectionCopy = [];&#xD;
+	for (var i = 0; i &lt; selections.length; i++) {&#xD;
+		selectionCopy.push(selections[i]);&#xD;
+	}&#xD;
+  	var action = view.get(&quot;#${acomp.id(&quot;delSysUploadFilesByIdsAction&quot;)}&quot;);&#xD;
+	var ids = '';&#xD;
+	dorado.MessageBox.confirm('你确定要删除所选附件信息？',function(){&#xD;
+	for(var i=0;i&lt;selectionCopy.length;i++){&#xD;
+		var entity = selectionCopy[i];&#xD;
+		if(entity.get('fileId')!=null){&#xD;
+			uploadAction.removeFile(entity.get('fileId'));&#xD;
+		}&#xD;
+		if(null!=entity.get('id')){&#xD;
+			if(''==ids){	&#xD;
+				ids = entity.get('id');&#xD;
+			}else{&#xD;
+		    	ids+= &quot;,&quot;+entity.get('id');	&#xD;
+			}&#xD;
+		   }&#xD;
+		entity.remove();&#xD;
+	}&#xD;
+&#xD;
+//重置需要绑定的IDS信息&#xD;
+var MoreUploader = view.get(&quot;#${acomp.id('MoreUploader')}&quot;);&#xD;
+var entityList = view.get('#${util.defaultValue(acomp.prop('dsFiles'), 'dsFiles')}').getData();&#xD;
+&#xD;
+var userData = '';&#xD;
+entityList.each(function(entityId){&#xD;
+			 if(null!=entityId.get('id')){&#xD;
+				if(userData==''){&#xD;
+					userData = entityId.get('id');&#xD;
+				}else{&#xD;
+					userData+=&quot;,&quot;+entityId.get('id');&#xD;
+				}&#xD;
+			  }	&#xD;
+		});&#xD;
+MoreUploader.set('userData',userData);	&#xD;
+//结束重置绑定的IDS信息	&#xD;
+	&#xD;
+action.set(&quot;parameter&quot;,{ids:ids});	&#xD;
+if(ids!=''){     	 &#xD;
+		action.execute();&#xD;
+	   }&#xD;
+});&#xD;
+&#xD;
+	&#xD;
+	&#xD;
+	</ClientEvent>
+            <Property name="caption">删除文件</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -140px 0px</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('btDeleteVisible'), 'true')}</Property>
+            <Property name="hideMode">display</Property>
+          </ToolBarButton>
+          <Separator/>
+          <ToolBarButton id="${acomp.id(&quot;btStartUpload&quot;)}">
+            <ClientEvent name="onClick">view.get('#${acomp.id(&quot;uaUpload2&quot;)}').start();</ClientEvent>
+            <Property name="caption">开始上传</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -180px -220px</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('btStartUploadVisible'), 'true')}</Property>
+            <Property name="hideMode">display</Property>
+          </ToolBarButton>
+          <ToolBarButton id="${acomp.id(&quot;btStopUpload&quot;)}">
+            <ClientEvent name="onClick">view.get('#${acomp.id(&quot;uaUpload2&quot;)}').stop();</ClientEvent>
+            <Property name="caption">停止上传</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -260px -220px</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('btStopUploadVisible'), 'true')}</Property>
+            <Property name="hideMode">display</Property>
+          </ToolBarButton>
+          <Separator/>
+          <ToolBarButton id="${acomp.id(&quot;btDownload&quot;)}">
+            <ClientEvent name="onClick">  &#xD;
+var selections = view.get('#${acomp.id(&quot;dgFiles&quot;)}.selection');&#xD;
+	&#xD;
+	if(selections.length==0){&#xD;
+		dorado.MessageBox.alert(&quot;请选择要下载的文件！&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	&#xD;
+	if(!selections.length){&#xD;
+		selections = [selections];&#xD;
+	}&#xD;
+&#xD;
+	var selectionCopy = [];&#xD;
+	for (var i = 0; i &lt; selections.length; i++) {&#xD;
+		selectionCopy.push(selections[i]);&#xD;
+	}&#xD;
+	var path = &quot;${request.contextPath}/download?&quot;;&#xD;
+	var ids = '';&#xD;
+&#xD;
+	for(var i=0;i&lt;selectionCopy.length;i++){&#xD;
+		var entity = selectionCopy[i];&#xD;
+		&#xD;
+		if(null==entity.get('id')||''==entity.get('id')){&#xD;
+			dorado.MessageBox.alert('请选择已经上传的文件!',function(){});&#xD;
+			return;&#xD;
+		}&#xD;
+		if(''==ids){&#xD;
+			ids = entity.get('id');&#xD;
+		}else{&#xD;
+		    ids+= &quot;,&quot;+entity.get('id');	&#xD;
+		}&#xD;
+	}&#xD;
+	     var displayName = '${util.defaultValue(acomp.prop('zipDisplayName'),'')}';&#xD;
+	     path = path + &quot;displayName=&quot;+displayName+&quot;&amp;fileIds=&quot;+ids;&#xD;
+	     window.open(path);&#xD;
+</ClientEvent>
+            <Property name="caption">下载</Property>
+            <Property name="icon">>icons/download.png</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('btDownloadVisible'), 'true')}</Property>
+            <Property name="hideMode">display</Property>
+          </ToolBarButton>
+          <ToolBarButton id="${acomp.id(&quot;btLook&quot;)}">
+            <ClientEvent name="onClick">var selections = view.get('#${acomp.id(&quot;dgFiles&quot;)}.selection');&#xD;
+	&#xD;
+if(selections.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择要查看的文件！&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+if(selections.length>1){&#xD;
+	dorado.MessageBox.alert(&quot;只能选择一个文件查看！&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+if(!selections.length){&#xD;
+		selections = [selections];&#xD;
+}&#xD;
+var entity = selections[0];&#xD;
+var id = entity.get('id');&#xD;
+if(id){&#xD;
+	var action = view.get(&quot;#${acomp.id('createSwfForLookAction')}&quot;);&#xD;
+	action.set(&quot;parameter&quot;,{id:id}).execute(function(swfPath){&#xD;
+		if(swfPath != &quot;&quot;) {&#xD;
+			var path = '${request.contextPath}/'+swfPath;&#xD;
+			var swfUrl = '${request.contextPath}/upload/lookUploadfile.jsp?swfpath='+path;&#xD;
+			window.showModalDialog(swfUrl,null,'dialogHeight: 560px; dialogWidth: 900px; center: Yes; help: No; resizable: no; status: ; scroll:yes'); &#xD;
+		}else{&#xD;
+			dorado.MessageBox.alert(&quot;数据错误，没有存储SWF文件路径！&quot;);&#xD;
+		}				&#xD;
+	});&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;请先上传文件!&quot;);	&#xD;
+}&#xD;
+</ClientEvent>
+            <Property name="caption">查看</Property>
+            <Property name="icon">>icons/window_view.png</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('btLookVisible'), 'false')}</Property>
+          </ToolBarButton>
+          <DataPilot>
+            <Property name="dataSet">${util.defaultValue(acomp.prop('dsFiles'), 'dsFiles')}</Property>
+            <Property name="itemCodes">pages</Property>
+          </DataPilot>
+        </ToolBar>
+        <DataGrid id="${acomp.id(&quot;dgFiles&quot;)}">
+          <ClientEvent name="onCreate">var ProgressCellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {&#xD;
+    createSubControl: function(arg) {&#xD;
+        return new dorado.widget.ProgressBar({&#xD;
+            value:arg.data.get(&quot;percent&quot;)&#xD;
+        });&#xD;
+    },&#xD;
+&#xD;
+    refreshSubControl: function(progressBar, arg) {&#xD;
+		progressBar.set(&quot;value&quot;,arg.data.get(&quot;percent&quot;));&#xD;
+        progressBar.refresh();&#xD;
+    }&#xD;
+});&#xD;
+&#xD;
+self.set(&quot;&amp;percent.renderer&quot;,new ProgressCellRenderer());</ClientEvent>
+          <Property name="dataSet">${util.defaultValue(acomp.prop('dsFiles'), 'dsFiles')}</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="width">100%</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn>
+            <ClientEvent name="onRenderCell">var visible = &quot;${util.defaultValue(acomp.prop('btLookVisible'), 'false')}&quot;;&#xD;
+var contextPath = &quot;${request.contextPath}&quot;;&#xD;
+if(visible){&#xD;
+	arg.dom.innerHTML = '&lt;a href=&quot;#&quot; onclick=&quot;showOnlineView(\''+arg.data.get('id')+'\',\''+contextPath+'\')&quot;>'+arg.data.get('fileName')+'&lt;/a>';&#xD;
+}else{&#xD;
+	arg.dom.innerHTML = arg.data.get('fileName');&#xD;
+}&#xD;
+arg.processDefault = false;&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+            <Property name="property">fileName</Property>
+            <Property name="editable">false</Property>
+            <Property name="name">fileName</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="wrappable">true</Property>
+          </DataColumn>
+          <DataColumn>
+            <ClientEvent name="onRenderFooterCell">var prettySize = function(value) {&#xD;
+	var _format = function(value, unit) {&#xD;
+		return (value.toFixed(1) + ' ' + unit).replace('.0', '');&#xD;
+	};&#xD;
+	var K = 1024;&#xD;
+	var M = K * K;&#xD;
+	var G = M * K;&#xD;
+	var T = G * K;&#xD;
+	var dividers = [ T, G, M, K, 1 ];&#xD;
+	var units = [ 'TB', 'GB', 'MB', 'KB', 'B' ];&#xD;
+	if (value == 0) {&#xD;
+		return '0B';&#xD;
+	} else if (value &lt; 0) {&#xD;
+		return 'Invalid size';&#xD;
+	}&#xD;
+&#xD;
+	var result = '';&#xD;
+	var temp = 0;&#xD;
+	for ( var i = 0; i &lt; dividers.length; i++) {&#xD;
+		var divider = dividers[i];&#xD;
+		if (value >= divider) {&#xD;
+			temp = value / divider;&#xD;
+			if (temp &lt; 1.05) {&#xD;
+				result = _format(value,&#xD;
+						units[((i + 1) &lt; units.length) ? (i + 1) : i]);&#xD;
+			} else {&#xD;
+				result = _format(temp, units[i]);&#xD;
+			}&#xD;
+			break;&#xD;
+		}&#xD;
+	}&#xD;
+	return result;&#xD;
+};&#xD;
+&#xD;
+arg.dom.innerHTML = prettySize(arg.data.get('fileSize'));&#xD;
+</ClientEvent>
+            <Property name="property">fileSize</Property>
+            <Property name="editable">false</Property>
+            <Property name="align">right</Property>
+            <Property name="name">fileSize</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('gridFileSize'), 'true')}</Property>
+            <Property name="wrappable">true</Property>
+          </DataColumn>
+          <DataColumn name="percent">
+            <Property name="property">percent</Property>
+            <Property name="editable">false</Property>
+            <Property name="name">percent</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('gridPercent'), 'true')}</Property>
+            <Property name="wrappable">true</Property>
+          </DataColumn>
+          <DataColumn name="status">
+            <Property name="property">status</Property>
+            <Property name="editable">false</Property>
+            <Property name="align">center</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="visible">${util.defaultValue(acomp.prop('gridStatus'), 'true')}</Property>
+            <Property name="wrappable">true</Property>
+          </DataColumn>
+        </DataGrid>
+        <DataSet id="${util.defaultValue(acomp.prop('dsFiles'), 'dsFiles')}">
+          <ClientEvent name="onCreate">self.set([]);</ClientEvent>
+          <ClientEvent name="onDataLoad">var entityList = self.getData();&#xD;
+var userData = &quot;&quot;;&#xD;
+entityList.each(function(entity){&#xD;
+	         entity.set('percent',100);&#xD;
+			 entity.set('status',5);&#xD;
+				if(userData==''){&#xD;
+					userData = entity.get('id');&#xD;
+				}else{&#xD;
+					userData+=&quot;,&quot;+entity.get('id');&#xD;
+				}&#xD;
+			});&#xD;
+var MoreUploader = view.get(&quot;#${acomp.id('MoreUploader')}&quot;);&#xD;
+MoreUploader.set('userData',userData);//将初始化查询出的数据也放到userData当中	&#xD;
+</ClientEvent>
+          <Property name="dataType">[dataTypeFiles]</Property>
+          <Property name="dataProvider">sysUploadFileAction#findSysUploadFilesByIds</Property>
+          <Property name="pageSize">999</Property>
+          <Property name="parameter">
+            <Entity>
+              <Property name="ids">noIds</Property>
+            </Entity>
+          </Property>
+        </DataSet>
+        <UploadAction id="${acomp.id(&quot;uaUpload2&quot;)}">
+          <ClientEvent name="onError">	var error = arg.error;&#xD;
+	dorado.MessageBox.show({&#xD;
+		title:error.message,&#xD;
+		message:error.file.name + &quot; 超过大小限制:&quot;+ self.get('maxFileSize'),&#xD;
+		icon: &quot;ERROR&quot;,&#xD;
+		buttons: [&quot;ok&quot;]&#xD;
+	});</ClientEvent>
+          <ClientEvent name="onFileUploaded">var file = arg.file;&#xD;
+var entity = view.get('#${util.defaultValue(acomp.prop(&quot;dsFiles&quot;), &quot;dsFiles&quot;)}').getData(&quot;[@.get('fileId')=='&quot;+file.id+&quot;']&quot;);&#xD;
+entity.set('percent',100);&#xD;
+entity.set('status',file.status);&#xD;
+//解析返回的JSON对象&#xD;
+var data = arg.response.response;&#xD;
+data = data.substring(0,data.indexOf('}')+1);&#xD;
+var dataObj = eval(&quot;(&quot;+data+&quot;)&quot;);&#xD;
+var saveNewId = dataObj.fileId;&#xD;
+entity.set('id',saveNewId);&#xD;
+var MoreUploader = view.get(&quot;#${acomp.id('MoreUploader')}&quot;);&#xD;
+var userData = MoreUploader.get('userData');&#xD;
+if(undefined == userData||''== userData){&#xD;
+		userData = saveNewId;&#xD;
+}else{&#xD;
+		userData +=','+saveNewId;&#xD;
+}&#xD;
+MoreUploader.set('userData',userData);&#xD;
+	&#xD;
+</ClientEvent>
+          <ClientEvent name="uploadProgress">	var file = arg.file;&#xD;
+	&#xD;
+	view.get('#${util.defaultValue(acomp.prop(&quot;dsFiles&quot;), &quot;dsFiles&quot;)}').getData(&quot;[@.get('fileId')=='&quot;+file.id+&quot;']&quot;).set('percent',file.percent);&#xD;
+	</ClientEvent>
+          <ClientEvent name="onFilesAdded">var fileSaveType = '${acomp.prop(&quot;fileSaveType&quot;)}';&#xD;
+var onlineView = '${acomp.prop(&quot;onlineView&quot;)}';&#xD;
+if(!fileSaveType){&#xD;
+	alert('调用组件时需配置fileSaveType属性，确定文件保存形式!');&#xD;
+}&#xD;
+arg.files.each(function(file){&#xD;
+	    self.set(&quot;multipartParams&quot;, {fileSaveType:fileSaveType,onlineView:onlineView});&#xD;
+		&#xD;
+		view.get('#${util.defaultValue(acomp.prop(&quot;dsFiles&quot;), &quot;dsFiles&quot;)}').insert({&#xD;
+			fileId : file.id,&#xD;
+			fileName :file.name,&#xD;
+			fileSize : file.size,&#xD;
+			percent : file.percent,&#xD;
+			status : file.status&#xD;
+		});&#xD;
+	});</ClientEvent>
+          <Property name="autoUpload">false</Property>
+          <Property name="url">>dorado/uploader/fileupload</Property>
+          <Property name="multipartParams">
+            <Property name="type">batchUpload</Property>
+          </Property>
+          <Property name="maxFileSize">${util.defaultValue(acomp.prop('maxFileSize'), '5MB')}</Property>
+          <Filters>
+            <Filter>
+              <Property name="title">${util.defaultValue(acomp.prop('uploadTittle'), 'All Files')}</Property>
+              <Property name="extensions">${util.defaultValue(acomp.prop('uploadExtensions'), '*')}</Property>
+            </Filter>
+          </Filters>
+        </UploadAction>
+        <AjaxAction id="${acomp.id(&quot;delSysUploadFilesByIdsAction&quot;)}">
+          <Property name="service">sysUploadFileAction#delSysUploadFilesByIds</Property>
+          <Property name="executingMessage">正在处理...</Property>
+          <Property name="successMessage">操作成功</Property>
+        </AjaxAction>
+        <AjaxAction id="${acomp.id(&quot;createSwfForLookAction&quot;)}">
+          <Property name="service">sysUploadFileAction#createSwfForLook</Property>
+        </AjaxAction>
+      </Children>
+      <Tools/>
+    </Panel>
+  </View>
+</ViewConfig>

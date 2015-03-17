@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdRelateSystem">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="systemCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">系统编码</Property>
+      </PropertyDef>
+      <PropertyDef name="systemName">
+        <Property name="dataType">String</Property>
+        <Property name="label">系统名称</Property>
+      </PropertyDef>
+      <PropertyDef name="systemDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">系统描述</Property>
+      </PropertyDef>
+      <PropertyDef name="systemType">
+        <Property name="dataType">String</Property>
+        <Property name="label">系统类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("SYSTEM_TYPE")}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdRelateSystem">
+      <Property name="dataProvider">mdRelateSystemAction#findMdRelateSystems</Property>
+      <Property name="dataType">[dataTypeMdRelateSystem]</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdRelateSystem">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdRelateSystem]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+view.get("#dataSetMdRelateSystem").set("parameter", view.get("#querydataSetMdRelateSystem").getData("#")).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set("#querydataSetMdRelateSystem.data",{});
+</ClientEvent>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdRelateSystemQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdRelateSystem</Property>
+            <Property name="dataType">dataTypeMdRelateSystem</Property>
+            <AutoFormElement>
+              <Property name="name">systemCode</Property>
+              <Property name="property">systemCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">systemName</Property>
+              <Property name="property">systemName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">systemType</Property>
+              <Property name="property">systemType</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">systemDesc</Property>
+              <Property name="property">systemDesc</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdRelateSystem" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdRelateSystem");
+var dialog = view.get("#addMdRelateSystemDialog");
+	dataSet.set("readOnly",false);
+	view.get("#dataSetMdRelateSystem.data").insert();
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdRelateSystem");
+var dialog = view.get("#updateMdRelateSystemDialog");
+var entitys = dataSet.getData();
+var selection = view.get("#dataGridMdRelateSystem").get("selection");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if(selection.length&gt;1){
+	dorado.MessageBox.alert("只能选择一条记录查看修改！");
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set("readOnly",false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdRelateSystem");
+var entitys = dataSet.getData();
+var selection = view.get("#dataGridMdRelateSystem").get("selection");
+var action = view.get("#saveMdRelateSystemsAction");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm("是否删除？", function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdRelateSystem");
+var selection = view.get("#dataGridMdRelateSystem").get("selection");
+var mdmId="${request.getParameter('mdmId')}";
+var dialog = view.get("#lookDialog");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if(selection.length&gt;1){
+	dorado.MessageBox.alert("只能查看一条记录！");
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData("#");
+	var iframe = view.get("#lookIframe");
+	var path = "${request.contextPath}/com.innofi.component.metadata.commons.view.TabControlMain.d?mdmId="+mdmId+"&amp;mdId="+entity.get("id")+"&amp;lookStyle=look&amp;randomId="+Math.random();
+		iframe.set("path",path);
+	dialog.show();
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdRelateSystem" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetMdTable").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetMdTable").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdRelateSystem</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdRelateSystem</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="systemCode">
+            <Property name="property">systemCode</Property>
+          </DataColumn>
+          <DataColumn name="systemName">
+            <Property name="property">systemName</Property>
+          </DataColumn>
+          <DataColumn name="systemDesc">
+            <Property name="property">systemDesc</Property>
+          </DataColumn>
+          <DataColumn name="systemType">
+            <Property name="property">systemType</Property>
+          </DataColumn>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtUserCode">
+            <Property name="property">crtUserCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtDate">
+            <Property name="property">crtDate</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updDate">
+            <Property name="property">updDate</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updOrgCode">
+            <Property name="property">updOrgCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updUserCode">
+            <Property name="property">updUserCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtOrgCode">
+            <Property name="property">crtOrgCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdRelateSystem</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdRelateSystemsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdRelateSystemAction#saveMdRelateSystems</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdRelateSystem</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdRelateSystemDialog">
+      <ClientEvent name="onClose">view.get("#dataSetMdRelateSystem").getData().cancel();
+view.get("#updateMdRelateSystemDialog").hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get("#saveMdRelateSystemsAction");
+var dialog = view.get("#updateMdRelateSystemDialog");
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get("#dataSetMdRelateSystem").getData().cancel();
+view.get("#updateMdRelateSystemDialog").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormMdRelateSystem">
+          <Property name="dataType">dataTypeMdRelateSystem</Property>
+          <Property name="dataSet">dataSetMdRelateSystem</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">systemCode</Property>
+            <Property name="property">systemCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemName</Property>
+            <Property name="property">systemName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemDesc</Property>
+            <Property name="property">systemDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemType</Property>
+            <Property name="property">systemType</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdRelateSystemDialog">
+      <ClientEvent name="onClose">view.get("#dataSetMdRelateSystem").getData().cancel();
+view.get("#addMdRelateSystemDialog").hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get("#saveMdRelateSystemsAction");
+var dialog = view.get("#addMdRelateSystemDialog");
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get("#dataSetMdRelateSystem").getData().cancel();
+view.get("#addMdRelateSystemDialog").hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormMdRelateSystem">
+          <Property name="dataType">dataTypeMdRelateSystem</Property>
+          <Property name="dataSet">dataSetMdRelateSystem</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">systemCode</Property>
+            <Property name="property">systemCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemName</Property>
+            <Property name="property">systemName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemDesc</Property>
+            <Property name="property">systemDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemType</Property>
+            <Property name="property">systemType</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdRelateSystemDialog">
+      <ClientEvent name="onClose">view.get("#lookMdRelateSystemDialog").hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get("#lookMdRelateSystemDialog").hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="lookFormMdRelateSystem">
+          <Property name="dataType">dataTypeMdRelateSystem</Property>
+          <Property name="dataSet">dataSetMdRelateSystem</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+          <AutoFormElement>
+            <Property name="name">systemCode</Property>
+            <Property name="property">systemCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemName</Property>
+            <Property name="property">systemName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemDesc</Property>
+            <Property name="property">systemDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">systemType</Property>
+            <Property name="property">systemType</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="visible">false</Property>
+            <Property name="hideMode">display</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Property name="visible">false</Property>
+            <Property name="hideMode">display</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Property name="visible">false</Property>
+            <Property name="hideMode">display</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Property name="visible">false</Property>
+            <Property name="hideMode">display</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Property name="visible">false</Property>
+            <Property name="hideMode">display</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Property name="visible">false</Property>
+            <Property name="hideMode">display</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Property name="visible">false</Property>
+            <Property name="hideMode">display</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

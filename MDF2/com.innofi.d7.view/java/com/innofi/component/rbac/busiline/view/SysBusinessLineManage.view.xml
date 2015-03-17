@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysBusinessLineManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysBusinessLine" parent="global:dataTypeSysBusinessLine">
+      <ClientEvent name="onDataChange">if (arg.property==&quot;busilineCode&quot;){
+	view.get(&quot;#checkCode&quot;).set(&quot;parameter&quot;, arg.value).execute(function(result) {
+		if(result==&quot;true&quot;)
+		{
+			arg.entity.setMessages(&quot;busilineCode&quot;,{ state: &quot;error&quot;, text: &quot;该编号已经被使用,请重新输入!&quot; });
+		}else{
+			arg.entity.set(&quot;treeSeq&quot;,arg.entity.get(&quot;treeSeq&quot;)+arg.value+&quot;.&quot;)
+		}
+	});
+};</ClientEvent>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLineByParentId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <PropertyDef name="busilineBaselName">
+        <Property name="label">Basel业务条线</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="belongOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理部门</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysBusinessLine">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="busilineName">
+        <Property name="dataType">String</Property>
+        <Property name="label">业务线名称</Property>
+      </PropertyDef>
+      <PropertyDef name="busilineCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">业务线编码</Property>
+      </PropertyDef>
+      <PropertyDef name="belongOrgCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="belongOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理部门</Property>
+      </PropertyDef>
+      <PropertyDef name="busilineBaselId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="busilineBaselName">
+        <Property name="dataType">String</Property>
+        <Property name="label">Basel业务条线</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysBusinessLine">
+      <ClientEvent name="onReady">view.get(&quot;#dataSetSysBusinessLine&quot;).set(&quot;parameter&quot;,{parentBusilineId: &quot;0&quot;}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLines</Property>
+      <Property name="dataType">[dataTypeSysBusinessLine]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysBusinessLine">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysBusinessLine]</Property>
+    </DataSet>
+    <Container>
+      <Panel>
+        <Property name="caption">查询条件</Property>
+        <Property name="collapseable">true</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">var entity=view.get(&quot;#querydataSetSysBusinessLine&quot;).getData(&quot;#&quot;);
+var busilineCode=entity.get(&quot;busilineCode&quot;);
+var busilineName=entity.get(&quot;busilineName&quot;);
+var belongOrgCode=entity.get(&quot;belongOrgCode&quot;);
+var busilineBaselId=entity.get(&quot;busilineBaselId&quot;);
+
+if((busilineCode==&quot;&quot; || busilineCode==undefined) &amp;&amp; (busilineName==&quot;&quot; || busilineName==undefined) &amp;&amp; (belongOrgCode==&quot;&quot; || belongOrgCode==undefined)&amp;&amp; (busilineBaselId==&quot;&quot; || busilineBaselId==undefined)){
+	view.get(&quot;#dataSetSysBusinessLine&quot;).set(&quot;parameter&quot;,{parentBusilineId: &quot;0&quot;}).flushAsync();
+}else{
+	view.get(&quot;#dataSetSysBusinessLine&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysBusinessLine&quot;).getData(&quot;#&quot;)).flushAsync();
+}</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">var entity = view.get(&quot;#querydataSetSysBusinessLine&quot;).getData(&quot;#&quot;);
+with (entity){
+	set(&quot;busilineCode&quot;,&quot;&quot;);
+	set(&quot;busilineName&quot;,&quot;&quot;);
+	set(&quot;belongOrgCode&quot;,&quot;&quot;);
+	set(&quot;belongOrgName&quot;,&quot;&quot;);
+	set(&quot;busilineBaselId&quot;,&quot;&quot;);
+	set(&quot;busilineBaselName&quot;,&quot;&quot;);
+};
+            
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysBusinessLineQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysBusinessLine</Property>
+            <Property name="dataType">querydataTypeSysBusinessLine</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+            <AutoFormElement name="autoFormElementbusilineCode">
+              <Property name="name">busilineCode</Property>
+              <Property name="property">busilineCode</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementbusilineName">
+              <Property name="name">busilineName</Property>
+              <Property name="property">busilineName</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">busilineBaselName</Property>
+              <Property name="property">busilineBaselName</Property>
+              <Property name="trigger">baselSingleDropDown</Property>
+              <Property name="userData">
+                <Entity>
+                  <Property name="code">busilineBaselId</Property>
+                </Entity>
+              </Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">belongOrgName</Property>
+              <Property name="property">belongOrgName</Property>
+              <Property name="trigger">orgSingleDropDown</Property>
+              <Property name="userData">
+                <Entity>
+                  <Property name="code">belongOrgCode</Property>
+                </Entity>
+              </Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+        <Tools/>
+      </Panel>
+      <Container>
+        <ToolBar id="toolBarSysBusinessLine" layoutConstraint="top">
+          <Property name="tags">tags_toolbar</Property>
+          <Fill/>
+          <ToolBarButton id="addButton">
+            <ClientEvent name="onClick">var node=view.get(&quot;#busiLineTree&quot;).get(&quot;currentNode&quot;);
+if(node==undefined){
+	view.get(&quot;#dataSetSysBusinessLine&quot;).getData().insert({&quot;parentBusilineId&quot;:&quot;0&quot;,&quot;treeSeq&quot;:&quot;.0.&quot;,&quot;status&quot;:&quot;1&quot;});
+}else{
+	var currEntity=node.get(&quot;data&quot;);
+	var seq=currEntity.get(&quot;treeSeq&quot;);
+	var len=seq.substr(0,seq.length-1).lastIndexOf(&quot;.&quot;);
+	var treeSeq=currEntity.get(&quot;treeSeq&quot;).substr(0,len+1);
+	var entity=currEntity.createBrother({parentBusilineId:currEntity.get(&quot;parentBusilineId&quot;),treeSeq:treeSeq,&quot;status&quot;:&quot;1&quot;});
+	view.get(&quot;#busiLineTree&quot;).set(&quot;currentEntity&quot;,entity);
+}
+view.get(&quot;#addDialogSysBusinessLine&quot;).show();</ClientEvent>
+            <Property name="icon">>icons/add2.png</Property>
+            <Property name="caption">添加同级</Property>
+          </ToolBarButton>
+          <ToolBarButton id="addChildButton">
+            <ClientEvent name="onClick">var node=view.get(&quot;#busiLineTree&quot;).get(&quot;currentNode&quot;);
+if(node==undefined){
+	view.get(&quot;#dataSetSysBusinessLine&quot;).getData().insert({&quot;parentBusilineId&quot;:&quot;0&quot;,&quot;treeSeq&quot;:&quot;.0.&quot;,&quot;status&quot;:&quot;1&quot;});
+}else{
+	var currentEntity = node.get(&quot;data&quot;);
+	node.expandAsync(function() {
+		var child = currentEntity.createChild(&quot;children&quot;, {
+			parentBusilineId:currentEntity.get(&quot;id&quot;),treeSeq:currentEntity.get(&quot;treeSeq&quot;),&quot;status&quot;:&quot;1&quot;
+		});
+		view.get(&quot;#busiLineTree&quot;).set(&quot;currentEntity&quot;,child);
+	});
+}
+view.get(&quot;#addDialogSysBusinessLine&quot;).show();</ClientEvent>
+            <Property name="caption">添加下级</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          </ToolBarButton>
+          <ToolBarButton id="updateButton">
+            <ClientEvent name="onClick">var node=view.get(&quot;#busiLineTree&quot;).get(&quot;currentNode&quot;);
+if(!node){
+	throw new dorado.Exception(&quot;请先选择一个节点！&quot;);
+}
+view.get(&quot;#dialogSysBusinessLine&quot;).show();
+</ClientEvent>
+            <Property name="caption">修改</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+          </ToolBarButton>
+          <ToolBarButton id="delButton">
+            <ClientEvent name="onClick">var node=view.get(&quot;#busiLineTree&quot;).get(&quot;currentNode&quot;);
+if(!node){
+	throw new dorado.Exception(&quot;请先选择一个节点！&quot;);
+}else{
+	dorado.MessageBox.confirm(&quot;确定停用该业务线及其所有下级业务线？&quot;,function(){
+		var busilineCode=node.get(&quot;data&quot;).get(&quot;busilineCode&quot;);
+		var action=view.get(&quot;#delAction&quot;);
+		action.set(&quot;parameter&quot;,busilineCode).execute(function(result){
+			view.get(&quot;#dataSetSysBusinessLine&quot;).set(&quot;parameter&quot;,{parentBusilineId: &quot;0&quot;}).flushAsync();
+		});
+	});
+}
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            <Property name="caption">停用</Property>
+          </ToolBarButton>
+        </ToolBar>
+      </Container>
+      <Container>
+        <Panel>
+          <Property name="caption">查询结果</Property>
+          <Buttons/>
+          <Children>
+            <DataTreeGrid id="busiLineTree">
+              <Property name="dataSet">dataSetSysBusinessLine</Property>
+              <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+              <Property name="treeColumn">busilineCode</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="childrenProperty">children</Property>
+                  <Property name="labelProperty">busilineCode</Property>
+                  <Property name="recursive">true</Property>
+                  <Property name="expandedIcon">>icons/layers.png</Property>
+                  <Property name="icon">>icons/layers.png</Property>
+                  <Property name="expandLevel">1</Property>
+                </BindingConfig>
+              </BindingConfigs>
+              <Columns>
+                <DataColumn name="busilineCode" property="busilineCode">
+                  <Property name="readOnly">true</Property>
+                </DataColumn>
+                <DataColumn name="busilineName" property="busilineName">
+                  <Property name="readOnly">true</Property>
+                </DataColumn>
+                <DataColumn name="busilineDesc" property="busilineDesc">
+                  <Property name="readOnly">true</Property>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="readOnly">true</Property>
+                  <Property name="name">belongOrgName</Property>
+                  <Property name="property">belongOrgName</Property>
+                </DataColumn>
+                <DataColumn name="status" property="status">
+                  <Property name="readOnly">true</Property>
+                </DataColumn>
+              </Columns>
+            </DataTreeGrid>
+            <ToolBar layoutConstraint="bottom">
+              <DataPilot>
+                <Property name="dataSet">dataSetSysBusinessLine</Property>
+                <Property name="itemCodes">pages</Property>
+              </DataPilot>
+              <Separator/>
+            </ToolBar>
+          </Children>
+          <Tools/>
+        </Panel>
+      </Container>
+    </Container>
+    <UpdateAction id="saveSysBusinessLinesAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysBusinessLineAction#saveSysBusinessLines</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysBusinessLine</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysBusinessLine">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysBusinessLine&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+	view.get(&quot;#dialogSysBusinessLine&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysBusinessLinesAction&quot;);
+			var dialog=view.get(&quot;#dialogSysBusinessLine&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysBusinessLine&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#dialogSysBusinessLine&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysBusinessLine">
+          <Property name="dataType">dataTypeSysBusinessLine</Property>
+          <Property name="dataSet">dataSetSysBusinessLine</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_NODE</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">busilineCode</Property>
+            <Property name="property">busilineCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">busilineName</Property>
+            <Property name="property">busilineName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">busilineBaselName</Property>
+            <Property name="property">busilineBaselName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">busilineBaselId</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">baselSingleUpdt</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineBaselId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineBaselId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">belongOrgName</Property>
+            <Property name="property">belongOrgName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">belongOrgCode</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">orgSingleUpdt</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">seq</Property>
+            <Property name="property">seq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.seq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.seq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">busilineDesc</Property>
+            <Property name="property">busilineDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysBusinessLine">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysBusinessLine&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+	view.get(&quot;#dialogSysBusinessLine&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysBusinessLinesAction&quot;);
+			var dialog=view.get(&quot;#addDialogSysBusinessLine&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysBusinessLine&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#addDialogSysBusinessLine&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysBusinessLine">
+          <Property name="dataType">dataTypeSysBusinessLine</Property>
+          <Property name="dataSet">dataSetSysBusinessLine</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_NODE</Property>
+          <Property name="labelWidth">130</Property>
+          <AutoFormElement>
+            <Property name="name">busilineCode</Property>
+            <Property name="property">busilineCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">busilineName</Property>
+            <Property name="property">busilineName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">busilineBaselName</Property>
+            <Property name="property">busilineBaselName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">busilineBaselId</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">baselSingleUpdt</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineBaselId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineBaselId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">belongOrgName</Property>
+            <Property name="property">belongOrgName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">belongOrgCode</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">orgSingleUpdt</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">seq</Property>
+            <Property name="property">seq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.seq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.seq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">busilineDesc</Property>
+            <Property name="property">busilineDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysBusinessLine">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysBusinessLine&quot;).getData().cancel();
+	view.get(&quot;#lookdialogSysBusinessLine&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysBusinessLine">
+          <Property name="dataType">dataTypeSysBusinessLine</Property>
+          <Property name="dataSet">dataSetSysBusinessLine</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="checkCode">
+      <Property name="service">sysBusinessLineAction#checkBusilineCode</Property>
+    </AjaxAction>
+    <CustomDropDown id="orgSingleDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;orgCode&quot;));
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;orgName&quot;));
+	
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/OrgSelect.d?selectType=singleTree&amp;category=0&amp;expandLevel=2&amp;dropdown=orgSingleDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="baselSingleDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineBaselName&quot;));
+	
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/BaselBusiLineSelect.d?selectType=singleTree&amp;id=&amp;dropdown=baselSingleDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <AjaxAction id="delAction">
+      <Property name="successMessage">停用成功</Property>
+      <Property name="service">sysBusinessLineAction#invalidBizLine</Property>
+    </AjaxAction>
+    <CustomDropDown id="orgSingleUpdt">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;!CURRENT_NODE&quot;).set(code,entity.get(&quot;orgCode&quot;));
+	dataSet.getData(&quot;!CURRENT_NODE&quot;).set(name,entity.get(&quot;orgName&quot;));
+	
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/OrgSelect.d?selectType=singleTree&amp;category=0&amp;expandLevel=2&amp;dropdown=orgSingleUpdt</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="baselSingleUpdt">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;!CURRENT_NODE&quot;).set(code,entity.get(&quot;id&quot;));
+	dataSet.getData(&quot;!CURRENT_NODE&quot;).set(name,entity.get(&quot;busilineBaselName&quot;));
+	
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/BaselBusiLineSelect.d?selectType=singleTree&amp;id=&amp;dropdown=baselSingleUpdt</Property>
+      </IFrame>
+    </CustomDropDown>
+  </View>
+</ViewConfig>

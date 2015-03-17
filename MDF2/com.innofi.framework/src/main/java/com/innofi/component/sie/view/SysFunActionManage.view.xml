@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysFunActionManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysFunAction" parent="global:dataTypeSysFunAction">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="querydataTypeSysFunAction">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysFunAction">
+      <Property name="dataProvider">sysFunActionAction#findSysFunActions</Property>
+      <Property name="dataType">[dataTypeSysFunAction]</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysFunAction">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysFunAction]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+	view.get("#dataSetSysFunAction").set("parameter", view.get("#querydataSetSysFunAction").getData("#")).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+            
+            var entity = view.get("#querydataSetSysFunAction").getData("#");
+			with (entity){
+			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysFunActionQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysFunAction</Property>
+            <Property name="dataType">querydataTypeSysFunAction</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysFunAction" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+          view.get("#dataSetSysFunAction").set("readOnly",false);
+          view.get("#dataSetSysFunAction.data").insert();
+
+view.get("#addDialogSysFunAction").show();
+        </ClientEvent>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+          
+var entitys = view.get("#dataSetSysFunAction").getData();
+var selection = view.get("#dataGridSysFunAction").get("selection");
+
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能选择一条记录查看修改！");
+}
+else if (selection.length == 1) {
+	
+ view.get("#dataSetSysFunAction").getData().setCurrent(selection[0]);
+view.get("#dialogSysFunAction").show();
+view.get("#dataSetSysFunAction").set("readOnly",false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get("#dataSetSysFunAction").getData();
+var selection = view.get("#dataGridSysFunAction").get("selection");
+var action = view.get("#saveSysFunActionsAction");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm("确定删除？", function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+var entitys = view.get("#dataSetSysFunAction").getData();
+var found = false;
+var selection = view.get("#dataGridSysFunAction").get("selection");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能查看一条记录！");
+}
+else if (selection.length == 1) {
+ view.get("#dataSetSysFunAction").getData().setCurrent(selection[0]);
+view.get("#lookdialogSysFunAction").show();
+view.get("#dataSetSysFunAction").set("readOnly",true);
+}
+
+
+</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridSysFunAction" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetSysFunAction").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetSysFunAction").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetSysFunAction</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeSysFunAction</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="menuId" property="menuId"/>
+          <DataColumn name="actionDesc" property="actionDesc"/>
+          <DataColumn name="actPicPath" property="actPicPath"/>
+          <DataColumn name="actionName" property="actionName"/>
+          <DataColumn name="id" property="id"/>
+          <DataColumn name="actionCode" property="actionCode"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysFunAction</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysFunActionsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysFunActionAction#saveSysFunActions</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysFunAction</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysFunAction">
+      <ClientEvent name="onClose">
+     view.get("#dataSetSysFunAction").getData().cancel();
+	view.get("#dialogSysFunAction").hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get("#saveSysFunActionsAction");
+			var dialog=view.get("#dialogSysFunAction");
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get("#dataSetSysFunAction").getData().cancel();
+		view.get("#dialogSysFunAction").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysFunAction">
+          <Property name="dataType">dataTypeSysFunAction</Property>
+          <Property name="dataSet">dataSetSysFunAction</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">menuId</Property>
+            <Property name="property">menuId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.menuId"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.menuId"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actionDesc</Property>
+            <Property name="property">actionDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionDesc"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionDesc"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actPicPath</Property>
+            <Property name="property">actPicPath</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actPicPath"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actPicPath"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actionName</Property>
+            <Property name="property">actionName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionName"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionName"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.id"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.id"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actionCode</Property>
+            <Property name="property">actionCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionCode"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionCode"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysFunAction">
+      <ClientEvent name="onClose">
+     view.get("#dataSetSysFunAction").getData().cancel();
+	view.get("#dialogSysFunAction").hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get("#saveSysFunActionsAction");
+			var dialog=view.get("#addDialogSysFunAction");
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get("#dataSetSysFunAction").getData().cancel();
+		view.get("#addDialogSysFunAction").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysFunAction">
+          <Property name="dataType">dataTypeSysFunAction</Property>
+          <Property name="dataSet">dataSetSysFunAction</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">menuId</Property>
+            <Property name="property">menuId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.menuId"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.menuId"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actionDesc</Property>
+            <Property name="property">actionDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionDesc"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionDesc"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actPicPath</Property>
+            <Property name="property">actPicPath</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actPicPath"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actPicPath"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actionName</Property>
+            <Property name="property">actionName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionName"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionName"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.id"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.id"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actionCode</Property>
+            <Property name="property">actionCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionCode"].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionCode"].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysFunAction">
+      <ClientEvent name="onClose">
+     view.get("#dataSetSysFunAction").getData().cancel();
+	view.get("#lookdialogSysFunAction").hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysFunAction">
+          <Property name="dataType">dataTypeSysFunAction</Property>
+          <Property name="dataSet">dataSetSysFunAction</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

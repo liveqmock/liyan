@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View layout="vbox pack:center">
+    <DataSet id="dataSetMdMetaModel">
+      <ClientEvent name="onReady">var id=&quot;${request.getParameter('id')}&quot;;
+if(id!=&quot;&quot;||id.length!=0){
+	parm={mdmId:id};
+}
+self.set(&quot;parameter&quot;, parm).flushAsync();</ClientEvent>
+      <Property name="dataProvider">mdMetaModelAction#findMetaModelsById</Property>
+      <Property name="dataType">[dataTypeMdMetaModel]</Property>
+    </DataSet>
+    <FieldSet>
+      <Property name="caption">基本信息</Property>
+      <Buttons/>
+      <Children>
+        <Container layoutConstraint="center">
+          <AutoForm id="lookFormMdMetaModel" layoutConstraint="center">
+            <Property name="dataType">dataTypeMdMetaModel</Property>
+            <Property name="dataSet">dataSetMdMetaModel</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="cols">*</Property>
+            <AutoFormElement>
+              <Property name="name">mdmCode</Property>
+              <Property name="property">mdmCode</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmName</Property>
+              <Property name="property">mdmName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmDesc</Property>
+              <Property name="property">mdmDesc</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">nodePic</Property>
+              <Property name="property">nodePic</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isDiscSonId</Property>
+              <Property name="property">isDiscSonId</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">savePath</Property>
+              <Property name="property">savePath</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">saveType</Property>
+              <Property name="property">saveType</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">uiName</Property>
+              <Property name="property">uiName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmLevel</Property>
+              <Property name="property">mdmLevel</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmSeq</Property>
+              <Property name="property">mdmSeq</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">treeSeq</Property>
+              <Property name="property">treeSeq</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">viewType</Property>
+              <Property name="property">viewType</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+    </FieldSet>
+  </View>
+</ViewConfig>

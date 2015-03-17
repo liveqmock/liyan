@@ -1,0 +1,1480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="QuerySchema">
+      <Property name="acceptUnknownProperty">true</Property>
+    </DataType>
+    <DataType name="dataTypeSysUserViewCriteria">
+      <Property name="creationType">com.innofi.component.rbac.userview.pojo.SysUserViewCriteria</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="tags">tableName=SYS_USER_VIEW_CRITERIA</Property>
+
+
+            <PropertyDef name="cfgContent">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.cfgContent"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,-1)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="cfgType">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.cfgType"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="crtDate">
+                <Property name="dataType">Date</Property>
+            <Property name="displayFormat">Y-m-d</Property>
+                <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.crtDate"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="crtOrgCode">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.crtOrgCode"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="crtOrgName">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.crtOrgName"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,200)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="crtUserCode">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.crtUserCode"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="crtUserName">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.crtUserName"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="id">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.id"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="schemaName">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.schemaName"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="updDate">
+                <Property name="dataType">Date</Property>
+            <Property name="displayFormat">Y-m-d</Property>
+                <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.updDate"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="updOrgCode">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.updOrgCode"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="updOrgName">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.updOrgName"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,200)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="updUserCode">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.updUserCode"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="updUserName">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.updUserName"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="userId">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.userId"].propertyLabel}</Property>
+                    <Property name="required">true</Property>
+                <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+
+            <PropertyDef name="viewPath">
+                <Property name="dataType">String</Property>
+                            <Property name="label">${req["com.innofi.component.rbac.userview.pojo.SysUserViewCriteria.viewPath"].propertyLabel}</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+            </Validator>
+        </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">idfReport,validator</Property>
+    <DataSet id="dsQuerySchemas">
+      <Property name="dataProvider">sysUserViewCriteriaAction#getQuerySchemas</Property>
+      <Property name="dataType">[QuerySchema]</Property>
+      <Property name="loadMode">onReady</Property>
+      <Property name="parameter">
+        <Entity>
+            <Property name="viewPath">com.innofi.component.rbac.userview.view.SysUserViewCriteriaManage.d</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <GroupStart id="autoformDataControl"/>
+    <DataSet id="dsSysUserViewCriterias">
+      <Property name="dataProvider">sysUserViewCriteriaAction#findSysUserViewCriterias</Property>
+      <Property name="dataType">[dataTypeSysUserViewCriteria]</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+      <Property name="userData">
+        <Collection>
+            <Entity>
+                <Property name="entityClass">com.innofi.component.rbac.userview.pojo.SysUserViewCriteria</Property>
+            </Entity>
+        </Collection>
+      </Property>
+    </DataSet>
+
+    <GroupEnd/>
+    <DataSetDropDown id="dropDownSchema">
+      <Property name="dataSet">dsQuerySchemas</Property>
+      <Property name="property">name</Property>
+      <Property name="autoOpen">true</Property>
+    </DataSetDropDown>
+    <SplitPanel>
+      <Property name="direction">top</Property>
+      <Property name="position">160</Property>
+      <MainControl>
+        <Container layoutConstraint="top">
+          <ToolBar id="toolbarSysUserViewCriteria">
+            <Property name="tags">tags_toolbar</Property>
+            <ToolBarButton id="addButton">
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+              <Property name="caption">新增</Property>
+            </ToolBarButton>
+            <Separator/>
+            <ToolBarButton id="updateButton">
+              <Property name="caption">修改</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <Separator/>
+            <ToolBarButton id="delButton">
+              <Property name="caption">删除</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <Separator/>
+            <ToolBarButton id="lookButton">
+              <Property name="caption">查看</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+            </ToolBarButton>
+            <Separator/>
+            <ToolBarButton id="exportButton">
+              <Property name="caption">导出</Property>
+              <Property name="icon">>icons/page_excel.png</Property>
+            </ToolBarButton>
+            <Separator/>
+            <WfProcessButton>
+              <Property name="WfProcessIFrameId">wfProcessIframe</Property>
+              <Property name="WfProcessDialogId">wfProcessDialog</Property>
+              <Property name="businessObjectDataGrid">gridSysUserViewCriterias</Property>
+              <Property name="businessObjectDataSet">dsSysUserViewCriterias</Property>
+              <Property name="statusField">busiStatus</Property>
+              <Property name="nodeNameField">nodeName</Property>
+              <Property name="moduleCode">M0703</Property>
+              <Property name="viewPath">com.innofi.component.rbac.userview.view.SysUserViewCriteriaManage</Property>
+              <Property name="dataControlGroupId">autoformDataControl</Property>
+              <Property name="updateAutoFormId">lookFormSysUserViewCriteria</Property>
+            </WfProcessButton>
+            <Separator/>
+            <ToolBarButton id="helpButton">
+              <Property name="caption">帮助</Property>
+              <Property name="icon">>icons/help2.png</Property>
+            </ToolBarButton>
+            <Separator/>
+            <DataPilot id="page">
+              <Property name="dataSet">dsSysUserViewCriterias</Property>
+            </DataPilot>
+          </ToolBar>
+          <Panel layoutConstraint="center">
+            <Property name="caption">结果列表</Property>
+            <Buttons/>
+            <Children>
+              <DataGrid id="gridSysUserViewCriterias">
+                <Property name="dataSet">dsSysUserViewCriterias</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="autoCreateColumns">false</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+              </DataGrid>
+            </Children>
+            <Tools/>
+          </Panel>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <Panel id="querySchema">
+          <Property name="caption">查询方案</Property>
+          <Property name="collapseable">true</Property>
+          <Property name="showCaptionBar">false</Property>
+          <Buttons/>
+          <Children>
+            <ToolBar layoutConstraint="top">
+              <ToolBarLabel>
+                <Property name="text">选择查询方案：</Property>
+                <Property name="style">
+                  <Property name="margin-left">8px</Property>
+                </Property>
+              </ToolBarLabel>
+              <TextEditor id="editorSchema">
+                <Property name="editable">false</Property>
+                <Property name="trigger">dropDownSchema</Property>
+                <Property name="blankText">选择一个查询方案...</Property>
+                <Property name="width">200</Property>
+              </TextEditor>
+              <Separator/>
+              <ToolBarButton id="buttonQuery">
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(skin>common/icons.gif) -40px -100px</Property>
+              </ToolBarButton>
+              <Separator/>
+              <ToolBarButton id="buttonClear">
+                <Property name="caption">重置</Property>
+                <Property name="icon">url(skin>common/icons.gif) -280px -220px</Property>
+              </ToolBarButton>
+              <Separator/>
+              <ToolBarButton id="buttonSave">
+                <Property name="caption">保存</Property>
+                <Property name="icon">url(skin>common/icons.gif) -140px -20px</Property>
+                <Property name="tags">needSchema</Property>
+              </ToolBarButton>
+              <Separator/>
+              <ToolBarButton id="buttonSaveAs">
+                <Property name="caption">另存</Property>
+                <Property name="icon">url(skin>common/icons.gif) -160px -20px</Property>
+              </ToolBarButton>
+              <Separator/>
+              <ToolBarButton id="buttonDelete">
+                <Property name="caption">删除</Property>
+                <Property name="icon">url(skin>common/icons.gif) -140px 0px</Property>
+                <Property name="tags">needSchema</Property>
+              </ToolBarButton>
+            </ToolBar>
+            <CriteriaBuilder id="criteriaBuilderSysUserViewCriteria" layoutConstraint="center">
+              <Property name="dataType">dataTypeSysUserViewCriteria</Property>
+            </CriteriaBuilder>
+          </Children>
+          <Tools/>
+        </Panel>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="addDialogSysUserViewCriteria">
+      <Property name="caption">新增</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">false</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button id="addEnter">
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button id="addCancel">
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+          <Property name="caption">取消</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysUserViewCriteria">
+          <Property name="dataType">dataTypeSysUserViewCriteria</Property>
+          <Property name="dataSet">dsSysUserViewCriterias</Property>
+          <Property name="labelWidth">100</Property>
+          <Property name="hideMode">visibility</Property>
+                                                <AutoFormElement>
+                                                    <Property name="name">cfgContent</Property>
+                            <Property name="property">cfgContent</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">cfgType</Property>
+                            <Property name="property">cfgType</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">crtDate</Property>
+                            <Property name="property">crtDate</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">crtOrgCode</Property>
+                            <Property name="property">crtOrgCode</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">crtOrgName</Property>
+                            <Property name="property">crtOrgName</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">crtUserCode</Property>
+                            <Property name="property">crtUserCode</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">crtUserName</Property>
+                            <Property name="property">crtUserName</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">id</Property>
+                            <Property name="property">id</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">schemaName</Property>
+                            <Property name="property">schemaName</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">updDate</Property>
+                            <Property name="property">updDate</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">updOrgCode</Property>
+                            <Property name="property">updOrgCode</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">updOrgName</Property>
+                            <Property name="property">updOrgName</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">updUserCode</Property>
+                            <Property name="property">updUserCode</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">updUserName</Property>
+                            <Property name="property">updUserName</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">userId</Property>
+                            <Property name="property">userId</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                                                <AutoFormElement>
+                                                    <Property name="name">viewPath</Property>
+                            <Property name="property">viewPath</Property>
+                                                <Property name="hideMode">display</Property>
+                                                                                                    <Property name="readOnly">false</Property>
+                                                <Editor/>
+                    </AutoFormElement>
+                                    </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogSysUserViewCriteria">
+      <Property name="caption">编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">false</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button id="updateEnter">
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button id="updateCancel">
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysUserViewCriteria">
+          <Property name="dataType">dataTypeSysUserViewCriteria</Property>
+          <Property name="dataSet">dsSysUserViewCriterias</Property>
+          <Property name="labelWidth">100</Property>
+          <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                    <Property name="name">cfgContent</Property>
+            <Property name="property">cfgContent</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">cfgType</Property>
+            <Property name="property">cfgType</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">crtOrgName</Property>
+            <Property name="property">crtOrgName</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">crtUserName</Property>
+            <Property name="property">crtUserName</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">id</Property>
+            <Property name="property">id</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">schemaName</Property>
+            <Property name="property">schemaName</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">updOrgName</Property>
+            <Property name="property">updOrgName</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">updUserName</Property>
+            <Property name="property">updUserName</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">userId</Property>
+            <Property name="property">userId</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">viewPath</Property>
+            <Property name="property">viewPath</Property>
+                <Property name="hideMode">display</Property>
+                        <Property name="readOnly">false</Property>
+                    <Editor/>
+            </AutoFormElement>
+            </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookSysUserViewCriteriaDialog">
+      <Property name="caption">查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">false</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">60%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+          <AutoForm id="lookFormSysUserViewCriteria">
+              <Property name="dataType">dataTypeSysUserViewCriteria</Property>
+              <Property name="dataSet">dsSysUserViewCriterias</Property>
+              <Property name="labelWidth">100</Property>
+              <Property name="hideMode">visibility</Property>
+              <Property name="readOnly">true</Property>
+        <AutoFormElement>
+                        <Property name="name">cfgContent</Property>
+              <Property name="property">cfgContent</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">cfgType</Property>
+              <Property name="property">cfgType</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">crtOrgName</Property>
+              <Property name="property">crtOrgName</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">crtUserName</Property>
+              <Property name="property">crtUserName</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">id</Property>
+              <Property name="property">id</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">schemaName</Property>
+              <Property name="property">schemaName</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">updOrgName</Property>
+              <Property name="property">updOrgName</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">updUserName</Property>
+              <Property name="property">updUserName</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">userId</Property>
+              <Property name="property">userId</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+          <AutoFormElement>
+                        <Property name="name">viewPath</Property>
+              <Property name="property">viewPath</Property>
+                    <Property name="hideMode">display</Property>
+                                            <Property name="readOnly">false</Property>
+                    <Editor/>
+      </AutoFormElement>
+            </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <WfProcessDialog id="wfProcessDialog">
+      <Property name="WfProcessIFrameId">wfProcessIframe</Property>
+      <Property name="width">680</Property>
+      <Property name="height">400</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="wfProcessIframe"/>
+      </Children>
+      <Tools/>
+    </WfProcessDialog>
+    <UpdateAction id="saveQuerySchemasAction">
+      <Property name="dataResolver">sysUserViewCriteriaAction#saveQuerySchemas</Property>
+      <Property name="successMessage">保存成功</Property>
+      <UpdateItem>
+        <Property name="dataSet">dsQuerySchemas</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveSysUserViewCriteriasAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysUserViewCriteriaAction#saveSysUserViewCriterias</Property>
+      <UpdateItem>
+        <Property name="dataSet">dsSysUserViewCriterias</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="checkPermissionAction">
+      <Property name="service">sysUserViewCriteriaAction#checkUpdDelPermission</Property>
+    </AjaxAction>
+    <Intro id="helpIntroSysUserViewCriteria">
+      <Property name="showNextButton">true</Property>
+      <Property name="showPrevButton">true</Property>
+      <Property name="prevLabel">上一步</Property>
+      <Property name="nextLabel">下一步</Property>
+      <Property name="skipLabel">退出</Property>
+      <Property name="doneLabel">完成</Property>
+    </Intro>
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+        
+            
+        
+            
+        
+            
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+
+        
+            
+
+
+
+            
+
+            
+            
+        
+            
+
+
+
+            
+
+            
+            
+        
+
+  </View>
+</ViewConfig>

@@ -1,0 +1,2455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataType name="dataTypeSysRole" meta="x:315;y:9">
+    <Property name="creationType">com.innofi.component.rbac.role.pojo.SysRole</Property>
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.remark"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleLevel">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_ORG_LEVEL")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleLevel"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.status"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="roleType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("ROLE_TYPE")}</Property>
+      </Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysOrgInfo" meta="x:0;y:9">
+    <Property name="creationType">com.innofi.component.rbac.org.pojo.SysOrgInfo</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.orgCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+      <Validator type="regExp">
+        <Property name="whiteRegExp">^[A-Za-z0-9]+$</Property>
+        <Property name="resultMessage">只能输入英文或数字</Property>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.orgName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgBrief">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.orgBrief"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentOrgId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.parentOrgId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.parentOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentDeptId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.parentDeptId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentDeptCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.parentDeptCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="category">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.category"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("CATEGORY")}</Property>
+      </Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgLevel">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.orgLevel"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_ORG_LEVEL|0")}</Property>
+      </Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.orgSeq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,512)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="pathName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.pathName"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="country">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.country"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="citycode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.citycode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="email">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.email"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+      <Validator type="regExp">
+        <Property name="resultMessage">输入的内容不是正确的EMail格式。</Property>
+        <Property name="whiteRegExp">\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*</Property>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="officeAddr">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.officeAddr"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="post">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.post"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="contact">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.contact"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="tel">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.tel"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+      <Validator type="regExp">
+        <Property name="whiteRegExp">^[0-9]*$</Property>
+        <Property name="resultMessage">只能输入数字!</Property>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="isRiskDept">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.isRiskDept"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.remark"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="seq">
+      <Property name="dataType">int</Property>
+      <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.seq"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysPost" meta="x:615;y:9">
+    <Property name="creationType">com.innofi.component.rbac.post.pojo.SysPost</Property>
+    <PropertyDef name="postDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.postDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,200)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.orgCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="postCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.postCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="postLevel">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_ORG_LEVEL")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.postLevel"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="postCate">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("POST_CATE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.postCate"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="postName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.postName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.postId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysPost.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysUser" meta="x:750;y:9">
+    <Property name="creationType">com.innofi.component.rbac.user.pojo.SysUser</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="userCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.userCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="userName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.userName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.orgCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="mobile">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.mobile"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+      <Validator type="regExp">
+        <Property name="whiteRegExp">^[-+]?\d+(\.\d+)?$</Property>
+        <Property name="resultMessage">输入的内容不是数字。</Property>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="email">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.email"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+      <Validator type="regExp">
+        <Property name="whiteRegExp">\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*</Property>
+        <Property name="resultMessage">输入的内容不是正确的EMail格式。</Property>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="address">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.address"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="certificate">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.certificate"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,512)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="assessment">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.assessment"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,512)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="sex">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("SEX")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.sex"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="tel">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.tel"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="tranHis">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.tranHis"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,512)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="password">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.password"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="onlineStatus">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("ONLINE_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.onlineStatus"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.status"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="isFullScreen">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.isFullScreen"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="frame">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.frame"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mainPostNames">
+      <Property name="label">用户主岗位</Property>
+      <Property name="dataType">String</Property>
+      <Property name="readOnly">true</Property>
+    </PropertyDef>
+    <PropertyDef name="partPostNames">
+      <Property name="label">用户兼职岗位</Property>
+      <Property name="dataType">String</Property>
+      <Property name="readOnly">true</Property>
+    </PropertyDef>
+    <PropertyDef name="dataRoleNames">
+      <Property name="label">用户数据角色</Property>
+      <Property name="dataType">String</Property>
+      <Property name="readOnly">true</Property>
+    </PropertyDef>
+    <PropertyDef name="functionRoleNames">
+      <Property name="label">用户功能角色</Property>
+      <Property name="dataType">String</Property>
+      <Property name="readOnly">true</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysDict" meta="x:885;y:9">
+    <Property name="creationType">com.innofi.component.rbac.dict.pojo.SysDict</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentDictId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.parentDictId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dictCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.dictCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dictName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.dictName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dictDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.dictDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeLevel">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.treeLevel"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.treeSeq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="viewSeq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.viewSeq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dictType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.dictType"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.status"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysMenu" meta="x:1020;y:9">
+    <Property name="creationType">com.innofi.component.rbac.menu.pojo.SysMenu</Property>
+    <PropertyDef name="menuPict">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuPict"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="menuUrl">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuUrl"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="menuCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="menuLabel">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLabel"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,40)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="menuLevel">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLevel"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="menuName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="openMode">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("OPEN_MODE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.openMode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="isRelativePath">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.isRelativePath"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+      </Property>
+      <Property name="defaultValue">1</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="isStart">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.isStart"].propertyLabel}</Property>
+      <Property name="defaultValue">1</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="menuTip">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuTip"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentMenuId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.parentMenuId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="menuSeq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuSeq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.menu.pojo.SysMenu.treeSeq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysFunAction" meta="x:1155;y:9">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.SysFunAction</Property>
+    <PropertyDef name="menuId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.menuId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="actionDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="actPicPath">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actPicPath"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="actionName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionName"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="actionCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.actionCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysFunAction.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysBaselBusinessLine" meta="x:0;y:645">
+    <Property name="creationType">com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="busilineBaselName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.busilineBaselName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="busilineBaselDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.busilineBaselDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="busilineBaselCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.busilineBaselCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="seq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.seq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+      <Validator type="regExp">
+        <Property name="whiteRegExp">^[-+]?\d+(\.\d+)?$</Property>
+        <Property name="resultMessage">输入的内容不是数字。</Property>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeLevel">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.treeLevel"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.parentId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.status"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,1)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeSeq">
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBaselBusinessLine.treeSeq"].propertyLabel}</Property>
+      <Property name="dataType">String</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysBusinessLine" meta="x:390;y:645">
+    <Property name="creationType">com.innofi.component.rbac.busiline.pojo.SysBusinessLine</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="busilineBaselId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineBaselId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="busilineName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="busilineDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="busilineCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.busilineCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="belongOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.belongOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="seq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.seq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeLevel">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.treeLevel"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentBusilineId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.parentBusilineId"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.status"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,1)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeSeq">
+      <Property name="label">${req["com.innofi.component.rbac.busiline.pojo.SysBusinessLine.treeSeq"].propertyLabel}</Property>
+      <Property name="dataType">String</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysProduct" meta="x:210;y:645">
+    <Property name="creationType">com.innofi.component.rbac.product.pojo.SysProduct</Property>
+    <PropertyDef name="busilineId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.busilineId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="productName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.productName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="productDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.productDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="manageOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.manageOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="productCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.productCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="seq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.seq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeLevel">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.treeLevel"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="parentId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.parentId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,1)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="treeSeq">
+      <Property name="label">${req["com.innofi.component.rbac.product.pojo.SysProduct.treeSeq"].propertyLabel}</Property>
+      <Property name="dataType">String</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysAuthorize" meta="x:167;y:390">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.SysAuthorize</Property>
+    <PropertyDef name="resourceId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysAuthorize.resourceId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysAuthorize.roleId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysAuthorize.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="resourceName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysAuthorize.resourceName"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="resourceType">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("RESOURCE_TYPE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysAuthorize.resourceType"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysUserPost" meta="x:555;y:645">
+    <Property name="creationType">com.innofi.component.rbac.post.pojo.SysUserPost</Property>
+    <PropertyDef name="postId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.postId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="userId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.userId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="postType">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("POST_TYPE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.postType"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.post.pojo.SysUserPost.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysNoticeContent" meta="x:702;y:645">
+    <Property name="creationType">com.innofi.component.rbac.notice.pojo.SysNoticeContent</Property>
+    <PropertyDef name="noticeNo">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.noticeNo"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="title">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.title"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,200)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="noticeType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.noticeType"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("NOTICE_TYPE")}</Property>
+      </Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="content">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.content"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,4000)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="completeDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.completeDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="busiStatus">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("OPER_TYPE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.busiStatus"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="releaseDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.releaseDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContent.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysOrgRole" meta="x:330;y:390">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.SysOrgRole</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysOrgRole.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysOrgRole.orgId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="orgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysOrgRole.orgCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysOrgRole.roleId"].propertyLabel}</Property>
+      <Property name="required">false</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysPostRole" meta="x:330;y:390">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.SysPostRole</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysPostRole.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="postId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysPostRole.postId"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysPostRole.roleId"].propertyLabel}</Property>
+      <Property name="required">false</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysUserRole" meta="x:330;y:390">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.SysUserRole</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysUserRole.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="userId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysUserRole.userId"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="userCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysUserRole.userCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysUserRole.roleId"].propertyLabel}</Property>
+      <Property name="required">false</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysJobTodo" meta="x:885;y:645">
+    <Property name="creationType">com.innofi.component.rbac.job.pojo.SysJobTodo</Property>
+    <PropertyDef name="seleCountSql">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.seleCountSql"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,1000)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.status"].propertyLabel}</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="actionId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.actionId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="gotoUrl">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.gotoUrl"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="jobTodoDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="jobTodoNo">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoNo"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="jobTodoName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoName"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,200)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.job.pojo.SysJobTodo.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysNoticeContentRole" meta="x:495;y:1065">
+    <Property name="creationType">com.innofi.component.rbac.notice.pojo.SysNoticeContentRole</Property>
+    <PropertyDef name="noticeContentId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.noticeContentId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="roleId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.roleId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.status"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.notice.pojo.SysNoticeContentRole.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysCodeBuilder" meta="x:330;y:1065">
+    <Property name="creationType">com.innofi.component.codebuilder.pojo.SysCodeBuilder</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="pattern">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.pattern"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="builderType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.builderType"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.remark"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="prefix">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.prefix"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,2)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="delimiter">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.delimiter"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="isBreakCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.isBreakCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="isAddView">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodeBuilder.isAddView"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysCodePattern" meta="x:161;y:1065">
+    <Property name="creationType">com.innofi.component.codebuilder.pojo.SysCodePattern</Property>
+    <PropertyDef name="valueLen">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueLen"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="builderId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.builderId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_STATUS")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.status"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="valueStep">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueStep"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="valueFmt">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueFmt"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="patternSeq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.patternSeq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="currentSeq">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.currentSeq"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="patternType">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("PATTERN_TYPE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.patternType"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="valueField">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueField"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="valueDef">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.valueDef"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.codebuilder.pojo.SysCodePattern.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysUserTheme" meta="x:0;y:1065">
+    <Property name="creationType">com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme</Property>
+    <PropertyDef name="userCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.userCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="infBarFrame">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.infBarFrame"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="className">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.className"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="isSysDefault">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.isSysDefault"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="userThemeName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.userThemeName"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="isFullScreen">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.isFullScreen"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="systemCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.systemCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.status"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="mainFrame">
+      <Property name="label">${req["com.innofi.component.rbac.workspace.theme.pojo.SysUserTheme.mainFrame"].propertyLabel}</Property>
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeDaTablePolicy">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.DaTablePolicy</Property>
+    <PropertyDef name="tableId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableId"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="operType">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("DA_TYPE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="authDesc">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="sqlWhere">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.sqlWhere"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeDaDimenData">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.DaDimenData</Property>
+    <PropertyDef name="dimenAuthType">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("DIMEN_AUTH_TYPE")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.dimenAuthType"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dimenControlId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.dimenControlId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dimenFieldId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.dimenFieldId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="operator">
+      <Property name="dataType">String</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("OPERATOR")}</Property>
+      </Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.operator"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="fieldName">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.fieldName"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.crtOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="crtDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.crtDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="crtUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.crtUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dimenValue">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.dimenValue"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updOrgCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.updOrgCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="updDate">
+      <Property name="dataType">Date</Property>
+      <Property name="displayFormat">Y-m-d</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.updDate"].propertyLabel}</Property>
+    </PropertyDef>
+    <PropertyDef name="updUserCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenData.updUserCode"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeDaDimenControl">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.DaDimenControl</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenControl.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="dimenId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenControl.dimenId"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="tableAuthId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaDimenControl.tableAuthId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+  <DataType name="dataTypeSysObjBusiness">
+    <Property name="creationType">com.innofi.component.rbac.privilage.pojo.SysObjBusiness</Property>
+    <Property name="autoCreatePropertyDefs">false</Property>
+    <PropertyDef name="busilineId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.busilineId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="id">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.id"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="objBusilineType">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objBusilineType"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="objCode">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objCode"].propertyLabel}</Property>
+      <Property name="required">true</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="objId">
+      <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.SysObjBusiness.objId"].propertyLabel}</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+      </Validator>
+    </PropertyDef>
+  </DataType>
+</Model>

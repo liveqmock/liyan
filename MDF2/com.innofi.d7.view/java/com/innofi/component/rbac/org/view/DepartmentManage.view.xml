@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="OrgInfo" parent="dataTypeSysOrgInfo">
+      <ClientEvent name="onDataChange">if (arg.property==&quot;orgCode&quot;){
+	view.get(&quot;#checkCode&quot;).set(&quot;parameter&quot;, arg.value).execute(function(result) {
+		if(result==&quot;true&quot;)
+		{
+			arg.entity.setMessages(&quot;orgCode&quot;,{ state: &quot;error&quot;, text: &quot;该编号已经被使用,请重新输入!&quot; });
+		}else{
+			//arg.entity.set(&quot;orgSeq&quot;,arg.entity.get(&quot;orgSeq&quot;)+arg.value+&quot;.&quot;)
+		}
+	});
+};</ClientEvent>
+      <Property name="acceptValidationState">warn</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysOrgInfoAction#findSysOrgInfoAllTree</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="parentOrgId">$${this.id}</Property>
+            <Property name="category">0</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="hasChild">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="parentOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">父机构名称</Property>
+      </PropertyDef>
+      <PropertyDef name="orgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门编码</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+        <Validator type="regExp">
+          <Property name="whiteRegExp">^[A-Za-z0-9]+$</Property>
+          <Property name="resultMessage">只能输入英文或数字</Property>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="orgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门名称</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="orgBrief">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门简称</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="orgLevel">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门级别</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_ORG_LEVEL&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="parentDeptName">
+        <Property name="label">上级部门</Property>
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="orgQuery">
+      <PropertyDef name="orgCode">
+        <Property name="label">部门编码</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="orgName">
+        <Property name="label">部门名称</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="parentDeptCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ownOrgName">
+        <Property name="label">所属机构</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="orgRole" parent="dataTypeSysOrgRole">
+      <PropertyDef name="roleName">
+        <Property name="dataType">String</Property>
+        <Property name="label">角色名称</Property>
+      </PropertyDef>
+      <PropertyDef name="roleType">
+        <Property name="dataType">String</Property>
+        <Property name="label">角色类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;ROLE_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="sysRole" parent="dataTypeSysRole">
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeRoleQuery">
+      <PropertyDef name="roleName">
+        <Property name="dataType">String</Property>
+        <Property name="label">角色名称</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="title">部门管理</Property>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetOrg">
+      <Property name="dataType">[OrgInfo]</Property>
+      <Property name="dataProvider">sysOrgInfoAction#findSysOrgInfoAllTree</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="category">1</Property>
+          <Property name="parentOrgId">${sys.getString(&quot;mdf.orgRoot&quot;)}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="dataSetQuery">
+      <ClientEvent name="onReady">self.insert({});
+</ClientEvent>
+      <Property name="dataType">orgQuery</Property>
+    </DataSet>
+    <DataSet id="dataSetOrgRole">
+      <Property name="dataType">[orgRole]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysOrgRoleAction#findSysOrgRoleByOrgId</Property>
+    </DataSet>
+    <DataSet id="dataSetRole">
+      <Property name="dataType">[sysRole]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysOrgRoleAction#findSysRoleByOrgId</Property>
+      <Property name="pageSize">10</Property>
+    </DataSet>
+    <DataSet id="dataSetRoleQuery">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">dataTypeRoleQuery</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">50%</Property>
+      <Property name="direction">right</Property>
+      <MainControl>
+        <Container>
+          <FieldSet layoutConstraint="top">
+            <Property name="buttonAlign">center</Property>
+            <Property name="caption">查询</Property>
+            <Buttons>
+              <Button id="queryButton">
+                <ClientEvent name="onClick">var orgName=view.get(&quot;#dataSetQuery&quot;).getData(&quot;#&quot;).get(&quot;orgName&quot;);
+var orgCode=view.get(&quot;#dataSetQuery&quot;).getData(&quot;#&quot;).get(&quot;orgCode&quot;);
+var parentDeptCode=view.get(&quot;#dataSetQuery&quot;).getData(&quot;#&quot;).get(&quot;parentDeptCode&quot;);
+var category=&quot;0&quot;;
+if((orgName==&quot;&quot; || orgName==undefined) &amp;&amp; (orgCode==&quot;&quot; || orgCode==undefined) &amp;&amp; (parentDeptCode==&quot;&quot; || parentDeptCode==undefined)){
+	var param={&quot;parentOrgId&quot;:&quot;0&quot;,&quot;category&quot;:&quot;1&quot;};
+}else{
+	var param={&quot;orgCode&quot;:orgCode,&quot;category&quot;:category,&quot;orgName&quot;:orgName,&quot;parentDeptCode&quot;:parentDeptCode};
+}
+view.get(&quot;#dataSetOrg&quot;).set(&quot;parameter&quot;,param).flushAsync();
+
+</ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetButton">
+                <ClientEvent name="onClick">var entity = view.get(&quot;#dataSetQuery&quot;).getData(&quot;#&quot;);
+with (entity){
+	set(&quot;orgCode&quot;,&quot;&quot;);
+	set(&quot;orgName&quot;,&quot;&quot;);
+	set(&quot;parentDeptCode&quot;,&quot;&quot;);
+	set(&quot;ownOrgName&quot;,&quot;&quot;);
+};
+            
+</ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm>
+                <Property name="dataSet">dataSetQuery</Property>
+                <Property name="cols">*,*</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="dataType">orgQuery</Property>
+                <AutoFormElement>
+                  <Property name="name">orgCode</Property>
+                  <Property name="property">orgCode</Property>
+                  <Property name="trigger">triggerClear</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">orgName</Property>
+                  <Property name="property">orgName</Property>
+                  <Property name="showLabel">true</Property>
+                  <Property name="trigger">triggerClear</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">ownOrgName</Property>
+                  <Property name="property">ownOrgName</Property>
+                  <Property name="userData">
+                    <Entity>
+                      <Property name="code">parentDeptCode</Property>
+                    </Entity>
+                  </Property>
+                  <Property name="trigger">orgSingleDropDown</Property>
+                  <Editor/>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <ToolBar id="toolBar1" layoutConstraint="top">
+            <Property name="tags">tags_toolbar</Property>
+            <ToolBarButton id="buttonAdd">
+              <ClientEvent name="onClick">var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var currentEntity = currentNode.get(&quot;data&quot;);
+currentNode.expandAsync(function() {
+	var child = currentEntity.createChild(&quot;children&quot;, {
+		category:&quot;0&quot;,
+		status:&quot;1&quot;,
+		orgSeq:currentEntity.get(&quot;orgSeq&quot;),
+		parentOrgId:currentEntity.get(&quot;id&quot;),
+		parentOrgCode:currentEntity.get(&quot;orgCode&quot;),
+		parentOrgName:currentEntity.get(&quot;orgName&quot;)
+	});
+	//alert(view.get(&quot;#dataSetOrg&quot;).getData(&quot;!CURRENT_ORG.children&quot;).current.get(&quot;orgName&quot;));
+	view.get(&quot;#orgTree&quot;).set(&quot;currentEntity&quot;,child);
+});
+view.get(&quot;#dialogStdOrgAdd&quot;).show();
+
+
+</ClientEvent>
+              <Property name="caption">添加下级</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="buttonUpdate">
+              <ClientEvent name="onClick">var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+view.get(&quot;#dialogStdOrg&quot;).show();</ClientEvent>
+              <Property name="caption">修改</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="buttonDelete">
+              <ClientEvent name="onClick">var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var entity=currentNode.get(&quot;data&quot;);
+var action=view.get(&quot;#delAction&quot;);
+dorado.MessageBox.confirm(&quot;确定停用？&quot;, function(){
+	action.set(&quot;parameter&quot;,entity.get(&quot;orgCode&quot;)).execute(function(result){
+		if(result==&quot;ok&quot;){
+			view.get(&quot;#dataSetOrg&quot;).get(&quot;dataType&quot;).set(&quot;acceptValidationState&quot;,&quot;error&quot;);
+			entity.set(&quot;status&quot;,&quot;0&quot;);
+			view.get(&quot;#saveOrgs&quot;).execute();
+			view.get(&quot;#dataSetOrg&quot;).get(&quot;dataType&quot;).set(&quot;acceptValidationState&quot;,&quot;warn&quot;);
+		}else if(result==&quot;org&quot;){
+			dorado.MessageBox.alert(&quot;操作失败，该部门下存在状态为有效的部门，请先将部门停用，再尝试执行此操作！&quot;);
+		}else if(result==&quot;post&quot;){
+			dorado.MessageBox.alert(&quot;操作失败，该部门下存在状态为有效的岗位，请先将岗位停用，再尝试执行此操作！&quot;);
+		}else if(result==&quot;user&quot;){
+			dorado.MessageBox.alert(&quot;操作失败，该部门下存在状态为有效的用户，请先将用户停用，再尝试执行此操作！&quot;);
+		}
+	});
+});</ClientEvent>
+              <Property name="caption">停用</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="buttonAddRole">
+              <ClientEvent name="onClick">var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var orgId=currentNode.get(&quot;data&quot;).get(&quot;id&quot;);
+view.get(&quot;#dataSetOrgRole&quot;).set(&quot;parameter&quot;,orgId).flushAsync();
+view.get(&quot;#addDialogSysOrgRole&quot;).show();
+</ClientEvent>
+              <Property name="caption">添加角色</Property>
+              <Property name="icon">>icons/user_orange.png</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <Container>
+            <DataTreeGrid id="orgTree">
+              <Property name="dataSet">dataSetOrg</Property>
+              <Property name="treeColumn">orgCode</Property>
+              <Property name="currentNodeDataPath">CURRENT_ORG</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="labelProperty">orgCode</Property>
+                  <Property name="recursive">true</Property>
+                  <Property name="childrenProperty">children</Property>
+                  <Property name="expandedIcon">>icons/branch_element.png</Property>
+                  <Property name="icon">>icons/branch_element.png</Property>
+                  <Property name="expandLevel">1</Property>
+                </BindingConfig>
+              </BindingConfigs>
+              <Columns>
+                <DataColumn>
+                  <Property name="name">orgCode</Property>
+                  <Property name="property">orgCode</Property>
+                  <Property name="readOnly">true</Property>
+                  <Editor/>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="name">orgName</Property>
+                  <Property name="property">orgName</Property>
+                  <Property name="readOnly">true</Property>
+                  <Editor/>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="name">status</Property>
+                  <Property name="property">status</Property>
+                  <Property name="readOnly">true</Property>
+                  <Editor/>
+                </DataColumn>
+              </Columns>
+            </DataTreeGrid>
+          </Container>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <Container>
+          <FieldSet layoutConstraint="top">
+            <Property name="caption">机构信息</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm id="orgDispForm">
+                <Property name="dataSet">dataSetOrg</Property>
+                <Property name="dataPath">!CURRENT_ORG</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="cols">*</Property>
+                <Property name="dataType">OrgInfo</Property>
+                <Property name="labelWidth">120</Property>
+                <AutoFormElement>
+                  <Property name="name">orgCode</Property>
+                  <Property name="property">orgCode</Property>
+                  <Property name="label">部门编码</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">orgName</Property>
+                  <Property name="property">orgName</Property>
+                  <Property name="label">部门名称</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">orgBrief</Property>
+                  <Property name="property">orgBrief</Property>
+                  <Property name="label">部门简称</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">orgLevel</Property>
+                  <Property name="property">orgLevel</Property>
+                  <Property name="label">部门级别</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">status</Property>
+                  <Property name="property">status</Property>
+                  <Property name="label">状态</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">isRiskDept</Property>
+                  <Property name="property">isRiskDept</Property>
+                  <Property name="label">是否业务管理部门</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">country</Property>
+                  <Property name="property">country</Property>
+                  <Property name="label">国家或地区</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">ownOrgName</Property>
+                  <Property name="property">ownOrgName</Property>
+                  <Property name="userData">
+                    <Entity>
+                      <Property name="code">parentDeptCode</Property>
+                    </Entity>
+                  </Property>
+                  <Property name="trigger">addOrgSingleDropDown</Property>
+                  <Property name="label">所属机构</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">citycode</Property>
+                  <Property name="property">citycode</Property>
+                  <Property name="label">城市</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">email</Property>
+                  <Property name="property">email</Property>
+                  <Property name="label">联系邮箱</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">officeAddr</Property>
+                  <Property name="property">officeAddr</Property>
+                  <Property name="label">办公地址</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">post</Property>
+                  <Property name="property">post</Property>
+                  <Property name="label">邮政编码</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">contact</Property>
+                  <Property name="property">contact</Property>
+                  <Property name="label">联系人</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">tel</Property>
+                  <Property name="property">tel</Property>
+                  <Property name="label">联系电话</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">remark</Property>
+                  <Property name="property">remark</Property>
+                  <Property name="label">备注</Property>
+                  <Property name="labelWidth">120</Property>
+                  <Editor>
+                    <TextArea>
+                      <Property name="height">60</Property>
+                    </TextArea>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+        </Container>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="dialogStdOrg">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetOrg&quot;).getData(&quot;!CURRENT_ORG.children&quot;).cancel();
+view.get(&quot;#dialogStdOrg&quot;).hide();
+	  </ClientEvent>
+      <Property name="width">80%</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">机构信息</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var dialog=this.get(&quot;#dialogStdOrg&quot;);
+
+view.get(&quot;#saveOrgs&quot;).execute(function(result){
+	dialog.hide();
+});
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetOrg&quot;).getData(&quot;!CURRENT_ORG.children&quot;).cancel();
+view.get(&quot;#dialogStdOrg&quot;).hide();
+	  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dataSetOrg</Property>
+          <Property name="dataPath">!CURRENT_ORG</Property>
+          <Property name="dataType">OrgInfo</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">orgCode</Property>
+            <Property name="property">orgCode</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgName</Property>
+            <Property name="property">orgName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgBrief</Property>
+            <Property name="property">orgBrief</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">parentDeptName</Property>
+            <Property name="property">parentDeptName</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">parentDeptCode</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">updtOrgSingleDropDown</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgLevel</Property>
+            <Property name="property">orgLevel</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isRiskDept</Property>
+            <Property name="property">isRiskDept</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">country</Property>
+            <Property name="property">country</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">citycode</Property>
+            <Property name="property">citycode</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">email</Property>
+            <Property name="property">email</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">officeAddr</Property>
+            <Property name="property">officeAddr</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">post</Property>
+            <Property name="property">post</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tel</Property>
+            <Property name="property">tel</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">contact</Property>
+            <Property name="property">contact</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor>
+              <TextArea>
+                <Property name="height">60</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogStdOrgAdd">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetOrg&quot;).getData(&quot;!CURRENT_ORG&quot;).cancel();
+view.get(&quot;#dialogStdOrgAdd&quot;).hide();
+	  </ClientEvent>
+      <Property name="width">80%</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">机构信息</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var dialog=this.get(&quot;#dialogStdOrgAdd&quot;);
+
+view.get(&quot;#saveOrgs&quot;).execute(function(result){
+	dialog.hide();
+});
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetOrg&quot;).getData(&quot;!CURRENT_ORG&quot;).cancel();
+view.get(&quot;#dialogStdOrgAdd&quot;).hide();
+	  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dataSetOrg</Property>
+          <Property name="dataPath">!CURRENT_ORG</Property>
+          <Property name="dataType">OrgInfo</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">orgCode</Property>
+            <Property name="property">orgCode</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgName</Property>
+            <Property name="property">orgName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgBrief</Property>
+            <Property name="property">orgBrief</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">parentDeptName</Property>
+            <Property name="property">parentDeptName</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">parentDeptCode</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">updtOrgSingleDropDown</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgLevel</Property>
+            <Property name="property">orgLevel</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isRiskDept</Property>
+            <Property name="property">isRiskDept</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">country</Property>
+            <Property name="property">country</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">citycode</Property>
+            <Property name="property">citycode</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">email</Property>
+            <Property name="property">email</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">officeAddr</Property>
+            <Property name="property">officeAddr</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">post</Property>
+            <Property name="property">post</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tel</Property>
+            <Property name="property">tel</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">contact</Property>
+            <Property name="property">contact</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor>
+              <TextArea>
+                <Property name="height">60</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogStdOrgShow">
+      <Property name="width">70%</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">机构信息</Property>
+      <Property name="maximized">false</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="height">65%</Property>
+      <Property name="modal">true</Property>
+      <Buttons>
+        <Button id="colseDealButton">
+          <ClientEvent name="onClick">      
+          
+         // view.get(&quot;#dataSetRegOuter&quot;).getData().cancel();
+		view.get(&quot;#dialogStdOrgShow&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dataSetOrg</Property>
+          <Property name="dataPath">!CURRENT_ORG.#children</Property>
+          <Property name="dataType">OrgInfo</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="labelAlign">right</Property>
+          <AutoFormElement>
+            <Property name="name">orgCode</Property>
+            <Property name="property">orgCode</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgName</Property>
+            <Property name="property">orgName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgBrief</Property>
+            <Property name="property">orgBrief</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orgLevel</Property>
+            <Property name="property">orgLevel</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">pathName</Property>
+            <Property name="property">pathName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isRiskDept</Property>
+            <Property name="property">isRiskDept</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">country</Property>
+            <Property name="property">country</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">citycode</Property>
+            <Property name="property">citycode</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">email</Property>
+            <Property name="property">email</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">officeAddr</Property>
+            <Property name="property">officeAddr</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">post</Property>
+            <Property name="property">post</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tel</Property>
+            <Property name="property">tel</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">contact</Property>
+            <Property name="property">contact</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysOrgRole">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetOrgRole&quot;).getData().cancel();
+view.get(&quot;#addDialogSysOrgRole&quot;).hide();</ClientEvent>
+      <Property name="caption">添加角色</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveOrgRoleAction&quot;);
+var dialog=view.get(&quot;#addDialogSysOrgRole&quot;);
+action.execute();
+dialog.hide();</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetOrgRole&quot;).getData().cancel();
+view.get(&quot;#addDialogSysOrgRole&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <ToolBar id="addOrgRole">
+            <ToolBarButton>
+              <ClientEvent name="onClick">var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+var orgId=currentNode.get(&quot;data&quot;).get(&quot;id&quot;);
+var orgLevel=currentNode.get(&quot;data&quot;).get(&quot;orgLevel&quot;);
+view.get(&quot;#dataSetRole&quot;).set(&quot;parameter&quot;,{orgId:orgId,roleLevel:orgLevel}).flushAsync();
+view.get(&quot;#dialogRole&quot;).show();
+</ClientEvent>
+              <Property name="caption">添加</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton>
+              <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetOrgRole&quot;).getData();
+var selection = view.get(&quot;#orgRoleGrid&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+}</ClientEvent>
+              <Property name="caption">删除</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <DataGrid id="orgRoleGrid">
+            <Property name="dataSet">dataSetOrgRole</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">roleName</Property>
+              <Property name="property">roleName</Property>
+              <Editor/>
+            </DataColumn>
+            <DataColumn>
+              <Property name="name">roleType</Property>
+              <Property name="property">roleType</Property>
+              <Editor/>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogRole">
+      <Property name="caption">角色选择</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">70%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var dialog = view.get(&quot;#dialogRole&quot;);
+var entitys = view.get(&quot;#dataSetOrgRole&quot;).getData();
+var selection = view.get(&quot;#roleMultiList&quot;).get(&quot;selection&quot;);
+var currentNode = view.get(&quot;#orgTree&quot;).get(&quot;currentNode&quot;);
+var orgId=currentNode.get(&quot;data&quot;).get(&quot;id&quot;);
+var orgCode=currentNode.get(&quot;data&quot;).get(&quot;orgCode&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	jQuery.each(selection,function(i,item){
+		//忽略已经存在的按钮
+		var bool = true;
+		entitys.each(function(entity){
+			if(item.get(&quot;id&quot;) == entity.get(&quot;roleId&quot;)){
+				bool = false;
+				return true;
+			}
+		});
+		if(bool){
+			var entity = {
+				roleId:item.get(&quot;id&quot;),
+				orgId:orgId,
+				orgCode:orgCode,
+				roleName:item.get(&quot;roleName&quot;),
+				roleType:item.get(&quot;roleType&quot;)	
+			};
+			entitys.insert(entity);
+		}
+	});
+	dialog.hide();
+}</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+          <Property name="caption">确定</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container id="multiList">
+          <Property name="hideMode">display</Property>
+          <Property name="visible">true</Property>
+          <FieldSet>
+            <Property name="collapsed">true</Property>
+            <Property name="buttonAlign">right</Property>
+            <Property name="caption">查询</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm>
+                <Property name="dataSet">dataSetRoleQuery</Property>
+                <Property name="cols">*,*</Property>
+                <Property name="labelAlign">right</Property>
+                <AutoFormElement>
+                  <Property name="name">roleName</Property>
+                  <Property name="property">roleName</Property>
+                  <Property name="showLabel">true</Property>
+                  <Property name="trigger">triggerClear</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <Button id="roleMultiListSearch">
+                  <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysPost&quot;).get(&quot;selection&quot;);
+var postId=selection[0].get(&quot;id&quot;);
+var orgLevel=selection[0].get(&quot;orgLevel&quot;);
+var roleName=view.get(&quot;#dataSetRoleQuery&quot;).getData(&quot;#&quot;).get(&quot;roleName&quot;);
+view.get(&quot;#dataSetUser&quot;).set(&quot;parameter&quot;, {&quot;postId&quot;:postId,&quot;roleName&quot;:roleName,&quot;orgLevel&quot;:orgLevel}).flushAsync();
+</ClientEvent>
+                  <Property name="caption">查询</Property>
+                </Button>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataGrid id="roleMultiList">
+            <Property name="dataSet">dataSetRole</Property>
+            <Property name="showHeader">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="rowSelectionProperty">selectFlag</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="name">roleName</Property>
+              <Property name="property">roleName</Property>
+              <Property name="readOnly">true</Property>
+              <Editor/>
+            </DataColumn>
+            <DataColumn>
+              <Property name="name">roleType</Property>
+              <Property name="property">roleType</Property>
+              <Editor/>
+            </DataColumn>
+          </DataGrid>
+          <ToolBar id="multiListPilot" layoutConstraint="bottom">
+            <Property name="hideMode">display</Property>
+            <DataPilot>
+              <Property name="itemCodes">pages</Property>
+              <Property name="dataSet">dataSetRole</Property>
+            </DataPilot>
+          </ToolBar>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <UpdateAction id="saveOrgs">
+      <Property name="dataResolver">sysOrgInfoAction#saveSysOrgInfos</Property>
+      <Property name="successMessage">操作成功！</Property>
+      <Property name="executingMessage">正在处理...</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetOrg</Property>
+        <Property name="dataPath">!DIRTY_TREE</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveOrgRoleAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysOrgRoleAction#saveSysOrgRoles</Property>
+      <Property name="async">true</Property>
+      <Property name="modal">false</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetOrgRole</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="checkCode">
+      <Property name="service">sysOrgInfoAction#checkOrgCode</Property>
+    </AjaxAction>
+    <CustomDropDown id="orgSingleDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;orgCode&quot;));
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;orgName&quot;));
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/OrgSelect.d?selectType=singleTree&amp;category=1&amp;dropdown=orgSingleDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="updtOrgSingleDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;!CURRENT_ORG&quot;).set(code,entity.get(&quot;orgCode&quot;));
+	dataSet.getData(&quot;!CURRENT_ORG&quot;).set(name,entity.get(&quot;orgName&quot;));
+	dataSet.getData(&quot;!CURRENT_ORG&quot;).set(&quot;orgLevel&quot;,entity.get(&quot;orgLevel&quot;));
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/OrgSelect.d?selectType=singleTree&amp;category=1&amp;dropdown=updtOrgSingleDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <AjaxAction id="delAction">
+      <Property name="service">sysOrgInfoAction#invalidDep</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

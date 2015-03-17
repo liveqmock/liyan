@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysDictManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysDict" parent="global:dataTypeSysDict">
+      <ClientEvent name="onDataChange">if (arg.property==&quot;dictCode&quot;){
+	view.get(&quot;#checkCode&quot;).set(&quot;parameter&quot;, {&quot;dictCode&quot;:arg.value,&quot;dictType&quot;:arg.entity.get(&quot;dictType&quot;)}).execute(function(result) {
+		if(result==&quot;false&quot;)
+		{
+			arg.entity.setMessages(&quot;dictCode&quot;,{ state: &quot;error&quot;, text: &quot;该编号在该类型字典中已经被使用,请重新输入!&quot; });
+		}else{
+			arg.entity.set(&quot;treeSeq&quot;,arg.entity.get(&quot;treeSeq&quot;)+arg.value+&quot;.&quot;)
+		}
+	});
+};</ClientEvent>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysDictAction#findSysDictsByParentId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+    </DataType>
+    <DataType name="querydataTypeSysDict">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMdictCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="dictCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.dictCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMdictName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="dictName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.dict.pojo.SysDict.dictName"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysDict">
+      <Property name="dataProvider">sysDictAction#findSysDicts</Property>
+      <Property name="dataType">[dataTypeSysDict]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysDict">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysDict]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+	view.get(&quot;#dataSetSysDict&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysDict&quot;).getData(&quot;#&quot;)).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+            
+            var entity = view.get(&quot;#querydataSetSysDict&quot;).getData(&quot;#&quot;);
+			with (entity){
+			 			 			 			 			 			 			 set(&quot;dictCode&quot;,&quot;&quot;);
+			 			 			 			 set(&quot;dictName&quot;,&quot;&quot;);
+			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysDictQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysDict</Property>
+            <Property name="dataType">querydataTypeSysDict</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+            <AutoFormElement name="autoFormElementdictCode">
+              <Property name="name">dictCode</Property>
+              <Property name="property">dictCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMdictCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysDict</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">dictCode</Property>
+                    <Property name="dataSet">querydataSetSysDict</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementdictName">
+              <Property name="name">dictName</Property>
+              <Property name="property">dictName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMdictName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysDict</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">dictName</Property>
+                    <Property name="dataSet">querydataSetSysDict</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysDict" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#dictTreeGrid&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+
+var currentEntity = currentNode.get(&quot;data&quot;);
+currentNode.expandAsync(function() {
+	var child = currentEntity.createChild(&quot;children&quot;, {
+		parentDictId:currentEntity.get(&quot;id&quot;),
+		dictType:currentEntity.get(&quot;dictType&quot;),
+		treeSeq:currentEntity.get(&quot;treeSeq&quot;)
+	});
+	view.get(&quot;#dictTreeGrid&quot;).set(&quot;currentEntity&quot;,child);
+});
+view.get(&quot;#addDialogSysDict&quot;).show();</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加下级</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">view.get(&quot;#dialogSysDict&quot;).show();
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#dictTreeGrid&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+
+var currentEntity = currentNode.get(&quot;data&quot;);
+currentEntity.set(&quot;status&quot;,&quot;0&quot;);
+var action = view.get(&quot;#saveSysDictsAction&quot;);
+action.execute(function(){});
+</ClientEvent>
+          <Property name="caption">停用</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataTreeGrid id="dictTreeGrid">
+          <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+          <Property name="dataSet">dataSetSysDict</Property>
+          <Property name="treeColumn">dictCode</Property>
+          <BindingConfigs>
+            <BindingConfig>
+              <Property name="expandedIcon">>icons/book.png</Property>
+              <Property name="icon">>icons/book.png</Property>
+              <Property name="labelProperty">dictCode</Property>
+              <Property name="recursive">true</Property>
+              <Property name="childrenProperty">children</Property>
+            </BindingConfig>
+          </BindingConfigs>
+          <Columns>
+            <DataColumn name="dictCode" property="dictCode">
+              <Property name="readOnly">true</Property>
+            </DataColumn>
+            <DataColumn name="dictName" property="dictName">
+              <Property name="readOnly">true</Property>
+            </DataColumn>
+            <DataColumn name="dictDesc" property="dictDesc">
+              <Property name="readOnly">true</Property>
+            </DataColumn>
+            <DataColumn name="viewSeq" property="viewSeq">
+              <Property name="readOnly">true</Property>
+            </DataColumn>
+            <DataColumn name="status" property="status">
+              <Property name="readOnly">true</Property>
+            </DataColumn>
+          </Columns>
+        </DataTreeGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysDict</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysDictsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysDictAction#saveSysDicts</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysDict</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysDict">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysDict&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#dialogSysDict&quot;).hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysDictsAction&quot;);
+			var dialog=view.get(&quot;#dialogSysDict&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysDict&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#dialogSysDict&quot;).hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysDict">
+          <Property name="dataType">dataTypeSysDict</Property>
+          <Property name="dataSet">dataSetSysDict</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_NODE</Property>
+          <Property name="labelWidth">130</Property>
+          <AutoFormElement>
+            <Property name="name">dictCode</Property>
+            <Property name="property">dictCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dictName</Property>
+            <Property name="property">dictName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">viewSeq</Property>
+            <Property name="property">viewSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.viewSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.viewSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">dictDesc</Property>
+            <Property name="property">dictDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysDict">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysDict&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#addDialogSysDict&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysDictsAction&quot;);
+			var dialog=view.get(&quot;#addDialogSysDict&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysDict&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#addDialogSysDict&quot;).hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysDict">
+          <Property name="dataType">dataTypeSysDict</Property>
+          <Property name="dataSet">dataSetSysDict</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_NODE</Property>
+          <Property name="labelWidth">130</Property>
+          <AutoFormElement>
+            <Property name="name">dictCode</Property>
+            <Property name="property">dictCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dictName</Property>
+            <Property name="property">dictName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">viewSeq</Property>
+            <Property name="property">viewSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.viewSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.viewSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">dictDesc</Property>
+            <Property name="property">dictDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="checkCode">
+      <Property name="service">sysDictAction#checkDictCode</Property>
+      <Property name="async">true</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

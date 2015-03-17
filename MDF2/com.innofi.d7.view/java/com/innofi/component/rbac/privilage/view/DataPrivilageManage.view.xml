@@ -1,0 +1,3599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysRoleManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeOrg" parent="dataTypeSysOrgInfo">
+      <Reference name="children">
+        <Property name="dataProvider">sysOrgInfoAction#findSysOrgInfoTreeForPolicy</Property>
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="parentOrgId">$${this.id}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+    </DataType>
+    <DataType name="dataTypeSysBusinessLine" parent="global:dataTypeSysBusinessLine">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLineByParentId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <PropertyDef name="busilineBaselName">
+        <Property name="label">Basel业务条线</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="belongOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理部门</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysProduct" parent="global:dataTypeSysProduct">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysProductAction#findSysProductByParentId</Property>
+        <Property name="parameter">$${this.id}</Property>
+      </Reference>
+      <PropertyDef name="manageOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理部门</Property>
+      </PropertyDef>
+      <PropertyDef name="busilineName">
+        <Property name="dataType">String</Property>
+        <Property name="label">业务线名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeDateRange">
+      <PropertyDef name="startDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">开始日期</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">结束日期</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysPost">
+      <Property name="creationType">com.innofi.component.rbac.post.pojo.SysPost</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="version">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="objStatus">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="delFlag">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="cacheAble">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="treeStruct">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="treeIdFiledName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="treeParentIdFieldName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="treeSeqFieldName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ext1">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ext2">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ext3">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ext4">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="ext5">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="postDesc">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="orgCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="postCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">岗位名称</Property>
+      </PropertyDef>
+      <PropertyDef name="postLevel">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="postCate">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="postName">
+        <Property name="dataType">String</Property>
+        <Property name="label">岗位名称</Property>
+      </PropertyDef>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="orgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门名称</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeDaTablePolicy">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMtableName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMoperType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="operType">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;DA_TYPE&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysRole">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMroleCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="roleCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMroleName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="roleName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMroleLevel">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="roleLevel">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_ORG_LEVEL&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.roleLevel"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMstatus">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.rbac.role.pojo.SysRole.status"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="roleType"/>
+    </DataType>
+    <DataType name="dataTypeSysRole" parent="global:dataTypeSysRole">
+      <Property name="creationType">com.innofi.component.rbac.role.pojo.SysRole</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="dataTypeRestrict">
+      <Property name="creationType">com.innofi.component.rbac.privilage.pojo.DaDimenDataRestrict</Property>
+      <Reference name="children">
+        <Property name="dataProvider">daDimenDataRestrictAction#findDaDimenDataRestrictsByTabelAuthId</Property>
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="parentRestrictId">$${this.id}</Property>
+            <Property name="tableAuthId">$${this.tableAuthId}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <Reference name="dimenData">
+        <Property name="dataType">[dimenData]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="restrictId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">daDimenDataAction#findDimenDatasForDataRestrict</Property>
+      </Reference>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="parentRestrictId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="restrictType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="restrictDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">约束关系描述</Property>
+        <Property name="readOnly">true</Property>
+      </PropertyDef>
+      <PropertyDef name="tableAuthId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="restrictPic">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">约束维度</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenFieldId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">约束列名</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenType"/>
+      <PropertyDef name="dimenContorlId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeDaTablePolicy" parent="global:dataTypeDaTablePolicy">
+      <ClientEvent name="onDataChange">try {&#xD;
+	if (arg.property == &quot;tableName&quot;) {&#xD;
+		var tableAuthId = arg.entity.get(&quot;id&quot;);&#xD;
+		var tableName = arg.entity.get(&quot;tableName&quot;);&#xD;
+		//alert(&quot;entity-------------&quot;+arg.entity);&#xD;
+		var relateTableFlag = 'true';&#xD;
+		//view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId,&quot;tableId&quot;:arg.value}).flushAsync();&#xD;
+		//view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId,&quot;tableId&quot;:arg.value,&quot;relateTableFlag&quot;:relateTableFlag}).flushAsync();&#xD;
+		//alert(tableName);&#xD;
+		view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&#xD;
+			&quot;tableAuthId&quot;: tableAuthId,&#xD;
+			&quot;tableName&quot;: tableName,&#xD;
+			&quot;relateTableFlag&quot;: relateTableFlag&#xD;
+		}).flushAsync();&#xD;
+	};&#xD;
+	}catch(e){&#xD;
+		&#xD;
+	}&#xD;
+</ClientEvent>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="tableDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">业务模块信息</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dimenData" parent="dataTypeDaDimenData">
+      <PropertyDef name="dispName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="startDate">
+        <Property name="label">开始日期</Property>
+        <Property name="required">false</Property>
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="label">结束日期</Property>
+        <Property name="required">false</Property>
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="category">
+        <Property name="dataType">String</Property>
+        <Property name="label">类型</Property>
+        <Property name="required">false</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CATEGORY&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="fieldDataType" parent="dataTypeMdDimenField">
+      <Reference name="dimenData">
+        <Property name="dataType">[dimenData]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dimenControlId">$${this.dimenControlId}</Property>
+            <Property name="dimenFieldId">$${this.id}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenControlId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">业务信息字段</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dimenDataType" parent="dataTypeMdDimension">
+      <Reference name="fields">
+        <Property name="dataType">[fieldDataType]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dimenControlId">$${this.dimenControlId}</Property>
+            <Property name="dimenId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">daDimenDataAction#findDimenFieldForDimenControl</Property>
+      </Reference>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenControlId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="querydataSetSysRole">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysRole]</Property>
+    </DataSet>
+    <DataSet id="dataSetSysRole">
+      <ClientEvent name="onReady">view.get(&quot;#querydataSetSysRole&quot;).insert({});
+var queryEntity=view.get(&quot;#querydataSetSysRole&quot;).getData(&quot;#&quot;);
+try {
+	queryEntity.set(&quot;roleType&quot;,&quot;2&quot;);
+	self.set(&quot;parameter&quot;,queryEntity).flush();
+	var roleId = self.getData(&quot;#&quot;).get(&quot;id&quot;);
+	var roleName = self.getData(&quot;#&quot;).get(&quot;roleName&quot;);
+	view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;,roleId).flushAsync();
+	view.get(&quot;#bottomIframe&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com/innofi/component/rbac/privilage/view/RoleBottomManage.d?roleId=&quot; + roleId + &quot;&amp;roleName=&quot; + encodeURI(encodeURI(roleName))).refresh();
+}catch(e){
+		dorado.MessageBox.alert(&quot;请添加数据角色!&quot;);
+}
+</ClientEvent>
+      <Property name="dataProvider">sysRoleAction#findSysRoles</Property>
+      <Property name="dataType">[dataTypeSysRole]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetDaTablePolicy">
+      <Property name="dataProvider">daTablePolicyAction#findDaTablePolicysForPrivilege</Property>
+      <Property name="dataType">[dataTypeDaTablePolicy]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetDimen">
+      <Property name="dataType">[dimenDataType]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">daDimenControlAction#findMdDimensionForControls</Property>
+    </DataSet>
+    <DataSet id="dataSetDateRange">
+      <Property name="dataType">dataTypeDateRange</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetOrg">
+      <Property name="dataProvider">sysOrgInfoAction#findSysOrgInfoTreeForPolicy</Property>
+      <Property name="dataType">[dataTypeOrg]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetBizLine">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysBusinessLineAction#findSysBusinessLines</Property>
+      <Property name="dataType">[dataTypeSysBusinessLine]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="dataSetProduct">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">sysProductAction#findSysProducts</Property>
+      <Property name="dataType">[dataTypeSysProduct]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="dataSetRestrict">
+      <Property name="dataType">[dataTypeRestrict]</Property>
+      <Property name="dataProvider">daDimenDataRestrictAction#findDaDimenDataRestrictsByTabelAuthId</Property>
+      <Property name="parameter"></Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="postDataSet">
+      <Property name="dataType">[dataTypeSysPost]</Property>
+      <Property name="dataProvider">sysPostAction#findSysPosts</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <SplitPanel id="roleSplit">
+      <Property name="direction">bottom</Property>
+      <Property name="position">50%</Property>
+      <MainControl>
+        <SplitPanel id="menuSplit">
+          <Property name="position">45%</Property>
+          <Property name="direction">right</Property>
+          <MainControl>
+            <Container>
+              <Panel>
+                <Property name="caption">角色</Property>
+                <Property name="contentOverflow">auto</Property>
+                <Buttons/>
+                <Children>
+                  <FieldSet layoutConstraint="top">
+                    <Property name="caption">查询条件</Property>
+                    <Property name="collapsed">true</Property>
+                    <Buttons>
+                      <Button id="queryButton">
+                        <ClientEvent name="onClick">var queryEntity=view.get(&quot;#querydataSetSysRole&quot;).getData(&quot;#&quot;);
+queryEntity.set(&quot;roleType&quot;,&quot;2&quot;);
+view.get(&quot;#dataSetSysRole&quot;).set(&quot;parameter&quot;, queryEntity).flushAsync();
+</ClientEvent>
+                        <Property name="caption">查询</Property>
+                        <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+                      </Button>
+                      <Button id="resetButton">
+                        <ClientEvent name="onClick">
+            
+            var entity = view.get(&quot;#querydataSetSysRole&quot;).getData(&quot;#&quot;);
+			with (entity){
+			 			 			 			 			 set(&quot;roleCode&quot;,&quot;&quot;);
+			 			 			 			 set(&quot;roleName&quot;,&quot;&quot;);
+			 			 			 			 			 			 set(&quot;roleLevel&quot;,&quot;&quot;);
+			 			 			 			 set(&quot;status&quot;,&quot;&quot;);
+			 			 			 			 			 			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+                        <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                        <Property name="caption">重置</Property>
+                      </Button>
+                    </Buttons>
+                    <Children>
+                      <AutoForm id="autoFormSysRoleQuery" layoutConstraint="center">
+                        <Property name="cols">*</Property>
+                        <Property name="dataSet">querydataSetSysRole</Property>
+                        <Property name="dataType">querydataTypeSysRole</Property>
+                        <Property name="labelAlign">right</Property>
+                        <Property name="labelWidth">120</Property>
+                        <AutoFormElement name="autoFormElementroleCode">
+                          <Property name="name">roleCode</Property>
+                          <Property name="property">roleCode</Property>
+                          <Editor>
+                            <Container>
+                              <TextEditor layoutConstraint="left">
+                                <Property name="property">qMroleCode</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="width">60</Property>
+                              </TextEditor>
+                              <TextEditor>
+                                <Property name="property">roleCode</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode&quot;].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode&quot;].propertyTip}</Property>
+                              </TextEditor>
+                            </Container>
+                          </Editor>
+                        </AutoFormElement>
+                        <AutoFormElement name="autoFormElementroleName">
+                          <Property name="name">roleName</Property>
+                          <Property name="property">roleName</Property>
+                          <Editor>
+                            <Container>
+                              <TextEditor layoutConstraint="left">
+                                <Property name="property">qMroleName</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="width">60</Property>
+                              </TextEditor>
+                              <TextEditor>
+                                <Property name="property">roleName</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName&quot;].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName&quot;].propertyTip}</Property>
+                              </TextEditor>
+                            </Container>
+                          </Editor>
+                        </AutoFormElement>
+                        <AutoFormElement name="autoFormElementstatus">
+                          <Property name="name">status</Property>
+                          <Property name="property">status</Property>
+                          <Editor>
+                            <Container>
+                              <TextEditor layoutConstraint="left">
+                                <Property name="property">qMstatus</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="width">60</Property>
+                              </TextEditor>
+                              <TextEditor>
+                                <Property name="property">status</Property>
+                                <Property name="dataSet">querydataSetSysRole</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.status&quot;].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.status&quot;].propertyTip}</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                              </TextEditor>
+                            </Container>
+                          </Editor>
+                        </AutoFormElement>
+                      </AutoForm>
+                    </Children>
+                  </FieldSet>
+                  <ToolBar id="toolBarSysRole" layoutConstraint="top">
+                    <Property name="tags">tags_toolbar</Property>
+                    <ToolBarButton id="add2Button">
+                      <ClientEvent name="onClick">var roleCode=&quot;&quot;;
+view.get(&quot;#roleCodeAction&quot;).set(&quot;parameter&quot;,&quot;ROLE_CODE&quot;).execute(function(result){
+	roleCode=result;
+});
+view.get(&quot;#dataSetSysRole&quot;).set(&quot;readOnly&quot;,false);
+view.get(&quot;#dataSetSysRole.data&quot;).insert({&quot;roleCode&quot;:roleCode,&quot;roleType&quot;:&quot;2&quot;});
+view.get(&quot;#addDialogSysRole&quot;).show();
+        </ClientEvent>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                      <Property name="caption">添加</Property>
+                    </ToolBarButton>
+                    <ToolBarButton id="update2Button">
+                      <ClientEvent name="onClick">
+          
+var entitys = view.get(&quot;#dataSetSysRole&quot;).getData();
+var selection = view.get(&quot;#dataGridSysRole&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}
+else if (selection.length == 1) {
+	
+ view.get(&quot;#dataSetSysRole&quot;).getData().setCurrent(selection[0]);
+view.get(&quot;#dialogSysRole&quot;).show();
+view.get(&quot;#dataSetSysRole&quot;).set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+                      <Property name="caption">修改</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton id="del2Button">
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysRole&quot;).getData();
+var selection = view.get(&quot;#dataGridSysRole&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveSysRolesAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;确定停用？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+				item.set(&quot;status&quot;,&quot;0&quot;);
+			//entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+                      <Property name="caption">停用</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton id="look2Button">
+                      <ClientEvent name="onClick">
+var entitys = view.get(&quot;#dataSetSysRole&quot;).getData();
+var found = false;
+var selection = view.get(&quot;#dataGridSysRole&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}
+else if (selection.length == 1) {
+ view.get(&quot;#dataSetSysRole&quot;).getData().setCurrent(selection[0]);
+view.get(&quot;#lookdialogSysRole&quot;).show();
+view.get(&quot;#dataSetSysRole&quot;).set(&quot;readOnly&quot;,true);
+}
+
+
+</ClientEvent>
+                      <Property name="caption">查看</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <Container>
+                    <DataGrid id="dataGridSysRole" layoutConstraint="center">
+                      <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetSysRole&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+                      <ClientEvent name="onDataRowClick">var roleId=view.get(&quot;#dataSetSysRole&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);
+var roleName=view.get(&quot;#dataSetSysRole&quot;).getData(&quot;#&quot;).get(&quot;roleName&quot;);
+if(roleId){
+	view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;,roleId).flushAsync();
+	view.get(&quot;#bottomIframe&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com/innofi/component/rbac/privilage/view/RoleBottomManage.d?roleId=&quot;+roleId+&quot;&amp;roleName=&quot;+encodeURI(encodeURI(roleName))).refresh();
+}</ClientEvent>
+                      <Property name="dataSet">dataSetSysRole</Property>
+                      <Property name="selectionMode">multiRows</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="dataType">dataTypeSysRole</Property>
+                      <Property name="rowHeight">26</Property>
+                      <Property name="height">100%</Property>
+                      <Property name="width">100%</Property>
+                      <Property name="highlightCurrentRow">true</Property>
+                      <RowNumColumn/>
+                      <RowSelectorColumn/>
+                      <DataColumn name="roleCode" property="roleCode"/>
+                      <DataColumn name="roleName" property="roleName"/>
+                      <DataColumn name="remark" property="remark"/>
+                      <DataColumn name="roleLevel" property="roleLevel"/>
+                      <DataColumn name="status" property="status"/>
+                    </DataGrid>
+                  </Container>
+                  <ToolBar layoutConstraint="bottom">
+                    <DataPilot>
+                      <Property name="dataSet">dataSetSysRole</Property>
+                      <Property name="itemCodes">pages</Property>
+                    </DataPilot>
+                    <Separator/>
+                  </ToolBar>
+                </Children>
+                <Tools/>
+              </Panel>
+            </Container>
+          </MainControl>
+          <SideControl>
+            <Container>
+              <Panel>
+                <Property name="caption">数据控制策略</Property>
+                <Buttons/>
+                <Children>
+                  <Container>
+                    <ToolBar>
+                      <Property name="tags">tags_toolbar</Property>
+                      <ToolBarButton id="saveButton">
+                        <ClientEvent name="onClick">var roleId=view.get(&quot;#dataSetSysRole&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);&#xD;
+view.get(&quot;#saveTablePolicy&quot;).set(&quot;parameter&quot;,roleId).execute();&#xD;
+/*&#xD;
+var entitys=view.get(&quot;#dataSetDaTablePolicy&quot;).getData();&#xD;
+entitys.each(function(entity){&#xD;
+	if(entity.get(&quot;tableName&quot;)==&quot;SYS_ORG_INFO&quot;){&#xD;
+		alert(&quot;entity:&quot;+entity.get(&quot;id&quot;)+&quot;---&quot;+entity.get(&quot;tableName&quot;)+&quot;---&quot;+entity.get(&quot;operType&quot;)+&quot;---&quot;+entity.get(&quot;selectFlag&quot;));&#xD;
+	}&#xD;
+});&#xD;
+*/</ClientEvent>
+                        <Property name="icon">>icons/save.gif </Property>
+                        <Property name="caption">保存</Property>
+                      </ToolBarButton>
+                      <ToolBarButton id="lookButton">
+                        <ClientEvent name="onClick">//var selection = view.get(&quot;#pllicyGrid&quot;).get(&quot;selection&quot;);&#xD;
+//if(selection.length==0){&#xD;
+  //  dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+//}else if(selection.length>1){&#xD;
+  //  dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);&#xD;
+//}else if (selection.length == 1) {&#xD;
+	//var tableAuthId=selection[0].get(&quot;id&quot;);&#xD;
+	//var tableId=selection[0].get(&quot;tableId&quot;);&#xD;
+	//var path=&quot;${request.contextPath}/com/innofi/component/rbac/privilage/view/DaTablePolicyDisp.d?tableAuthId=&quot;+tableAuthId+&quot;&amp;tableId=&quot;+tableId;&#xD;
+	//view.get(&quot;#lookDaTablePolicyFrame&quot;).set(&quot;path&quot;,path);&#xD;
+	//view.get(&quot;#lookdialogDaTablePolicy&quot;).show();&#xD;
+//}&#xD;
+var entity = view.get(&quot;#pllicyGrid&quot;).getCurrentItem(); &#xD;
+var tableAuthId=entity.get(&quot;id&quot;);&#xD;
+var tableId=entity.get(&quot;tableId&quot;);&#xD;
+var path=&quot;${request.contextPath}/com/innofi/component/rbac/privilage/view/DaTablePolicyDisp.d?tableAuthId=&quot;+tableAuthId+&quot;&amp;tableId=&quot;+tableId;&#xD;
+view.get(&quot;#lookDaTablePolicyFrame&quot;).set(&quot;path&quot;,path);&#xD;
+view.get(&quot;#lookdialogDaTablePolicy&quot;).show();&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                        <Property name="caption">查看</Property>
+                        <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+                        <Property name="ignored">true</Property>
+                      </ToolBarButton>
+                      <ToolBarButton id="addButton">
+                        <ClientEvent name="onClick">view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;readOnly&quot;,false);
+view.get(&quot;#dataSetDaTablePolicy.data&quot;).insert();
+view.get(&quot;#dataSetDimen&quot;).clear();
+var cardBook=view.get(&quot;#cardBookAdd&quot;);
+cardBook.set(&quot;currentIndex&quot;, 0);
+view.get(&quot;#dataSetRestrict&quot;).clear();
+view.get(&quot;#addDialogDaTablePolicy&quot;).show();
+
+</ClientEvent>
+                        <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        <Property name="caption">添加</Property>
+                      </ToolBarButton>
+                      <ToolBarButton id="updateButton">
+                        <ClientEvent name="onClick">var entity = view.get(&quot;#pllicyGrid&quot;).getCurrentItem(); 
+if(null==entity){
+	dorado.MessageBox.alert(&quot;请选择一条策略记录使其高亮!&quot;);
+	return;
+}    
+
+var dataSetDaTablePolicy = view.get(&quot;#dataSetDaTablePolicy&quot;);
+var tableId  = entity.get(&quot;tableId&quot;);
+var tableName = entity.get(&quot;tableName&quot;);
+var relateTableFlag='true';
+var tableAuthId=entity.get(&quot;id&quot;);
+dataSetDaTablePolicy.getData().setCurrent(entity);
+dataSetDaTablePolicy.set(&quot;readOnly&quot;,false);
+view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId,&quot;tableName&quot;:tableName,&quot;relateTableFlag&quot;:relateTableFlag}).flushAsync(function(){
+	view.get(&quot;#dataSetRestrict&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId}).flushAsync(function(){
+		view.get(&quot;#dialogDaTablePolicy&quot;).show();	
+	});	
+});
+
+</ClientEvent>
+                        <Property name="caption">修改</Property>
+                        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+                      </ToolBarButton>
+                      <ToolBarButton id="delButton">
+                        <ClientEvent name="onClick">//var entitys = view.get(&quot;#dataSetDaTablePolicy&quot;).getData();
+//var selection = view.get(&quot;#dataGridDaTablePolicy&quot;).get(&quot;selection&quot;);
+//var action = view.get(&quot;#delDaTablePolicys&quot;);
+//if(selection.length==0){
+    //dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+//}else if (selection.length != 0) {
+   // dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+    //jQuery.each(selection,function(i,item){
+       // entitys.remove(item);
+    //});
+    //action.execute();
+    //});
+//}
+var entitys = view.get(&quot;#dataSetDaTablePolicy&quot;).getData();
+var entity = view.get(&quot;#pllicyGrid&quot;).getCurrentItem(); 
+if(null==entity){
+	dorado.MessageBox.alert(&quot;请选择一条策略记录使其高亮!&quot;);
+	return;
+} 
+
+var action = view.get(&quot;#delDaTablePolicys&quot;);
+    dorado.MessageBox.confirm(&quot;确定删除高亮记录？&quot;, function(){
+    entitys.remove(entity);
+    action.execute();
+    });
+
+
+
+                </ClientEvent>
+                        <Property name="caption">删除</Property>
+                        <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                      </ToolBarButton>
+                    </ToolBar>
+                    <Container>
+                      <DataGrid id="pllicyGrid">
+                        <ClientEvent name="beforeSelectionChange">//var entitys=view.get(&quot;#dataSetDaTablePolicy&quot;).getData();&#xD;
+/*&#xD;
+entitys.each(function(entity){&#xD;
+	if(entity.get(&quot;tableName&quot;)==&quot;SYS_ORG_INFO&quot;){&#xD;
+		alert(&quot;entity:&quot;+entity.get(&quot;id&quot;)+&quot;---&quot;+entity.get(&quot;tableName&quot;)+&quot;---&quot;+entity.get(&quot;operType&quot;)+&quot;---&quot;+entity.get(&quot;selectFlag&quot;));&#xD;
+	}&#xD;
+});&#xD;
+*/&#xD;
+&#xD;
+if(arg.added){&#xD;
+	if(arg.added.length>1){&#xD;
+		return;&#xD;
+	}&#xD;
+	var curr=(arg.added)[0];&#xD;
+	var selection = view.get(&quot;#pllicyGrid&quot;).get(&quot;selection&quot;);&#xD;
+	//if(selection.length>1){&#xD;
+		//var newSelection = [];&#xD;
+		var reSelect=false;&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+	        if(item.get(&quot;id&quot;)!=curr.get(&quot;id&quot;)){&#xD;
+				if((curr.get(&quot;tableDesc&quot;)==item.get(&quot;tableDesc&quot;)) &amp;&amp; (curr.get(&quot;operType&quot;)==item.get(&quot;operType&quot;))){&#xD;
+					dorado.MessageBox.alert(&quot;同一角色，不能有相同的模块、相同的操作类型的数据控制策略!&quot;);&#xD;
+					reSelect=true;&#xD;
+				}&#xD;
+				//newSelection.push(item);&#xD;
+			}&#xD;
+	    });&#xD;
+		if(reSelect){&#xD;
+			//self.set(&quot;selection&quot;, newSelection);&#xD;
+			arg.added=[];&#xD;
+			//arg.processDefault = false;&#xD;
+		}&#xD;
+	//}&#xD;
+}&#xD;
+</ClientEvent>
+                        <ClientEvent name="onDataRowClick">self.highlightItem();</ClientEvent>
+                        <Property name="dataSet">dataSetDaTablePolicy</Property>
+                        <Property name="rowSelectionProperty">selectFlag</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="highlightSelectedRow">false</Property>
+                        <Property name="highlightCurrentRow">true</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">tableDesc</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">tableDesc</Property>
+                        </DataColumn>
+                        <DataColumn name="operType">
+                          <Property name="property">operType</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                        <DataColumn name="authDesc">
+                          <Property name="property">authDesc</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                  </Container>
+                </Children>
+                <Tools/>
+              </Panel>
+            </Container>
+          </SideControl>
+        </SplitPanel>
+      </MainControl>
+      <SideControl>
+        <IFrame id="bottomIframe"/>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="lookdialogSysRole">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysRole&quot;).getData().cancel();
+view.get(&quot;#lookdialogSysRole&quot;).hide();</ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysRole">
+          <Property name="dataType">dataTypeSysRole</Property>
+          <Property name="dataSet">dataSetSysRole</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">false</Property>
+          <AutoFormElement>
+            <Property name="name">roleCode</Property>
+            <Property name="property">roleCode</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">roleName</Property>
+            <Property name="property">roleName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">roleLevel</Property>
+            <Property name="property">roleLevel</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">roleType</Property>
+            <Property name="property">roleType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysRole">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysRole&quot;).getData().cancel();
+view.get(&quot;#dialogSysRole&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysRolesAction&quot;);
+			var dialog=view.get(&quot;#addDialogSysRole&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetSysRole&quot;).getData().cancel();
+		view.get(&quot;#addDialogSysRole&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <FieldSet>
+          <Property name="caption">角色信息</Property>
+          <Buttons/>
+          <Children>
+            <AutoForm id="addAutoFormSysRole">
+              <Property name="dataType">dataTypeSysRole</Property>
+              <Property name="dataSet">dataSetSysRole</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                <Property name="name">roleCode</Property>
+                <Property name="property">roleCode</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">true</Property>
+                <Editor>
+                  <TextEditor>
+                    <Property name="blankText">${req[&quot;roleCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">roleName</Property>
+                <Property name="property">roleName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor>
+                  <TextEditor>
+                    <Property name="blankText">${req[&quot;roleName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">roleType</Property>
+                <Property name="property">roleType</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">roleLevel</Property>
+                <Property name="property">roleLevel</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">status</Property>
+                <Property name="property">status</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">remark</Property>
+                <Property name="property">remark</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor>
+                  <TextArea>
+                    <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.remark&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.remark&quot;].propertyTip}</Property>
+                    <Property name="height">80</Property>
+                  </TextArea>
+                </Editor>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+        </FieldSet>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogSysRole">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysRole&quot;).getData().cancel();
+view.get(&quot;#dialogSysRole&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysRolesAction&quot;);
+			var dialog=view.get(&quot;#dialogSysRole&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetSysRole&quot;).getData().cancel();
+		view.get(&quot;#dialogSysRole&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <FieldSet>
+          <Property name="caption">角色信息</Property>
+          <Buttons/>
+          <Children>
+            <AutoForm id="autoFormSysRole">
+              <Property name="dataType">dataTypeSysRole</Property>
+              <Property name="dataSet">dataSetSysRole</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                <Property name="name">roleCode</Property>
+                <Property name="property">roleCode</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="readOnly">true</Property>
+                <Editor>
+                  <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.roleCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;roleCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">roleName</Property>
+                <Property name="property">roleName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="readOnly">false</Property>
+                <Editor>
+                  <TextEditor>
+                    <Property name="blankText">${req[&quot;roleName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.roleName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">roleType</Property>
+                <Property name="property">roleType</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">roleLevel</Property>
+                <Property name="property">roleLevel</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">status</Property>
+                <Property name="property">status</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">remark</Property>
+                <Property name="property">remark</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="readOnly">false</Property>
+                <Editor>
+                  <TextArea>
+                    <Property name="blankText">${req["com.innofi.component.rbac.role.pojo.SysRole.remark&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.role.pojo.SysRole.remark&quot;].propertyTip}</Property>
+                    <Property name="height">80</Property>
+                  </TextArea>
+                </Editor>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+        </FieldSet>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogDaTablePolicy">
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">90%</Property>
+      <Property name="width">100%</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="lookDaTablePolicyFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogDaTablePolicy">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+view.get(&quot;#dialogDaTablePolicy&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">100%</Property>
+      <Property name="contentOverflow">auto</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveDaTablePolicysAction&quot;);
+var dialog=view.get(&quot;#addDialogDaTablePolicy&quot;);
+action.execute(function(tableAuthId){
+	dialog.hide();
+});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+view.get(&quot;#addDialogDaTablePolicy&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">控制策略</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm id="addAutoFormDaTablePolicy">
+                <Property name="dataType">dataTypeDaTablePolicy</Property>
+                <Property name="dataSet">dataSetDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="hideMode">visibility</Property>
+                <Property name="cols">*,*</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement>
+                  <Property name="name">tableDesc</Property>
+                  <Property name="property">tableDesc</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Property name="trigger">tableList</Property>
+                  <Property name="userData">
+                    <Entity>
+                      <Property name="code">tableId</Property>
+                    </Entity>
+                  </Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">authDesc</Property>
+                  <Property name="property">authDesc</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyBlankText}</Property>
+                      <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyTip}</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement layoutConstraint="colSpan:3">
+                  <Property name="name">sqlWhere</Property>
+                  <Property name="property">sqlWhere</Property>
+                  <Property name="visible">false</Property>
+                  <Property name="ignored">true</Property>
+                  <Editor/>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="caption">约束设置</Property>
+            <Property name="height">75%</Property>
+            <Buttons/>
+            <Children>
+              <Container layoutConstraint="left">
+                <Property name="width">40%</Property>
+                <ToolBar layoutConstraint="top">
+                  <Button>
+                    <ClientEvent name="onClick">var treeGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+var currentNode = treeGrid.get('currentNode');&#xD;
+var entity = view.get('#pllicyGrid').getCurrentItem(); &#xD;
+var tableAuthId=entity.get(&quot;id&quot;);&#xD;
+if (currentNode) {&#xD;
+	var currentEntity = currentNode.get(&quot;data&quot;);&#xD;
+	var type = currentEntity.get(&quot;restrictType&quot;);&#xD;
+	if(&quot;3&quot;==type) {&#xD;
+	   dorado.MessageBox.alert(&quot;约束条件节点下不能再添加节点!&quot;);&#xD;
+	   return;&#xD;
+	}	&#xD;
+	currentNode.expandAsync(function() {&#xD;
+	  var child = currentEntity.createChild(&quot;children&quot;, {parentRestrictId:currentEntity.get(&quot;id&quot;),dimenFieldId:&quot;&quot;,restrictPic :&quot;>icons/data_view.png&quot;,restrictType:&quot;3&quot;,restrictDesc:&quot;约束条件&quot;,tableAuthId:tableAuthId,id:getId(),});&#xD;
+	});&#xD;
+	var nodes = currentNode.get(&quot;nodes&quot;);&#xD;
+	treeGrid.set('currentNode',nodes.get(nodes.size-1));&#xD;
+}else{&#xD;
+  view.get('#dataSetRestrict').getData().insert({});&#xD;
+  var data = treeGrid.getCurrentItem().get('data');&#xD;
+  data.set('parentRestrictId','0');&#xD;
+  data.set('restrictPic','>icons/data_view.png');&#xD;
+  data.set('restrictType','3');&#xD;
+  data.set('restrictDesc','约束条件');&#xD;
+  data.set('tableAuthId',tableAuthId);&#xD;
+  data.set('id',getId());&#xD;
+}			&#xD;
+&#xD;
+&#xD;
+function getId(){&#xD;
+	var idtmp = &quot;&quot;;&#xD;
+	view.get(&quot;#getUUIDAjaxAction&quot;).execute(function(uuid){&#xD;
+		idtmp=uuid;&#xD;
+	});&#xD;
+	return idtmp;&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="caption">添加约束</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                  </Button>
+                  <Button>
+                    <ClientEvent name="onClick">var currentNode = view.get(&quot;#dataTreeGridDimenDataRestrictA&quot;).get(&quot;currentNode&quot;);&#xD;
+var entity = view.get(&quot;#pllicyGrid&quot;).getCurrentItem(); &#xD;
+var tableAuthId=entity.get(&quot;id&quot;);&#xD;
+&#xD;
+if (currentNode) {&#xD;
+	var currentEntity = currentNode.get(&quot;data&quot;);&#xD;
+	var type = currentEntity.get(&quot;restrictType&quot;);&#xD;
+	if(&quot;3&quot;==type) {&#xD;
+	   dorado.MessageBox.alert(&quot;约束条件节点下不能再添加节点!&quot;);&#xD;
+	   return;&#xD;
+	}&#xD;
+	var parentId = getuuId(); &#xD;
+	currentNode.expandAsync(function() {&#xD;
+		var child = currentEntity.createChild(&quot;children&quot;, {&#xD;
+		parentRestrictId:currentEntity.get(&quot;id&quot;),&#xD;
+		dimenFieldId:&quot;&quot;,&#xD;
+		restrictType: &quot;1&quot;,&#xD;
+		restrictDesc:&quot;并且&quot;,&#xD;
+		tableAuthId :tableAuthId,&#xD;
+		restrictPic :&quot;>icons/logic_and.png&quot;,&#xD;
+		id:parentId});&#xD;
+		view.get(&quot;#dataTreeGridDimenDataRestrictA&quot;).set(&quot;currentEntity&quot;,child);&#xD;
+	});&#xD;
+}else{&#xD;
+	var parentId = getuuId();&#xD;
+	view.get('#dataSetRestrict').getData().insert({});&#xD;
+	var data = view.get(&quot;#dataTreeGridDimenDataRestrictA&quot;).getCurrentItem().get('data');&#xD;
+	  data.set('parentRestrictId','0');&#xD;
+	  data.set('restrictPic','>icons/logic_and.png');&#xD;
+	  data.set('restrictType','1');&#xD;
+	  data.set('restrictDesc','并且');&#xD;
+	  data.set('tableAuthId',tableAuthId);&#xD;
+	  data.set('id',parentId);&#xD;
+}&#xD;
+&#xD;
+function getuuId(){&#xD;
+	var uuidtmp = &quot;&quot;; &#xD;
+	view.get(&quot;#getUUIDAjaxAction&quot;).execute(function(uuid){&#xD;
+		uuidtmp = uuid;&#xD;
+	});&#xD;
+	return uuidtmp;&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="caption">添加联合约束</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                  </Button>
+                  <Button>
+                    <ClientEvent name="onClick">var currentItem = view.get(&quot;#dataTreeGridDimenDataRestrictA&quot;).getCurrentItem();&#xD;
+if (currentItem) {&#xD;
+	var currentEntity = currentItem.get(&quot;data&quot;);&#xD;
+	var dimenDatas = currentEntity.get('dimenData');&#xD;
+	dimenDatas.each(function(dimenData){&#xD;
+		dimenData.remove();&#xD;
+	})&#xD;
+	currentEntity.remove();&#xD;
+	currentEntity.setState(dorado.Entity.STATE_DELETED);&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;请选择一个约束节点!&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="caption">删除约束</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                  </Button>
+                </ToolBar>
+                <DataTreeGrid id="dataTreeGridDimenDataRestrictA" layoutConstraint="center">
+                  <ClientEvent name="onDataRowClick">var entity = self.getCurrentItem().get('data');&#xD;
+var dataSetRestrict = view.get('#dataSetRestrict');&#xD;
+var dataType = dataSetRestrict.get('dataType');&#xD;
+var cardBook = view.get(&quot;#cardBookAdd&quot;);&#xD;
+if(entity.get('restrictType')&amp;&amp;entity.get('restrictType')=='3'){&#xD;
+	dataType.getPropertyDef('restrictDesc').set('readOnly',true);&#xD;
+	dataType.getPropertyDef('dimenCnName').set('readOnly',false);&#xD;
+	if(entity.get('dimenType')){&#xD;
+		dataType.getPropertyDef('fieldCnName').set('readOnly',false);	&#xD;
+	}else{&#xD;
+		dataType.getPropertyDef('fieldCnName').set('readOnly',true);&#xD;
+	}&#xD;
+	var dimenId = entity.get('dimenId');&#xD;
+	if(view.get('#dataSetDimen').getData('[@.get(&quot;id&quot;)==&quot;'+dimenId+'&quot;]')){&#xD;
+		view.get('#dataSetDimen').getData('[@.get(&quot;id&quot;)==&quot;'+dimenId+'&quot;]').setCurrent(true);	&#xD;
+	}&#xD;
+	var restrictId = entity.get('id');&#xD;
+	var dimenType = entity.get('dimenType');&#xD;
+	if(dimenType==&quot;1&quot;){//机构&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 1);&#xD;
+	}else if(dimenType==&quot;2&quot;){//时间&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 2);&#xD;
+	}else if(dimenType==&quot;3&quot;){//业务条线&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 3);&#xD;
+	}else if(dimenType==&quot;4&quot;){//产品&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 4);&#xD;
+	}else if(dimenType==&quot;8&quot;){//岗位&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 5);&#xD;
+	}&#xD;
+}else{&#xD;
+	dataType.getPropertyDef('restrictDesc').set('readOnly',false);&#xD;
+	dataType.getPropertyDef('fieldCnName').set('readOnly',true);&#xD;
+	dataType.getPropertyDef('dimenCnName').set('readOnly',true);&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 0);////空白		&#xD;
+}</ClientEvent>
+                  <Property name="dataSet">dataSetRestrict</Property>
+                  <Property name="treeColumn">restrictDesc</Property>
+                  <Property name="currentNodeDataPath">CURRENT_RESTRICT</Property>
+                  <BindingConfigs>
+                    <BindingConfig>
+                      <Property name="recursive">true</Property>
+                      <Property name="childrenProperty">children</Property>
+                      <Property name="expandLevel">5</Property>
+                      <Property name="iconProperty">restrictPic</Property>
+                    </BindingConfig>
+                  </BindingConfigs>
+                  <Columns>
+                    <DataColumn>
+                      <Property name="property">restrictDesc</Property>
+                      <Property name="name">restrictDesc</Property>
+                      <Property name="trigger">listDropDownRestrictTypeA</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">dimenCnName</Property>
+                      <Property name="trigger">dataSetDropDownDimenA</Property>
+                      <Property name="userData">
+                        <Entity>
+                          <Property name="code">dimenId</Property>
+                        </Entity>
+                      </Property>
+                      <Property name="name">dimenCnName</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">fieldCnName</Property>
+                      <Property name="trigger">dataSetDropDownFieldA</Property>
+                      <Property name="name">fieldCnName</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </Columns>
+                </DataTreeGrid>
+              </Container>
+              <FieldSet layoutConstraint="center">
+                <Property name="caption">授权值范围</Property>
+                <Property name="height">94%</Property>
+                <Buttons/>
+                <Children>
+                  <CardBook id="cardBookAdd">
+                    <Container id="addBlank"/>
+                    <Container id="addOrgDimen">
+                      <Property name="contentOverflow">auto</Property>
+                      <ToolBar>
+                        <ToolBarButton id="addOrgBtnAdd">
+                          <Property name="caption">添加机构部门</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">选择机构部门授权范围</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">	var data;&#xD;
+	var dataGrid;&#xD;
+	try{&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}catch(e){&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+		if(&quot;\${userOrgCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+			existsFlag=true;&#xD;
+		}&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		var currOrg={&#xD;
+				dimenValue:&quot;\${userOrgCode}&quot;,&#xD;
+				dispName:&quot;当前用户所属机构&quot;,&#xD;
+				category:&quot;1&quot;,&#xD;
+				dimenAuthType:&quot;D&quot;,&#xD;
+				fieldName:fieldName&#xD;
+			}&#xD;
+		datas.insert(currOrg);&#xD;
+	}else{&#xD;
+		dorado.MessageBox.alert(&quot;当前用户所属机构记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}</ClientEvent>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="caption">添加当前机构</Property>
+                          <Property name="tip">当前用户所属机构</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">	var data;&#xD;
+	var dataGrid;&#xD;
+	try{&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}catch(e){&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+		if(&quot;\${userDeptCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+			existsFlag=true;&#xD;
+		}&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		var currOrg={&#xD;
+				dimenValue:&quot;\${userDeptCode}&quot;,&#xD;
+				dispName:&quot;当前用户所属部门&quot;,&#xD;
+				category:&quot;0&quot;,&#xD;
+				dimenAuthType:&quot;D&quot;,&#xD;
+				fieldName:fieldName&#xD;
+			}&#xD;
+		datas.insert(currOrg);&#xD;
+	}else{&#xD;
+		dorado.MessageBox.alert(&quot;当前用户所属部门记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="caption">添加当前部门</Property>
+                          <Property name="tip">当前用户所属部门</Property>
+                        </ToolBarButton>
+                        <Button id="addOrgNotNullBtnAdd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加空值判断</Property>
+                        </Button>
+                        <Button id="addOrgNullBtnAdd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加不为空值判断</Property>
+                        </Button>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#addOrgDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="addOrgDimenDataGridShow">
+                        <ClientEvent name="onDataRowClick">var data = self.getCurrentItem();&#xD;
+if(data.get('dimenValue')=='\${userBusinessLineCode}'||data.get('dimenValue')=='IS NULL'||data.get('dimenValue')=='IS NOT NULL'){&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',true);	&#xD;
+}else{&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',false);		&#xD;
+}&#xD;
+</ClientEvent>
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="highlightSelectedRow">true</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">名称</Property>
+                        </DataColumn>
+                        <DataColumn>
+                          <Property name="name">category</Property>
+                          <Property name="property">category</Property>
+                          <Property name="caption">类型</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="width">60</Property>
+                        </DataColumn>
+                        <DataColumn name="dimenAuthType">
+                          <Property name="property">dimenAuthType</Property>
+                          <Property name="caption">权限类型</Property>
+                          <Property name="width">200</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="addDateDimen">
+                      <ToolBar>
+                        <ToolBarButton id="addDateAdd">
+                          <Property name="caption">添加日期</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <Button id="addDateNotNullBtnAdd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加空值判断</Property>
+                        </Button>
+                        <Button id="addDateNullBtnAdd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加不为空值判断</Property>
+                        </Button>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#addDateDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="addDateDimenDataGridShow">
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">名称</Property>
+                        </DataColumn>
+                        <DataColumn name="startDate">
+                          <Property name="property">startDate</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                        <DataColumn name="endDate">
+                          <Property name="property">endDate</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="addBizlineDimen">
+                      <ToolBar>
+                        <ToolBarButton id="addBizAdd">
+                          <Property name="caption">添加业务线</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">	var data;&#xD;
+	var dataGrid;&#xD;
+	try{&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}catch(e){&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+	  if(&quot;\${userBusinessLineCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+	    existsFlag=true;&#xD;
+	  }&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+	  var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	  var currOrg={&#xD;
+	      dimenValue:&quot;\${userBusinessLineCode}&quot;,&#xD;
+	      dispName:&quot;当前用户所属业务条线&quot;,&#xD;
+	      //category:&quot;1&quot;,&#xD;
+	      dimenAuthType:&quot;&quot;,&#xD;
+	      fieldName:fieldName&#xD;
+	    }&#xD;
+	  datas.insert(currOrg);&#xD;
+	}else{&#xD;
+	  dorado.MessageBox.alert(&quot;当前用户所属业务条线记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                          <Property name="caption">添加当前业务条线</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <Button id="addBizlineNotNullBtnAdd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加空值判断</Property>
+                        </Button>
+                        <Button id="addBizlineNullBtnAdd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加不为空值判断</Property>
+                        </Button>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#addBizDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="addBizDimenDataGridShow">
+                        <ClientEvent name="onDataRowClick">var data = self.getCurrentItem();&#xD;
+if(data.get('dimenValue')=='\${userBusinessLineCode}'||data.get('dimenValue')=='IS NULL'||data.get('dimenValue')=='IS NOT NULL'){&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',true);	&#xD;
+}else{&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',false);		&#xD;
+}</ClientEvent>
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">业务线名称</Property>
+                        </DataColumn>
+                        <DataColumn name="dimenAuthType">
+                          <Property name="property">dimenAuthType</Property>
+                          <Property name="caption">权限类型</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="addProductDimen">
+                      <ToolBar>
+                        <ToolBarButton id="addProductAdd">
+                          <ClientEvent name="onClick">view.get(&quot;#dataSetProduct&quot;).set(&quot;parameter&quot;,{parentId: &quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addProductDialog&quot;).show();</ClientEvent>
+                          <Property name="caption">添加产品</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <Button>
+                          <ClientEvent name="onClick">	var data;&#xD;
+	var dataGrid;&#xD;
+	try{&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}catch(e){&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+	  if(&quot;\${userProductCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+	    existsFlag=true;&#xD;
+	  }&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+	  var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	  var currOrg={&#xD;
+	      dimenValue:&quot;\${userProductCode}&quot;,&#xD;
+	      dispName:&quot;当前用户所属产品&quot;,&#xD;
+	      //category:&quot;1&quot;,&#xD;
+	      dimenAuthType:&quot;&quot;,&#xD;
+	      fieldName:fieldName&#xD;
+	    }&#xD;
+	  datas.insert(currOrg);&#xD;
+	}else{&#xD;
+	  dorado.MessageBox.alert(&quot;当前用户所属产品记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                          <Property name="caption">添加当前产品</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </Button>
+                        <Button id="addProductNotNullBtnAdd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加空值判断</Property>
+                        </Button>
+                        <Button id="addProductNullBtnAdd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加不为空值判断</Property>
+                        </Button>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#addProductDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="addProductDimenDataGridShow">
+                        <ClientEvent name="onDataRowClick">var data = self.getCurrentItem();&#xD;
+if(data.get('dimenValue')=='\${userProductCode}'||data.get('dimenValue')=='IS NULL'||data.get('dimenValue')=='IS NOT NULL'){&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',true);	&#xD;
+}else{&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',false);		&#xD;
+}</ClientEvent>
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">产品名称</Property>
+                        </DataColumn>
+                        <DataColumn name="dimenAuthType">
+                          <Property name="property">dimenAuthType</Property>
+                          <Property name="caption">权限类型</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="addPost">
+                      <ToolBar>
+                        <ToolBarButton id="addPostAdd">
+                          <ClientEvent name="onClick">view.get(&quot;#postDataSet&quot;).flushAsync();&#xD;
+view.get(&quot;#addPostDialog&quot;).show();</ClientEvent>
+                          <Property name="caption">添加岗位</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <Button>
+                          <ClientEvent name="onClick">	var data;&#xD;
+	var dataGrid;&#xD;
+	try{&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}catch(e){&#xD;
+		dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+		data =  dataGrid.getCurrentItem().get('data');&#xD;
+	}&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+	  if(&quot;\${userPostCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+	    existsFlag=true;&#xD;
+	  }&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+	  var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	  var currOrg={&#xD;
+	      dimenValue:&quot;\${userPostCode}&quot;,&#xD;
+	      dispName:&quot;当前用户所属岗位&quot;,&#xD;
+	      //category:&quot;1&quot;,&#xD;
+	      dimenAuthType:&quot;&quot;,&#xD;
+	      fieldName:fieldName&#xD;
+	    }&#xD;
+	  datas.insert(currOrg);&#xD;
+	}else{&#xD;
+	  dorado.MessageBox.alert(&quot;当前用户所属岗位记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}</ClientEvent>
+                          <Property name="caption">添加当前岗位</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </Button>
+                        <Button id="addPostNotNullBtnAdd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加空值判断</Property>
+                        </Button>
+                        <Button id="addPostNullBtnAdd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">添加不为空值判断</Property>
+                        </Button>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#addPostDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="addPostDataGridShow">
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">岗位名称</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                  </CardBook>
+                </Children>
+              </FieldSet>
+            </Children>
+          </FieldSet>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogDaTablePolicy">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+view.get(&quot;#dialogDaTablePolicy&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">100%</Property>
+      <Property name="contentOverflow">auto</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveDaTablePolicysAction&quot;);
+var dialog=view.get(&quot;#dialogDaTablePolicy&quot;);
+action.execute(function(){
+	dialog.hide();
+});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetDaTablePolicy&quot;).getData().cancel();
+view.get(&quot;#dataSetRestrict&quot;).getData().cancel();
+view.get(&quot;#dialogDaTablePolicy&quot;).hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">控制策略</Property>
+            <Buttons/>
+            <Children>
+              <AutoForm id="updtAutoFormDaTablePolicy">
+                <Property name="dataType">dataTypeDaTablePolicy</Property>
+                <Property name="dataSet">dataSetDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="hideMode">visibility</Property>
+                <Property name="cols">*,*</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement>
+                  <Property name="name">tableDesc</Property>
+                  <Property name="property">tableDesc</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Property name="trigger">tableList</Property>
+                  <Property name="userData">
+                    <Entity>
+                      <Property name="code">tableId</Property>
+                    </Entity>
+                  </Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor/>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="name">authDesc</Property>
+                  <Property name="property">authDesc</Property>
+                  <Property name="hideMode">display</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="readOnly">false</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyBlankText}</Property>
+                      <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyTip}</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement layoutConstraint="colSpan:3">
+                  <Property name="name">sqlWhere</Property>
+                  <Property name="property">sqlWhere</Property>
+                  <Property name="visible">false</Property>
+                  <Property name="ignored">true</Property>
+                  <Editor/>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <FieldSet>
+            <Property name="caption">约束设置</Property>
+            <Property name="height">75%</Property>
+            <Buttons/>
+            <Children>
+              <Container layoutConstraint="left">
+                <Property name="width">40%</Property>
+                <ToolBar layoutConstraint="top">
+                  <Button>
+                    <ClientEvent name="onClick">var treeGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+var currentNode = treeGrid.get('currentNode');&#xD;
+var entity = view.get('#pllicyGrid').getCurrentItem(); &#xD;
+var tableAuthId=entity.get(&quot;id&quot;);&#xD;
+if (currentNode) {&#xD;
+	var currentEntity = currentNode.get(&quot;data&quot;);&#xD;
+	var type = currentEntity.get(&quot;restrictType&quot;);&#xD;
+	if(&quot;3&quot;==type) {&#xD;
+	   dorado.MessageBox.alert(&quot;约束条件节点下不能再添加节点!&quot;);&#xD;
+	   return;&#xD;
+	}	&#xD;
+	currentNode.expandAsync(function() {&#xD;
+	  var child = currentEntity.createChild(&quot;children&quot;, {parentRestrictId:currentEntity.get(&quot;id&quot;),dimenFieldId:&quot;&quot;,restrictPic :&quot;>icons/data_view.png&quot;,restrictType:&quot;3&quot;,restrictDesc:&quot;约束条件&quot;,tableAuthId:tableAuthId,id:getId(),});&#xD;
+	});&#xD;
+	var nodes = currentNode.get(&quot;nodes&quot;);&#xD;
+	treeGrid.set('currentNode',nodes.get(nodes.size-1));&#xD;
+}else{&#xD;
+  view.get('#dataSetRestrict').getData().insert({});&#xD;
+  var data = view.get(&quot;#dataTreeGridDimenDataRestrictU&quot;).getCurrentItem().get('data');&#xD;
+  data.set('parentRestrictId','0');&#xD;
+  data.set('restrictPic','>icons/data_view.png');&#xD;
+  data.set('restrictType','3');&#xD;
+  data.set('restrictDesc','约束条件');&#xD;
+  data.set('tableAuthId',tableAuthId);&#xD;
+  data.set('id',getId());&#xD;
+}			&#xD;
+&#xD;
+&#xD;
+function getId(){&#xD;
+	var idtmp = &quot;&quot;;&#xD;
+	view.get(&quot;#getUUIDAjaxAction&quot;).execute(function(uuid){&#xD;
+		idtmp=uuid;&#xD;
+	});&#xD;
+	return idtmp;&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="caption">添加约束</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                  </Button>
+                  <Button>
+                    <ClientEvent name="onClick">var currentNode = view.get(&quot;#dataTreeGridDimenDataRestrictU&quot;).get(&quot;currentNode&quot;);&#xD;
+var entity = view.get(&quot;#pllicyGrid&quot;).getCurrentItem(); &#xD;
+var tableAuthId=entity.get(&quot;id&quot;);&#xD;
+&#xD;
+if (currentNode) {&#xD;
+	var currentEntity = currentNode.get(&quot;data&quot;);&#xD;
+	var type = currentEntity.get(&quot;restrictType&quot;);&#xD;
+	if(&quot;3&quot;==type) {&#xD;
+	   dorado.MessageBox.alert(&quot;约束条件节点下不能再添加节点!&quot;);&#xD;
+	   return;&#xD;
+	}&#xD;
+	var parentId = getuuId(); &#xD;
+	currentNode.expandAsync(function() {&#xD;
+		var child = currentEntity.createChild(&quot;children&quot;, {&#xD;
+		parentRestrictId:currentEntity.get(&quot;id&quot;),&#xD;
+		dimenFieldId:&quot;&quot;,&#xD;
+		restrictType: &quot;1&quot;,&#xD;
+		restrictDesc:&quot;并且&quot;,&#xD;
+		tableAuthId :tableAuthId,&#xD;
+		restrictPic :&quot;>icons/logic_and.png&quot;,&#xD;
+		id:parentId});&#xD;
+		view.get(&quot;#dataTreeGridDimenDataRestrictU&quot;).set(&quot;currentEntity&quot;,child);&#xD;
+	});&#xD;
+}else{&#xD;
+	var parentId = getuuId();&#xD;
+	view.get('#dataSetRestrict').getData().insert({});&#xD;
+	var data = view.get(&quot;#dataTreeGridDimenDataRestrictU&quot;).getCurrentItem().get('data');&#xD;
+	  data.set('parentRestrictId','0');&#xD;
+	  data.set('restrictPic','>icons/logic_and.png');&#xD;
+	  data.set('restrictType','1');&#xD;
+	  data.set('restrictDesc','并且');&#xD;
+	  data.set('tableAuthId',tableAuthId);&#xD;
+	  data.set('id',parentId);&#xD;
+}&#xD;
+&#xD;
+function getuuId(){&#xD;
+	var uuidtmp = &quot;&quot;; &#xD;
+	view.get(&quot;#getUUIDAjaxAction&quot;).execute(function(uuid){&#xD;
+		uuidtmp = uuid;&#xD;
+	});&#xD;
+	return uuidtmp;&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="caption">添加联合约束</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                  </Button>
+                  <Button>
+                    <ClientEvent name="onClick">var currentItem = view.get(&quot;#dataTreeGridDimenDataRestrictU&quot;).getCurrentItem();&#xD;
+if (currentItem) {&#xD;
+	var currentEntity = currentItem.get(&quot;data&quot;);&#xD;
+	deleteChild(currentEntity);&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;请选择一个约束节点!&quot;);&#xD;
+}&#xD;
+&#xD;
+function deleteChild(childEntity){&#xD;
+	var childrens = childEntity.get('children');&#xD;
+	if(childrens&amp;&amp;childrens.entityCount>0){&#xD;
+		childrens.each(function(child){&#xD;
+			deleteChild(child)	&#xD;
+		})&#xD;
+	}&#xD;
+	var dimenDatas = childEntity.get('dimenData');&#xD;
+	dimenDatas.each(function(dimenData){&#xD;
+		dimenData.remove();&#xD;
+	})&#xD;
+	childEntity.remove();&#xD;
+	childEntity.setState(dorado.Entity.STATE_DELETED);&#xD;
+}&#xD;
+</ClientEvent>
+                    <Property name="caption">删除约束</Property>
+                    <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                  </Button>
+                </ToolBar>
+                <DataTreeGrid id="dataTreeGridDimenDataRestrictU" layoutConstraint="center">
+                  <ClientEvent name="onDataRowClick">var entity = self.getCurrentItem().get('data');&#xD;
+var dataSetRestrict = view.get('#dataSetRestrict');&#xD;
+var dataType = dataSetRestrict.get('dataType');&#xD;
+var cardBook = view.get(&quot;#cardBookUpdt&quot;);&#xD;
+if(entity.get('restrictType')&amp;&amp;entity.get('restrictType')=='3'){&#xD;
+	dataType.getPropertyDef('restrictDesc').set('readOnly',true);&#xD;
+	dataType.getPropertyDef('dimenCnName').set('readOnly',false);&#xD;
+	if(entity.get('dimenType')){&#xD;
+		dataType.getPropertyDef('fieldCnName').set('readOnly',false);	&#xD;
+	}else{&#xD;
+		dataType.getPropertyDef('fieldCnName').set('readOnly',true);&#xD;
+	}&#xD;
+	var dimenId = entity.get('dimenId');&#xD;
+	if(view.get('#dataSetDimen').getData('[@.get(&quot;id&quot;)==&quot;'+dimenId+'&quot;]')){&#xD;
+		view.get('#dataSetDimen').getData('[@.get(&quot;id&quot;)==&quot;'+dimenId+'&quot;]').setCurrent(true);	&#xD;
+	}&#xD;
+	var restrictId = entity.get('id');&#xD;
+	var dimenType = entity.get('dimenType');&#xD;
+	if(dimenType==&quot;1&quot;){//机构&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 1);&#xD;
+	}else if(dimenType==&quot;2&quot;){//时间&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 2);&#xD;
+	}else if(dimenType==&quot;3&quot;){//业务条线&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 3);&#xD;
+	}else if(dimenType==&quot;4&quot;){//产品&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 4);&#xD;
+	}else if(dimenType==&quot;8&quot;){//岗位&#xD;
+		cardBook.set(&quot;currentIndex&quot;, 5);&#xD;
+	}&#xD;
+}else{&#xD;
+	dataType.getPropertyDef('restrictDesc').set('readOnly',false);&#xD;
+	dataType.getPropertyDef('fieldCnName').set('readOnly',true);&#xD;
+	dataType.getPropertyDef('dimenCnName').set('readOnly',true);&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 0);////空白		&#xD;
+}</ClientEvent>
+                  <Property name="dataSet">dataSetRestrict</Property>
+                  <Property name="treeColumn">restrictDesc</Property>
+                  <Property name="currentNodeDataPath">CURRENT_RESTRICT</Property>
+                  <BindingConfigs>
+                    <BindingConfig>
+                      <Property name="recursive">true</Property>
+                      <Property name="childrenProperty">children</Property>
+                      <Property name="expandLevel">5</Property>
+                      <Property name="iconProperty">restrictPic</Property>
+                    </BindingConfig>
+                  </BindingConfigs>
+                  <Columns>
+                    <DataColumn>
+                      <Property name="property">restrictDesc</Property>
+                      <Property name="name">restrictDesc</Property>
+                      <Property name="trigger">listDropDownRestrictTypeU</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">dimenCnName</Property>
+                      <Property name="trigger">dataSetDropDownDimenU</Property>
+                      <Property name="userData">
+                        <Entity>
+                          <Property name="code">dimenId</Property>
+                        </Entity>
+                      </Property>
+                      <Property name="name">dimenCnName</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="property">fieldCnName</Property>
+                      <Property name="trigger">dataSetDropDownFieldU</Property>
+                      <Property name="name">fieldCnName</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </Columns>
+                </DataTreeGrid>
+              </Container>
+              <FieldSet layoutConstraint="center">
+                <Property name="caption">授权值范围</Property>
+                <Property name="height">94%</Property>
+                <Buttons/>
+                <Children>
+                  <CardBook id="cardBookUpdt">
+                    <Container id="updtBlank"/>
+                    <Container id="updtOrgDimen">
+                      <Property name="contentOverflow">auto</Property>
+                      <ToolBar>
+                        <ToolBarButton id="addOrgBtnUpd">
+                          <Property name="caption">添加机构部门</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="tip">选择机构部门授权范围</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var dataGrid;&#xD;
+try{&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+}catch(e){&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+		if(&quot;\${userOrgCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+			existsFlag=true;&#xD;
+		}&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		var currOrg={&#xD;
+				dimenValue:&quot;\${userOrgCode}&quot;,&#xD;
+				dispName:&quot;当前用户所属机构&quot;,&#xD;
+				category:&quot;1&quot;,&#xD;
+				dimenAuthType:&quot;D&quot;,&#xD;
+				fieldName:fieldName&#xD;
+			}&#xD;
+		datas.insert(currOrg);&#xD;
+	}else{&#xD;
+		dorado.MessageBox.alert(&quot;当前用户所属机构记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}</ClientEvent>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="caption">添加当前机构</Property>
+                          <Property name="tip">当前用户所属机构</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var dataGrid;&#xD;
+try{&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+}catch(e){&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+		if(&quot;\${userDeptCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+			existsFlag=true;&#xD;
+		}&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		var currOrg={&#xD;
+				dimenValue:&quot;\${userDeptCode}&quot;,&#xD;
+				dispName:&quot;当前用户所属部门&quot;,&#xD;
+				category:&quot;0&quot;,&#xD;
+				dimenAuthType:&quot;D&quot;,&#xD;
+				fieldName:fieldName&#xD;
+			}&#xD;
+		datas.insert(currOrg);&#xD;
+	}else{&#xD;
+		dorado.MessageBox.alert(&quot;当前用户所属部门记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                          <Property name="caption">添加当前部门</Property>
+                          <Property name="tip">当前用户所属部门</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addOrgNullBtnUpd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addOrgNotNullBtnUpd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtOrgDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="updtOrgDimenDataGridShow">
+                        <ClientEvent name="onDataRowClick">var data = self.getCurrentItem();&#xD;
+if(data.get('dimenValue')=='\${userBusinessLineCode}'||data.get('dimenValue')=='IS NULL'||data.get('dimenValue')=='IS NOT NULL'){&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',true);	&#xD;
+}else{&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',false);		&#xD;
+}&#xD;
+</ClientEvent>
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="highlightSelectedRow">true</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">机构名称</Property>
+                        </DataColumn>
+                        <DataColumn>
+                          <Property name="name">category</Property>
+                          <Property name="property">category</Property>
+                          <Property name="caption">类型</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="width">60</Property>
+                        </DataColumn>
+                        <DataColumn name="dimenAuthType">
+                          <Property name="property">dimenAuthType</Property>
+                          <Property name="caption">权限类型</Property>
+                          <Property name="width">200</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="updtDateDimen">
+                      <ToolBar>
+                        <ToolBarButton id="addDateUpd">
+                          <Property name="caption">添加日期</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addDateNullBtnUpd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addDateNotNullBtnUpd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtDateDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="updtDateDimenDataGridShow">
+                        <ClientEvent name="onDataRowClick">var data = self.getCurrentItem();&#xD;
+if(data.get('dimenValue')=='\${userBusinessLineCode}'||data.get('dimenValue')=='IS NULL'||data.get('dimenValue')=='IS NOT NULL'){&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',true);	&#xD;
+}else{&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',false);		&#xD;
+}&#xD;
+</ClientEvent>
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">日期名称</Property>
+                        </DataColumn>
+                        <DataColumn name="startDate">
+                          <Property name="property">startDate</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                        <DataColumn name="endDate">
+                          <Property name="property">endDate</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="updtBizlineDimen">
+                      <ToolBar>
+                        <ToolBarButton id="addBizUpd">
+                          <Property name="caption">添加业务线</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var dataGrid;&#xD;
+try{&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+}catch(e){&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+	  if(&quot;\${userBusinessLineCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+	    existsFlag=true;&#xD;
+	  }&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+	  var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	  var currOrg={&#xD;
+	      dimenValue:&quot;\${userBusinessLineCode}&quot;,&#xD;
+	      dispName:&quot;当前用户所属业务条线&quot;,&#xD;
+	      //category:&quot;1&quot;,&#xD;
+	      dimenAuthType:&quot;&quot;,&#xD;
+	      fieldName:fieldName&#xD;
+	    }&#xD;
+	  datas.insert(currOrg);&#xD;
+	}else{&#xD;
+	  dorado.MessageBox.alert(&quot;当前用户所属业务条线记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                          <Property name="caption">添加当前业务条线</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addBizlineNullBtnUpd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addBizLineNotNullBtnUpd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtBizDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="updtBizDimenDataGridShow">
+                        <ClientEvent name="onDataRowClick">var data = self.getCurrentItem();&#xD;
+if(data.get('dimenValue')=='\${userBusinessLineCode}'||data.get('dimenValue')=='IS NULL'||data.get('dimenValue')=='IS NOT NULL'){&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',true);	&#xD;
+}else{&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',false);		&#xD;
+}&#xD;
+</ClientEvent>
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">业务线名称</Property>
+                        </DataColumn>
+                        <DataColumn name="dimenAuthType">
+                          <Property name="property">dimenAuthType</Property>
+                          <Property name="caption">权限类型</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="updtProductDimen">
+                      <ToolBar>
+                        <ToolBarButton id="addProductUpd">
+                          <ClientEvent name="onClick">view.get(&quot;#dataSetProduct&quot;).set(&quot;parameter&quot;,{parentId: &quot;0&quot;}).flushAsync();&#xD;
+view.get(&quot;#addProductDialog&quot;).show();</ClientEvent>
+                          <Property name="caption">添加产品</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <Button>
+                          <ClientEvent name="onClick">var dataGrid;&#xD;
+try{&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+}catch(e){&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+	  if(&quot;\${userProductCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+	    existsFlag=true;&#xD;
+	  }&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+	  var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	  var currOrg={&#xD;
+	      dimenValue:&quot;\${userProductCode}&quot;,&#xD;
+	      dispName:&quot;当前用户所属产品&quot;,&#xD;
+	      //category:&quot;1&quot;,&#xD;
+	      dimenAuthType:&quot;&quot;,&#xD;
+	      fieldName:fieldName&#xD;
+	    }&#xD;
+	  datas.insert(currOrg);&#xD;
+	}else{&#xD;
+	  dorado.MessageBox.alert(&quot;当前用户所属产品记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                          <Property name="caption">添加当前产品</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </Button>
+                        <ToolBarButton id="addProductNullBtnUpd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addProductNotNullBtnUpd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updtProductDimenDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="updtProductDimenDataGridShow">
+                        <ClientEvent name="onDataRowClick">var data = self.getCurrentItem();&#xD;
+if(data.get('dimenValue')=='\${userProductCode}'||data.get('dimenValue')=='IS NULL'||data.get('dimenValue')=='IS NOT NULL'){&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',true);	&#xD;
+}else{&#xD;
+	self.getColumn('dimenAuthType').set('readOnly',false);		&#xD;
+}&#xD;
+</ClientEvent>
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">产品名称</Property>
+                        </DataColumn>
+                        <DataColumn name="dimenAuthType">
+                          <Property name="property">dimenAuthType</Property>
+                          <Property name="caption">权限类型</Property>
+                          <Property name="readOnly">true</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                    <Container id="updPost">
+                      <ToolBar>
+                        <ToolBarButton id="addPostUpd">
+                          <ClientEvent name="onClick">view.get(&quot;#postDataSet&quot;).flushAsync();&#xD;
+view.get(&quot;#addPostDialog&quot;).show();</ClientEvent>
+                          <Property name="caption">添加岗位</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <Button>
+                          <ClientEvent name="onClick">var dataGrid;&#xD;
+try{&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictU');&#xD;
+}catch(e){&#xD;
+	dataGrid = view.get('#dataTreeGridDimenDataRestrictA');&#xD;
+}&#xD;
+&#xD;
+var data = dataGrid.getCurrentItem().get('data');&#xD;
+var restrictType = data.get('restrictType');&#xD;
+if(restrictType=='3'){&#xD;
+	if(!data.get('dimenId')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束条件维度!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	if(!data.get('fieldCnName')){&#xD;
+		dorado.MessageBox.alert(&quot;请先选择约束约束条件列名!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var datas=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var existsFlag=false;&#xD;
+	datas.each(function(entity){&#xD;
+	  if(&quot;\${userPostCode}&quot;==entity.get(&quot;dimenValue&quot;)){&#xD;
+	    existsFlag=true;&#xD;
+	  }&#xD;
+	});&#xD;
+	if(existsFlag==false){&#xD;
+	  var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	  var currOrg={&#xD;
+	      dimenValue:&quot;\${userPostCode}&quot;,&#xD;
+	      dispName:&quot;当前用户所属岗位&quot;,&#xD;
+	      //category:&quot;1&quot;,&#xD;
+	      dimenAuthType:&quot;&quot;,&#xD;
+	      fieldName:fieldName&#xD;
+	    }&#xD;
+	  datas.insert(currOrg);&#xD;
+	}else{&#xD;
+	  dorado.MessageBox.alert(&quot;当前用户所属岗位记录已存在！&quot;);&#xD;
+	}&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;联合约束不能设置授权范围!&quot;);&#xD;
+}</ClientEvent>
+                          <Property name="caption">添加当前岗位</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </Button>
+                        <ToolBarButton id="addPostNullBtnUpd">
+                          <Property name="caption">添加空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton id="addPostNotNullBtnUpd">
+                          <Property name="caption">添加非空值</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                        </ToolBarButton>
+                        <ToolBarButton>
+                          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+var selection = view.get(&quot;#updPostDataGridShow&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+		jQuery.each(selection,function(i,item){&#xD;
+            entitys.remove(item);&#xD;
+        });&#xD;
+	});&#xD;
+}</ClientEvent>
+                          <Property name="caption">删除授权</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="updPostDataGridShow">
+                        <Property name="dataSet">dataSetRestrict</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="dataPath">!CURRENT_RESTRICT.dimenData</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn>
+                          <Property name="property">dispName</Property>
+                          <Property name="readOnly">true</Property>
+                          <Property name="name">dispName</Property>
+                          <Property name="caption">岗位名称</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Container>
+                  </CardBook>
+                </Children>
+              </FieldSet>
+            </Children>
+          </FieldSet>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addOrgDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择部门</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var nodes=view.get(&quot;#addOrgTreeGrid&quot;).getCheckedNodes();&#xD;
+if(nodes.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (nodes.length != 0) {&#xD;
+	var dimenDataList=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	jQuery.each(nodes,function(i,node){&#xD;
+		var isexists=false;&#xD;
+		var orgCode=node.get(&quot;data&quot;).get(&quot;orgCode&quot;);&#xD;
+		dimenDataList.each(function(entity){&#xD;
+			if(entity.get(&quot;dimenValue&quot;)=='IS NULL'){&#xD;
+				throw new dorado.Exception(&quot;请先将空值，再执行此操作！&quot;);&#xD;
+			}else if(entity.get(&quot;dimenValue&quot;)=='IS NOT NULL'){&#xD;
+				throw new dorado.Exception(&quot;请先将非空值删除，再执行此操作！&quot;);&#xD;
+			}&#xD;
+			var id = entity.get(&quot;dimenValue&quot;);&#xD;
+			if(orgCode==id){&#xD;
+				isexists=true;&#xD;
+			}&#xD;
+		});&#xD;
+		if(!isexists){&#xD;
+			var entity={&#xD;
+				dimenValue:orgCode,&#xD;
+				dispName:node.get(&quot;data&quot;).get(&quot;orgName&quot;),&#xD;
+				category:node.get(&quot;data&quot;).get(&quot;category&quot;),&#xD;
+				dimenAuthType:&quot;D&quot;,&#xD;
+				fieldName:fieldName&#xD;
+			}&#xD;
+			dimenDataList.insert(entity);&#xD;
+		}&#xD;
+	});&#xD;
+	view.get(&quot;#addOrgDialog&quot;).hide();&#xD;
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addOrgDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">查询</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">false</Property>
+            <Buttons>
+              <Button id="queryOrg">
+                <ClientEvent name="onClick">
+                view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetDaTablePolicy&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetOrg">
+                <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).clear();
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).getData().insert({});
+            </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm id="autoFormOrgQuery" layoutConstraint="center">
+                <Property name="cols">*,*</Property>
+                <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                <Property name="dataType">querydataTypeDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement name="autoFormElementoperType">
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMoperType</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">operType</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyTip}</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementtableName">
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMtableName</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">tableName</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataTreeGrid id="addOrgTreeGrid">
+            <Property name="dataPath">CURRENT_ORG</Property>
+            <Property name="dataSet">dataSetOrg</Property>
+            <Property name="treeColumn">orgCode</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="checkable">true</Property>
+                <Property name="childrenProperty">children</Property>
+                <Property name="expandedIcon">>icons/chart_organisation.png</Property>
+                <Property name="icon">>icons/chart_organisation.png</Property>
+                <Property name="labelProperty">orgCode</Property>
+                <Property name="recursive">true</Property>
+                <Property name="autoCheckChildren">false</Property>
+              </BindingConfig>
+            </BindingConfigs>
+            <Columns>
+              <DataColumn>
+                <Property name="name">orgCode</Property>
+                <Property name="property">orgCode</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+              <DataColumn>
+                <Property name="name">orgName</Property>
+                <Property name="property">orgName</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+              <DataColumn>
+                <Property name="name">category</Property>
+                <Property name="property">category</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </DataColumn>
+            </Columns>
+          </DataTreeGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDateDialog">
+      <Property name="center">true</Property>
+      <Property name="width">50%</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">50%</Property>
+      <Property name="caption">添加日期</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var entity = view.get(&quot;#dataSetDateRange&quot;).getData(&quot;#&quot;);&#xD;
+if(entity.validate()==&quot;ok&quot;){&#xD;
+	var dimenDateList=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	dimenDateList.each(function(entity){&#xD;
+		if(entity.get(&quot;dimenValue&quot;)=='IS NULL'){&#xD;
+			throw new dorado.Exception(&quot;请先将空值，再执行此操作！&quot;);&#xD;
+		}else if(entity.get(&quot;dimenValue&quot;)=='IS NOT NULL'){&#xD;
+			throw new dorado.Exception(&quot;请先将非空值删除，再执行此操作！&quot;);&#xD;
+		}&#xD;
+	});&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+	var dispName = entity.get(&quot;startDate&quot;).formatDate('Y年m月d日')+&quot;|&quot;+entity.get(&quot;endDate&quot;).formatDate('Y年m月d日');	&#xD;
+	dimenDateList.insert({dispName:dispName,&quot;fieldName&quot;:fieldName,&quot;startDate&quot;:entity.get(&quot;startDate&quot;),&quot;endDate&quot;:entity.get(&quot;endDate&quot;)});&#xD;
+	view.get(&quot;#addDateDialog&quot;).hide();&#xD;
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addDateDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="dateRangeForm">
+          <Property name="dataSet">dataSetDateRange</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">startDate</Property>
+            <Property name="property">startDate</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">endDate</Property>
+            <Property name="property">endDate</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addBizLineDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择部门</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var nodes=view.get(&quot;#busiLineTree&quot;).getCheckedNodes();&#xD;
+if(nodes.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (nodes.length != 0) {&#xD;
+		var dimenDateList=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		jQuery.each(nodes,function(i,node){&#xD;
+			var isexists=false;&#xD;
+			var bizlineId=node.get(&quot;data&quot;).get(&quot;id&quot;);&#xD;
+			dimenDateList.each(function(entity){&#xD;
+				if(entity.get(&quot;dimenValue&quot;)=='IS NULL'){&#xD;
+					throw new dorado.Exception(&quot;请先将空值，再执行此操作！&quot;);&#xD;
+				}else if(entity.get(&quot;dimenValue&quot;)=='IS NOT NULL'){&#xD;
+					throw new dorado.Exception(&quot;请先将非空值删除，再执行此操作！&quot;);&#xD;
+				}&#xD;
+				var id=entity.get(&quot;dimenValue&quot;);&#xD;
+				if(bizlineId==id){&#xD;
+					isexists=true;&#xD;
+				}&#xD;
+			});&#xD;
+			if(!isexists){&#xD;
+				var entity={&#xD;
+					dimenValue:bizlineId,&#xD;
+					dispName:node.get(&quot;data&quot;).get(&quot;busilineName&quot;),&#xD;
+					dimenAuthType:&quot;D&quot;,&#xD;
+					fieldName:fieldName&#xD;
+				}&#xD;
+				dimenDateList.insert(entity);&#xD;
+			}&#xD;
+		});&#xD;
+		view.get(&quot;#addBizLineDialog&quot;).hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addBizLineDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">查询</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">false</Property>
+            <Buttons>
+              <Button id="queryBiz">
+                <ClientEvent name="onClick">
+                view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetDaTablePolicy&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetBiz">
+                <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).clear();
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).getData().insert({});
+            </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm id="autoFormBizLineQuery" layoutConstraint="center">
+                <Property name="cols">*,*</Property>
+                <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                <Property name="dataType">querydataTypeDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement name="autoFormElementoperType">
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMoperType</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">operType</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyTip}</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementtableName">
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMtableName</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">tableName</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataTreeGrid id="busiLineTree">
+            <Property name="dataSet">dataSetBizLine</Property>
+            <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+            <Property name="treeColumn">busilineCode</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="childrenProperty">children</Property>
+                <Property name="labelProperty">busilineCode</Property>
+                <Property name="recursive">true</Property>
+                <Property name="expandedIcon">>icons/layers.png</Property>
+                <Property name="icon">>icons/layers.png</Property>
+                <Property name="checkable">true</Property>
+                <Property name="autoCheckChildren">false</Property>
+              </BindingConfig>
+            </BindingConfigs>
+            <Columns>
+              <DataColumn name="busilineCode" property="busilineCode">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="busilineName" property="busilineName">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="busilineDesc" property="busilineDesc">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+            </Columns>
+          </DataTreeGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addProductDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择部门</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var nodes=view.get(&quot;#productTree&quot;).getCheckedNodes();&#xD;
+if(nodes.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (nodes.length != 0) {&#xD;
+		var dimenDateList=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+		var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+		jQuery.each(nodes,function(i,node){&#xD;
+			var isexists=false;&#xD;
+			var productId=node.get(&quot;data&quot;).get(&quot;id&quot;);&#xD;
+			dimenDateList.each(function(entity){&#xD;
+				if(entity.get(&quot;dimenValue&quot;)=='IS NULL'){&#xD;
+					throw new dorado.Exception(&quot;请先将空值，再执行此操作！&quot;);&#xD;
+				}else if(entity.get(&quot;dimenValue&quot;)=='IS NOT NULL'){&#xD;
+					throw new dorado.Exception(&quot;请先将非空值删除，再执行此操作！&quot;);&#xD;
+				}&#xD;
+				var id=entity.get(&quot;dimenValue&quot;);&#xD;
+				if(productId==id){&#xD;
+					isexists=true;&#xD;
+				}&#xD;
+			});&#xD;
+			if(!isexists){&#xD;
+				var entity={&#xD;
+					dimenValue:productId,&#xD;
+					dispName:node.get(&quot;data&quot;).get(&quot;productName&quot;),&#xD;
+					dimenAuthType:&quot;D&quot;,&#xD;
+					fieldName:fieldName&#xD;
+				}&#xD;
+				dimenDateList.insert(entity);&#xD;
+			}&#xD;
+		});&#xD;
+		view.get(&quot;#addProductDialog&quot;).hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addProductDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <FieldSet>
+            <Property name="caption">查询</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="visible">false</Property>
+            <Buttons>
+              <Button id="queryProduct">
+                <ClientEvent name="onClick">
+                view.get(&quot;#dataSetDaTablePolicy&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetDaTablePolicy&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+                <Property name="caption">查询</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+              </Button>
+              <Button id="resetProduct">
+                <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).clear();
+                view.get(&quot;#querydataSetDaTablePolicy&quot;).getData().insert({});
+            </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                <Property name="caption">重置</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm id="autoFormProductQuery" layoutConstraint="center">
+                <Property name="cols">*,*</Property>
+                <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                <Property name="dataType">querydataTypeDaTablePolicy</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="labelWidth">100</Property>
+                <AutoFormElement name="autoFormElementoperType">
+                  <Property name="name">operType</Property>
+                  <Property name="property">operType</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMoperType</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">operType</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.operType&quot;].propertyTip}</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElementtableName">
+                  <Property name="name">tableName</Property>
+                  <Property name="property">tableName</Property>
+                  <Editor>
+                    <Container>
+                      <TextEditor layoutConstraint="left">
+                        <Property name="property">qMtableName</Property>
+                        <Property name="trigger">autoMappingDropDown1</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="width">60</Property>
+                      </TextEditor>
+                      <TextEditor>
+                        <Property name="property">tableName</Property>
+                        <Property name="dataSet">querydataSetDaTablePolicy</Property>
+                        <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.tableName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Container>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <DataTreeGrid id="productTree">
+            <Property name="dataSet">dataSetProduct</Property>
+            <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+            <Property name="treeColumn">productCode</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="childrenProperty">children</Property>
+                <Property name="labelProperty">productCode</Property>
+                <Property name="recursive">true</Property>
+                <Property name="expandedIcon">>icons/product.png</Property>
+                <Property name="icon">>icons/product.png </Property>
+                <Property name="checkable">true</Property>
+                <Property name="autoCheckChildren">false</Property>
+              </BindingConfig>
+            </BindingConfigs>
+            <Columns>
+              <DataColumn name="productCode" property="productCode">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="productName" property="productName">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+              <DataColumn name="productDesc" property="productDesc">
+                <Property name="readOnly">true</Property>
+              </DataColumn>
+            </Columns>
+          </DataTreeGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addPostDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">选择岗位</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Property name="modal">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#postDataSet&quot;).getData();&#xD;
+var selection = view.get(&quot;#dataGridPost&quot;).get(&quot;selection&quot;);&#xD;
+if(selection.length==0){&#xD;
+      dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+	  return;&#xD;
+ }else if (selection.length != 0) {&#xD;
+ 	var dimenDateList=view.get(&quot;#dataSetRestrict&quot;).getData(&quot;!CURRENT_RESTRICT.dimenData&quot;);&#xD;
+	var fieldName=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+    jQuery.each(selection,function(i,item){&#xD;
+		    var isexists=false;&#xD;
+			var postId = item.get(&quot;id&quot;);&#xD;
+			var postName = item.get(&quot;postName&quot;);&#xD;
+			dimenDateList.each(function(entity){&#xD;
+				if(entity.get(&quot;dimenValue&quot;)=='IS NULL'){&#xD;
+					throw new dorado.Exception(&quot;请先将空值，再执行此操作！&quot;);&#xD;
+				}else if(entity.get(&quot;dimenValue&quot;)=='IS NOT NULL'){&#xD;
+					throw new dorado.Exception(&quot;请先将非空值删除，再执行此操作！&quot;);&#xD;
+				}&#xD;
+				var id=entity.get(&quot;dimenValue&quot;);&#xD;
+				if(postId==id){&#xD;
+					isexists=true;&#xD;
+				}&#xD;
+			});&#xD;
+			if(!isexists){&#xD;
+				var entity={&#xD;
+					dimenValue:postId,&#xD;
+					dispName:postName,&#xD;
+					dimenAuthType:&quot;&quot;,&#xD;
+					fieldName:fieldName&#xD;
+				}&#xD;
+				dimenDateList.insert(entity);&#xD;
+			}&#xD;
+    });&#xD;
+	view.get(&quot;#addPostDialog&quot;).hide();&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#addPostDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <DataGrid id="dataGridPost">
+            <Property name="dataSet">postDataSet</Property>
+            <Property name="height">300</Property>
+            <Property name="width">100%</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn name="id">
+              <Property name="property">id</Property>
+              <Property name="ignored">true</Property>
+            </DataColumn>
+            <DataColumn name="postCode">
+              <Property name="property">postCode</Property>
+            </DataColumn>
+            <DataColumn name="postName">
+              <Property name="property">postName</Property>
+            </DataColumn>
+            <DataColumn name="orgName">
+              <Property name="property">orgName</Property>
+            </DataColumn>
+          </DataGrid>
+          <ToolBar>
+            <DataPilot>
+              <Property name="dataSet">postDataSet</Property>
+            </DataPilot>
+            <Separator/>
+          </ToolBar>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <CustomDropDown id="tableList">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+    dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;tableDesc&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set('tableName',entity.get(&quot;tableName&quot;));&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;</ClientEvent>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/MdTableSelect.d?status=1&amp;dropdown=tableList&amp;isDaControl=1&amp;tableDesc=true&amp;tableName=false</Property>
+      </IFrame>
+    </CustomDropDown>
+    <ListDropDown id="listDropDownRestrictTypeA">
+      <Property name="items">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;RESTRICT_TYPE|3&quot;)}</Property>
+      <Property name="property">VALUE</Property>
+      <Property name="assignmentMap">restrictDesc=VALUE,restrictType=KEY</Property>
+    </ListDropDown>
+    <DataSetDropDown id="dataSetDropDownDimenA">
+      <ClientEvent name="onValueSelect">view.get('#dataTreeGridDimenDataRestrictA').getCurrentItem().get('data').set('fieldCnName','');&#xD;
+view.get('#dataTreeGridDimenDataRestrictA').getCurrentItem().get('data').set('fieldCnName','');&#xD;
+view.get('#dataSetRestrict').get('dataType').getPropertyDef('fieldCnName').set('readOnly',false);&#xD;
+var cardBook=view.get(&quot;#cardBookAdd&quot;);&#xD;
+cardBook.set(&quot;currentIndex&quot;, 0);&#xD;
+return true;</ClientEvent>
+      <Property name="dataSet">dataSetDimen</Property>
+      <Property name="displayProperty">dimenName</Property>
+      <Property name="property">dimenName</Property>
+      <Property name="assignmentMap">dimenId=id,dimenCnName=dimenName,dimenType=dimenType,dimenContorlId=dimenControlId</Property>
+    </DataSetDropDown>
+    <DataSetDropDown id="dataSetDropDownFieldA">
+      <Property name="dataSet">dataSetDimen</Property>
+      <Property name="dataPath">#.fields</Property>
+      <Property name="property">fieldCnName</Property>
+      <Property name="displayProperty">fieldCnName</Property>
+      <Property name="assignmentMap">fieldCnName=fieldCnName,fieldCnName=fieldName,dimenFieldId=id</Property>
+    </DataSetDropDown>
+    <ListDropDown id="listDropDownRestrictTypeU">
+      <Property name="items">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;RESTRICT_TYPE|3&quot;)}</Property>
+      <Property name="property">VALUE</Property>
+      <Property name="assignmentMap">restrictDesc=VALUE,restrictType=KEY</Property>
+    </ListDropDown>
+    <DataSetDropDown id="dataSetDropDownDimenU">
+      <ClientEvent name="onValueSelect">view.get('#dataTreeGridDimenDataRestrictU').getCurrentItem().get('data').set('fieldCnName','');&#xD;
+view.get('#dataTreeGridDimenDataRestrictU').getCurrentItem().get('data').set('fieldCnName','');&#xD;
+view.get('#dataSetRestrict').get('dataType').getPropertyDef('fieldCnName').set('readOnly',false);&#xD;
+var cardBook=view.get(&quot;#cardBookUpdt&quot;);&#xD;
+cardBook.set(&quot;currentIndex&quot;, 0);&#xD;
+return true;</ClientEvent>
+      <Property name="dataSet">dataSetDimen</Property>
+      <Property name="displayProperty">dimenName</Property>
+      <Property name="property">dimenName</Property>
+      <Property name="assignmentMap">dimenId=id,dimenCnName=dimenName,dimenType=dimenType,dimenContorlId=dimenControlId</Property>
+    </DataSetDropDown>
+    <DataSetDropDown id="dataSetDropDownFieldU">
+      <Property name="dataSet">dataSetDimen</Property>
+      <Property name="dataPath">#.fields</Property>
+      <Property name="property">fieldCnName</Property>
+      <Property name="displayProperty">fieldCnName</Property>
+      <Property name="assignmentMap">fieldCnName=fieldCnName,fieldCnName=fieldName,dimenFieldId=id</Property>
+    </DataSetDropDown>
+    <AjaxAction id="roleCodeAction">
+      <Property name="service">sysCodeBuilderAction#findCodeByBuilderType</Property>
+      <Property name="async">false</Property>
+    </AjaxAction>
+    <AjaxAction id="getUUIDAjaxAction">
+      <Property name="async">false</Property>
+      <Property name="service">daDimenDataRestrictAction#getPrimaryKeyByUUID</Property>
+    </AjaxAction>
+    <UpdateAction id="saveTablePolicy">
+      <Property name="dataResolver">sysAuthorizeAction#saveRoleDataPrivilege</Property>
+      <Property name="modal">true</Property>
+      <Property name="successMessage">保存成功!</Property>
+      <Property name="executingMessage">正在处理...</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetDaTablePolicy</Property>
+        <Property name="dataPath">[#dirty]</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveDaTablePolicysAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">daTablePolicyAction#saveDaTablePolicyWithRestricts</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetDaTablePolicy</Property>
+        <Property name="alias">policy</Property>
+        <Property name="dataPath">[#current]</Property>
+      </UpdateItem>
+      <UpdateItem>
+        <Property name="dataSet">dataSetRestrict</Property>
+        <Property name="alias">dataRestricts</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveSysRolesAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysRoleAction#saveSysRoles</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysRole</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="delDaTablePolicys">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">daTablePolicyAction#deleteDaTablePolicyWithDimens</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetDaTablePolicy</Property>
+        <Property name="dataPath">!DIRTY_TREE</Property>
+      </UpdateItem>
+    </UpdateAction>
+  </View>
+</ViewConfig>

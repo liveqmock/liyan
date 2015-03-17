@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">DB.Console</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View listener="spring:mdf.dbConsoleExecuteMessageInterceptor#onInit">
+    <HtmlContainer id="htmlContainerMessage"/>
+  </View>
+</ViewConfig>

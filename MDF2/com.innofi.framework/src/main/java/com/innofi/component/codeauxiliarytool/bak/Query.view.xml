@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeMdTable">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdTable</Property>
+      <PropertyDef name="tableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">表结构ID</Property>
+      </PropertyDef>
+      <PropertyDef name="systemId">
+        <Property name="dataType">String</Property>
+        <Property name="label">系统ID</Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="tableCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableCnName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tableDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableDesc"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tableType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableType"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="entityName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.entityName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="daoName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.daoName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="serviceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.serviceName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="actionName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.actionName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="uiName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.uiName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="loadMethod">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.loadMethod"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tbsName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tbsName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="dataStatus">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.dataStatus"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="hisTabCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.hisTabCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isTreeStruct">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isTreeStruct"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isLog">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isLog"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.status"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="verNo">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.verNo"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeMdTable">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">表名</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="tableCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">表中文名称</Property>
+      </PropertyDef>
+      <PropertyDef name="tableDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">表描述</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">Q={}
+Q.look=function(){
+	
+	var selection = view.get("#dataGridMdTable").get("selection");
+	
+	 view.get("#dataSetMdTable").getData().setCurrent(selection[0]);
+	 view.get("#lookdialogMdTable").show();
+	 view.get("#dataSetMdTable").set("readOnly",true);
+
+}
+
+view.get("#dataSetMdTable").set("readOnly",false);
+view.get("#dataSetMdTable.data").insert({
+	tableId:'MD001',
+	systemId:'PLATFORM',
+	tableName:'MD_TABLESPACE',
+	tableCnName:'表空间',
+	tableDesc:'存储表空间信息',
+	tableType:'02_平台表',
+});
+view.get("#dataSetMdTable.data").insert({
+	tableId:'MD002',
+	systemId:'PLATFORM',
+	tableName:'MD_TABLE',
+	tableCnName:'数据表',
+	tableDesc:'存储数据表信息',
+	tableType:'02_平台表',
+});
+view.get("#dataSetMdTable.data").insert({
+	tableId:'MD003',
+	systemId:'PLATFORM',
+	tableName:'MD_COLUMN',
+	tableCnName:'数据列',
+	tableDesc:'存储数据表结构',
+	tableType:'02_平台表',
+});
+view.get("#dataSetMdTable.data").insert({
+	tableId:'MD004',
+	systemId:'PLATFORM',
+	tableName:'MD_TABLE_RELATION',
+	tableCnName:'表表关系',
+	tableDesc:'存储表表关系信息',
+	tableType:'02_平台表',
+});
+view.get("#dataSetMdTable.data").insert({
+	tableId:'MD005',
+	systemId:'PLATFORM',
+	tableName:'MD_SYSTEM',
+	tableCnName:'系统表',
+	tableDesc:'存储系统信息',
+	tableType:'02_平台表',
+});</ClientEvent>
+    <DataSet id="dataSetMdTable">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataType">[dataTypeMdTable]</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">200</Property>
+      <MainControl>
+        <Container layoutConstraint="center">
+          <FieldSet id="fieldSet" layoutConstraint="top">
+            <Property name="tip">查询条件框支持隐藏</Property>
+            <Property name="caption">XX业务查询</Property>
+            <Buttons>
+              <Button id="query">
+                <Property name="caption">查询</Property>
+                <Property name="tip">buttonTip</Property>
+              </Button>
+            </Buttons>
+            <Children>
+              <AutoForm>
+                <Property name="tip">form支持回车事件，触发进行查询</Property>
+                <Tip/>
+                <AutoFormElement>
+                  <Property name="label">字段1</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="editable">false</Property>
+                      <Property name="tip">字段提示，并支持清除单个条件</Property>
+                      <Property name="blankText">根据定义显示内容</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="label">字段2</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="editable">false</Property>
+                      <Property name="tip">textTip</Property>
+                      <Property name="blankText">blankText</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                  <Property name="label">字段3</Property>
+                  <Editor>
+                    <TextEditor>
+                      <Property name="editable">false</Property>
+                      <Property name="tip">textTip</Property>
+                      <Property name="blankText">blankText</Property>
+                    </TextEditor>
+                  </Editor>
+                </AutoFormElement>
+              </AutoForm>
+            </Children>
+          </FieldSet>
+          <ToolBar id="toolBarMdTable" layoutConstraint="center">
+            <Property name="tags">tags_toolbar</Property>
+            <ToolBarButton id="lookButton">
+              <ClientEvent name="onClick">Q.look();</ClientEvent>
+              <Property name="caption">查看</Property>
+              <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="addButton">
+              <ClientEvent name="onClick">
+          view.get("#dataSetMdTable").set("readOnly",false);
+          view.get("#dataSetMdTable.data").insert();
+
+view.get("#addDialogMdTable").show();
+        </ClientEvent>
+              <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+              <Property name="caption">添加</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updateButton">
+              <ClientEvent name="onClick">
+          
+var entitys = view.get("#dataSetMdTable").getData();
+var selection = view.get("#dataGridMdTable").get("selection");
+
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能选择一条记录查看修改！");
+}
+else if (selection.length == 1) {
+	
+ view.get("#dataSetMdTable").getData().setCurrent(selection[0]);
+view.get("#dialogMdTable").show();
+view.get("#dataSetMdTable").set("readOnly",false);
+}
+
+         </ClientEvent>
+              <Property name="caption">修改</Property>
+              <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delButton">
+              <ClientEvent name="onClick">var entitys = view.get("#dataSetMdTable").getData();
+var selection = view.get("#dataGridMdTable").get("selection");
+var action = view.get("#saveMdTablesAction");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm("确定删除？", function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+              <Property name="caption">删除</Property>
+              <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <Separator/>
+            <DataPilot>
+              <Property name="dataSet">dataSetMdTable</Property>
+              <Property name="itemCodes">pages</Property>
+            </DataPilot>
+          </ToolBar>
+          <DataGrid id="dataGridMdTable" layoutConstraint="center">
+            <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetMdTable").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+            <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetMdTable").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="rowHeight">26</Property>
+            <Property name="height">100%</Property>
+            <Property name="width">100%</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <Property name="dataSet">dataSetMdTable</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn caption="表结构ID" name="tableId" property="tableId">
+              <ClientEvent name="onRenderCell">arg.dom.innerHTML='&lt;a href="#" onclick="Q.look();"&gt;'+arg.data.get('tableId')+'&lt;/a&gt;'
+arg.processDefault = false;</ClientEvent>
+            </DataColumn>
+            <DataColumn caption="系统ID" name="systemId" property="systemId"/>
+            <DataColumn caption="表名" name="tableName" property="tableName"/>
+            <DataColumn caption="表中文名称" name="tableCnName" property="tableCnName"/>
+            <DataColumn caption="表描述" name="tableDesc" property="tableDesc"/>
+            <DataColumn caption="表类型:1-系统表2-业务（应用）表3-平台表4-源数据表" name="tableType" property="tableType"/>
+          </DataGrid>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <Tree layoutConstraint="left">
+          <Property name="tip">根据用户定义决定是否显示该分类Tree</Property>
+          <Node>
+            <Property name="label">分类1</Property>
+            <Node>
+              <Property name="label">分类1.1</Property>
+              <Node>
+                <Property name="label">分类1.2</Property>
+              </Node>
+            </Node>
+          </Node>
+          <Node>
+            <Property name="label">分类2</Property>
+            <Node>
+              <Property name="label">分类2.1</Property>
+              <Node>
+                <Property name="label">分类2.2</Property>
+              </Node>
+            </Node>
+          </Node>
+          <Node>
+            <Property name="label">分类3</Property>
+            <Node>
+              <Property name="label">分类2.1</Property>
+              <Node>
+                <Property name="label">分类2.2</Property>
+              </Node>
+            </Node>
+          </Node>
+        </Tree>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="lookdialogMdTable">
+      <ClientEvent name="onClose">
+     </ClientEvent>
+      <Property name="caption">数据表信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">80%</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="iFrame1" layoutConstraint="center">
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="visible">true</Property>
+          <Property name="path">Add.d</Property>
+        </IFrame>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogMdTable">
+      <ClientEvent name="onClose">
+     view.get("#dataSetMdTable").getData().cancel();
+	view.get("#dialogMdTable").hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get("#saveMdTablesAction");
+			var dialog=view.get("#addDialogMdTable");
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get("#dataSetMdTable").getData().cancel();
+		view.get("#addDialogMdTable").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <TabControl>
+          <ControlTab>
+            <Property name="caption">表信息</Property>
+            <AutoForm id="addAutoFormMdTable">
+              <Property name="dataType">dataTypeMdTable</Property>
+              <Property name="dataSet">dataSetMdTable</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                <Property name="name">systemId</Property>
+                <Property name="property">systemId</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">系统ID</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableName</Property>
+                <Property name="property">tableName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">表名</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableCnName</Property>
+                <Property name="property">tableCnName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">表中文名称</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableDesc</Property>
+                <Property name="property">tableDesc</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">表描述</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableType</Property>
+                <Property name="property">tableType</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">表类型:1-系统表2-业务（应用）表3-平台表4-源数据表</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">entityName</Property>
+                <Property name="property">entityName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">实体对象名</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">daoName</Property>
+                <Property name="property">daoName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">DAO类名：包含类包路径</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">serviceName</Property>
+                <Property name="property">serviceName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">SERVICE类名：包含类包路径</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">actionName</Property>
+                <Property name="property">actionName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">ACTION类名：包含类包路径</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">uiName</Property>
+                <Property name="property">uiName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">UI界面：包含类包路径</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">loadMethod</Property>
+                <Property name="property">loadMethod</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">加载方式</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tbsName</Property>
+                <Property name="property">tbsName</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">存储表空间</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">dataStatus</Property>
+                <Property name="property">dataStatus</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">数据存储状态:1-只保存最新数据2-保存历史数据3-历史数据保存历史表</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">hisTabCode</Property>
+                <Property name="property">hisTabCode</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">历史数据保存表名</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isTreeStruct</Property>
+                <Property name="property">isTreeStruct</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">是否树型结构</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isLog</Property>
+                <Property name="property">isLog</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">是否记操作日志</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">status</Property>
+                <Property name="property">status</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">有效状态:1-有效2-无效</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">verNo</Property>
+                <Property name="property">verNo</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="label">版本号</Property>
+                <Property name="labelAlign">right</Property>
+                <Property name="readOnly">false</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+          </ControlTab>
+          <ControlTab>
+            <Property name="caption">字段信息</Property>
+            <Container>
+              <FieldSet layoutConstraint="top">
+                <Property name="caption">查询条件</Property>
+                <Property name="collapsed">false</Property>
+                <Buttons>
+                  <Button>
+                    <ClientEvent name="onClick">
+	view.get("#dataSetMdTable").set("parameter", view.get("#querydataSetMdTable").getData("#")).flushAsync();
+</ClientEvent>
+                    <Property name="caption">查询</Property>
+                    <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -100px</Property>
+                  </Button>
+                  <Button>
+                    <ClientEvent name="onClick">view.set("#querydataSetMdTable.data",{});
+</ClientEvent>
+                    <Property name="icon">url(&gt;skin&gt;common/icons.gif) -280px -220px</Property>
+                    <Property name="caption">重置</Property>
+                  </Button>
+                </Buttons>
+                <Children>
+                  <AutoForm id="lautoFormMdTableQuery" layoutConstraint="center">
+                    <Property name="cols">*,*,*</Property>
+                    <Property name="dataSet">querydataSetMdTable</Property>
+                    <Property name="dataType">querydataTypeMdTable</Property>
+                    <Property name="labelAlign">right</Property>
+                    <AutoFormElement>
+                      <Property name="name">tableName</Property>
+                      <Property name="property">tableName</Property>
+                      <Property name="trigger">triggerClear</Property>
+                      <Editor>
+                        <TextEditor/>
+                      </Editor>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="name">tableCnName</Property>
+                      <Property name="property">tableCnName</Property>
+                      <Property name="trigger">triggerClear</Property>
+                      <Editor>
+                        <TextEditor/>
+                      </Editor>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="name">tableDesc</Property>
+                      <Property name="property">tableDesc</Property>
+                      <Property name="trigger">triggerClear</Property>
+                      <Editor>
+                        <TextEditor/>
+                      </Editor>
+                    </AutoFormElement>
+                  </AutoForm>
+                </Children>
+              </FieldSet>
+              <ToolBar id="ltoolBarMdTable" layoutConstraint="top">
+                <Property name="tags">tags_toolbar</Property>
+                <ToolBarButton id="laddButton">
+                  <ClientEvent name="onClick">
+          view.get("#dataSetMdTable").set("readOnly",false);
+          view.get("#dataSetMdTable.data").insert();
+
+view.get("#addDialogMdTable").show();
+        </ClientEvent>
+                  <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+                  <Property name="caption">添加</Property>
+                </ToolBarButton>
+                <ToolBarButton id="lupdateButton">
+                  <ClientEvent name="onClick">
+          
+var entitys = view.get("#dataSetMdTable").getData();
+var selection = view.get("#dataGridMdTable").get("selection");
+
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能选择一条记录查看修改！");
+}
+else if (selection.length == 1) {
+	
+ view.get("#dataSetMdTable").getData().setCurrent(selection[0]);
+view.get("#dialogMdTable").show();
+view.get("#dataSetMdTable").set("readOnly",false);
+}
+
+         </ClientEvent>
+                  <Property name="caption">修改</Property>
+                  <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+                </ToolBarButton>
+                <ToolBarButton id="ldelButton">
+                  <ClientEvent name="onClick">var entitys = view.get("#dataSetMdTable").getData();
+var selection = view.get("#dataGridMdTable").get("selection");
+var action = view.get("#saveMdTablesAction");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm("确定删除？", function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+                  <Property name="caption">删除</Property>
+                  <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+                </ToolBarButton>
+                <ToolBarButton id="llookButton">
+                  <ClientEvent name="onClick">
+var entitys = view.get("#dataSetMdTable").getData();
+var found = false;
+var selection = view.get("#dataGridMdTable").get("selection");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能查看一条记录！");
+}
+else if (selection.length == 1) {
+ view.get("#dataSetMdTable").getData().setCurrent(selection[0]);
+view.get("#lookdialogMdTable").show();
+view.get("#dataSetMdTable").set("readOnly",true);
+}
+
+
+</ClientEvent>
+                  <Property name="caption">查看</Property>
+                  <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+                </ToolBarButton>
+              </ToolBar>
+              <Container>
+                <DataGrid id="ldataGridMdTable" layoutConstraint="center">
+                  <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetMdTable").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+                  <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetMdTable").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+                  <Property name="dataSet">dataSetMdTable</Property>
+                  <Property name="selectionMode">multiRows</Property>
+                  <Property name="readOnly">true</Property>
+                  <Property name="dataType">dataTypeMdTable</Property>
+                  <Property name="rowHeight">26</Property>
+                  <Property name="width">100%</Property>
+                  <Property name="highlightCurrentRow">false</Property>
+                  <Property name="stretchColumnsMode">stretchableColumns</Property>
+                  <RowNumColumn/>
+                  <RowSelectorColumn/>
+                  <DataColumn caption="系统ID" name="systemId" property="systemId"/>
+                  <DataColumn caption="表名" name="tableName" property="tableName"/>
+                  <DataColumn caption="表中文名称" name="tableCnName" property="tableCnName"/>
+                  <DataColumn caption="表描述" name="tableDesc" property="tableDesc"/>
+                  <DataColumn caption="表类型:1-系统表2-业务（应用）表3-平台表4-源数据表" name="tableType" property="tableType"/>
+                  <DataColumn caption="实体对象名" name="entityName" property="entityName"/>
+                  <DataColumn caption="DAO类名：包含类包路径" name="daoName" property="daoName"/>
+                  <DataColumn caption="SERVICE类名：包含类包路径" name="serviceName" property="serviceName"/>
+                  <DataColumn caption="ACTION类名：包含类包路径" name="actionName" property="actionName"/>
+                  <DataColumn caption="UI界面：包含类包路径" name="uiName" property="uiName"/>
+                  <DataColumn caption="加载方式" name="loadMethod" property="loadMethod"/>
+                  <DataColumn caption="存储表空间" name="tbsName" property="tbsName"/>
+                  <DataColumn caption="数据存储状态:1-只保存最新数据2-保存历史数据3-历史数据保存历史表" name="dataStatus" property="dataStatus"/>
+                  <DataColumn caption="历史数据保存表名" name="hisTabCode" property="hisTabCode"/>
+                  <DataColumn caption="是否树型结构" name="isTreeStruct" property="isTreeStruct"/>
+                  <DataColumn caption="是否记操作日志" name="isLog" property="isLog"/>
+                  <DataColumn caption="有效状态:1-有效2-无效" name="status" property="status"/>
+                  <DataColumn caption="版本号" name="verNo" property="verNo"/>
+                </DataGrid>
+              </Container>
+              <ToolBar layoutConstraint="bottom">
+                <DataPilot>
+                  <Property name="dataSet">dataSetMdTable</Property>
+                  <Property name="itemCodes">pages</Property>
+                </DataPilot>
+                <Separator/>
+              </ToolBar>
+            </Container>
+          </ControlTab>
+        </TabControl>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <DataSet id="querydataSetMdTable">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdTable]</Property>
+    </DataSet>
+  </View>
+</ViewConfig>

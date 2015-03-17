@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataType name="dataTypeFiles">
+    <Property name="creationType">com.innofi.component.uploader.pojo.SysUploadFile</Property>
+    <PropertyDef name="id">
+      <Property name="label">后台生成id</Property>
+    </PropertyDef>
+    <PropertyDef name="fileId">
+      <Property name="label">文件id</Property>
+    </PropertyDef>
+    <PropertyDef name="fileName">
+      <Property name="dataType">String</Property>
+      <Property name="label">文件名</Property>
+    </PropertyDef>
+    <PropertyDef name="fileSize">
+      <Property name="dataType">Long</Property>
+      <Property name="label">大小</Property>
+    </PropertyDef>
+    <PropertyDef name="percent">
+      <Property name="label">进度</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">int</Property>
+      <Property name="label">状态</Property>
+      <Property name="mapping">
+        <Property name="mapValues">
+          <Collection>
+            <Entity>
+              <Property name="value">队列中</Property>
+              <Property name="key">0</Property>
+            </Entity>
+            <Entity>
+              <Property name="value">正在上传</Property>
+              <Property name="key">2</Property>
+            </Entity>
+            <Entity>
+              <Property name="value">失败</Property>
+              <Property name="key">4</Property>
+            </Entity>
+            <Entity>
+              <Property name="value">完成</Property>
+              <Property name="key">5</Property>
+            </Entity>
+          </Collection>
+        </Property>
+      </Property>
+    </PropertyDef>
+  </DataType>
+</Model>

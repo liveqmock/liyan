@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataType meta="x:435;y:0" name="DbConsoleDbInfo">
+    <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleDbInfo</Property>
+    <PropertyDef name="productName">
+      <Property name="dataType">String</Property>
+      <Property name="label">数据库名称和版本</Property>
+    </PropertyDef>
+    <PropertyDef name="jdbcDriver">
+      <Property name="dataType">String</Property>
+      <Property name="label">JDBC驱动名称和版本</Property>
+    </PropertyDef>
+    <PropertyDef name="jdbcNormVersion">
+      <Property name="dataType">String</Property>
+      <Property name="label">JDBC规范版本</Property>
+    </PropertyDef>
+    <PropertyDef name="maxStatementLength">
+      <Property name="dataType">String</Property>
+      <Property name="label">SQL最大字符数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxProcedureNameLength">
+      <Property name="dataType">String</Property>
+      <Property name="label">存储过程名称最大字符数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxTableNameLength">
+      <Property name="dataType">String</Property>
+      <Property name="label">表名称字符最大数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxColumnNameLength">
+      <Property name="dataType">String</Property>
+      <Property name="label">列名最大字符数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxSchemaNameLength">
+      <Property name="dataType">String</Property>
+      <Property name="label">模式名称最大字符数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxCursorNameLength">
+      <Property name="dataType">String</Property>
+      <Property name="label">游标名称最大字符数</Property>
+    </PropertyDef>
+    <PropertyDef name="sqlKeywords">
+      <Property name="dataType">String</Property>
+      <Property name="label">非SQL92标准的关键字</Property>
+    </PropertyDef>
+    <PropertyDef name="systemFunctions">
+      <Property name="dataType">String</Property>
+      <Property name="label">系统函数</Property>
+    </PropertyDef>
+    <PropertyDef name="numericFunctions">
+      <Property name="dataType">String</Property>
+      <Property name="label">数学函数</Property>
+    </PropertyDef>
+    <PropertyDef name="stringFunctions">
+      <Property name="dataType">String</Property>
+      <Property name="label">字符串函数</Property>
+    </PropertyDef>
+    <PropertyDef name="timeDateFunctions">
+      <Property name="dataType">String</Property>
+      <Property name="label">时间日期函数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxColumnsInGroupBy">
+      <Property name="dataType">String</Property>
+      <Property name="label">GROUP BY最大列数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxColumnsInIndex">
+      <Property name="dataType">String</Property>
+      <Property name="label">索引最大列数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxColumnsInOrderBy">
+      <Property name="dataType">String</Property>
+      <Property name="label">ORDER BY最大列数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxColumnsInSelect">
+      <Property name="dataType">String</Property>
+      <Property name="label">SELECT列最大数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxColumnsStringable">
+      <Property name="dataType">String</Property>
+      <Property name="label">表中最大列数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxConnections">
+      <Property name="dataType">String</Property>
+      <Property name="label">连接并发最大数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxIndexLength">
+      <Property name="dataType">String</Property>
+      <Property name="label">索引最大字符数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxRowSize">
+      <Property name="dataType">String</Property>
+      <Property name="label">单行数据最大字节数</Property>
+    </PropertyDef>
+    <PropertyDef name="maxTablesInSelect">
+      <Property name="dataType">String</Property>
+      <Property name="label">SELECT表最大数</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsTrans">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持事务</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsProcedure">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持存储过程</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsStatPool">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持Statement Pooling</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsBatchUpdate">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持批量更新</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsGetGenerKey">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持执行语句后检索自动生成ID</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsConvert">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持SQL类型之间的转换</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsANSI92SQLGrade">
+      <Property name="dataType">String</Property>
+      <Property name="label">支持ANSI92 SQL语法的级别</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsSubqueriesInComparisons">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持比较表达式中的子查询</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsSubqueriesInExists">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持EXISTS表达式中的子查询</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsSubqueriesInIns">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持IN语句中的子查询</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsCorrelatedSubqueries">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持相关子查询</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsSubqueriesInQuantifieds">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持量化表达式中的子查询</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsSelectForUpdate">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持SELECT FOR UPDATE</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsUnion">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持 UNION</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsUnionAll">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持 UNION ALL</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsGroupBy">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持 GROUP BY</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsOuterJoins">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持外连接</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsLimitedOuterJoins">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">为外连接提供受限制的支持</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsFullOuterJoins">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持完全嵌套的外连接</Property>
+    </PropertyDef>
+    <PropertyDef name="usesLocalFilePerTable">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">为每个表使用一个文件</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsSavepoStrings">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持保存点</Property>
+    </PropertyDef>
+    <PropertyDef name="supportsOrderByUnrelated">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">支持不再SELECT中而在ORDER BY中的列</Property>
+    </PropertyDef>
+    <PropertyDef name="nullsAreSortedHigh">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">默认NULL值是否排在开头</Property>
+    </PropertyDef>
+    <PropertyDef name="nullsAreSortedLow">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">默认NULL值是否排在末尾</Property>
+    </PropertyDef>
+    <PropertyDef name="nullsAreSortedAtEnd">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">排序时，NULL 值是否始终排在末尾</Property>
+    </PropertyDef>
+    <PropertyDef name="nullsAreSortedAtStart">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">排序时，NULL值是否始终排在开头</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType meta="x:-8;y:120" name="DbConsoleObjectType">
+    <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleObjectType</Property>
+    <PropertyDef name="typeName">
+      <Property name="dataType">String</Property>
+    <Property name="label"/></PropertyDef>
+  </DataType>
+  <DataType name="DbConsoleSchema">
+    <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleSchema</Property>
+    <PropertyDef name="connName">
+      <Property name="dataType">String</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="schemaName">
+      <Property name="dataType">String</Property>
+    <Property name="label"/></PropertyDef>
+  </DataType>
+  <DataType meta="x:270;y:0" name="DbConsoleTable">
+    <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleTable</Property>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">名称</Property>
+    </PropertyDef>
+    <PropertyDef name="schema">
+      <Property name="dataType">String</Property>
+      <Property name="label">Schema</Property>
+    </PropertyDef>
+    <PropertyDef name="catalog">
+      <Property name="dataType">String</Property>
+      <Property name="label">Catalog</Property>
+    </PropertyDef>
+    <PropertyDef name="fullQualifyName">
+      <Property name="dataType">String</Property>
+      <Property name="label">全限定名</Property>
+    </PropertyDef>
+    <PropertyDef name="server">
+      <Property name="dataType">String</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="isNewTable">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="tableWasQuoted">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="serverWasQuoted">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="catalogWasQuoted">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="schemaWasQuoted">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="type">
+      <Property name="dataType">String</Property>
+      <Property name="label">类型</Property>
+    </PropertyDef>
+    <PropertyDef name="preserveQuotes">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="showOnlyTableName">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="tableComment">
+      <Property name="dataType">String</Property>
+      <Property name="label">注 释</Property>
+    </PropertyDef>
+    <PropertyDef name="commentWasInitialized">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="retrieveFkSource">
+      <Property name="dataType">boolean</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="tableTypeOption">
+      <Property name="dataType">String</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="tableConfigOptions">
+      <Property name="dataType">String</Property>
+    <Property name="label"/></PropertyDef>
+    <PropertyDef name="tableSpace">
+      <Property name="dataType">String</Property>
+    <Property name="label"/></PropertyDef>
+  </DataType>
+  <DataType meta="x:135;y:0" name="DbConsoleColumn">
+    <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleColumn</Property>
+    <PropertyDef name="tableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">归属表</Property>
+    </PropertyDef>
+    <PropertyDef name="columnName">
+      <Property name="dataType">String</Property>
+      <Property name="label">列名称</Property>
+      <Validator type="regExp">
+        <Property name="resultMessage">字段名必须只能字母开头+数字或下划线2-20位！</Property>
+        <Property name="whiteRegExp">^[a-zA-Z][a-zA-Z0-9|_]{1,19}$</Property>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="columnType">
+      <Property name="dataType">String</Property>
+      <Property name="label">数据类型</Property>
+    </PropertyDef>
+    <PropertyDef name="columnSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">序号</Property>
+    </PropertyDef>
+    <PropertyDef name="typeDisplay">
+      <Property name="dataType">String</Property>
+      <Property name="label">数据类型</Property>
+    </PropertyDef>
+    <PropertyDef name="columnSize">
+      <Property name="dataType">String</Property>
+      <Property name="label">长度</Property>
+      <Validator type="custom">
+        <ClientEvent name="onValidate">var columnType = arg.entity.get('columnType');
+columnSize = arg.data;
+/**
+ * CHAR VARCHAR 类型校验 
+ */
+if ((columnType.indexOf("VARCHAR") &gt; -1 
+		||columnType.indexOf("CHAR") &gt; -1)
+		&amp;&amp;columnType.indexOf("VARCHAR () FOR BIT DATA")==-1
+		&amp;&amp;columnType.indexOf("LONG VARCHAR FOR BIT DATA")==-1
+		&amp;&amp;columnType.indexOf("LONG VARCHAR")==-1
+		&amp;&amp;columnType.indexOf("CHAR () FOR BIT DATA")==-1){
+	if(columnSize){
+		var charReg = /^[1-9][0-9]{1,3}$/;		
+		var res = columnSize.match(charReg);
+		if(!res){
+			arg.result="格式错误，必须为1-4位数字并且第1位数字不能为0！正确格式:【255】";
+		}
+	}else{
+		arg.result="字段长度不能为空！";		
+	}
+	if(arg.entity.getOldData()&amp;&amp;arg.entity.getOldData().columnSize){
+		if(parseInt(columnSize) &lt; parseInt(arg.entity.getOldData().columnSize)){
+			arg.result="不能减少字段长度，只能扩展长度！";
+		}
+	}
+/**
+ * NUM DECIMAL 类型校验
+ */
+}else if (columnType.indexOf("NUMERIC") &gt; -1||columnType.indexOf("DECIMAL") &gt;-1) {
+	if(columnSize){
+		var numReg = /(^[1-9]{0,1}[0-9]{0,1},[1-9]$)|(^[1-9]$|[1-9][0-9]{0,1}$)/;
+		var res = columnSize.match(numReg);
+		if(!res){
+			arg.result="格式错误，正确格式:【12,2或12】！";
+		}
+	}	
+}else if(columnType.indexOf("CLOB") &gt; -1
+		||columnType.indexOf("BLOB") &gt; -1){
+	if(columnSize){
+		var charReg = /^[1-9][0-9]{1,9}$/;		
+		var res = columnSize.match(charReg);
+		if(!res){
+			arg.result="格式错误，必须为1-10位数字并且第1位数字不能为0！正确格式:【255】";
+		}
+	}
+	if(arg.entity.getOldData()&amp;&amp;arg.entity.getOldData().columnSize){
+		if(parseInt(columnSize) &lt; parseInt(arg.entity.getOldData().columnSize)){
+			arg.result="不能减少字段长度，只能扩展长度！";
+		}
+	}
+}
+
+
+
+
+</ClientEvent>
+      </Validator>
+    </PropertyDef>
+    <PropertyDef name="defaultValue">
+      <Property name="dataType">String</Property>
+      <Property name="label">默认值</Property>
+    </PropertyDef>
+    <PropertyDef name="isnullAble">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">非null</Property>
+    </PropertyDef>
+    <PropertyDef name="isprimaryKey">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">主键</Property>
+    </PropertyDef>
+    <PropertyDef name="isautoincrement">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">自增列</Property>
+    </PropertyDef>
+    <PropertyDef name="remarks">
+      <Property name="dataType">String</Property>
+      <Property name="label">注 释</Property>
+    </PropertyDef>
+    <PropertyDef name="pkName">
+      <Property name="dataType">String</Property>
+      <Property name="label">主键名称</Property>
+    </PropertyDef>
+    <PropertyDef name="pkSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">主键序号</Property>
+    </PropertyDef>
+    <PropertyDef name="isFk">
+      <Property name="dataType">boolean</Property>
+      <Property name="label">外键</Property>
+    </PropertyDef>
+    <PropertyDef name="fkUpdateRule">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键更新规则</Property>
+    </PropertyDef>
+    <PropertyDef name="fkDeleteRule">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键删除规则</Property>
+    </PropertyDef>
+    <PropertyDef name="fkTableCatalog">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键引用表归属Catalog</Property>
+    </PropertyDef>
+    <PropertyDef name="fkTableSchema">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键引用表归属Schema</Property>
+    </PropertyDef>
+    <PropertyDef name="fkTableName">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键表名</Property>
+    </PropertyDef>
+    <PropertyDef name="fkColumnName">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键列名</Property>
+    </PropertyDef>
+    <PropertyDef name="fkSeq">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键序号</Property>
+    </PropertyDef>
+    <PropertyDef name="fkName">
+      <Property name="dataType">String</Property>
+      <Property name="label">外键名称</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="DbConsoleSequence">
+    <Property name="creationType">com.innofi.component.dbconsole.pojo.DbConsoleSequence</Property>
+    <PropertyDef name="sequenceName">
+      <Property name="dataType">String</Property>
+      <Property name="label">序列名称</Property>
+    </PropertyDef>
+    <PropertyDef name="schema">
+      <Property name="dataType">String</Property>
+      <Property name="label">模式名称</Property>
+    </PropertyDef>
+    <PropertyDef name="catalog">
+      <Property name="dataType">String</Property>
+      <Property name="label">Catalog</Property>
+    </PropertyDef>
+    <PropertyDef name="comment">
+      <Property name="dataType">String</Property>
+      <Property name="label">注 释</Property>
+    </PropertyDef>
+    <PropertyDef name="startValue">
+      <Property name="dataType">String</Property>
+      <Property name="label">初始值</Property>
+    </PropertyDef>
+    <PropertyDef name="minValue">
+      <Property name="dataType">String</Property>
+      <Property name="label">最小值</Property>
+    </PropertyDef>
+    <PropertyDef name="maxValue">
+      <Property name="dataType">String</Property>
+      <Property name="label">最大值</Property>
+    </PropertyDef>
+    <PropertyDef name="increment">
+      <Property name="dataType">String</Property>
+      <Property name="label">自增</Property>
+    </PropertyDef>
+    <PropertyDef name="cycle">
+      <Property name="dataType">String</Property>
+      <Property name="label">循环</Property>
+    </PropertyDef>
+    <PropertyDef name="currentValue">
+      <Property name="dataType">String</Property>
+      <Property name="label">当前值</Property>
+    </PropertyDef>
+    <PropertyDef name="dataType">
+      <Property name="dataType">String</Property>
+      <Property name="label">数据类型</Property>
+    </PropertyDef>
+  </DataType>
+</Model>

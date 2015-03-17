@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdEntityObject">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象ID</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象名</Property>
+      </PropertyDef>
+      <PropertyDef name="objDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象描述</Property>
+      </PropertyDef>
+      <PropertyDef name="objPath">
+        <Property name="dataType">String</Property>
+        <Property name="label">路径</Property>
+      </PropertyDef>
+      <PropertyDef name="interFace">
+        <Property name="dataType">String</Property>
+        <Property name="label">接口</Property>
+      </PropertyDef>
+      <PropertyDef name="objType">
+        <Property name="dataType">String</Property>
+        <Property name="label">对象类型</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改人</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdEntityObject">
+      <ClientEvent name="onReady">var objType=&quot;${request.getParameter('objType')}&quot;;&#xD;
+parm={objType:objType};&#xD;
+self.set(&quot;parameter&quot;, parm).flushAsync();</ClientEvent>
+      <Property name="dataProvider">mdEntityObjectAction#findMdEntityObjects</Property>
+      <Property name="dataType">[dataTypeMdEntityObject]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdEntityObject">
+      <ClientEvent name="onReady">self.insert({});
+//self.getData(&quot;#&quot;).set(&quot;status&quot;,&quot;1&quot;);</ClientEvent>
+      <Property name="dataType">[querydataTypeMdEntityObject]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">var objType=&quot;${request.getParameter('objType')}&quot;;&#xD;
+var param = view.get(&quot;#querydataSetMdEntityObject&quot;).getData(&quot;#&quot;);&#xD;
+param.set('objType',objType);&#xD;
+view.get(&quot;#dataSetMdEntityObject&quot;).set(&quot;parameter&quot;,param).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdEntityObject.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdEntityObjectQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdEntityObject</Property>
+            <Property name="dataType">dataTypeMdEntityObject</Property>
+            <AutoFormElement>
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objPath</Property>
+              <Property name="property">objPath</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">interFace</Property>
+              <Property name="property">interFace</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objType</Property>
+              <Property name="property">objType</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objDesc</Property>
+              <Property name="property">objDesc</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdEntityObject" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var objType=&quot;${request.getParameter('objType')}&quot;;
+var dataSet = view.get(&quot;#dataSetMdEntityObject&quot;);
+var dialog = view.get(&quot;#addMdEntityObjectDialog&quot;);
+	dataSet.set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetMdEntityObject.data&quot;).insert();
+
+	if(objType!=null ||objType!=&quot;&quot;||objType!=undefined){
+		view.get(&quot;#dataSetMdEntityObject&quot;).getData(&quot;#&quot;).set(&quot;objType&quot;,objType);
+	}
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdEntityObject&quot;);
+var dialog = view.get(&quot;#updateMdEntityObjectDialog&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdEntityObject&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdEntityObject&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdEntityObject&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveMdEntityObjectsAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdEntityObject&quot;);
+var selection = view.get(&quot;#dataGridMdEntityObject&quot;).get(&quot;selection&quot;);
+var mdmId=&quot;${request.getParameter('mdmId')}&quot;;
+var dialog = view.get(&quot;#lookDialog&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData(&quot;#&quot;);
+	var iframe = view.get(&quot;#lookIframe&quot;);
+	var path = &quot;${request.contextPath}/com.innofi.component.metadata.commons.view.TabControlMain.d?mdmId=&quot;+mdmId+&quot;&amp;mdId=&quot;+entity.get(&quot;id&quot;)+&quot;&amp;lookStyle=look&amp;randomId=&quot;+Math.random();
+		iframe.set(&quot;path&quot;,path);
+	dialog.show();
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="refreshButton">
+          <ClientEvent name="onClick">var action = view.get(&quot;#refreshMethodAjaxAction&quot;);
+var dataSet = view.get(&quot;#dataSetMdEntityObject&quot;);
+var selection = view.get(&quot;#dataGridMdEntityObject&quot;).get(&quot;selection&quot;);
+if(selection.length != 0){
+	dorado.MessageBox.confirm(&quot;是否刷新？&quot;, function(){
+		var objectIds=&quot;&quot;;//定义一个id串。
+		var pojos=&quot;&quot;;//定义一个id串。
+		jQuery.each(selection,function(i,item){
+			objectIds = objectIds+item.get(&quot;id&quot;)+&quot;,&quot;;
+			pojos = pojos + item.get(&quot;objPath&quot;)+&quot;,&quot;;
+		});
+		objectIds=objectIds.substring(0,objectIds.length-1);
+		pojos=pojos.substring(0,pojos.length-1);
+		para={
+			objectIds:objectIds,
+			pojos:pojos
+		}
+		action.set(&quot;parameter&quot;,para).execute(function(resutl){
+			if(resutl == &quot;1&quot;){
+				dataSet.flushAsync();
+				action.set(&quot;successMessage&quot;,&quot;刷新成功!&quot;);
+			}else{
+				dataSet.flushAsync();
+				action.set(&quot;successMessage&quot;,&quot;刷新失败!&quot;);
+			}
+		});
+	});
+}else if (selection.length == 0) {
+	dorado.MessageBox.confirm(&quot;是否全部刷新？&quot;, function(){
+		action.execute(function(result){
+			if(result == &quot;1&quot;){
+				dataSet.flushAsync();
+				action.set(&quot;successMessage&quot;,&quot;刷新成功!&quot;);
+			}else if(result == &quot;0&quot;){
+				dataSet.flushAsync();
+				action.set(&quot;successMessage&quot;,&quot;刷新失败!&quot;);
+			}
+			
+		});
+	});
+}</ClientEvent>
+          <Property name="caption">刷新方法</Property>
+          <Property name="disabled">false</Property>
+          <Property name="icon">>icons/arrow_refresh.png</Property>
+          <Property name="ignored">${param[&quot;objType&quot;]==5?false:true}</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdEntityObject" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdEntityObject</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdEntityObject</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="objName">
+            <Property name="property">objName</Property>
+          </DataColumn>
+          <DataColumn name="objDesc">
+            <Property name="property">objDesc</Property>
+          </DataColumn>
+          <DataColumn name="objPath">
+            <Property name="property">objPath</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">interFaceName</Property>
+            <Property name="name">interFaceName</Property>
+          </DataColumn>
+          <DataColumn name="objType">
+            <Property name="property">objType</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdEntityObject</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdEntityObjectsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdEntityObjectAction#saveMdEntityObjects</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdEntityObject</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdEntityObjectDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdEntityObject&quot;).getData().cancel();
+view.get(&quot;#updateMdEntityObjectDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdEntityObjectsAction&quot;);
+var dialog = view.get(&quot;#updateMdEntityObjectDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdEntityObject&quot;).getData().cancel();
+view.get(&quot;#updateMdEntityObjectDialog&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="autoFormMdEntityObject">
+            <Property name="dataType">dataTypeMdEntityObject</Property>
+            <Property name="dataSet">dataSetMdEntityObject</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="cols">*</Property>
+            <AutoFormElement>
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objDesc</Property>
+              <Property name="property">objDesc</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objPath</Property>
+              <Property name="property">objPath</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">interFaceName</Property>
+              <Property name="property">interFaceName</Property>
+              <Property name="labelWidth">120</Property>
+              <Property name="trigger">interFaceDropDown</Property>
+              <Property name="userData">
+                <Entity>
+                  <Property name="code">interFace</Property>
+                </Entity>
+              </Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objType</Property>
+              <Property name="property">objType</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdEntityObjectDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdEntityObject&quot;).getData().cancel();
+view.get(&quot;#addMdEntityObjectDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdEntityObjectsAction&quot;);
+var dialog = view.get(&quot;#addMdEntityObjectDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdEntityObject&quot;).getData().cancel();
+view.get(&quot;#addMdEntityObjectDialog&quot;).hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="addAutoFormMdEntityObject">
+            <Property name="dataType">dataTypeMdEntityObject</Property>
+            <Property name="dataSet">dataSetMdEntityObject</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="cols">*</Property>
+            <AutoFormElement>
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objDesc</Property>
+              <Property name="property">objDesc</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objPath</Property>
+              <Property name="property">objPath</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">interFaceName</Property>
+              <Property name="property">interFaceName</Property>
+              <Property name="labelWidth">120</Property>
+              <Property name="trigger">interFaceDropDown</Property>
+              <Property name="userData">
+                <Entity>
+                  <Property name="code">interFace</Property>
+                </Entity>
+              </Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objType</Property>
+              <Property name="property">objType</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdEntityObjectDialog">
+      <ClientEvent name="onClose">view.get(&quot;#lookMdEntityObjectDialog&quot;).hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#lookMdEntityObjectDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="lookFormMdEntityObject">
+            <Property name="dataType">dataTypeMdEntityObject</Property>
+            <Property name="dataSet">dataSetMdEntityObject</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="cols">*</Property>
+            <AutoFormElement>
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objDesc</Property>
+              <Property name="property">objDesc</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objPath</Property>
+              <Property name="property">objPath</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">interFaceName</Property>
+              <Property name="property">interFaceName</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">objType</Property>
+              <Property name="property">objType</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <CustomDropDown id="interFaceDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;objName&quot;));&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="height">300</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/component/rbac/log/view/ServiceImplSelect.d?dropdown=interFaceDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <AjaxAction id="refreshMethodAjaxAction">
+      <Property name="service">mdObjectMethodAction#refreshMethod</Property>
+      <Property name="successMessage">刷新成功！</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

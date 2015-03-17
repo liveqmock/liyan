@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">WfProcessManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeWfProcess">
+      <Property name="creationType">com.innofi.component.sie.pojo.WfProcess</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="tags">tableName=WF_PROCESS</Property>
+      <PropertyDef name="businessId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.businessId"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="dealIdea">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.dealIdea"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,1000)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="isEnd">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.isEnd"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="isNew">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.isNew"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="moduleCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.moduleCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="moduleName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.moduleName"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="nodeId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.nodeId"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d H:i:s</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.operDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="operDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.operDesc"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.operOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operPostCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["operPostCodede"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operRoleCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["operRoleCodeCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.operType"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;OPER_TYPE&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.operUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.status"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;BUZI_STATUS&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCodeName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.operOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCodeName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.operUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="nodeType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.nodeType"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;NODE_TYPE&quot;)}</Property>
+        </Property>
+        <Validator type="required"/>
+      </PropertyDef>
+      <PropertyDef name="nodeName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfProcess.nodeName"].propertyLabel}</Property>
+        <Validator type="required"/>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeWfOperateStatus">
+      <Property name="creationType">com.innofi.component.sie.pojo.WfOperateStatus</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="tags">tableName=WF_OPERATE_STATUS</Property>
+      <PropertyDef name="operDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfOperateStatus.operDesc"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operStatus">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;BUZI_STATUS&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfOperateStatus.operStatus"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfOperateStatus.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="operType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.sie.pojo.WfOperateStatus.operType"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;OPER_TYPE&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">window.commitProcess=function(){&#xD;
+	if(view.get(&quot;#dataSetWfOperateStatus&quot;).getData('#')){&#xD;
+		var saveWfProcesssAction = view.get('#saveWfProcesssAction');&#xD;
+		saveWfProcesssAction.execute(function(result) {&#xD;
+			if(result[0]=='1'){&#xD;
+				var dialog = parent.$id(&quot;${param['dialogId']}&quot;).objects[0];&#xD;
+				var dataset = parent.$id(&quot;${param['dataset']}&quot;).objects[0];&#xD;
+				dorado.MessageBox.alert('操作成功!');&#xD;
+				var idStr = &quot;${param['id']}&quot;;&#xD;
+				if(idStr.indexOf(&quot;,&quot;)>-1){&#xD;
+					var idArray = idStr.split(&quot;,&quot;);&#xD;
+					for(var i = 0 ; i &lt; idArray.length ; i++){&#xD;
+						var id = idArray[i];&#xD;
+						dataset.getData('[@.get(&quot;id&quot;)==&quot;'+id+'&quot;]').set(&quot;${param['statusField']}&quot;,result[1]);	&#xD;
+						if(&quot;${param['nodeNameField']}&quot;){&#xD;
+							dataset.getData('[@.get(&quot;id&quot;)==&quot;'+id+'&quot;]').set(&quot;${param['nodeNameField']}&quot;,result[2]);		&#xD;
+						}&#xD;
+						dataset.getData('[@.get(&quot;id&quot;)==&quot;'+id+'&quot;]').setState(dorado.Entity.STATE_NONE);&#xD;
+					}&#xD;
+				}else{&#xD;
+					dataset.getData('[@.get(&quot;id&quot;)==&quot;'+idStr+'&quot;]').set(&quot;${param['statusField']}&quot;,result[1]);	&#xD;
+					if(&quot;${param['nodeNameField']}&quot;){&#xD;
+						dataset.getData('[@.get(&quot;id&quot;)==&quot;'+idStr+'&quot;]').set(&quot;${param['nodeNameField']}&quot;,result[2]);		&#xD;
+					}&#xD;
+					dataset.getData('[@.get(&quot;id&quot;)==&quot;'+idStr+'&quot;]').setState(dorado.Entity.STATE_NONE);	&#xD;
+				}&#xD;
+				$setTimeout(dialog,function(){&#xD;
+					this.close();&#xD;
+				},'800');&#xD;
+			}&#xD;
+		});&#xD;
+	}else{&#xD;
+		dorado.MessageBox.alert('请选择操作类型！');&#xD;
+		return false;&#xD;
+	}&#xD;
+}&#xD;
+$setTimeout(view.get(&quot;#dataSetWfOperateStatus&quot;),function(){&#xD;
+	this.getData().setCurrent(null)&#xD;
+},500);&#xD;
+</ClientEvent>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetWfProcessNew">
+      <ClientEvent name="onLoadData">var currentStatus = self.getData('#.status');&#xD;
+if(&quot;${param['readOnly']}&quot;!=&quot;true&quot;){&#xD;
+	view.get('#dataSetWfOperateStatus').set('parameter',{operStatus:currentStatus,moduleCode:&quot;${param['moduleCode']}&quot;,businessObjectId:&quot;${param['id']}&quot;}).flushAsync();&#xD;
+}</ClientEvent>
+      <Property name="dataProvider">wfProcessAction#findWfProcesss</Property>
+      <Property name="dataType">[dataTypeWfProcess]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.sie.pojo.WfProcess</Property>
+          </Entity>
+        </Collection>
+      </Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="isNew">1</Property>
+          <Property name="moduleCode">${param['moduleCode']}</Property>
+          <Property name="businessId">${param['id']}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="dataSetWfProcess">
+      <Property name="dataProvider">wfProcessAction#findWfProcesss</Property>
+      <Property name="dataType">[dataTypeWfProcess]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.sie.pojo.WfProcess</Property>
+          </Entity>
+        </Collection>
+      </Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="moduleCode">${param['moduleCode']}</Property>
+          <Property name="businessId">${param['id']}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="dataSetWfOperateStatus">
+      <Property name="dataProvider">wfOperateStatusAction#findWfOperateStatuss</Property>
+      <Property name="dataType">[dataTypeWfOperateStatus]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.sie.pojo.WfOperateStatus</Property>
+          </Entity>
+        </Collection>
+      </Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <Import id="dataControlGroupImport" src="${param['viewPath']}#${param['dataControlGroupId']}"/>
+    <VerticalTabControl id="WfProcessVTabControl">
+      <Property name="tabPlacement">right</Property>
+      <Property name="tabColumnWidth">120</Property>
+      <ControlTab>
+        <Property name="caption">业务审核</Property>
+        <Container>
+          <AutoForm id="addAutoFormWfProcess">
+            <Property name="dataType">dataTypeWfProcess</Property>
+            <Property name="dataSet">dataSetWfProcessNew</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="cols">*,*</Property>
+            <Property name="labelWidth">140</Property>
+            <AutoFormElement layoutConstraint="colSpan:2">
+              <Property name="name">nodeName</Property>
+              <Property name="property">nodeName</Property>
+              <Property name="readOnly">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="readOnly">true</Property>
+              <Property name="label">当前状态</Property>
+              <Property name="ignored">true</Property>
+              <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.status&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.status&quot;].propertyTip}</Property>
+                  <Property name="trigger">autoMappingDropDown1</Property>
+                </TextEditor>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">businessId</Property>
+              <Property name="property">businessId</Property>
+              <Property name="visible">false</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement layoutConstraint="colSpan:2">
+              <Property name="name">dealIdea</Property>
+              <Property name="property">dealIdea</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="readOnly">false</Property>
+              <Editor>
+                <TextArea>
+                  <Property name="height">80</Property>
+                </TextArea>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isEnd</Property>
+              <Property name="property">isEnd</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isNew</Property>
+              <Property name="property">isNew</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">moduleCode</Property>
+              <Property name="property">moduleCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">moduleName</Property>
+              <Property name="property">moduleName</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">nodeId</Property>
+              <Property name="property">nodeId</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operDate</Property>
+              <Property name="property">operDate</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operDesc</Property>
+              <Property name="property">operDesc</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operOrgCode</Property>
+              <Property name="property">operOrgCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operPostCode</Property>
+              <Property name="property">operPostCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operRoleCode</Property>
+              <Property name="property">operRoleCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operType</Property>
+              <Property name="property">operType</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operUserCode</Property>
+              <Property name="property">operUserCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCodeName</Property>
+              <Property name="property">crtOrgCodeName</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCodeName</Property>
+              <Property name="property">crtUserCodeName</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">nodeType</Property>
+              <Property name="property">nodeType</Property>
+              <Property name="ignored">true</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+          <DataGrid id="dataGridWfOperateStatus" layoutConstraint="center">
+            <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetWfOperateStatus&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+            <ClientEvent name="onSelectionChange">if (arg.added){
+	view.get(&quot;#dataSetWfOperateStatus&quot;).getData().setCurrent(arg.added)
+}else if (arg.removed){
+	view.get(&quot;#dataSetWfOperateStatus&quot;).getData().setCurrent(null)
+}</ClientEvent>
+            <Property name="dataSet">dataSetWfOperateStatus</Property>
+            <Property name="selectionMode">singleRow</Property>
+            <Property name="dataType">dataTypeWfOperateStatus</Property>
+            <Property name="rowHeight">26</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <Property name="readOnly">true</Property>
+            <RowSelectorColumn>
+              <Property name="width">50%</Property>
+              <Property name="align">right</Property>
+            </RowSelectorColumn>
+            <DataColumn name="operType" property="operType">
+              <Property name="editorType">TextEditor</Property>
+              <Property name="align">center</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </ControlTab>
+      <ControlTab>
+        <Property name="caption">业务表单</Property>
+        <Container>
+          <Property name="contentOverflow">scroll</Property>
+          <Import id="updateAutoForm" src="${param['viewPath']}#${param['updateAutoFormId']}"/>
+        </Container>
+      </ControlTab>
+      <ControlTab>
+        <Property name="caption">历史处理过程</Property>
+        <Container>
+          <DataGrid id="dataGridWfProcess" layoutConstraint="center">
+            <ClientEvent name="onSelectionChange">
+if (arg.added){
+	view.get(&quot;#dataSetWfProcess&quot;).getData().setCurrent(arg.added[0])
+}</ClientEvent>
+            <Property name="dataSet">dataSetWfProcess</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="dataType">dataTypeWfProcess</Property>
+            <Property name="rowHeight">26</Property>
+            <Property name="width">100%</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <RowNumColumn/>
+            <DataColumn name="operType" property="operType"/>
+            <DataColumn name="status" property="status"/>
+            <DataColumn name="dealIdea" property="dealIdea"/>
+            <DataColumn name="crtOrgCode">
+              <Property name="property">crtOrgCodeName</Property>
+            </DataColumn>
+            <DataColumn name="crtUserCode">
+              <Property name="property">crtUserCodeName</Property>
+            </DataColumn>
+            <DataColumn name="operDate" property="operDate"/>
+          </DataGrid>
+          <ToolBar layoutConstraint="bottom">
+            <DataPilot>
+              <Property name="dataSet">dataSetWfProcess</Property>
+              <Property name="itemCodes">pages</Property>
+            </DataPilot>
+            <Separator/>
+          </ToolBar>
+        </Container>
+      </ControlTab>
+    </VerticalTabControl>
+    <UpdateAction id="saveWfProcesssAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">wfProcessAction#saveWfProcesss</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetWfProcessNew</Property>
+        <Property name="alias">wfProcess</Property>
+        <Property name="dataPath">[#all]</Property>
+      </UpdateItem>
+      <UpdateItem>
+        <Property name="dataSet">dataSetWfOperateStatus</Property>
+        <Property name="alias">wfOperateStatus</Property>
+        <Property name="dataPath">[#current]</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogWfProcess">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetWfProcess&quot;).getData().cancel();
+            view.get(&quot;#dialogWfProcess&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveWfProcesssAction&quot;);
+            var dialog=view.get(&quot;#dialogWfProcess&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetWfProcess&quot;).getData().cancel();
+            view.get(&quot;#dialogWfProcess&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormWfProcess">
+          <Property name="dataType">dataTypeWfProcess</Property>
+          <Property name="dataSet">dataSetWfProcess</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">businessId</Property>
+            <Property name="property">businessId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.businessId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.businessId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.crtDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.crtDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.crtOrgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.crtOrgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.crtUserCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.crtUserCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dealIdea</Property>
+            <Property name="property">dealIdea</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.dealIdea&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.dealIdea&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isEnd</Property>
+            <Property name="property">isEnd</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.isEnd&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.isEnd&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isNew</Property>
+            <Property name="property">isNew</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.isNew&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.isNew&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">moduleCode</Property>
+            <Property name="property">moduleCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.moduleCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.moduleCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">moduleName</Property>
+            <Property name="property">moduleName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.moduleName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.moduleName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">nodeId</Property>
+            <Property name="property">nodeId</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.nodeId&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.nodeId&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operDate</Property>
+            <Property name="property">operDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operDesc</Property>
+            <Property name="property">operDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operDesc&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operOrgCode</Property>
+            <Property name="property">operOrgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operOrgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operOrgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operPostCode</Property>
+            <Property name="property">operPostCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;operPostCodede&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;operPostCodede&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operRoleCode</Property>
+            <Property name="property">operRoleCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;operRoleCodeCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;operRoleCodeCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operType</Property>
+            <Property name="property">operType</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operType&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operType&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">operUserCode</Property>
+            <Property name="property">operUserCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operUserCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.operUserCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.id&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.id&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.status&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.status&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.updDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.updDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.updOrgCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.updOrgCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.sie.pojo.WfProcess.updUserCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.sie.pojo.WfProcess.updUserCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogWfProcess">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetWfProcess&quot;).getData().cancel();
+         view.get(&quot;#dialogWfProcess&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get(&quot;#saveWfProcesssAction&quot;);
+              var dialog=view.get(&quot;#addDialogWfProcess&quot;);
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetWfProcess&quot;).getData().cancel();
+            view.get(&quot;#addDialogWfProcess&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children/>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogWfProcess">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetWfProcess&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogWfProcess&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormWfProcess">
+          <Property name="dataType">dataTypeWfProcess</Property>
+          <Property name="dataSet">dataSetWfProcess</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="checkPermissionAction">
+      <Property name="service">wfProcessAction#checkUpdDelPermission</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

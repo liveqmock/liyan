@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysUserManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <ClientEvent name="onReady">var roleId='${param[&quot;roleId&quot;]}';
+var postPath=&quot;${request.contextPath}/com.innofi.component.rbac.privilage.view.SysPostRoleManage.d?roleId=&quot;+roleId;
+var orgPath=&quot;${request.contextPath}/com.innofi.component.rbac.privilage.view.SysOrgRoleManage.d?roleId=&quot;+roleId;
+var userPath=&quot;${request.contextPath}/com.innofi.component.rbac.privilage.view.SysUserRoleManage.d?roleId=&quot;+roleId;
+view.get(&quot;#postIframe&quot;).set(&quot;path&quot;,postPath);
+view.get(&quot;#orgIframe&quot;).set(&quot;path&quot;,orgPath);
+view.get(&quot;#userIframe&quot;).set(&quot;path&quot;,userPath);
+</ClientEvent>
+    <Property name="packages">validator</Property>
+    <TabControl>
+      <ControlTab>
+        <Property name="caption">部门</Property>
+        <IFrame id="orgIframe"/>
+      </ControlTab>
+      <ControlTab>
+        <Property name="caption">岗位</Property>
+        <IFrame id="postIframe"/>
+      </ControlTab>
+      <ControlTab>
+        <Property name="caption">用户</Property>
+        <IFrame id="userIframe"/>
+      </ControlTab>
+    </TabControl>
+  </View>
+</ViewConfig>

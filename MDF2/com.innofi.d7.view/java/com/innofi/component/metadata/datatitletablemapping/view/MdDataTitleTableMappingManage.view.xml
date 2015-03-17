@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdDataTitleTableMapping">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">数据主题表关系ID</Property>
+      </PropertyDef>
+      <PropertyDef name="dataTitleId">
+        <Property name="dataType">String</Property>
+        <Property name="label">数据主题ID</Property>
+      </PropertyDef>
+      <PropertyDef name="tableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">表结构ID</Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdDataTitleTableMapping">
+      <Property name="dataProvider">mdDataTitleTableMappingAction#findMdDataTitleTableMappings</Property>
+      <Property name="dataType">[dataTypeMdDataTitleTableMapping]</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdDataTitleTableMapping">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdDataTitleTableMapping]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+view.get("#dataSetMdDataTitleTableMapping").set("parameter", view.get("#querydataSetMdDataTitleTableMapping").getData("#")).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set("#querydataSetMdDataTitleTableMapping.data",{});
+</ClientEvent>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdDataTitleTableMappingQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdDataTitleTableMapping</Property>
+            <Property name="dataType">dataTypeMdDataTitleTableMapping</Property>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dataTitleId</Property>
+              <Property name="property">dataTitleId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableId</Property>
+              <Property name="property">tableId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdDataTitleTableMapping" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDataTitleTableMapping");
+var dialog = view.get("#addMdDataTitleTableMappingDialog");
+	dataSet.set("readOnly",false);
+	view.get("#dataSetMdDataTitleTableMapping.data").insert();
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDataTitleTableMapping");
+var dialog = view.get("#updateMdDataTitleTableMappingDialog");
+var entitys = dataSet.getData();
+var selection = view.get("#dataGridMdDataTitleTableMapping").get("selection");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if(selection.length&gt;1){
+	dorado.MessageBox.alert("只能选择一条记录查看修改！");
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set("readOnly",false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDataTitleTableMapping");
+var entitys = dataSet.getData();
+var selection = view.get("#dataGridMdDataTitleTableMapping").get("selection");
+var action = view.get("#saveMdDataTitleTableMappingsAction");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm("是否删除？", function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDataTitleTableMapping");
+var dialog = view.get("#lookMdDataTitleTableMappingDialog");
+var entitys = dataSet.getData();
+var found = false;
+var selection = view.get("#dataGridMdDataTitleTableMapping").get("selection");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}
+else if(selection.length&gt;1)
+{
+	dorado.MessageBox.alert("只能查看一条记录！");
+}
+else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set("readOnly",true);
+}
+
+
+</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdDataTitleTableMapping" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetMdTable").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetMdTable").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdDataTitleTableMapping</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdDataTitleTableMapping</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+          </DataColumn>
+          <DataColumn name="dataTitleId">
+            <Property name="property">dataTitleId</Property>
+          </DataColumn>
+          <DataColumn name="tableId">
+            <Property name="property">tableId</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">tableName</Property>
+            <Property name="name">tableName</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdDataTitleTableMapping</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdDataTitleTableMappingsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdDataTitleTableMappingAction#saveMdDataTitleTableMappings</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdDataTitleTableMapping</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdDataTitleTableMappingDialog">
+      <ClientEvent name="onClose">view.get("#dataSetMdDataTitleTableMapping").getData().cancel();
+view.get("#updateMdDataTitleTableMappingDialog").hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get("#saveMdDataTitleTableMappingsAction");
+var dialog = view.get("#updateMdDataTitleTableMappingDialog");
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get("#dataSetMdDataTitleTableMapping").getData().cancel();
+view.get("#updateMdDataTitleTableMappingDialog").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormMdDataTitleTableMapping">
+          <Property name="dataType">dataTypeMdDataTitleTableMapping</Property>
+          <Property name="dataSet">dataSetMdDataTitleTableMapping</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dataTitleId</Property>
+            <Property name="property">dataTitleId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableId</Property>
+            <Property name="property">tableId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableName</Property>
+            <Property name="property">tableName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdDataTitleTableMappingDialog">
+      <ClientEvent name="onClose">view.get("#dataSetMdDataTitleTableMapping").getData().cancel();
+view.get("#addMdDataTitleTableMappingDialog").hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get("#saveMdDataTitleTableMappingsAction");
+var dialog = view.get("#addMdDataTitleTableMappingDialog");
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get("#dataSetMdDataTitleTableMapping").getData().cancel();
+view.get("#addMdDataTitleTableMappingDialog").hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormMdDataTitleTableMapping">
+          <Property name="dataType">dataTypeMdDataTitleTableMapping</Property>
+          <Property name="dataSet">dataSetMdDataTitleTableMapping</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dataTitleId</Property>
+            <Property name="property">dataTitleId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableId</Property>
+            <Property name="property">tableId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableName</Property>
+            <Property name="property">tableName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdDataTitleTableMappingDialog">
+      <ClientEvent name="onClose">view.get("#lookMdDataTitleTableMappingDialog").hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get("#lookMdDataTitleTableMappingDialog").hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="lookFormMdDataTitleTableMapping">
+          <Property name="dataType">dataTypeMdDataTitleTableMapping</Property>
+          <Property name="dataSet">dataSetMdDataTitleTableMapping</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dataTitleId</Property>
+            <Property name="property">dataTitleId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableId</Property>
+            <Property name="property">tableId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableName</Property>
+            <Property name="property">tableName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

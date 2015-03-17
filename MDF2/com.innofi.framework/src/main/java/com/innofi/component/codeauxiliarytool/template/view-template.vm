@@ -1,0 +1,3555 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">${model.modelName}Manage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+#*设置el表达式开始标志及结束标志*#
+#set($elExpreStartTag="${")
+#set($elExpreEndTag="}")
+    <DataType name="dataType${model.modelName}">
+        <Property name="creationType">${model.packageName}.pojo.${model.modelName}</Property>
+        <Property name="autoCreatePropertyDefs">false</Property>
+        <Property name="tags">tableName=${model.tableName}</Property>
+#foreach($field in $fields)
+    #*如果为下拉框，设置name字段 规则field+Name*#
+    #if(${field.componentType}=="7"||
+        ${field.componentType}=="8"||
+        ${field.componentType}=="9"||
+        ${field.componentType}=="10"||
+        ${field.componentType}=="11"||
+        ${field.componentType}=="12"||
+        ${field.componentType}=="13")
+        <PropertyDef name="${field.columnName}Name">
+            <Property name="dataType">String</Property>
+            <Property name="label">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}</Property>
+        </PropertyDef>
+    #end
+ 	#*唯一验证*#
+	#if(${field.validators}=="唯一验证")
+	      <ClientEvent name="onDataChange">if (arg.property==&quot;${field.columnName}&quot;){&#xD;
+         var parameter={&#xD;
+		 	tableName:&quot;${field.tableName}&quot;,&#xD;
+			fieldName:&quot;${field.oldColumnName}&quot;,&#xD;
+			fieldValue:arg.entity.get(&quot;${field.columnName}&quot;)&#xD;
+		 };&#xD;
+		 &#xD;
+		view.get(&quot;#checkIsUnique&quot;).set(&quot;parameter&quot;, parameter).execute(&#xD;
+		function(result) {	&#xD;
+			if(!result)&#xD;
+			{&#xD;
+				arg.entity.setMessages(&quot;${field.columnName}&quot;,{ state: &quot;error&quot;, text: &quot;该数据已经录入,请重新输入保证唯一性&quot; });&#xD;
+			}&#xD;
+		});&#xD;
+};</ClientEvent>
+	#end
+        <PropertyDef name="${field.columnName}">
+    #if(${field.javaType}=="Date")
+            <Property name="dataType">${field.javaType}</Property>
+            <Property name="displayFormat">Y-m-d</Property>
+    #else
+            <Property name="dataType">${field.javaType}</Property>
+        #if(${field.componentType}=="4")
+            <Property name="mapping">
+            <Property name="mapValues">${elExpreStartTag}dorado.getDataProvider("coderCreate#getDict").getResult("${field.dictType}")${elExpreEndTag}</Property>
+            </Property>
+        #end
+            <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,${field.columnSize})</ClientEvent>
+            </Validator>
+	#end
+            <Property name="label">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}</Property>
+    #if(${field.isnullAble}=="0"&&${field.isprimaryKey}=="0")
+            <Property name="required">true</Property>
+    #end
+    #if(${field.validators}=="邮箱")
+            <Validator type="regExp">
+                <Property name="whiteRegExp">\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*</Property>
+                <Property name="resultMessage">输入的内容不是正确的EMail格式。</Property>
+            </Validator>
+    #elseif(${field.validators}=="IP地址")
+            <Validator type="regExp">
+                <Property name="whiteRegExp">\d+\.\d+\.\d+\.\d+</Property>
+                <Property name="resultMessage">输入的内容不是正确的IP地址格式。</Property>
+            </Validator>
+    #elseif(${field.validators}=="中文")
+            <Validator type="regExp">
+                <Property name="whiteRegExp">^[\u4e00-\u9fa5]+$</Property>
+                <Property name="resultMessage">输入的内容不是中文。</Property>
+            </Validator>
+    #elseif(${field.validators}=="字母")
+            <Validator type="regExp">
+                <Property name="whiteRegExp">^[A-Za-z]+$</Property>
+                <Property name="resultMessage">输入的内容不是字母。</Property>
+            </Validator>
+    #elseif(${field.validators}=="数字")
+            <Validator type="regExp">
+                <Property name="whiteRegExp">^[-+]?\d+(\.\d+)?$</Property>
+                <Property name="resultMessage">输入的内容不是数字。</Property>
+            </Validator>
+    #elseif(${field.validators}=="身份证号")
+            <Validator type="regExp">
+                <Property name="whiteRegExp">^[1-9]([0-9]{16}|[0-9]{13})[xX0-9]$</Property>
+                <Property name="resultMessage">输入的内容不是身份证号。</Property>
+            </Validator>
+    #elseif(${field.validators}=="正则验证")
+        #set($str=${field.regexp})
+        #set($ml=$str.indexOf("#"))
+        #set($end=$str.length())
+        #set($str1=$str.substring(0,$ml))
+        #set($str2=$str.substring($ml,$end))
+            <Validator type="regExp">
+                <Property name="whiteRegExp">${str1}</Property>
+                <Property name="resultMessage">${str2}</Property>
+            </Validator>
+    #end
+      </PropertyDef>
+#end
+    </DataType>
+
+    <DataType name="querydataType${model.modelName}">
+        <Property name="autoCreatePropertyDefs">false</Property>
+#foreach($field in $fields)
+    #if(${field.searchFlag}=="1")
+        #if(${field.javaType}=="String")
+        <PropertyDef name="qM${field.columnName}">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">${field.searchType}</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${elExpreStartTag}dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")${elExpreEndTag}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="${field.columnName}">
+            <Property name="dataType">${field.javaType}</Property>
+            #if(${field.componentType}=="4")
+            <Property name="mapping">
+                <Property name="mapValues">${elExpreStartTag}dorado.getDataProvider("coderCreate#getDict").getResult("${field.dictType}")${elExpreEndTag}</Property>
+            </Property>
+            #end
+            <Property name="label">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}</Property>
+        </PropertyDef>
+        #end
+        #if(${field.javaType}!="String"&&${field.javaType}!="Date")
+        <PropertyDef name="qM${field.columnName}">
+            <Property name="defaultValue">eq</Property>
+            <Property name="dataType">String</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${elExpreStartTag}dorado.getDataProvider("coderCreate#getQueryMethod").getResult()${elExpreEndTag}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="${field.columnName}">
+            <Property name="dataType">${field.javaType}</Property>
+            #if(${field.componentType}=="4")
+            <Property name="mapping">
+                <Property name="mapValues">${elExpreStartTag}dorado.getDataProvider("coderCreate#getDict").getResult("${field.dictType}")${elExpreEndTag}</Property>
+            </Property>
+            #end
+        	<Property name="label">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}</Property>
+        </PropertyDef>
+        #end
+        #if(${field.javaType}=="Date")
+        <PropertyDef name="${field.columnName}">
+            <Property name="dataType">${field.javaType}</Property>
+            <Property name="label">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}(起)</Property>
+        </PropertyDef>
+        <PropertyDef name="${field.columnName}End">
+            <Property name="dataType">${field.javaType}</Property>
+            <Property name="label">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}(止)</Property>
+        </PropertyDef>
+        #end
+        #*如果为下拉框，设置name字段 规则field+Name*#
+        #if(${field.componentType}=="7"||
+            ${field.componentType}=="8"||
+            ${field.componentType}=="9"||
+            ${field.componentType}=="10"||
+            ${field.componentType}=="11"||
+            ${field.componentType}=="12"||
+            ${field.componentType}=="13")
+            <PropertyDef name="${field.columnName}Name">
+                <Property name="dataType">String</Property>
+                <Property name="label">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}</Property>
+            </PropertyDef>
+        #end
+
+
+    #end
+#end
+    </DataType>
+
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSet${model.modelName}">
+        <Property name="dataProvider">${model.beanName}Action#find${model.modelName}s</Property>
+        <Property name="dataType">[dataType${model.modelName}]</Property>
+        <Property name="pageSize">${elExpreStartTag}sys.getLong("mdf.default.pagesize")${elExpreEndTag}</Property>
+        <Property name="userData">
+            <Collection>
+                <Entity>
+                    <Property name="entityClass">${model.packageName}.pojo.${model.modelName}</Property> <!--验证是否包含修改权限-->
+                </Entity>
+            </Collection>
+        </Property>
+    </DataSet>
+    <DataSet id="querydataSet${model.modelName}">
+        <ClientEvent name="onReady">self.insert({});</ClientEvent>
+        <Property name="dataType">[querydataType${model.modelName}]</Property>
+    </DataSet>
+    <Container>
+        <Panel>
+        <Property name="caption">查询条件</Property>
+        <Property name="collapseable">true</Property>
+            <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get("#dataSet${model.modelName}").set("parameter", view.get("#querydataSet${model.modelName}").getData("#")).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get("#querydataSet${model.modelName}").clear();
+                view.get("#querydataSet${model.modelName}").getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+            <Children>
+                <AutoForm id="autoForm${model.modelName}Query" layoutConstraint="center">
+                    <Property name="cols">*,*</Property>
+                    <Property name="dataSet">querydataSet${model.modelName}</Property>
+                    <Property name="dataType">querydataType${model.modelName}</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="labelWidth">100</Property>
+#foreach($field in $fields)
+    #if(${field.searchFlag}=="1")
+        #if(${field.javaType}=="Date")
+                <AutoFormElement name="autoFormElement${field.columnName}">
+                    <Property name="name">${field.columnName}</Property>
+                    <Property name="property">${field.columnName}</Property>
+                    <Property name="tip">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}(起)</Property>
+                    <Editor/>
+                </AutoFormElement>
+                <AutoFormElement name="autoFormElement${field.columnName}End">
+                    <Property name="name">${field.columnName}End</Property>
+                    <Property name="property">${field.columnName}End</Property>
+                    <Property name="tip">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyLabel${elExpreEndTag}(止)</Property>
+                    <Editor/>
+                </AutoFormElement>
+        #else
+                <AutoFormElement name="autoFormElement${field.columnName}">
+            #if(${field.componentType}=="7"||
+                ${field.componentType}=="8"||
+                ${field.componentType}=="9"||
+                ${field.componentType}=="10"||
+                ${field.componentType}=="11"||
+                ${field.componentType}=="12"||
+                ${field.componentType}=="13")
+                    <Property name="name">${field.columnName}Name</Property>
+                    <Property name="property">${field.columnName}Name</Property>
+            #else
+                    <Property name="name">${field.columnName}</Property>
+                    <Property name="property">${field.columnName}</Property>
+            #end
+                    <Editor>
+                        <Container layout="dock">
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qM${field.columnName}</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSet${model.modelName}</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                        #if(${field.componentType}=="7"||
+                            ${field.componentType}=="8"||
+                            ${field.componentType}=="9"||
+                            ${field.componentType}=="10"||
+                            ${field.componentType}=="11"||
+                            ${field.componentType}=="12"||
+                            ${field.componentType}=="13")
+                                <Property name="property">${field.columnName}Name</Property>
+                        #else
+                                <Property name="property">${field.columnName}</Property>
+                        #end
+                                <Property name="dataSet">querydataSet${model.modelName}</Property>
+                                <Property name="blankText">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyBlankText${elExpreEndTag}</Property>
+                                <Property name="tip">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyTip${elExpreEndTag}</Property>
+                        #if(${field.componentType}=="4")
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                        #end
+                        #if(${field.componentType}=="7"||
+                            ${field.componentType}=="8"||
+                            ${field.componentType}=="9"||
+                            ${field.componentType}=="10"||
+                            ${field.componentType}=="11"||
+                            ${field.componentType}=="12"||
+                            ${field.componentType}=="13")
+                                <Property name="trigger">qM${field.columnName}DropDown</Property>
+                                <Property name="userData">
+                                    <Entity>
+                                        <Property name="code">${field.columnName}</Property>
+                                    </Entity>
+                                </Property>
+                        #end
+                            </TextEditor>
+            #if(${field.componentType}=="5")
+                            <TextArea>
+                                <Property name="dataSet">querydataSet${model.modelName}</Property>
+                                <Property name="property">${field.columnName}</Property>
+                            </TextArea>
+            #end
+                        </Container>
+                    </Editor>
+                </AutoFormElement>
+        #end
+    #end
+#end
+                </AutoForm>
+            </Children>
+        </Panel>
+        <Container>
+        <ToolBar id="toolBar${model.modelName}" layoutConstraint="top">
+            <Property name="tags">tags_toolbar</Property>
+            <Fill/>
+            <ToolBarButton  id="addButton">
+                <ClientEvent name="onClick">
+                    view.get("#dataSet${model.modelName}").set("readOnly",false);
+                    view.get("#dataSet${model.modelName}.data").insert();
+                    view.get("#addDialog${model.modelName}").show();
+                </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                <Property name="caption">添加</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updateButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSet${model.modelName}").getData();
+                    var selection = view.get("#dataGrid${model.modelName}").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert("只能选择一条记录查看修改！");
+                    }else if (selection.length == 1) {
+                        var entityClass = view.get('#dataSet${model.modelName}').get("userData")[0].entityClass;
+                        var idValue = view.get("#dataSet${model.modelName}").getData("#.id");
+                        var action=view.get("#checkPermissionAction");
+                        var idValueArray = new Array();
+                        idValueArray[0] = idValue;
+                        action.set("parameter",{
+                            entityClass:entityClass,
+                            idValues:idValueArray,
+                            operationType:'2'
+                        });
+                        action.execute(function(result){
+                            if(result.length>0){
+                                dorado.MessageBox.alert("不能进行此操作，您无选中记录的修改权限！");
+                                return;
+                            }
+                            view.get("#dataSet${model.modelName}").getData().setCurrent(selection[0]);
+                            view.get("#dialog${model.modelName}").show();
+                            view.get("#dataSet${model.modelName}").set("readOnly",false);
+                        });
+                    }
+                </ClientEvent>
+                <Property name="caption">修改</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delButton">
+                <ClientEvent name="onClick">var entitys = view.get("#dataSet${model.modelName}").getData();
+                    var selection = view.get("#dataGrid${model.modelName}").get("selection");
+                    var action = view.get("#save${model.modelName}sAction");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if (selection.length != 0) {
+                    var entityClass = view.get('#dataSet${model.modelName}').get("userData")[0].entityClass;
+                    var idValue = view.get("#dataSet${model.modelName}").getData("#.id");
+                    var checkPermissionAction=view.get("#checkPermissionAction");
+                    var idValueArray = new Array();
+                    jQuery.each(selection,function(i,item){
+                    idValueArray[i] = item.get("id");
+                    });
+                    checkPermissionAction.set("parameter",{
+                    entityClass:entityClass,
+                    idValues:idValueArray,
+                    operationType:'3'
+                    });
+
+                    checkPermissionAction.execute(function(result){
+                    if(result.length>0){
+                    var idValueFilter = new Object();
+                    result.each(function(it){
+                    idValueFilter[it] = true;
+                    });
+                    dorado.MessageBox.confirm("确定删除？", function(){
+                    var haveRemove = false;
+                    jQuery.each(selection,function(i,item){
+                    if(!idValueFilter[item.get('id')]){
+                    haveRemove = true;
+                    entitys.remove(item);
+                    }
+                    });
+                    if(haveRemove){
+                    action.execute();
+                    }
+                    dorado.MessageBox.alert("您无选中记录的删除权限！");
+                    return;
+                    });
+                    }else{
+                    dorado.MessageBox.confirm("确定删除？", function(){
+                    jQuery.each(selection,function(i,item){
+                    entitys.remove(item);
+                    });
+                    action.execute();
+                    });
+                    }
+                    });
+                    }
+                </ClientEvent>
+                <Property name="caption">删除</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="lookButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSet${model.modelName}").getData();
+                    var found = false;
+                    var selection = view.get("#dataGrid${model.modelName}").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert("只能查看一条记录！");
+                    }else if (selection.length == 1) {
+                        view.get("#dataSet${model.modelName}").getData().setCurrent(selection[0]);
+                        view.get("#lookdialog${model.modelName}").show();
+                        view.get("#dataSet${model.modelName}").set("readOnly",true);
+                    }
+                </ClientEvent>
+                <Property name="caption">查看</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+            </ToolBarButton>
+      </ToolBar>
+        </Container>
+        <Panel>
+            <Property name="caption">查询结果</Property>
+            <Buttons/>
+            <Children>
+
+            <DataGrid id="dataGrid${model.modelName}" layoutConstraint="center">
+                <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get("selection");
+                    var entity = view.get("#dataSet${model.modelName}").getData("#");
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get("id") == entity.get("id")) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set("selection", newSelection);*/
+                </ClientEvent>
+                <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get("#dataSet${model.modelName}").getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+                <Property name="dataSet">dataSet${model.modelName}</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="dataType">dataType${model.modelName}</Property>
+                <Property name="rowHeight">26</Property>
+                <Property name="width">100%</Property>
+                <Property name="highlightCurrentRow">false</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+#foreach($field in $fields)
+    #if(${field.listFlag}=="1")
+        #if(${field.componentType}=="7"||
+            ${field.componentType}=="8"||
+            ${field.componentType}=="9"||
+            ${field.componentType}=="10"||
+            ${field.componentType}=="11"||
+            ${field.componentType}=="12"||
+            ${field.componentType}=="13")
+                <DataColumn name="${field.columnName}Name" property="${field.columnName}Name"/>
+        #else
+                <DataColumn name="${field.columnName}" property="${field.columnName}"/>
+        #end
+    #end
+#end
+            </DataGrid>
+                <ToolBar layoutConstraint="bottom">
+                    <DataPilot>
+                        <Property name="dataSet">dataSet${model.modelName}</Property>
+                        <Property name="itemCodes">pages</Property>
+                    </DataPilot>
+                    <Separator/>
+                </ToolBar>
+            </Children>
+            <Tools/>
+        </Panel>
+    </Container>
+    <UpdateAction id="save${model.modelName}sAction">
+        <Property name="executingMessage">正在处理...</Property>
+        <Property name="successMessage">操作成功</Property>
+        <Property name="dataResolver">${model.beanName}Action#save${model.modelName}s</Property>
+        <UpdateItem>
+        <Property name="dataSet">dataSet${model.modelName}</Property>
+        </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialog${model.modelName}">
+        <ClientEvent name="onClose">
+            view.get("#dataSet${model.modelName}").getData().cancel();
+            view.get("#dialog${model.modelName}").hide();
+        </ClientEvent>
+        <Property name="caption">信息编辑</Property>
+        <Property name="center">true</Property>
+        <Property name="border">normal</Property>
+        <Property name="minimizeable">true</Property>
+        <Property name="maximizeable">true</Property>
+        <Property name="modal">true</Property>
+        <Property name="width">60%</Property>
+        <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get("#save${model.modelName}sAction");
+            var dialog=view.get("#dialog${model.modelName}");
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSet${model.modelName}").getData().cancel();
+            view.get("#dialog${model.modelName}").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoForm${model.modelName}">
+          <Property name="dataType">dataType${model.modelName}</Property>
+          <Property name="dataSet">dataSet${model.modelName}</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+#foreach($field in $fields)
+    #if(${field.modifyFlag}=="1")
+        <AutoFormElement>
+        #if(${field.componentType}=="7"||
+            ${field.componentType}=="8"||
+            ${field.componentType}=="9"||
+            ${field.componentType}=="10"||
+            ${field.componentType}=="11"||
+            ${field.componentType}=="12"||
+            ${field.componentType}=="13")
+            <Property name="name">${field.columnName}Name</Property>
+            <Property name="property">${field.columnName}Name</Property>
+            <Property name="trigger">${field.columnName}DropDown</Property>
+            <Property name="userData">
+                <Entity>
+                  <Property name="code">${field.columnName}</Property>
+                </Entity>
+            </Property>
+        #else
+            <Property name="name">${field.columnName}</Property>
+            <Property name="property">${field.columnName}</Property>
+        #end
+            <Property name="hideMode">display</Property>
+        #if(${field.componentType}=="6")
+            <Property name="editorType">PasswordEditor</Property>
+        #end
+        #if(${field.componentType}=="5")
+            <Property name="editorType">TextArea</Property>
+        #end
+
+        #if(${field.modifyReadyFlag}=="1")
+            <Property name="readOnly">true</Property>
+        #else
+            <Property name="readOnly">false</Property>
+        #end
+        #if(${field.componentType}!="4")
+            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyBlankText${elExpreEndTag}</Property>
+                  <Property name="tip">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyTip${elExpreEndTag}</Property>
+                </TextEditor>
+            </Editor>
+        #else
+            <Editor/>
+        #end
+        </AutoFormElement>
+    #end
+#end
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+    <Dialog id="addDialog${model.modelName}">
+     <ClientEvent name="onClose">
+         view.get("#dataSet${model.modelName}").getData().cancel();
+         view.get("#dialog${model.modelName}").hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get("#save${model.modelName}sAction");
+              var dialog=view.get("#addDialog${model.modelName}");
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSet${model.modelName}").getData().cancel();
+            view.get("#addDialog${model.modelName}").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoForm${model.modelName}">
+          <Property name="dataType">dataType${model.modelName}</Property>
+          <Property name="dataSet">dataSet${model.modelName}</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+#foreach($field in $fields)
+    #if(${field.addFlag}=="1")
+          <AutoFormElement>
+        #if(${field.componentType}=="7"||
+            ${field.componentType}=="8"||
+            ${field.componentType}=="9"||
+            ${field.componentType}=="10"||
+            ${field.componentType}=="11"||
+            ${field.componentType}=="12"||
+            ${field.componentType}=="13")
+              <Property name="name">${field.columnName}Name</Property>
+              <Property name="property">${field.columnName}Name</Property>
+              <Property name="trigger">${field.columnName}DropDown</Property>
+                <Property name="userData">
+                    <Entity>
+                        <Property name="code">${field.columnName}</Property>
+                    </Entity>
+                </Property>
+         #else
+          <Property name="name">${field.columnName}</Property>
+          <Property name="property">${field.columnName}</Property>
+         #end
+            <Property name="hideMode">display</Property>
+        #if(${field.componentType}=="6")
+            <Property name="editorType">PasswordEditor</Property>
+        #end
+        #if(${field.componentType}=="5")
+            <Property name="editorType">TextArea</Property>
+        #end
+            <Property name="labelAlign">right</Property>
+        #if(${field.addReadyFlag}=="1")
+            <Property name="readOnly">true</Property>
+        #else
+            <Property name="readOnly">false</Property>
+        #end
+        #if(${field.componentType}!="4")
+            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyBlankText${elExpreEndTag}</Property>
+                    <Property name="tip">${elExpreStartTag}req["${model.packageName}.pojo.${model.modelName}.${field.columnName}"].propertyTip${elExpreEndTag}</Property>
+                </TextEditor>
+            </Editor>
+        #else
+            <Editor/>
+        #end
+          </AutoFormElement>
+    #end
+#end
+        </AutoForm>
+    </Children>
+    <Tools/>
+    </Dialog>
+
+   <Dialog id="lookdialog${model.modelName}">
+      <ClientEvent name="onClose">
+        view.get("#dataSet${model.modelName}").getData().cancel();
+	    view.get("#lookdialog${model.modelName}").hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookForm${model.modelName}">
+          <Property name="dataType">dataType${model.modelName}</Property>
+          <Property name="dataSet">dataSet${model.modelName}</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+#foreach($field in $fields)
+
+    ##机构下拉框
+
+    #if(${field.componentType}=="7"&&${field.selectType}=="singleList")
+        <CustomDropDown id="${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown";
+                        var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                            arg.processDefault=false
+                        }else{
+                            self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+            <ClientEvent name="onClose">
+            if(arg.selectedValue){
+                var entity = new dorado.Entity();
+                entity.fromJSON(JSON.parse(arg.selectedValue));
+                var dataSet=self.get("editor").get("parent").get("dataSet");
+                var name=self.get("editor").get("parent").get("property");
+                var code=self.get("editor").get("parent").get("userData.code");
+                dataSet.getData("#").set(code,entity.get("orgCode"));
+                dataSet.getData("#").set(name,entity.get("orgName"));
+                dataSet.notifyObservers();
+            }
+            arg.selectedValue = undefined;
+            return false;
+            </ClientEvent>
+            <Property name="height">300</Property>
+            <Property name="autoOpen">true</Property>
+            <Property name="editable">false</Property>
+            <Property name="minWidth">200</Property>
+            <Property name="minHeight">250</Property>
+            <IFrame>
+                #if($startPos==-1||$endPos==-1)
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+                #else
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+                #end
+            </IFrame>
+        </CustomDropDown>
+         #if(${field.searchFlag}=="1")
+        <CustomDropDown id="qM${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown";
+                        var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                            arg.processDefault=false
+                        }else{
+                            self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+            <ClientEvent name="onClose">
+                if(arg.selectedValue){
+                    var entity = new dorado.Entity();
+                    entity.fromJSON(JSON.parse(arg.selectedValue));
+                    var dataSet=self.get("editor").get("dataSet");
+                    var name=self.get("editor").get("property");
+                    var code=self.get("editor").get("userData.code");
+                    dataSet.getData("#").set(code,entity.get("orgCode"));
+                    dataSet.getData("#").set(name,entity.get("orgName"));
+                    dataSet.notifyObservers();
+                }
+                arg.selectedValue = undefined;
+                return false;
+            </ClientEvent>
+            <Property name="height">300</Property>
+            <Property name="autoOpen">true</Property>
+            <Property name="editable">false</Property>
+            <Property name="minWidth">200</Property>
+            <Property name="minHeight">250</Property>
+            <IFrame>
+                #if($startPos==-1||$endPos==-1)
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+                #else
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+                #end
+            </IFrame>
+        </CustomDropDown>
+        #end
+    #elseif(${field.componentType}=="7"&&${field.selectType}=="singleTree")
+        <CustomDropDown id="${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown";
+                        var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                                alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                        arg.processDefault=false
+                        }else{
+                            self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+            <ClientEvent name="onClose">
+                if(arg.selectedValue){
+                    var entity = new dorado.Entity();
+                    entity.fromJSON(JSON.parse(arg.selectedValue));
+                    var dataSet=self.get("editor").get("parent").get("dataSet");
+                    var name=self.get("editor").get("parent").get("property");
+                    var code=self.get("editor").get("parent").get("userData.code");
+                    dataSet.getData("#").set(code,entity.get("orgCode"));
+                    dataSet.getData("#").set(name,entity.get("orgName"));
+                    dataSet.notifyObservers();
+                }
+                arg.selectedValue = undefined;
+                return false;
+            </ClientEvent>
+            <Property name="height">300</Property>
+            <Property name="autoOpen">true</Property>
+            <Property name="editable">false</Property>
+            <Property name="minWidth">200</Property>
+            <Property name="minHeight">250</Property>
+            <IFrame>
+                #if($startPos==-1||$endPos==-1)
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+                #else
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+                #end
+            </IFrame>
+        </CustomDropDown>
+         #if(${field.searchFlag}=="1")
+        <CustomDropDown id="qM${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown";
+                        var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                                alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                        arg.processDefault=false
+                        }else{
+                            self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+            <ClientEvent name="onClose">
+                if(arg.selectedValue){
+                    var entity = new dorado.Entity();
+                    entity.fromJSON(JSON.parse(arg.selectedValue));
+                    var dataSet=self.get("editor").get("dataSet");
+                    var name=self.get("editor").get("property");
+                    var code=self.get("editor").get("userData.code");
+                    dataSet.getData("#").set(code,entity.get("orgCode"));
+                    dataSet.getData("#").set(name,entity.get("orgName"));
+                    dataSet.notifyObservers();
+                }
+                arg.selectedValue = undefined;
+                return false;
+            </ClientEvent>
+            <Property name="height">300</Property>
+            <Property name="autoOpen">true</Property>
+            <Property name="editable">false</Property>
+            <Property name="minWidth">200</Property>
+            <Property name="minHeight">250</Property>
+            <IFrame>
+                #if($startPos==-1||$endPos==-1)
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+                #else
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+                #end
+            </IFrame>
+        </CustomDropDown>
+        #end
+    #elseif(${field.componentType}=="7"&&${field.selectType}=="multiList")
+        <CustomDropDown id="${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown";
+                        var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                                alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                        arg.processDefault=false
+                        }else{
+                            self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+		    <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+                var entitys = arg.selectedValue;&#xD;
+                var orgName = &quot;&quot;;&#xD;
+                var orgCode = &quot;&quot;;&#xD;
+                for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+                    orgName += entitys[i].get(&quot;orgName&quot;)+&quot;,&quot;;&#xD;
+                    orgCode += entitys[i].get(&quot;orgCode&quot;)+&quot;,&quot;;&#xD;
+                }&#xD;
+                if(orgName!=&quot;&quot;){&#xD;
+                    orgName=orgName.substr(0,orgName.length-1);&#xD;
+                }&#xD;
+                if(orgCode!=&quot;&quot;){&#xD;
+                    orgCode=orgCode.substr(0,orgCode.length-1);&#xD;
+                }&#xD;
+                var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+                var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+                var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+                dataSet.getData(&quot;#&quot;).set(code,orgCode);&#xD;
+                dataSet.getData(&quot;#&quot;).set(name,orgName);&#xD;
+                &#xD;
+                dataSet.notifyObservers();&#xD;
+                }&#xD;
+                if(orgName!=&quot;&quot;){&#xD;
+                orgName=orgName.substr(0,orgName.length-1);&#xD;
+                }&#xD;
+                if(orgCode!=&quot;&quot;){&#xD;
+                orgCode=orgCode.substr(0,orgCode.length-1);&#xD;
+                }&#xD;
+                var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+                var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+                var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+                dataSet.getData(&quot;#&quot;).set(code,orgCode);&#xD;
+                dataSet.getData(&quot;#&quot;).set(name,orgName);&#xD;
+                &#xD;
+                dataSet.notifyObservers();&#xD;
+                }&#xD;
+                arg.selectedValue = undefined;&#xD;
+                return false;&#xD;
+          </ClientEvent>
+          <Property name="height">300</Property>
+          <Property name="autoOpen">true</Property>
+          <Property name="editable">false</Property>
+          <Property name="minWidth">200</Property>
+          <Property name="minHeight">250</Property>
+          <IFrame>
+              #if($startPos==-1||$endPos==-1)
+                  <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+              #else
+                  <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+              #end
+          </IFrame>
+        </CustomDropDown>
+         #if(${field.searchFlag}=="1")
+        <CustomDropDown id="qM${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown";
+                        var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                                alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                        arg.processDefault=false
+                        }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+                var entitys = arg.selectedValue;&#xD;
+                var orgName = &quot;&quot;;&#xD;
+                var orgCode = &quot;&quot;;&#xD;
+                for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+                    orgName += entitys[i].get(&quot;orgName&quot;)+&quot;,&quot;;&#xD;
+                    orgCode += entitys[i].get(&quot;orgCode&quot;)+&quot;,&quot;;&#xD;
+                }&#xD;
+                if(orgName!=&quot;&quot;){&#xD;
+                    orgName=orgName.substr(0,orgName.length-1);&#xD;
+                }&#xD;
+                if(orgCode!=&quot;&quot;){&#xD;
+                    orgCode=orgCode.substr(0,orgCode.length-1);&#xD;
+                }&#xD;
+                var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+                var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+                var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+                dataSet.getData(&quot;#&quot;).set(code,orgCode);&#xD;
+                dataSet.getData(&quot;#&quot;).set(name,orgName);&#xD;
+                &#xD;
+                dataSet.notifyObservers();&#xD;
+                }&#xD;
+                arg.selectedValue = undefined;&#xD;
+                return false;&#xD;
+            </ClientEvent>
+          <Property name="height">300</Property>
+          <Property name="autoOpen">true</Property>
+          <Property name="editable">false</Property>
+          <Property name="minWidth">200</Property>
+          <Property name="minHeight">250</Property>
+          <IFrame>
+              #if($startPos==-1||$endPos==-1)
+                  <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+              #else
+                  <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+              #end
+          </IFrame>
+        </CustomDropDown>
+        #end
+    #elseif(${field.componentType}=="7"&&${field.selectType}=="multiTree")
+        <CustomDropDown id="${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown";
+                        var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                                alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                        arg.processDefault=false
+                        }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+            <ClientEvent name="onClose">
+                if(arg.selectedValue){&#xD;
+                var entitys = arg.selectedValue;&#xD;
+                var orgName = &quot;&quot;;&#xD;
+                var orgCode = &quot;&quot;;&#xD;
+                for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+                    orgName += entitys[i].get(&quot;orgName&quot;)+&quot;,&quot;;&#xD;
+                    orgCode += entitys[i].get(&quot;orgCode&quot;)+&quot;,&quot;;&#xD;
+                }&#xD;
+                if(orgName!=&quot;&quot;){&#xD;
+                    orgName=orgName.substr(0,orgName.length-1);&#xD;
+                }&#xD;
+                if(orgCode!=&quot;&quot;){&#xD;
+                    orgCode=orgCode.substr(0,orgCode.length-1);&#xD;
+                }&#xD;
+                var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+                var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+                var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+                dataSet.getData(&quot;#&quot;).set(code,orgCode);&#xD;
+                dataSet.getData(&quot;#&quot;).set(name,orgName);&#xD;
+                &#xD;
+                dataSet.notifyObservers();&#xD;
+                }&#xD;
+                arg.selectedValue = undefined;&#xD;
+                return false;&#xD;
+              </ClientEvent>
+          <Property name="height">300</Property>
+          <Property name="autoOpen">true</Property>
+          <Property name="editable">false</Property>
+          <Property name="minWidth">200</Property>
+          <Property name="minHeight">250</Property>
+          <IFrame>
+              #if($startPos==-1||$endPos==-1)
+                  <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+              #else
+                  <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+              #end
+          </IFrame>
+        </CustomDropDown>
+         #if(${field.searchFlag}=="1")
+        <CustomDropDown id="qM${field.columnName}DropDown">
+            #if(${field.rootCode}!="")
+                #set($rootCode=${field.rootCode})
+                #set($startPos=$rootCode.indexOf("["))
+                #set($endPos=$rootCode.indexOf("]"))
+                #if(${startPos}>-1&&${endPos}>-1&&(${field.orgCategory}=="0"||${field.orgCategory}=="")))
+                    #set($startPos=$startPos+1)
+                    #set($fieldName=$rootCode.substring($startPos,$endPos))
+                    <ClientEvent name="beforeExecute">
+                        var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown";
+                        var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                        if(!fieldValue){
+                        #foreach($field in $fields)
+                            #if(${field.columnName}==${fieldName})
+                                alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                            #end
+                        #end
+                        arg.processDefault=false
+                        }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                        }
+                    </ClientEvent>
+                #end
+            #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+                var entitys = arg.selectedValue;&#xD;
+                var orgName = &quot;&quot;;&#xD;
+                var orgCode = &quot;&quot;;&#xD;
+                for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+                    orgName += entitys[i].get(&quot;orgName&quot;)+&quot;,&quot;;&#xD;
+                    orgCode += entitys[i].get(&quot;orgCode&quot;)+&quot;,&quot;;&#xD;
+                }&#xD;
+                if(orgName!=&quot;&quot;){&#xD;
+                    orgName=orgName.substr(0,orgName.length-1);&#xD;
+                }&#xD;
+                if(orgCode!=&quot;&quot;){&#xD;
+                    orgCode=orgCode.substr(0,orgCode.length-1);&#xD;
+                }&#xD;
+                var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+                var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+                var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+                dataSet.getData(&quot;#&quot;).set(code,orgCode);&#xD;
+                dataSet.getData(&quot;#&quot;).set(name,orgName);&#xD;
+                &#xD;
+                    dataSet.notifyObservers();&#xD;
+                }&#xD;
+                arg.selectedValue = undefined;&#xD;
+                return false;&#xD;
+            </ClientEvent>
+            <Property name="height">300</Property>
+            <Property name="autoOpen">true</Property>
+            <Property name="editable">false</Property>
+            <Property name="minWidth">200</Property>
+            <Property name="minHeight">250</Property>
+            <IFrame>
+                #if($startPos==-1||$endPos==-1)
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+                #else
+                    <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=${field.selectType}&amp;category=${field.orgCategory}&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+                #end
+            </IFrame>
+        </CustomDropDown>
+        #end
+    #end
+
+    ##用户下拉框
+
+    #if(${field.componentType}=="8"&&${field.selectType}=="singleList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                        alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                        arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;userCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;userName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                        alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                        arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;userCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;userName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    #elseif(${field.componentType}=="8"&&${field.selectType}=="multiList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entitys = arg.selectedValue;&#xD;
+            var userName = &quot;&quot;;&#xD;
+            var userCode = &quot;&quot;;&#xD;
+            for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+            userName += entitys[i].get(&quot;userName&quot;)+&quot;,&quot;;&#xD;
+            userCode += entitys[i].get(&quot;userCode&quot;)+&quot;,&quot;;&#xD;
+            }&#xD;
+            if(userName!=&quot;&quot;){&#xD;
+            userName=userName.substr(0,userName.length-1);&#xD;
+            }&#xD;
+            if(userCode!=&quot;&quot;){&#xD;
+            userCode=userCode.substr(0,userCode.length-1);&#xD;
+            }&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,userCode);&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,userName);&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;&#xD;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entitys = arg.selectedValue;&#xD;
+            var userName = &quot;&quot;;&#xD;
+            var userCode = &quot;&quot;;&#xD;
+            for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+            userName += entitys[i].get(&quot;userName&quot;)+&quot;,&quot;;&#xD;
+            userCode += entitys[i].get(&quot;userCode&quot;)+&quot;,&quot;;&#xD;
+            }&#xD;
+            if(userName!=&quot;&quot;){&#xD;
+            userName=userName.substr(0,userName.length-1);&#xD;
+            }&#xD;
+            if(userCode!=&quot;&quot;){&#xD;
+            userCode=userCode.substr(0,userCode.length-1);&#xD;
+            }&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,userCode);&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,userName);&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;&#xD;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.UserSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    #end
+
+    ##岗位下拉框
+
+    #if(${field.componentType}=="9"&&${field.selectType}=="singleList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;postCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;postName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;postCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;postName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    #elseif(${field.componentType}=="9"&&${field.selectType}=="multiList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entitys = arg.selectedValue;&#xD;
+            var postName = &quot;&quot;;&#xD;
+            var postCode = &quot;&quot;;&#xD;
+            for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+            postName += entitys[i].get(&quot;postName&quot;)+&quot;,&quot;;&#xD;
+            postCode += entitys[i].get(&quot;postCode&quot;)+&quot;,&quot;;&#xD;
+            }&#xD;
+            if(postName!=&quot;&quot;){&#xD;
+            postName=postName.substr(0,postName.length-1);&#xD;
+            }&#xD;
+            if(postCode!=&quot;&quot;){&#xD;
+            postCode=postCode.substr(0,postCode.length-1);&#xD;
+            }&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,postCode);&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,postName);&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;&#xD;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entitys = arg.selectedValue;&#xD;
+            var postName = &quot;&quot;;&#xD;
+            var postCode = &quot;&quot;;&#xD;
+            for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+            postName += entitys[i].get(&quot;postName&quot;)+&quot;,&quot;;&#xD;
+            postCode += entitys[i].get(&quot;postCode&quot;)+&quot;,&quot;;&#xD;
+            }&#xD;
+            if(postName!=&quot;&quot;){&#xD;
+            postName=postName.substr(0,postName.length-1);&#xD;
+            }&#xD;
+            if(postCode!=&quot;&quot;){&#xD;
+            postCode=postCode.substr(0,postCode.length-1);&#xD;
+            }&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,postCode);&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,postName);&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;&#xD;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown&amp;orgCode=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+#end
+
+##业务条线下拉框
+
+    #if(${field.componentType}=="11"&&${field.selectType}=="singleList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    #end
+    
+    
+    
+    
+      #if(${field.componentType}=="11"&&${field.selectType}=="singleTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleTree&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=singleList&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end 
+    
+    
+    #if(${field.componentType}=="11"&&${field.selectType}=="multiList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var busilineName = &quot;&quot;;&#xD;
+		var id = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			busilineName += entitys[i].get(&quot;busilineName&quot;)+&quot;,&quot;;&#xD;
+			id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(busilineName!=&quot;&quot;){&#xD;
+			busilineName=busilineName.substr(0,busilineName.length-1);&#xD;
+		}&#xD;
+		if(id!=&quot;&quot;){&#xD;
+			id=id.substr(0,id.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,busilineName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var busilineName = &quot;&quot;;&#xD;
+	var id = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		busilineName += entitys[i].get(&quot;busilineName&quot;)+&quot;,&quot;;&#xD;
+		id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(busilineName!=&quot;&quot;){&#xD;
+		busilineName=busilineName.substr(0,busilineName.length-1);&#xD;
+	}&#xD;
+	if(id!=&quot;&quot;){&#xD;
+		id=id.substr(0,id.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,busilineName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    
+    #end
+   
+     #if(${field.componentType}=="11"&&${field.selectType}=="multiTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var busilineName = &quot;&quot;;&#xD;
+		var id = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			busilineName += entitys[i].get(&quot;busilineName&quot;)+&quot;,&quot;;&#xD;
+			id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(busilineName!=&quot;&quot;){&#xD;
+			busilineName=busilineName.substr(0,busilineName.length-1);&#xD;
+		}&#xD;
+		if(id!=&quot;&quot;){&#xD;
+			id=id.substr(0,id.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,busilineName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var busilineName = &quot;&quot;;&#xD;
+	var id = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		busilineName += entitys[i].get(&quot;busilineName&quot;)+&quot;,&quot;;&#xD;
+		id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(busilineName!=&quot;&quot;){&#xD;
+		busilineName=busilineName.substr(0,busilineName.length-1);&#xD;
+	}&#xD;
+	if(id!=&quot;&quot;){&#xD;
+		id=id.substr(0,id.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,busilineName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end
+    
+    
+    ##BASEL业务条线下拉框
+
+    #if(${field.componentType}=="13"&&${field.selectType}=="singleList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineBaselName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineBaselName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    #end
+    
+    
+    
+    
+      #if(${field.componentType}=="13"&&${field.selectType}=="singleTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineBaselName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleTree&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;busilineBaselName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=singleList&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end 
+    
+    
+    #if(${field.componentType}=="13"&&${field.selectType}=="multiList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var busilineBaselName = &quot;&quot;;&#xD;
+		var id = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			busilineBaselName += entitys[i].get(&quot;busilineBaselName&quot;)+&quot;,&quot;;&#xD;
+			id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(busilineBaselName!=&quot;&quot;){&#xD;
+			busilineBaselName=busilineBaselName.substr(0,busilineBaselName.length-1);&#xD;
+		}&#xD;
+		if(id!=&quot;&quot;){&#xD;
+			id=id.substr(0,id.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,busilineBaselName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var busilineBaselName = &quot;&quot;;&#xD;
+	var id = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		busilineBaselName += entitys[i].get(&quot;busilineBaselName&quot;)+&quot;,&quot;;&#xD;
+		id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(busilineBaselName!=&quot;&quot;){&#xD;
+		busilineBaselName=busilineBaselName.substr(0,busilineBaselName.length-1);&#xD;
+	}&#xD;
+	if(id!=&quot;&quot;){&#xD;
+		id=id.substr(0,id.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,busilineBaselName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    
+    #end
+   
+     #if(${field.componentType}=="13"&&${field.selectType}=="multiTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var busilineBaselName = &quot;&quot;;&#xD;
+		var id = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			busilineBaselName += entitys[i].get(&quot;busilineBaselName&quot;)+&quot;,&quot;;&#xD;
+			id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(busilineBaselName!=&quot;&quot;){&#xD;
+			busilineBaselName=busilineBaselName.substr(0,busilineBaselName.length-1);&#xD;
+		}&#xD;
+		if(id!=&quot;&quot;){&#xD;
+			id=id.substr(0,id.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,busilineBaselName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var busilineBaselName = &quot;&quot;;&#xD;
+	var id = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		busilineBaselName += entitys[i].get(&quot;busilineBaselName&quot;)+&quot;,&quot;;&#xD;
+		id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(busilineBaselName!=&quot;&quot;){&#xD;
+		busilineBaselName=busilineBaselName.substr(0,busilineBaselName.length-1);&#xD;
+	}&#xD;
+	if(id!=&quot;&quot;){&#xD;
+		id=id.substr(0,id.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,busilineBaselName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BaselBusiLineSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end
+   
+   
+     ##产品下拉框
+
+    #if(${field.componentType}=="12"&&${field.selectType}=="singleList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;productName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;productName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    #end
+    
+    
+    
+    
+      #if(${field.componentType}=="12"&&${field.selectType}=="singleTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;productName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleTree&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;id&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;productName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=singleList&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end 
+    
+    
+    #if(${field.componentType}=="12"&&${field.selectType}=="multiList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var productName = &quot;&quot;;&#xD;
+		var id = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			productName += entitys[i].get(&quot;productName&quot;)+&quot;,&quot;;&#xD;
+			id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(productName!=&quot;&quot;){&#xD;
+			productName=productName.substr(0,productName.length-1);&#xD;
+		}&#xD;
+		if(id!=&quot;&quot;){&#xD;
+			id=id.substr(0,id.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,productName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var productName = &quot;&quot;;&#xD;
+	var id = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		productName += entitys[i].get(&quot;productName&quot;)+&quot;,&quot;;&#xD;
+		id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(productName!=&quot;&quot;){&#xD;
+		productName=productName.substr(0,productName.length-1);&#xD;
+	}&#xD;
+	if(id!=&quot;&quot;){&#xD;
+		id=id.substr(0,id.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,productName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    
+    #end
+   
+     #if(${field.componentType}=="12"&&${field.selectType}=="multiTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var productName = &quot;&quot;;&#xD;
+		var id = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			productName += entitys[i].get(&quot;productName&quot;)+&quot;,&quot;;&#xD;
+			id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(productName!=&quot;&quot;){&#xD;
+			productName=productName.substr(0,productName.length-1);&#xD;
+		}&#xD;
+		if(id!=&quot;&quot;){&#xD;
+			id=id.substr(0,id.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,productName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var productName = &quot;&quot;;&#xD;
+	var id = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		productName += entitys[i].get(&quot;productName&quot;)+&quot;,&quot;;&#xD;
+		id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(productName!=&quot;&quot;){&#xD;
+		productName=productName.substr(0,productName.length-1);&#xD;
+	}&#xD;
+	if(id!=&quot;&quot;){&#xD;
+		id=id.substr(0,id.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,productName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.ProductSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end 
+    
+     ##字典下拉框
+
+    #if(${field.componentType}=="10"&&${field.selectType}=="singleList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    #end
+    
+    
+    
+    
+      #if(${field.componentType}=="10"&&${field.selectType}=="singleTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#dataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==-1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleTree&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;id=${rootCode}";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+        <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entity = new dorado.Entity();&#xD;
+            entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;
+        </ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleList&amp;expandLevel=${field.orgExpandLevel}&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end 
+    
+    
+    #if(${field.componentType}=="10"&&${field.selectType}=="multiList")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var dictName = &quot;&quot;;&#xD;
+		var dictCode = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			dictName += entitys[i].get(&quot;dictName&quot;)+&quot;,&quot;;&#xD;
+			dictCode += entitys[i].get(&quot;dictCode&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(dictName!=&quot;&quot;){&#xD;
+			dictName=dictName.substr(0,dictName.length-1);&#xD;
+		}&#xD;
+		if(dictCode!=&quot;&quot;){&#xD;
+			dictCode=dictCode.substr(0,dictCode.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,dictCode);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,dictName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiList&amp;dropdown=${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    
+     
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var dictName = &quot;&quot;;&#xD;
+	var dictCode = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		dictName += entitys[i].get(&quot;dictName&quot;)+&quot;,&quot;;&#xD;
+		dictCode += entitys[i].get(&quot;dictCode&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(dictName!=&quot;&quot;){&#xD;
+		dictName=dictName.substr(0,dictName.length-1);&#xD;
+	}&#xD;
+	if(dictCode!=&quot;&quot;){&#xD;
+		dictCode=dictCode.substr(0,dictCode.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,dictCode);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,dictName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiList&amp;dropdown=qM${field.columnName}DropDown</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    
+    #end
+   
+     #if(${field.componentType}=="10"&&${field.selectType}=="multiTree")
+    <CustomDropDown id="${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                    self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+             <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var dictName = &quot;&quot;;&#xD;
+		var dictCode = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			dictName += entitys[i].get(&quot;dictName&quot;)+&quot;,&quot;;&#xD;
+			dictCode += entitys[i].get(&quot;dictCode&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(dictName!=&quot;&quot;){&#xD;
+			dictName=dictName.substr(0,dictName.length-1);&#xD;
+		}&#xD;
+		if(dictCode!=&quot;&quot;){&#xD;
+			dictCode=dictCode.substr(0,dictCode.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,dictCode);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,dictName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiTree&amp;dropdown=${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+     #if(${field.searchFlag}=="1")
+    <CustomDropDown id="qM${field.columnName}DropDown">
+        #if(${field.rootCode}!="")
+            #set($rootCode=${field.rootCode})
+            #set($startPos=$rootCode.indexOf("["))
+            #set($endPos=$rootCode.indexOf("]"))
+            #if(${startPos}>-1&&${endPos}>-1)
+                #set($startPos=$startPos+1)
+                #set($fieldName=$rootCode.substring($startPos,$endPos))
+                <ClientEvent name="beforeExecute">
+                    var path = "${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown";
+                    var fieldValue = view.get("#querydataSet${model.modelName}").getData("#").get("${fieldName}");
+                    if(!fieldValue){
+                    #foreach($field in $fields)
+                        #if(${field.columnName}==${fieldName})
+                            alert("请先选择${elExpreStartTag}req["${field.columnName}"].propertyLabel${elExpreEndTag}!");
+                        #end
+                    #end
+                    arg.processDefault=false
+                    }else{
+                        self.set('control.path',path+'&amp;orgCode='+fieldValue)
+                    }
+                </ClientEvent>
+            #end
+        #end
+            <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entitys = arg.selectedValue;&#xD;
+	var dictName = &quot;&quot;;&#xD;
+	var dictCode = &quot;&quot;;&#xD;
+	for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+		dictName += entitys[i].get(&quot;dictName&quot;)+&quot;,&quot;;&#xD;
+		dictCode += entitys[i].get(&quot;dictCode&quot;)+&quot;,&quot;;&#xD;
+	}&#xD;
+	if(dictName!=&quot;&quot;){&#xD;
+		dictName=dictName.substr(0,dictName.length-1);&#xD;
+	}&#xD;
+	if(dictCode!=&quot;&quot;){&#xD;
+		dictCode=dictCode.substr(0,dictCode.length-1);&#xD;
+	}&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,dictCode);&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,dictName);&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+        <Property name="height">300</Property>
+        <Property name="autoOpen">true</Property>
+        <Property name="editable">false</Property>
+        <IFrame>
+            #if($startPos==-1||$endPos==1)
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}&amp;dictId=${rootCode}</Property>
+            #else
+                <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiTree&amp;dropdown=qM${field.columnName}DropDown&amp;expandLevel=${field.orgExpandLevel}</Property>
+            #end
+        </IFrame>
+    </CustomDropDown>
+    #end
+    
+    #end 
+    
+#end
+
+
+	#foreach($field in $fields)
+	#if(${field.validators}=="唯一验证")
+ 	<AjaxAction id="checkIsUnique">
+      <Property name="service">createMetadata#checkIsUnique</Property>
+    </AjaxAction>
+      #end
+	#end
+    <AjaxAction id="checkPermissionAction">
+        <Property name="service">${model.beanName}Action#checkUpdDelPermission</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

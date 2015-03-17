@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+    <Arguments/>
+    <Context/>
+    <Model/>
+    <View>
+        <ToolBar>
+            <MenuButton>
+                <Property name="caption">系统管理</Property>
+                <MenuItem>
+                    <Property name="caption">组织机构管理</Property>
+                </MenuItem>
+                <MenuItem>
+                    <Property name="caption">权限管理</Property>
+                </MenuItem>
+            </MenuButton>
+        </ToolBar>
+    </View>
+</ViewConfig>

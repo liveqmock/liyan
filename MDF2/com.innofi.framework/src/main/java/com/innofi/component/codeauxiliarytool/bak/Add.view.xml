@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeMdTable">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdTable</Property>
+      <PropertyDef name="tableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">表结构ID</Property>
+      </PropertyDef>
+      <PropertyDef name="systemId">
+        <Property name="dataType">String</Property>
+        <Property name="label">系统ID</Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="tableCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableCnName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tableDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableDesc"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tableType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tableType"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="entityName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.entityName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="daoName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.daoName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="serviceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.serviceName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="actionName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.actionName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="uiName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.uiName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="loadMethod">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.loadMethod"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="tbsName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.tbsName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="dataStatus">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.dataStatus"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="hisTabCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.hisTabCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isTreeStruct">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isTreeStruct"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="isLog">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.isLog"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.status"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="verNo">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.verNo"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.id"].propertyLabel}</Property></PropertyDef>
+      <PropertyDef name="version">
+        <Property name="dataType">int</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtDate"].propertyLabel}</Property></PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.updDate"].propertyLabel}</Property></PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.crtUserCode"].propertyLabel}</Property></PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+      <Property name="label">${req["com.innofi.framework.pojo.metadata.MdTable.updUserCode"].propertyLabel}</Property></PropertyDef>
+      <PropertyDef name="objStatus">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">
+view.get("#dataSetMdTable.data").insert({
+	tableId:'MD001',
+	systemId:'PLATFORM',
+	tableName:'MD_TABLESPACE',
+	tableCnName:'表空间',
+	tableDesc:'存储表空间信息',
+	tableType:'02_平台表',
+});</ClientEvent>
+    <DataSet id="dataSetMdTable">
+      <Property name="loadMode">manual</Property>
+      <Property name="dataType">[dataTypeMdTable]</Property>
+      <Property name="readOnly">true</Property>
+    </DataSet>
+    <VerticalTabControl id="left" layoutConstraint="center">
+      <Property name="tabPlacement">left</Property>
+      <Property name="tabColumnWidth">150</Property>
+      <ControlTab>
+        <Property name="caption">数据表详细信息</Property>
+        <Property name="tip">主表记录信息</Property>
+        <Container>
+          <TabControl>
+            <ControlTab>
+              <Property name="caption">数据表主信息</Property>
+              <Container>
+                <Panel layout="padding:1" layoutConstraint="top">
+                  <Property name="width">100%</Property>
+                  <Property name="height">50</Property>
+                  <Property name="caption">流程状态</Property>
+                  <Property name="collapseable">false</Property>
+                  <Children>
+                    <ToolBar layoutConstraint="top ">
+                      <Label id="a">
+                        <Property name="text">发 起  -&gt;</Property>
+                      </Label>
+                      <Label id="b">
+                        <Property name="text">审 核 -&gt;</Property>
+                      </Label>
+                      <Label id="c">
+                        <ClientEvent name="onRefreshDom">arg.dom.style.color = "blue";
+arg.processDefault = true;</ClientEvent>
+                        <Property name="text">审 批 -&gt;</Property>
+                      </Label>
+                      <Label id="d">
+                        <Property name="text">归 档 </Property>
+                      </Label>
+                    </ToolBar>
+                  </Children>
+                </Panel>
+                <FieldSet layoutConstraint="center">
+                  <Property name="caption">数据表信息</Property>
+                  <Property name="height">80%</Property>
+                  <Buttons/>
+                  <Children>
+                    <AutoForm id="lookFormMdTable" layoutConstraint="center">
+                      <Property name="dataType">dataTypeMdTable</Property>
+                      <Property name="dataSet">dataSetMdTable</Property>
+                      <Property name="labelAlign">right</Property>
+                      <Property name="hideMode">visibility</Property>
+                      <Property name="autoCreateElements">false</Property>
+                      <Property name="cols">*,*</Property>
+                      <AutoFormElement>
+                        <Property name="name">tableId</Property>
+                        <Property name="property">tableId</Property>
+                        <Property name="labelWidth">120</Property>
+                        <Editor/>
+                      </AutoFormElement>
+                      <AutoFormElement>
+                        <Property name="name">systemId</Property>
+                        <Property name="property">systemId</Property>
+                        <Editor/>
+                      </AutoFormElement>
+                      <AutoFormElement>
+                        <Property name="name">tableName</Property>
+                        <Property name="property">tableName</Property>
+                        <Editor/>
+                      </AutoFormElement>
+                      <AutoFormElement>
+                        <Property name="name">tableCnName</Property>
+                        <Property name="property">tableCnName</Property>
+                        <Editor/>
+                      </AutoFormElement>
+                      <AutoFormElement layoutConstraint="colSpan:2">
+                        <Property name="name">tableType</Property>
+                        <Property name="property">tableType</Property>
+                        <Property name="labelWidth">350</Property>
+                        <Editor/>
+                      </AutoFormElement>
+                      <AutoFormElement layoutConstraint="colSpan:2">
+                        <Property name="name">tableDesc</Property>
+                        <Property name="property">tableDesc</Property>
+                        <Editor>
+                          <TextArea>
+                            <Property name="height">60</Property>
+                          </TextArea>
+                        </Editor>
+                      </AutoFormElement>
+                    </AutoForm>
+                  </Children>
+                </FieldSet>
+              </Container>
+            </ControlTab>
+            <ControlTab>
+              <Property name="caption">附件信息</Property>
+              <SubViewHolder>
+                <Property name="height">100%</Property>
+                <Property name="width">100%</Property>
+                <Property name="subView">com.innofi.component.codeauxiliarytool.template.Attachment</Property>
+              </SubViewHolder>
+            </ControlTab>
+            <ControlTab>
+              <Property name="caption">审批历史</Property>
+              <SubViewHolder>
+                <Property name="height">100%</Property>
+                <Property name="width">100%</Property>
+                <Property name="subView">com.innofi.component.codeauxiliarytool.template.ApproveHistory</Property>
+              </SubViewHolder>
+            </ControlTab>
+          </TabControl>
+        </Container>
+      </ControlTab>
+      <IFrameTab>
+        <Property name="caption">字段信息</Property>
+        <Property name="tip">根据元数据【表表关系】后台动态添加该TAB页</Property>
+        <Property name="path">Query.d</Property>
+      </IFrameTab>
+      <IFrameTab>
+        <Property name="caption">主键信息</Property>
+        <Property name="tip">根据元数据【表表关系】后台动态添加该TAB页</Property>
+      </IFrameTab>
+      <IFrameTab>
+        <Property name="caption">外键信息</Property>
+        <Property name="tip">根据元数据【表表关系】后台动态添加该TAB页</Property>
+      </IFrameTab>
+    </VerticalTabControl>
+  </View>
+</ViewConfig>

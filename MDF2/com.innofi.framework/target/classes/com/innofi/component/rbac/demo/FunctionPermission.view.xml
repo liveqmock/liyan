@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+    <Arguments/>
+    <Context/>
+    <Model>
+        <DataType name="dataTypeRole">
+            <PropertyDef name="p1">
+                <Property name="label">角色名称</Property>
+            </PropertyDef>
+            <PropertyDef name="p2">
+                <Property name="label">角色描述</Property>
+            </PropertyDef>
+            <PropertyDef name="p3">
+                <Property name="label">...</Property>
+            </PropertyDef>
+        </DataType>
+        <DataType name="dataTypePost">
+            <PropertyDef name="p1">
+                <Property name="label">岗位名称</Property>
+            </PropertyDef>
+            <PropertyDef name="p2">
+                <Property name="label">岗位描述</Property>
+            </PropertyDef>
+            <PropertyDef name="p3">
+                <Property name="label">...</Property>
+            </PropertyDef>
+        </DataType>
+        <DataType name="querydataTypeDept">
+            <Property name="autoCreatePropertyDefs">false</Property>
+            <PropertyDef name="orgId">
+                <Property name="dataType">String</Property>
+                <Property name="label">所属机构</Property>
+                <Property name="required">false</Property>
+            </PropertyDef>
+            <PropertyDef name="deptName">
+                <Property name="dataType">String</Property>
+                <Property name="label">部门名称</Property>
+            </PropertyDef>
+        </DataType>
+    </Model>
+    <View>
+        <ClientEvent name="onReady">view.get("#dataSet1.data").insert({
+            p1:'系统管理员',
+            p2:'......',
+            p3:'......'
+            });
+            view.get("#dataSet1.data").insert({
+            p1:'业务管理员',
+            p2:'......',
+            p3:'......'
+            });
+            view.get("#dataSet1.data").insert({
+            p1:'浏览人员',
+            p2:'......',
+            p3:'......'
+            });
+            
+        </ClientEvent>
+        <DataSet id="dataSet1">
+            <Property name="dataType">[dataTypeRole]</Property>
+            <Property name="loadMode">manual</Property>
+        </DataSet>
+        <Panel id="main">
+            <Property name="caption">功能权限维护</Property>
+            <Buttons/>
+            <Children>
+                <Container id="container1" layout="hbox" layoutConstraint="center">
+                    <Panel id="panelRole" layoutConstraint="top">
+                        <Property name="caption">角色列表</Property>
+                        <Property name="width">40%</Property>
+                        <Buttons/>
+                        <Children>
+                            <ToolBar id="toolBarPost" layoutConstraint="top">
+                                <Property name="tags">tags_toolbar</Property>
+                                <ToolBarButton id="addButton1">
+                                    <ClientEvent name="onClick">var dataSet = view.get("#dataSet1");
+                                        var dialog = view.get("#addPostDialog");
+                                        dataSet.set("readOnly",false);
+                                        view.get("#dataSet1.data").insert();
+                                        dialog.show();
+                                    </ClientEvent>
+                                    <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+                                    <Property name="caption">添加</Property>
+                                </ToolBarButton>
+                                <ToolBarButton id="updateButton2">
+                                    <Property name="caption">修改</Property>
+                                    <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+                                </ToolBarButton>
+                                <ToolBarButton id="delButton3">
+                                    <Property name="caption">删除</Property>
+                                    <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+                                </ToolBarButton>
+                            </ToolBar>
+                            <DataGrid>
+                                <Property name="dataSet">dataSet1</Property>
+                                <Property name="dataType">dataTypePost</Property>
+                                <RowNumColumn/>
+                                <DataColumn name="p1">
+                                    <Property name="property">p1</Property>
+                                </DataColumn>
+                                <DataColumn name="p2">
+                                    <Property name="property">p2</Property>
+                                </DataColumn>
+                                <DataColumn name="p3">
+                                    <Property name="property">p3</Property>
+                                </DataColumn>
+                            </DataGrid>
+                            <ToolBar layoutConstraint="bottom">
+                                <DataPilot>
+                                    <Property name="dataSet">dataSet1</Property>
+                                    <Property name="itemCodes">pages</Property>
+                                </DataPilot>
+                            </ToolBar>
+                        </Children>
+                        <Tools/>
+                    </Panel>
+                    <Panel id="functionPermission">
+                        <Property name="caption">功能权限树</Property>
+                        <Property name="width">60%</Property>
+                        <Buttons/>
+                        <Children>
+                            <Tree id="tree1" layoutConstraint="top">
+                                <ClientEvent name="onContextMenu">var tree = view.get("#tree1");
+                                    view.get("#treeMenu").show({
+                                    position: {
+                                    left: arg.event.pageX,
+                                    top: arg.event.pageY
+                                    }
+                                    });
+                                </ClientEvent>
+                                <Property name="hideMode">display</Property>
+                                <Property name="width">100%</Property>
+                                <Property name="height">100%</Property>
+                                <Node>
+                                    <Property name="label">系统管理</Property>
+                                    <Property name="expanded">true</Property>
+                                    <Property name="checkable">true</Property>
+                                    <Node>
+                                        <Property name="label">组织机构管理</Property>
+                                        <Property name="expanded">true</Property>
+                                        <Property name="checkable">true</Property>
+                                        <Node>
+                                            <Property name="label">机构维护</Property>
+                                            <Property name="expanded">true</Property>
+                                            <Property name="checkable">true</Property>
+                                            <Node>
+                                                <Property name="label">添加</Property>
+                                                <Property name="checkable">true</Property>
+                                            </Node>
+                                            <Node>
+                                                <Property name="label">修改</Property>
+                                                <Property name="checkable">true</Property>
+                                            </Node>
+                                            <Node>
+                                                <Property name="label">删除</Property>
+                                                <Property name="checkable">true</Property>
+                                            </Node>
+                                        </Node>
+                                        <Node>
+                                            <Property name="label">部门维护</Property>
+                                            <Property name="checkable">true</Property>
+                                            <Node>
+                                                <Property name="label">添加</Property>
+                                                <Property name="checkable">true</Property>
+                                            </Node>
+                                            <Node>
+                                                <Property name="label">修改</Property>
+                                                <Property name="checkable">true</Property>
+                                            </Node>
+                                            <Node>
+                                                <Property name="label">删除</Property>
+                                                <Property name="checkable">true</Property>
+                                            </Node>
+                                        </Node>
+                                    </Node>
+                                    <Node>
+                                        <Property name="label">任务管理</Property>
+                                        <Property name="expanded">true</Property>
+                                        <Property name="checkable">true</Property>
+                                        <Node>
+                                            <Property name="label">定时任务</Property>
+                                            <Property name="checkable">true</Property>
+                                        </Node>
+                                        <Node>
+                                            <Property name="label">实施任务</Property>
+                                            <Property name="checkable">true</Property>
+                                        </Node>
+                                    </Node>
+                                    <Node>
+                                        <Property name="label">......</Property>
+                                        <Property name="expanded">true</Property>
+                                        <Property name="checkable">true</Property>
+                                        <Node>
+                                            <Property name="label">......</Property>
+                                            <Property name="checkable">true</Property>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </Tree>
+                        </Children>
+                        <Tools/>
+                    </Panel>
+                </Container>
+            </Children>
+            <Tools/>
+        </Panel>
+    </View>
+</ViewConfig>

@@ -1,0 +1,26 @@
+--jar安装到本地repository
+mvn install:install-file -DgroupId=com.bstek -DartifactId=dorado-source-editor -Dversion=0.0.1 -Dpackaging=jar -Dfile=dorado-source-editor-0.0.1.jar
+--jar安装到私服repository
+mvn deploy:deploy-file -DgroupId=com.bstek -DartifactId=dorado-core -Dversion=7.1.9 -Dpackaging=jar -Dfile=dorado-core-7.1.9.jar -Durl=http://192.168.2.222:8081/nexus/content/repositories/thirdparty/ -DrepositoryId=thirdparty
+
+--jar安装dorado-core
+mvn install:install-file -DgroupId=com.bstek -DartifactId=dorado-core -Dversion=7.2.4-SNAPSHOT -Dpackaging=jar -Dfile=dorado-core-7.2.4-SNAPSHOT.jar
+
+--jar安装js抽取
+mvn install:install-file -DgroupId=com.bstek -DartifactId=dorado-js-controller-extractor -Dversion=0.0.4-BETA -Dpackaging=jar -Dfile=dorado-js-controller-extractor-0.0.4-BETA.jar
+
+--jar安装sqlparser
+mvn install:install-file -DgroupId=gudusoft -DartifactId=gsqlparser -Dversion=1.4.3.7 -Dpackaging=jar -Dfile=gudusoft-gsqlparser-1.4.3.7.jar
+
+--jar安装desktop
+mvn install:install-file -DgroupId=com.bstek -DartifactId=desktop -Dversion=0.1.8-BETA -Dpackaging=jar -Dfile=dorado-desktop-0.1.8-BETA.jar
+
+--jar安装portal
+
+mvn install:install-file -DgroupId=com.bstek -DartifactId=portal -Dversion=0.1.3-BETA -Dpackaging=jar -Dfile=portal-0.1.3-BETA.jar
+
+--jar安装dorado-htmleditor
+mvn install:install-file -DgroupId=com.bstek -DartifactId=dorado-htmleditor -Dversion=0.5.4-SNAPSHOT -Dpackaging=jar -Dfile=dorado-htmleditor-0.5.4-SNAPSHOT.jar
+
+--jar安装dorado-raphael
+mvn install:install-file -DgroupId=org.terracotta -DartifactId=terracotta-toolkit-1.4-runtime -Dversion=4.0.0 -Dpackaging=jar -Dfile=d:/terracotta-toolkit-1.4-runtime-4.0.0.jar

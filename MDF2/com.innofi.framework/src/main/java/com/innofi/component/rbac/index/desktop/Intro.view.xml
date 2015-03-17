@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Model>
+    <DataType name="Condition">
+      <PropertyDef name="orderDate1">
+        <Property name="dataType">Date</Property>
+        <Property name="label">日期（起）</Property>
+      </PropertyDef>
+      <PropertyDef name="orderDate2">
+        <Property name="dataType">Date</Property>
+        <Property name="label">日期（至）</Property>
+      </PropertyDef>
+      <PropertyDef name="customerId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="customerName">
+        <Property name="label">客户</Property>
+      </PropertyDef>
+      <PropertyDef name="employeeId">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+      <PropertyDef name="employeeName">
+        <Property name="label">业务员</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View layout="padding:10">
+    <ClientEvent name="onReady">var intro=view.get('#intro1');&#xD;
+setTimeout(function(){&#xD;
+	intro.start();&#xD;
+&#xD;
+},1000);&#xD;
+</ClientEvent>
+    <Property name="title">Dorado Intro</Property>
+    <DataSet id="dsOrders">
+      <Property name="dataProvider">orderInterceptor#query</Property>
+      <Property name="dataType">[Order]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="pageSize">10</Property>
+    </DataSet>
+    <DataSet id="dsCustomers">
+      <Property name="dataProvider">customerInterceptor#findCustomersByCompanyName</Property>
+      <Property name="dataType">[BaseCustomer]</Property>
+    </DataSet>
+    <DataSet id="dsEmployees">
+      <Property name="dataProvider">employeeInterceptor#getAll</Property>
+      <Property name="dataType">[BaseEmployee]</Property>
+    </DataSet>
+    <DataSetDropDown id="ddCustomers">
+      <Property name="dataSet">dsCustomers</Property>
+      <Property name="assignmentMap">customerId=id,customerName=companyName</Property>
+      <Property name="editable">false</Property>
+      <Property name="useEmptyItem">true</Property>
+    </DataSetDropDown>
+    <DataSetDropDown id="ddEmployees">
+      <Property name="dataSet">dsEmployees</Property>
+      <Property name="assignmentMap">employeeId=id,employeeName=firstName</Property>
+      <Property name="editable">false</Property>
+      <Property name="useEmptyItem">true</Property>
+    </DataSetDropDown>
+    <Intro id="intro1">
+      <Property name="nextLabel">下一步</Property>
+      <Property name="prevLabel">上一步</Property>
+      <Property name="skipLabel">跳出</Property>
+      <Property name="doneLabel">完成</Property>
+      <Property name="showStepNumbers">true</Property>
+      <Step>
+        <Property name="element">toolBar1</Property>
+        <Property name="intro">&lt;h3>菜单&lt;/h3>&#xD;
+&lt;h1 class=&quot;intro-title&quot; >Dorado Intro Addon&lt;/h1>&#xD;
+&#xD;
+&lt;div class=&quot;intro-content&quot;>&#xD;
+    &lt;h3>简介&lt;/h3>&#xD;
+&lt;pre class=&quot;content&quot;>   Dorado Intro可实现操作复杂的界面和应用的操作手册以及帮助文档。&#xD;
+通过简单的Dorado控件配置就可实现多步骤、内容丰富、精美的帮助文档，&#xD;
+让文档与界面和二为一。从而拉近用户与复杂功能的距离...让应用更加&#xD;
+简单易操作。做到每步有提示，每页有帮助的系统...&#xD;
+&lt;/pre>&#xD;
+&#xD;
+    &lt;h3>操作快捷键介绍&lt;/h3>&#xD;
+    &lt;ul>&#xD;
+        &lt;li>&lt;label> Esc&lt;/label>&lt;label class=&quot;description&quot;>--退出帮助文档。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> &amp;rarr;&lt;/label>&lt;label class=&quot;description&quot;>--下一步。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> &amp;larr;&lt;/label>&lt;label class=&quot;description&quot;>--上一步。&lt;/label>&lt;/li>&#xD;
+    &lt;/ul>&#xD;
+    &lt;div>&#xD;
+此文字显示区域为Intro 详细信息区域。&#xD;
+支持纯文字和HTML元素，样式可自行定义。&#xD;
+如：图片&#xD;
+&lt;/div>&#xD;
+&lt;/div>&#xD;
+&#xD;
+&lt;img width=&quot;480px&quot;  src=&quot;./images/dorado7-logo-big.png&quot;>&#xD;
+</Property>
+        <Property name="name">菜单</Property>
+      </Step>
+      <Step>
+        <Property name="element">formCondition</Property>
+        <Property name="intro">&#xD;
+&lt;h1 class=&quot;intro-title&quot; >查询条件区域&lt;/h1>&#xD;
+&#xD;
+&lt;div class=&quot;intro-content&quot;>&#xD;
+&lt;div>可在此区域输入过滤条件。&lt;/div>&#xD;
+    &lt;h3>属性介绍&lt;/h3>&#xD;
+    &lt;ul>&#xD;
+        &lt;li>&lt;label> nextLabel&lt;/label>&lt;label class=&quot;description&quot;>--下一步按钮的Label。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> prevLabel&lt;/label>&lt;label class=&quot;description&quot;>--上一步按钮的Label。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> skipLabel&lt;/label>&lt;label class=&quot;description&quot;>--跳出按钮的Label。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> doneLabel&lt;/label>&lt;label class=&quot;description&quot;>--完成按钮的Label。&lt;/label>&lt;/li>&#xD;
+    &lt;/ul>&#xD;
+详细请参考&lt;a href=&quot;http://bsdn.org/projects/dorado-intro-addon&quot; target=&quot;_blank&quot;>项目主页&lt;/a>&#xD;
+&#xD;
+&lt;div></Property>
+        <Property name="name">查询条件</Property>
+      </Step>
+      <Step>
+        <Property name="element">searchBtn</Property>
+        <Property name="intro">&#xD;
+  &#xD;
+  &lt;h1 class=&quot;intro-title&quot; >查询按钮&lt;/h1>&#xD;
+&#xD;
+&lt;div class=&quot;intro-content&quot;>&#xD;
+&lt;div>单击此按钮按照填入的查询条件发起一次查询请求&lt;/div>&#xD;
+    &lt;h3>事件监听介绍&lt;/h3>&#xD;
+      &lt;div class=&quot;description&quot;>Intro Addon提供了丰富事件监听可通过简单配置就可监听每个动作&lt;/div>&#xD;
+    &lt;ul>&#xD;
+        &lt;li>&lt;label> onBeforeStart&lt;/label>&lt;label class=&quot;description&quot;>--当将要开始时触发的事件。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> onStart&lt;/label>&lt;label class=&quot;description&quot;>--当开始之后触发的事件。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> onBeforeChange&lt;/label>&lt;label class=&quot;description&quot;>--当切换Step之前触发的事件。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> onChange&lt;/label>&lt;label class=&quot;description&quot;>-- 当切换Step之后触发的事件。&lt;/label>&lt;/li>&#xD;
+         &lt;li>&lt;label> onExit&lt;/label>&lt;label class=&quot;description&quot;>--当退出之后触发的事件。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> onComplete&lt;/label>&lt;label class=&quot;description&quot;>--当按序完成之后触发的事件。&lt;/label>&lt;/li>&#xD;
+    &lt;/ul>&#xD;
+详细请参考&lt;a href=&quot;http://bsdn.org/projects/dorado-intro-addon&quot; target=&quot;_blank&quot;>项目主页&lt;/a>&#xD;
+&#xD;
+&lt;div>&#xD;
+&#xD;
+</Property>
+        <Property name="name">查询按钮</Property>
+      </Step>
+      <Step>
+        <Property name="intro"> &lt;h1 class=&quot;intro-title&quot; >查询结果列表&lt;/h1>&#xD;
+ &#xD;
+&lt;div class=&quot;intro-content&quot;>&#xD;
+&lt;div>单击列头可进行排序，单击行可切换当前&lt;/div>&#xD;
+    &lt;h3>Step属性配置介绍&lt;/h3>&#xD;
+    &lt;ul>&#xD;
+        &lt;li>&lt;label> element&lt;/label>&lt;label class=&quot;description&quot;>--功能对应的元素[Dorado控件ID||Dorado控件对象||HTMLElement||jQuery对象]&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> name&lt;/label>&lt;label class=&quot;description&quot;>--step 名称&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> intro&lt;/label>&lt;label class=&quot;description&quot;>--描述内容。（支持纯文字和HTML元素）&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> position&lt;/label>&lt;label class=&quot;description&quot;>-- toolTip显示的位置（更多在下一个环节介绍）&lt;/label>&lt;/li>&#xD;
+    &lt;/ul>&#xD;
+详细请参考&lt;a href=&quot;http://bsdn.org/projects/dorado-intro-addon&quot; target=&quot;_blank&quot;>项目主页&lt;/a>&#xD;
+&#xD;
+&lt;div>&#xD;
+</Property>
+        <Property name="element">dataGrid1</Property>
+        <Property name="name">查询结果</Property>
+      </Step>
+      <Step>
+        <Property name="element">panelDetail</Property>
+        <Property name="intro">&#xD;
+&#xD;
+ &lt;h1 class=&quot;intro-title&quot; >详细信息&lt;/h1>&#xD;
+ &#xD;
+&lt;div class=&quot;intro-content&quot;>&#xD;
+&lt;div>详细信息展示和编辑区域&lt;/div>&#xD;
+    &lt;h3>Step:Positon可选值&lt;/h3>&#xD;
+    &lt;ul>&#xD;
+        &lt;li>&lt;label> top&lt;/label>&lt;label class=&quot;description&quot;>--元素顶部显示&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> bottom&lt;/label>&lt;label class=&quot;description&quot;>--元素底部显示&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> left&lt;/label>&lt;label class=&quot;description&quot;>--元素左侧显示&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> right&lt;/label>&lt;label class=&quot;description&quot;>-- 元素右侧显示&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> 空&lt;/label>&lt;label class=&quot;description&quot;>-- Addon将自行计算最佳显示位置进行显示（推荐使用）&lt;/label>&lt;/li>&#xD;
+    &lt;/ul>&#xD;
+详细请参考&lt;a href=&quot;http://bsdn.org/projects/dorado-intro-addon&quot; target=&quot;_blank&quot;>项目主页&lt;/a>&#xD;
+&lt;div>&#xD;
+</Property>
+        <Property name="name">详细信息</Property>
+      </Step>
+      <Step>
+        <Property name="element">saveBtn</Property>
+        <Property name="intro">&lt;h3>保存按钮&lt;/h3>&#xD;
+单击可将数据保存到服务端</Property>
+        <Property name="name">保存按钮</Property>
+      </Step>
+      <Step>
+        <Property name="name">功能定位</Property>
+        <Property name="intro">&lt;h1 class=&quot;intro-title&quot; >功能定位&lt;/h1>&#xD;
+&lt;div class=&quot;intro-content&quot;>&#xD;
+    &lt;div>请选择下拉框内的所需功能。&lt;/div>&#xD;
+    &lt;h3>Intro 可调用接口方法&lt;/h3>&#xD;
+    &lt;ul>&#xD;
+        &lt;li>&lt;label> start()&lt;/label>&lt;label class=&quot;description&quot;>--开始方法让Intro从头开始播放。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> exit()&lt;/label>&lt;label class=&quot;description&quot;>--退出Intro播放&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> goTo()&lt;/label>&lt;label class=&quot;description&quot;>--从Intro的某一节点开始播放。入参int||string节点的名称或序号（此功能定位就以goTo调用实现）&lt;/label>&lt;/li>&#xD;
+    &lt;/ul>&#xD;
+详细请参考&lt;a href=&quot;http://bsdn.org/projects/dorado-intro-addon&quot; target=&quot;_blank&quot;>项目主页&lt;/a>&#xD;
+&lt;div>&#xD;
+</Property>
+        <Property name="element">textEditor1</Property>
+      </Step>
+      <Step>
+        <Property name="element">helpBtn</Property>
+        <Property name="intro">通过此按钮可重新开始的哦！&#xD;
+&lt;div class=&quot;intro-success&quot;>&#xD;
+&lt;h1>结束！&lt;/h1>&#xD;
+&lt;div>&#xD;
+您已学会Dorado Intro Addon &#xD;
+&lt;/div>&#xD;
+&lt;div>&#xD;
+更多请关注&lt;a href=&quot;http://bsdn.org/projects/dorado-intro-addon&quot; target=&quot;_blank&quot;>项目主页&lt;/a>。&lt;/div>&#xD;
+&lt;div>&#xD;
+也可在&lt;a href=&quot;http://bsdn.org/projects/dorado-intro-addon/issue&quot; target=&quot;_blank&quot;>Dorado Intro 问答&lt;/a>提出改进意见...&#xD;
+&lt;/div>&#xD;
+&lt;/div>&#xD;
+&#xD;
+</Property>
+        <Property name="name">帮助</Property>
+      </Step>
+    </Intro>
+    <Panel>
+      <Property name="caption">Dorado Intro Addon</Property>
+      <Buttons/>
+      <Children>
+        <ToolBar id="toolBar1" layoutConstraint="top">
+          <DataPilot>
+            <Property name="dataSet">dsOrders</Property>
+          </DataPilot>
+          <Separator/>
+          <ToolBarButton id="searchBtn">
+            <ClientEvent name="onClick" signature="dsOrders, formCondition">dsOrders.set(&quot;parameter&quot;, formCondition.get(&quot;entity&quot;)).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </ToolBarButton>
+          <Separator/>
+          <ToolBarButton id="addBtn">
+            <Property name="caption">添加</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -120px 0px</Property>
+          </ToolBarButton>
+          <ToolBarButton id="updateBtn">
+            <Property name="caption">修改</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -200px 0px</Property>
+          </ToolBarButton>
+          <ToolBarButton id="delBtn">
+            <Property name="caption">删除</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -140px 0px</Property>
+          </ToolBarButton>
+          <Fill/>
+          <TextEditor id="textEditor1">
+            <Property name="trigger">listDropDown1</Property>
+            <Property name="blankText">GoTo</Property>
+          </TextEditor>
+          <ToolBarButton id="helpBtn">
+            <ClientEvent name="onClick" signature="self,arg,intro1">intro1.start();</ClientEvent>
+            <Property name="caption">帮助</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -160px -40px</Property>
+          </ToolBarButton>
+        </ToolBar>
+        <AutoForm id="formCondition" layoutConstraint="top">
+          <Property name="cols">300,300</Property>
+          <Property name="showHint">false</Property>
+          <Property name="dataType">Condition</Property>
+          <Property name="createPrivateDataSet">true</Property>
+          <AutoFormElement>
+            <Property name="name">orderDate1</Property>
+            <Property name="property">orderDate1</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">orderDate2</Property>
+            <Property name="property">orderDate2</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">customerName</Property>
+            <Property name="property">customerName</Property>
+            <Property name="trigger">ddCustomers</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">employeeName</Property>
+            <Property name="property">employeeName</Property>
+            <Property name="trigger">ddEmployees</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+        <DataGrid id="dataGrid1">
+          <Property name="dataSet">dsOrders</Property>
+          <Property name="height">200</Property>
+        </DataGrid>
+        <Panel id="panelDetail">
+          <Property name="caption">详细信息</Property>
+          <Property name="height">200</Property>
+          <Buttons>
+            <Button id="saveBtn">
+              <Property name="caption">保存</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+            </Button>
+            <Button id="cancelBtn">
+              <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+              <Property name="caption">取消</Property>
+            </Button>
+          </Buttons>
+          <Children>
+            <AutoForm id="formDetail">
+              <Property name="dataSet">dsOrders</Property>
+              <Property name="autoCreateElements">true</Property>
+            </AutoForm>
+          </Children>
+          <Tools/>
+        </Panel>
+      </Children>
+      <Tools/>
+    </Panel>
+    <Dialog id="runDialog">
+      <Property name="width">500</Property>
+      <Property name="height">370</Property>
+      <Property name="caption">Intro 介绍</Property>
+      <Property name="icon">url(>skin>common/icons.gif) -180px 0px</Property>
+      <Property name="modal">false</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">self.get('parent').close();&#xD;
+</ClientEvent>
+          <Property name="caption">预览</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -40px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <HtmlContainer>
+          <Property name="content">&lt;h1 class=&quot;intro-title&quot; >Dorado Intro Addon&lt;/h1>&#xD;
+&#xD;
+&lt;div class=&quot;intro-content&quot;>&#xD;
+    &lt;h3>简介&lt;/h3>&#xD;
+&lt;pre class=&quot;content&quot;>   Dorado Intro可实现操作复杂的界面和应用的操作手册以及帮助文档。&#xD;
+通过简单的Dorado控件配置就可实现多步骤、内容丰富、精美的帮助文档，&#xD;
+让文档与界面和二唯一。从而拉近用户与复杂功能的距离...让应用更加&#xD;
+简单易操作。做到每步有提示，每页有帮助的系统...&#xD;
+&lt;/pre>&#xD;
+&#xD;
+    &lt;h3>操作快捷键介绍&lt;/h3>&#xD;
+    &lt;ul>&#xD;
+        &lt;li>&lt;label> Esc&lt;/label>&lt;label class=&quot;description&quot;>--退出帮助文档。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> &amp;rarr;&lt;/label>&lt;label class=&quot;description&quot;>--下一步。&lt;/label>&lt;/li>&#xD;
+        &lt;li>&lt;label> &amp;larr;&lt;/label>&lt;label class=&quot;description&quot;>--上一步。&lt;/label>&lt;/li>&#xD;
+    &lt;/ul>&#xD;
+&lt;/div></Property>
+        </HtmlContainer>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <ListDropDown id="listDropDown1">
+      <ClientEvent name="onClose">var selectedValue=arg.selectedValue;&#xD;
+var intro=view.get('#intro1');&#xD;
+selectedValue &amp;&amp;intro.goTo(selectedValue); &#xD;
+</ClientEvent>
+      <ClientEvent name="onReady">var intro = view.get('#intro1');
+var items = [],steps = intro.get('steps');
+for (var i = 0,len = steps.length; i &lt; len; i++) {
+    var step = steps[i];
+    step.name &amp;&amp; items.push(step.name);
+};
+self.set('items',items);
+</ClientEvent>
+    </ListDropDown>
+  </View>
+</ViewConfig>

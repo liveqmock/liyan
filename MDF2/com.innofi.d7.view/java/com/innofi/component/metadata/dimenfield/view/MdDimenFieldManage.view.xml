@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdDimenField">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">维度字段ID</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenId">
+        <Property name="dataType">String</Property>
+        <Property name="label">维度ID</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldId">
+        <Property name="dataType">String</Property>
+        <Property name="label">字段ID</Property>
+      </PropertyDef>
+      <PropertyDef name="fieldSeq">
+        <Property name="dataType">int</Property>
+        <Property name="label">维度字段顺序号</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">有效状态</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改人</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdDimenField">
+      <Property name="dataProvider">mdDimenFieldAction#findMdDimenFields</Property>
+      <Property name="dataType">[dataTypeMdDimenField]</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdDimenField">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdDimenField]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+view.get("#dataSetMdDimenField").set("parameter", view.get("#querydataSetMdDimenField").getData("#")).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set("#querydataSetMdDimenField.data",{});
+</ClientEvent>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdDimenFieldQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdDimenField</Property>
+            <Property name="dataType">dataTypeMdDimenField</Property>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dimenId</Property>
+              <Property name="property">dimenId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldId</Property>
+              <Property name="property">fieldId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">fieldSeq</Property>
+              <Property name="property">fieldSeq</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdDimenField" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDimenField");
+var dialog = view.get("#addMdDimenFieldDialog");
+	dataSet.set("readOnly",false);
+	view.get("#dataSetMdDimenField.data").insert();
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDimenField");
+var dialog = view.get("#updateMdDimenFieldDialog");
+var entitys = dataSet.getData();
+var selection = view.get("#dataGridMdDimenField").get("selection");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if(selection.length&gt;1){
+	dorado.MessageBox.alert("只能选择一条记录查看修改！");
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set("readOnly",false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDimenField");
+var entitys = dataSet.getData();
+var selection = view.get("#dataGridMdDimenField").get("selection");
+var action = view.get("#saveMdDimenFieldsAction");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm("是否删除？", function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get("#dataSetMdDimenField");
+var selection = view.get("#dataGridMdDimenField").get("selection");
+var mdmId="${request.getParameter('mdmId')}";
+var dialog = view.get("#lookDialog");
+
+if(selection.length==0){
+	dorado.MessageBox.alert("请选择记录！");
+}else if(selection.length&gt;1){
+	dorado.MessageBox.alert("只能查看一条记录！");
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData("#");
+	var iframe = view.get("#lookIframe");
+	var path = "${request.contextPath}/com.innofi.component.metadata.commons.view.TabControlMain.d?mdmId="+mdmId+"&amp;mdId="+entity.get("id")+"&amp;lookStyle=look&amp;randomId="+Math.random();
+		iframe.set("path",path);
+	dialog.show();
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdDimenField" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetMdTable").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetMdTable").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdDimenField</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdDimenField</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+          </DataColumn>
+          <DataColumn name="dimenId">
+            <Property name="property">dimenId</Property>
+          </DataColumn>
+          <DataColumn name="fieldId">
+            <Property name="property">fieldId</Property>
+          </DataColumn>
+          <DataColumn name="fieldSeq">
+            <Property name="property">fieldSeq</Property>
+          </DataColumn>
+          <DataColumn name="status">
+            <Property name="property">status</Property>
+          </DataColumn>
+          <DataColumn name="crtOrgCode">
+            <Property name="property">crtOrgCode</Property>
+          </DataColumn>
+          <DataColumn name="crtUserCode">
+            <Property name="property">crtUserCode</Property>
+          </DataColumn>
+          <DataColumn name="crtDate">
+            <Property name="property">crtDate</Property>
+          </DataColumn>
+          <DataColumn name="updDate">
+            <Property name="property">updDate</Property>
+          </DataColumn>
+          <DataColumn name="updOrgCode">
+            <Property name="property">updOrgCode</Property>
+          </DataColumn>
+          <DataColumn name="updUserCode">
+            <Property name="property">updUserCode</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdDimenField</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdDimenFieldsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdDimenFieldAction#saveMdDimenFields</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdDimenField</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdDimenFieldDialog">
+      <ClientEvent name="onClose">view.get("#dataSetMdDimenField").getData().cancel();
+view.get("#updateMdDimenFieldDialog").hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get("#saveMdDimenFieldsAction");
+var dialog = view.get("#updateMdDimenFieldDialog");
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get("#dataSetMdDimenField").getData().cancel();
+view.get("#updateMdDimenFieldDialog").hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormMdDimenField">
+          <Property name="dataType">dataTypeMdDimenField</Property>
+          <Property name="dataSet">dataSetMdDimenField</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dimenId</Property>
+            <Property name="property">dimenId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">fieldId</Property>
+            <Property name="property">fieldId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">fieldSeq</Property>
+            <Property name="property">fieldSeq</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdDimenFieldDialog">
+      <ClientEvent name="onClose">view.get("#dataSetMdDimenField").getData().cancel();
+view.get("#addMdDimenFieldDialog").hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get("#saveMdDimenFieldsAction");
+var dialog = view.get("#addMdDimenFieldDialog");
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get("#dataSetMdDimenField").getData().cancel();
+view.get("#addMdDimenFieldDialog").hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormMdDimenField">
+          <Property name="dataType">dataTypeMdDimenField</Property>
+          <Property name="dataSet">dataSetMdDimenField</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dimenId</Property>
+            <Property name="property">dimenId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">fieldId</Property>
+            <Property name="property">fieldId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">fieldSeq</Property>
+            <Property name="property">fieldSeq</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdDimenFieldDialog">
+      <ClientEvent name="onClose">view.get("#lookMdDimenFieldDialog").hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get("#lookMdDimenFieldDialog").hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="lookFormMdDimenField">
+          <Property name="dataType">dataTypeMdDimenField</Property>
+          <Property name="dataSet">dataSetMdDimenField</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+          <AutoFormElement>
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dimenId</Property>
+            <Property name="property">dimenId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">fieldId</Property>
+            <Property name="property">fieldId</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">fieldSeq</Property>
+            <Property name="property">fieldSeq</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtOrgCode</Property>
+            <Property name="property">crtOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtUserCode</Property>
+            <Property name="property">crtUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">crtDate</Property>
+            <Property name="property">crtDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updDate</Property>
+            <Property name="property">updDate</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updOrgCode</Property>
+            <Property name="property">updOrgCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">updUserCode</Property>
+            <Property name="property">updUserCode</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

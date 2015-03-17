@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <ClientEvent name="onReady">window.showJobTodo=function(jobTodo){
+	var dialog=view.get(&quot;#jobTodoDialog&quot;);
+	var jobTodoFrame=view.get(&quot;#jobTodoFrame&quot;);
+	dialog.set(&quot;caption&quot;,jobTodo.get(&quot;jobTodoName&quot;));
+	jobTodoFrame.set(&quot;path&quot;,jobTodo.get(&quot;gotoUrl&quot;));
+	dialog.show();
+}
+window.setMainWindowCation=function(caption,parentMenuId){
+	if(caption){
+		var mainWindowCaption = view.get('#mainWindow.caption');
+		var proceedCaption = &quot;&quot;;
+		if(mainWindowCaption.indexOf(&quot;->&quot;)!=-1){
+			proceedCaption = mainWindowCaption.substring(0,mainWindowCaption.indexOf(&quot;->&quot;))+&quot;->&quot;+caption;;
+		}else{
+			proceedCaption = mainWindowCaption+&quot;->&quot;+caption;
+		}
+		view.set('#mainWindow.caption',proceedCaption);	
+	}
+}
+
+</ClientEvent>
+    <ClientEvent name="onCreate">var clientWidth = '${param[&quot;clientWidth&quot;]}';
+var clientHeight = '${param[&quot;clientHeight&quot;]}';
+if('${param[&quot;isFullScreen&quot;]}'=='true'&amp;&amp;'${param[&quot;opened&quot;]}'!='true'){
+	window.open('com.innofi.component.rbac.index.defaultweb.Index.d?clientWidth=${param[&quot;clientWidth&quot;]}&amp;clientHeight=${param[&quot;clientHeight&quot;]}&amp;opened=true',null,'fullscreen=yes');
+	window.close();
+}</ClientEvent>
+    <Property name="tags">tags_toolbar</Property>
+    <Property name="title">正信岳铭产品开发平台</Property>
+    <Property name="pageTemplate">com/innofi/component/rbac/index/defaultweb/Index.html</Property>
+    <ToolBar id="appToolBar" listener="spring:defaultIndexViewListener#onAppToolBarInit">
+      <Property name="renderTo">#appsToolBar</Property>
+    </ToolBar>
+    <Dialog id="mainWindow">
+      <Property name="maximizeable">true</Property>
+      <Property name="closeable">false</Property>
+      <Property name="caption">我的工作台</Property>
+      <Property name="showCaptionBar">true</Property>
+      <Property name="visible">true</Property>
+      <Property name="showAnimateType">fade</Property>
+      <Property name="floating">false</Property>
+      <Property name="renderTo">#mainWindow</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">90%</Property>
+      <Property name="resizeable">false</Property>
+      <Property name="border">curve</Property>
+      <Property name="draggable">false</Property>
+      <Property name="icon">>icons/workstation1.png</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="mainFrame">
+          <Property name="path">com.innofi.component.rbac.workspace.Workspace.d</Property>
+        </IFrame>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="settingDialog">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysUser&quot;).getData().cancel();
+	view.get(&quot;#dialogSysUser&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">设置</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons/>
+      <Children>
+        <SubViewHolder id="settingFrame">
+          <Property name="subView">com.innofi.component.rbac.index.Setting</Property>
+        </SubViewHolder>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="jobTodoDialog">
+      <Property name="center">true</Property>
+      <Property name="width">95%</Property>
+      <Property name="height">95%</Property>
+      <Property name="modal">true</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="jobTodoFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

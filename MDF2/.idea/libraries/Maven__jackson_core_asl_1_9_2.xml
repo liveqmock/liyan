@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: jackson:core-asl:1.9.2">
+    <CLASSES>
+      <root url="jar://F:/03_repository/jackson/core-asl/1.9.2/core-asl-1.9.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://F:/03_repository/jackson/core-asl/1.9.2/core-asl-1.9.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://F:/03_repository/jackson/core-asl/1.9.2/core-asl-1.9.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeMdDataTitleTree" parent="dataTypeMdDataTitle">
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">mdDataTitleAction#findMdDataTitlesByParentId</Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdDataTitle">
+      <Property name="dataProvider">mdDataTitleAction#findMdDataTitlesByParentId</Property>
+      <Property name="dataType">[dataTypeMdDataTitleTree]</Property>
+      <Property name="parameter">0</Property>
+    </DataSet>
+    <Container>
+      <Container>
+        <DataTree id="dataTreeMdDataTitle">
+          <ClientEvent name="onDataRowClick">var node = self.get(&quot;currentNode&quot;);&#xD;
+if (node) {&#xD;
+&#xD;
+    var dataTitle = node.get(&quot;data&quot;)&#xD;
+	var json = {id:dataTitle.get(&quot;id&quot;),code:dataTitle.get(&quot;dataTitleCode&quot;),name:dataTitle.get(&quot;dataTitleName&quot;)};&#xD;
+	var rejson = JSON.stringify(json);&#xD;
+	var dropdown = parent.$id(&quot;${request.getParameter(&quot;dropdown&quot;)}&quot;);&#xD;
+	&#xD;
+	if(dropdown){&#xD;
+		dropdown.invoke(&quot;close&quot;,rejson);&#xD;
+	}&#xD;
+}</ClientEvent>
+          <Property name="dataSet">dataSetMdDataTitle</Property>
+          <Property name="currentNodeDataPath">parentId</Property>
+          <BindingConfigs>
+            <BindingConfig>
+              <Property name="name">dataTitleName</Property>
+              <Property name="recursive">true</Property>
+              <Property name="childrenProperty">children</Property>
+              <Property name="labelProperty">dataTitleName</Property>
+            </BindingConfig>
+          </BindingConfigs>
+        </DataTree>
+      </Container>
+    </Container>
+  </View>
+</ViewConfig>

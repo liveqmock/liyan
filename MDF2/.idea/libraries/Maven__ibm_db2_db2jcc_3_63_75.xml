@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: ibm.db2:db2jcc:3.63.75">
+    <CLASSES>
+      <root url="jar://F:/03_repository/ibm/db2/db2jcc/3.63.75/db2jcc-3.63.75.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://F:/03_repository/ibm/db2/db2jcc/3.63.75/db2jcc-3.63.75-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://F:/03_repository/ibm/db2/db2jcc/3.63.75/db2jcc-3.63.75-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

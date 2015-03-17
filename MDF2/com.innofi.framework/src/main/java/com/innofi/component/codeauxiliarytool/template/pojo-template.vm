@@ -1,0 +1,56 @@
+package ${model.packageName}.pojo;
+import java.math.BigDecimal;
+import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import com.innofi.framework.pojo.BasePojo;
+import org.hibernate.annotations.GenericGenerator;
+
+
+/**
+* ${model.modelName}实体对象
+* @author  liumy2009@126.com
+* @version V1.0.0
+* 修订历史：
+* 日期  作者  参考  描述
+* 北京瑞银信管理顾问有限公司版权所有.
+*/
+@Entity
+@Table(name="${model.tableName}")
+public class ${model.modelName} extends BasePojo implements Serializable {
+#foreach($field in $fields)
+    #if(${field.isprimaryKey}=="0")
+    /**
+    * ${field.remarks}
+    */
+    private ${field.javaType} ${field.columnName};
+    #end
+
+#end
+#foreach($field in $fields)
+    #if(${field.isprimaryKey}=="1")
+    @Id
+    @GeneratedValue(generator="uuid")
+    @GenericGenerator(name="uuid",strategy="org.hibernate.id.UUIDGenerator")
+    @Column(name="${field.oldColumnName}")
+    public String getId(){
+    return super.getId();
+    }
+    #else
+    @Column(name="${field.oldColumnName}")
+    public ${field.javaType} get${field.fieldName}(){
+    return this.${field.columnName};
+    }
+    public void set${field.fieldName}(${field.javaType} ${field.columnName}){
+    this.${field.columnName} = ${field.columnName};
+    }
+    #end
+
+#end
+}

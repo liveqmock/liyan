@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context>
+    <Attribute name="appId">
+      <Property name="value">${param[&quot;appId&quot;]}</Property>
+    </Attribute>
+  </Context>
+  <Model/>
+  <View>
+    <ClientEvent name="onReady">window.showJobTodo=function(jobTodo){
+	var dialog=view.get(&quot;#jobTodoDialog&quot;);
+	var jobTodoFrame=view.get(&quot;#jobTodoFrame&quot;);
+	dialog.set(&quot;caption&quot;,jobTodo.get(&quot;jobTodoName&quot;));
+	jobTodoFrame.set(&quot;path&quot;,jobTodo.get(&quot;gotoUrl&quot;));
+	dialog.show();
+}
+window.setMainWindowCation=function(caption,parentMenuId){
+	if(caption){
+		var mainWindowCaption = view.get('#mainWindow.caption');
+		var proceedCaption = &quot;&quot;;
+		if(mainWindowCaption.indexOf(&quot;->&quot;)!=-1){
+			proceedCaption = mainWindowCaption.substring(0,mainWindowCaption.indexOf(&quot;->&quot;))+&quot;->&quot;+caption;;
+		}else{
+			proceedCaption = mainWindowCaption+&quot;->&quot;+caption;
+		}
+		view.set('#mainWindow.caption',proceedCaption);	
+	}
+}</ClientEvent>
+    <ClientEvent name="onCreate">var clientWidth = '${param[&quot;clientWidth&quot;]}';
+var clientHeight = '${param[&quot;clientHeight&quot;]}';
+if('${param[&quot;isFullScreen&quot;]}'=='true'&amp;&amp;'${param[&quot;opened&quot;]}'!='true'){
+	window.open('com.innofi.component.rbac.index.defaultweb.Index.d?clientWidth=${param[&quot;clientWidth&quot;]}&amp;clientHeight=${param[&quot;clientHeight&quot;]}&amp;opened=true',null,'fullscreen=yes');
+	window.close();
+}</ClientEvent>
+    <Property name="tags">tags_toolbar</Property>
+    <Property name="title">正信岳铭产品开发平台</Property>
+    <Property name="pageUri">/WEB-INF/jsp/index.jsp</Property>
+    <IFrame id="secondMenuFrame">
+      <Property name="renderTo">#min_h3</Property>
+      <Property name="path">com.innofi.component.rbac.index.defaultweb.Module.d?appId=1</Property>
+      <Property name="width">238</Property>
+      <Property name="height">450</Property>
+    </IFrame>
+    <Dialog id="settingDialog">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysUser&quot;).getData().cancel();
+	view.get(&quot;#dialogSysUser&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">设置</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons/>
+      <Children>
+        <SubViewHolder id="settingFrame">
+          <Property name="subView">com.innofi.component.rbac.index.Setting</Property>
+        </SubViewHolder>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="jobTodoDialog">
+      <Property name="center">true</Property>
+      <Property name="width">95%</Property>
+      <Property name="height">95%</Property>
+      <Property name="modal">true</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="jobTodoFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Menu id="menuTab">
+      <MenuItem>
+        <ClientEvent name="onClick">var tabControl=this.id(&quot;tabControlWorkspace&quot;);
+var currentTab=tabControl.get(&quot;currentTab&quot;);
+tabControl.closeTab (currentTab);
+</ClientEvent>
+        <Property name="caption">关闭当前标签页</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var tabControl=this.id(&quot;tabControlWorkspace&quot;);
+var currentTab=tabControl.get(&quot;currentTab&quot;);
+tabControl.closeOtherTabs(currentTab);
+</ClientEvent>
+        <Property name="caption">关闭其他标签页</Property>
+        <Property name="icon">>icons/page.png</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var tabControl=this.id(&quot;tabControlWorkspace&quot;);
+tabControl.closeAllTabs ();
+</ClientEvent>
+        <Property name="caption">关闭所有标签页</Property>
+        <Property name="icon">>icons/page_copy.png</Property>
+      </MenuItem>
+    </Menu>
+    <TabControl id="tabControlWorkspace">
+      <ClientEvent name="onTabContextMenu">this.id(&quot;menuTab&quot;).show({
+	position:{
+		left:arg.event.pageX,
+		top:arg.event.pageY
+	}
+});
+</ClientEvent>
+      <ClientEvent name="onTabChange">if(self.get(&quot;tabs&quot;).size>1){&#xD;
+	var tab = self.getTab(0);&#xD;
+	if(tab.get('caption')=='${sys.getString(&quot;mdf.moduleIndex.welcomeTabLabel&quot;,&quot;欢迎&quot;)}'){&#xD;
+		tab.close();	&#xD;
+	}&#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="showMenuButton">true</Property>
+      <Property name="height">510</Property>
+      <Property name="width">100%</Property>
+      <Property name="renderTo">#min_right</Property>
+      <IFrameTab>
+        <Property name="path">${sys.getString(&quot;mdf.moduleIndex.welcomeUrl&quot;,&quot;module-welcome.html&quot;)}</Property>
+        <Property name="caption">${sys.getString(&quot;mdf.moduleIndex.welcomeTabLabel&quot;,&quot;欢迎&quot;)}</Property>
+      </IFrameTab>
+    </TabControl>
+  </View>
+</ViewConfig>

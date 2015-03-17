@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="$dataTypeExcelModel" parent="global:$dataTypeExcelModel">
+      <ClientEvent name="onDataChange">if(arg.property == &quot;processorType&quot;){&#xD;
+	var autoFormExcelModel=this.id(&quot;autoFormExcelModel&quot;);&#xD;
+	if(&quot;1&quot;==arg.newValue){&#xD;
+		autoFormExcelModel.getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		&#xD;
+		autoFormExcelModel.getElement(&quot;datasourceName&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;tableName&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;tablePrimaryKey&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;primaryKeyType&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		&#xD;
+		arg.entity.set(&quot;processor&quot;,null);&#xD;
+	}else{&#xD;
+		autoFormExcelModel.getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		&#xD;
+		autoFormExcelModel.getElement(&quot;datasourceName&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;tableName&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;tablePrimaryKey&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;primaryKeyType&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		arg.entity.set(&quot;datasourceName&quot;,null);&#xD;
+		arg.entity.set(&quot;tableName&quot;,null);&#xD;
+		arg.entity.set(&quot;tablePrimaryKey&quot;,null);&#xD;
+		arg.entity.set(&quot;primaryKeyType&quot;,null);&#xD;
+		&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+      <Reference name="listExcelModelDetail">
+        <Property name="dataProvider">bdf.excelManagerPR#loadExcelModelDetails</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataType">[$$dataTypeExcelModelDetail]</Property>
+      </Reference>
+      <PropertyDef name="processorType">
+        <Property name="mapping">
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="label">${messageUtil.getMessage('sysProcessType')}</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="label">${messageUtil.getMessage('customerProcessType')}</Property>
+              </Entity>
+            </Collection>
+          </Property>
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+        </Property>
+        <Property name="defaultValue">1</Property>
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label">${messageUtil.getMessage('excelModel.processorType')}</Property>
+      </PropertyDef>
+      <PropertyDef name="dbType">
+        <Property name="mapping">
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">Oracle</Property>
+                <Property name="label">Oracle</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">DB2</Property>
+                <Property name="label">DB2</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <Reference name="tableColumns">
+        <Property name="dataProvider">bdf.excelManagerPR#loadTableColumnNames</Property>
+        <Property name="dataType">[dataTypeTableInfo]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dataSourceName">$${this.datasourceName}</Property>
+            <Property name="tableName">$${this.tableName}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Validator type="ajax" async="true" defaultResultState="error" revalidateOldValue="true" runAt="client">
+          <Property name="service">bdf.excelManagerPR#checkId</Property>
+        </Validator>
+        <Validator type="length" defaultResultState="error" revalidateOldValue="true" runAt="client">
+          <Property name="minLength">6</Property>
+          <Property name="maxLength">50</Property>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="$$dataTypeExcelModelDetail" parent="global:$$dataTypeExcelModelDetail">
+      <ClientEvent name="onDataChange">if(arg.property==&quot;interceptorType&quot;){&#xD;
+	var element=this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;interceptor&quot;)&#xD;
+	if(&quot;1&quot;==arg.newValue){&#xD;
+	   element.set(&quot;readOnly&quot;,true);&#xD;
+	   arg.entity.set(&quot;interceptor&quot;,null);&#xD;
+	}else {&#xD;
+		element.set(&quot;readOnly&quot;,false);&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="creationType">com.innofi.component.report.excel.domain.ExcelModelDetail</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="modelId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="excelColumn">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="tableColumn">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="interceptor">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="interceptorType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">1</Property>
+        <Property name="label">是否使用拦截器</Property>
+        <Property name="mapping">
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="label">不使用拦截器</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="label">使用用户自定义的拦截器</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeTableInfo" matchType="com.innofi.component.report.d7.domain.TableInfo">
+      <ClientEvent name="onDataChange">if(arg.property == &quot;tableName&quot;){&#xD;
+	var data=this.id(&quot;dataSetExcelDataWrapper&quot;).getData(&quot;#&quot;);&#xD;
+	if(arg.newValue){&#xD;
+		 data.set(&quot;tablePrimaryKey&quot;,&quot;id_&quot;); &#xD;
+	}&#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="creationType">com.innofi.component.report.d7.domain.TableInfo</Property>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="tablePrimaryKey">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="tableColumn">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="primaryKeyType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">idfReport</Property>
+    <DataSet id="dataSetTable">
+      <Property name="dataType">[dataTypeTableInfo]</Property>
+      <Property name="dataProvider">bdf.excelManagerPR#loadAllTables</Property>
+    </DataSet>
+    <DataSet id="dataSetExcelModel">
+      <Property name="dataProvider">bdf.excelManagerPR#loadExcelModels</Property>
+      <Property name="dataType">[$dataTypeExcelModel]</Property>
+      <Property name="pageSize">10</Property>
+    </DataSet>
+    <DataSetDropDown id="dataSetDropDownTable">
+      <ClientEvent name="onClose">var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+var tableName=arg.selectedValue;&#xD;
+if (tableName) {&#xD;
+	var ajaxActionGetPrimaryKey = this.id(&quot;ajaxActionGetPrimaryKey&quot;);&#xD;
+	ajaxActionGetPrimaryKey.set(&quot;parameter&quot;, {&#xD;
+		dataSourceName:data.get(&quot;datasourceName&quot;),&#xD;
+		tableName: tableName&#xD;
+	});&#xD;
+	var key;&#xD;
+	ajaxActionGetPrimaryKey.execute(function(result){&#xD;
+		key = result[0].tablePrimaryKey;&#xD;
+		data.set(&quot;tablePrimaryKey&quot;, key);&#xD;
+	});&#xD;
+}</ClientEvent>
+      <Property name="dataSet">dataSetTable</Property>
+      <Property name="property">tableName</Property>
+      <Property name="dynaFilter">false</Property>
+      <Property name="filterOnOpen">false</Property>
+      <Property name="filterOnTyping">true</Property>
+    </DataSetDropDown>
+    <ToolBar>
+      <DataPilot/>
+      <Separator/>
+      <ToolBarButton id="toolBarButtonUploadExcel">
+        <ClientEvent name="onClick">&#xD;
+var data = this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+if (data) {&#xD;
+	if (data.get(&quot;processor&quot;) &amp;&amp; data.get(&quot;processor&quot;) != &quot;&quot;) {&#xD;
+		dorado.MessageBox.alert(&quot;${messageUtil.getMessage('alterTipInfo')}&quot;); //${res.alterTip}&#xD;
+	} else {&#xD;
+		var importExcel = new bdf.ImportExcel();&#xD;
+		importExcel.upload(this, data.get(&quot;id&quot;), {&#xD;
+			width: 700,&#xD;
+			showRownum: true,&#xD;
+			showImportData: true&#xD;
+		});&#xD;
+	}&#xD;
+}&#xD;
+else {&#xD;
+    dorado.MessageBox.alert(&quot;${messageUtil.getMessage('selectRecordTip')}&quot;);&#xD;
+}&#xD;
+&#xD;
+</ClientEvent>
+        <Property name="icon">>icons/page_excel.png</Property>
+        <Property name="caption">${messageUtil.getMessage('excelMode.upload')}</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <DataGrid id="dataGridExcelModel">
+      <Property name="dataSet">dataSetExcelModel</Property>
+      <Property name="showFilterBar">true</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="id">
+        <Property name="property">id</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="name">
+        <Property name="property">name</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="sheet">
+        <Property name="property">sheet</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="datasourceName">
+        <Property name="property">datasourceName</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="tableName">
+        <Property name="property">tableName</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="tablePrimaryKey">
+        <Property name="property">tablePrimaryKey</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="primaryKeyType">
+        <Property name="property">primaryKeyType</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="cmnt">
+        <Property name="property">cmnt</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="sequenceName">
+        <Property name="property">sequenceName</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="processor">
+        <Property name="property">processor</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="processorType">
+        <Property name="property">processorType</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="dbType">
+        <Property name="property">dbType</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="helpDoc">
+        <Property name="property">helpDoc</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+        <Property name="ignored">true</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+      <DataColumn name="crtUserCode">
+        <Property name="property">crtUserCode</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+        <Property name="ignored">true</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+      <DataColumn name="crtDate">
+        <Property name="property">crtDate</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+        <Property name="ignored">true</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+      <DataColumn name="crtOrgCode">
+        <Property name="property">crtOrgCode</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+        <Property name="ignored">true</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+      <DataColumn name="updDate">
+        <Property name="property">updDate</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+        <Property name="ignored">true</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+      <DataColumn name="updOrgCode">
+        <Property name="property">updOrgCode</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+        <Property name="ignored">true</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+      <DataColumn name="updUserCode">
+        <Property name="property">updUserCode</Property>
+        <Property name="filterable">false</Property>
+        <Property name="width">150</Property>
+        <Property name="ignored">true</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+    </DataGrid>
+  </View>
+</ViewConfig>

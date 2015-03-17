@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdMetaModel">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型ID</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property name="dataType">String</Property>
+        <Property name="label">父元模型ID</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型编码</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmName">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型名称</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">元模型描述</Property>
+      </PropertyDef>
+      <PropertyDef name="nodePic">
+        <Property name="dataType">String</Property>
+        <Property name="label">显示图标</Property>
+      </PropertyDef>
+      <PropertyDef name="isDiscSonId">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否显示子类</Property>
+      </PropertyDef>
+      <PropertyDef name="savePath">
+        <Property name="dataType">String</Property>
+        <Property name="label">保存路径</Property>
+      </PropertyDef>
+      <PropertyDef name="saveType">
+        <Property name="dataType">String</Property>
+        <Property name="label">保存类型</Property>
+      </PropertyDef>
+      <PropertyDef name="uiName">
+        <Property name="dataType">String</Property>
+        <Property name="label">UI界面</Property>
+      </PropertyDef>
+      <PropertyDef name="mdmLevel">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">层级</Property>
+      </PropertyDef>
+      <PropertyDef name="treeSeq">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="viewType">
+        <Property name="dataType">String</Property>
+        <Property name="label">视图类型</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">有效状态</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改人</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdMetaModel">
+      <ClientEvent name="onReady">var id=&quot;${request.getParameter('mdmIds')}&quot;;
+if(id!=&quot;&quot;||id.length!=0){
+	parm={mdmIds:id};
+	self.set(&quot;parameter&quot;, parm).flushAsync();
+}</ClientEvent>
+      <Property name="dataProvider">mdMetaModelAction#findMdMetaModels</Property>
+      <Property name="dataType">[dataTypeMdMetaModel]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdMetaModel">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdMetaModel]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+var mdmIds=&quot;${request.getParameter('mdmIds')}&quot;;
+para = {
+	mdmIds:mdmIds,
+	mdmCode:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;mdmCode&quot;),
+	mdmName:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;mdmName&quot;),
+	viewType:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;viewType&quot;),
+	status:view.get(&quot;#querydataSetMdMetaModel&quot;).getData(&quot;#&quot;).get(&quot;status&quot;)
+}
+view.get(&quot;#dataSetMdMetaModel&quot;).set(&quot;parameter&quot;,para).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdMetaModel.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdMetaModelQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdMetaModel</Property>
+            <Property name="dataType">dataTypeMdMetaModel</Property>
+            <AutoFormElement>
+              <Property name="name">mdmCode</Property>
+              <Property name="property">mdmCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmName</Property>
+              <Property name="property">mdmName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">parentId</Property>
+              <Property name="property">parentId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmDesc</Property>
+              <Property name="property">mdmDesc</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">nodePic</Property>
+              <Property name="property">nodePic</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isDiscSonId</Property>
+              <Property name="property">isDiscSonId</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">savePath</Property>
+              <Property name="property">savePath</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">saveType</Property>
+              <Property name="property">saveType</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">uiName</Property>
+              <Property name="property">uiName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mdmLevel</Property>
+              <Property name="property">mdmLevel</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdMetaModel" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var oid=&quot;${request.getParameter('id')}&quot;;
+var selections = view.get(&quot;#dataGridMdMetaModel&quot;).get(&quot;selection&quot;);
+if(selections.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selections.length != 0){
+/**
+ * 获取父窗口ds中的数据集合
+ */
+var entityList=parent.$id(&quot;dataSetMdMdmDepend&quot;).objects[0].getData();
+var entity=parent.$id(&quot;dataSetMdMdmDepend&quot;).objects[0].getData(&quot;#&quot;);
+	jQuery.each(selections,function(i,selection){
+			var isexists=false;
+			var mdmName=&quot;&quot;;
+			var id=selection.get(&quot;id&quot;);
+			var dMdmName=selection.get(&quot;mdmName&quot;);
+			entityList.each(function(entity){
+				var dMdmId=entity.get(&quot;dMdmId&quot;);
+				mdmName=entity.get(&quot;mdmName&quot;);
+				if(dMdmId==id){
+					isexists=true;
+				}
+			});
+			if(!isexists){
+				var entity={
+					mdmId:oid,
+					mdmName:mdmName,
+					dMdmId:id,
+					dMdmName:dMdmName
+				}
+				entityList.insert(entity);
+			}
+		});
+		parent.$id(&quot;mdMdmDependDialog&quot;).objects[0].hide();
+}</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdMetaModel" layoutConstraint="center">
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <Property name="dataType">dataTypeMdMetaModel</Property>
+          <Property name="dataSet">dataSetMdMetaModel</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="mdmCode">
+            <Property name="property">mdmCode</Property>
+          </DataColumn>
+          <DataColumn name="mdmName">
+            <Property name="property">mdmName</Property>
+          </DataColumn>
+          <DataColumn name="mdmDesc">
+            <Property name="property">mdmDesc</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">mdmSeq</Property>
+            <Property name="name">mdmSeq</Property>
+            <Property name="visible">false</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="parentId">
+            <Property name="property">parentId</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="nodePic">
+            <Property name="property">nodePic</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="isDiscSonId">
+            <Property name="property">isDiscSonId</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="status">
+            <Property name="property">status</Property>
+          </DataColumn>
+          <DataColumn name="savePath">
+            <Property name="property">savePath</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="saveType">
+            <Property name="property">saveType</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="uiName">
+            <Property name="property">uiName</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="mdmLevel">
+            <Property name="property">mdmLevel</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtOrgCode">
+            <Property name="property">crtOrgCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtUserCode">
+            <Property name="property">crtUserCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtDate">
+            <Property name="property">crtDate</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updDate">
+            <Property name="property">updDate</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updOrgCode">
+            <Property name="property">updOrgCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updUserCode">
+            <Property name="property">updUserCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdMetaModel</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdMetaModelsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdMetaModelAction#saveMdMetaModels</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdMetaModel</Property>
+      </UpdateItem>
+    </UpdateAction>
+  </View>
+</ViewConfig>

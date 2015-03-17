@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeTable">
+      <Property name="creationType">com.innofi.component.codeauxiliarytool.coder.domain.TableInfo</Property>
+      <PropertyDef name="dbInfoId">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+    </DataType>
+    <DataType name="dataTypeColumn">
+      <Property name="creationType">com.innofi.component.codeauxiliarytool.coder.domain.ColumnInfo</Property>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="oldColumnName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="columnName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="fieldName">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="javaType">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="doradoType">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="columnType">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="columnSize">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="defaultValue">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="isnullAble">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+        </Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="isprimaryKey">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("COMM_Y_N")}</Property>
+        </Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="isautoincrement">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="componentType">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="searchFlag">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="searchType">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="listFlag">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="modifyFlag">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="modifyReadyFlag">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="addFlag">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="addReadyFlag">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="dictType">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="propertyLabel">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="propertyBlankText">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="propertyTip">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="validators">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="dataRange">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+      <PropertyDef name="remarks">
+        <Property name="dataType">String</Property>
+      <Property name="label"/></PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetTable">
+      <Property name="dataProvider">createMetadata#loadTableInfos</Property>
+      <Property name="dataType">[dataTypeTable]</Property>
+    </DataSet>
+    <DataSet id="dataSetColumn">
+      <Property name="dataProvider">createMetadata#loadColumnInfos</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataType">[dataTypeColumn]</Property>
+    </DataSet>
+    <Container>
+      <SplitPanel>
+        <Property name="position">250</Property>
+        <MainControl>
+          <Panel>
+            <Property name="height">80%</Property>
+            <Children>
+              <Panel>
+                <Children>
+                  <ToolBar>
+                    <ToolBarButton id="toolBarButtonCoder">
+                      <ClientEvent name="onClick">var dataset = this.get("#dataSetColumn").getData();
+var entity = this.get("#dataSetColumn").getData("#");
+var tableName = entity.get('tableName');
+var checkAction = this.get("#checkAction");
+var creAction = this.get("#coderAction");
+var parameter={
+ 	tableName:tableName
+};
+checkAction.set("parameter",parameter).execute(function(result){
+	if(result=='true'){
+		dorado.MessageBox.confirm("该表字段元数据已存在，请确认是否覆盖？", function(){
+			parameter={
+			 	tableName:tableName,
+			 	ds:dataset
+			 };
+			creAction.set("parameter",parameter).execute();
+        });
+	}else {
+		parameter={
+		 	tableName:tableName,
+		 	ds:dataset
+		 };
+		creAction.set("parameter",parameter).execute();
+	}
+});
+</ClientEvent>
+                      <Property name="caption">创建元数据管理</Property>
+                      <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <DataGrid id="dataGridCoderInfos">
+                    <ClientEvent name="onReady">
+//view.get("#dataGridCoderInfos").getColumn("queryList").getColumn("queryDictType").set("visible", true);</ClientEvent>
+                    <Property name="dataSet">dataSetColumn</Property>
+                    <Property name="readOnly">false</Property>
+                    <Property name="dataType">dataTypeColumn</Property>
+                    <DataColumn name="tableName">
+                      <Property name="property">tableName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">表名</Property>
+                    </DataColumn>
+                    <DataColumn name="columnName">
+                      <Property name="property">columnName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">字段</Property>
+                    </DataColumn>
+                    <DataColumn name="columnType">
+                      <Property name="property">columnType</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">字段类型</Property>
+                    </DataColumn>
+                    <DataColumn name="columnSize">
+                      <Property name="property">columnSize</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">字段大小</Property>
+                    </DataColumn>
+                    <DataColumn name="isprimaryKey">
+                      <Property name="property">isprimaryKey</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="caption">是否主键</Property>
+                    </DataColumn>
+                    <DataColumn name="isnullAble">
+                      <Property name="property">isnullAble</Property>
+                      <Property name="caption">是否为空</Property>
+                      <Property name="readOnly">true</Property>
+                    </DataColumn>
+                    <DataColumn name="remarks">
+                      <Property name="property">remarks</Property>
+                      <Property name="caption">备注</Property>
+                      <Property name="width">300</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+        </MainControl>
+        <SideControl>
+          <Panel>
+            <Property name="caption">所有数据库表</Property>
+            <Property name="width">250</Property>
+            <Buttons/>
+            <Children>
+              <DataTree>
+                <ClientEvent name="onClick">var node = self.get("currentNode");
+if (node) {
+	var entity = node.get("data");
+	var tableName = entity.get("tableName");
+	view.get("#dataSetColumn").set("parameter", tableName).flushAsync();
+}</ClientEvent>
+                <Property name="dataSet">dataSetTable</Property>
+                <BindingConfigs>
+                  <BindingConfig>
+                    <Property name="labelProperty">tableName</Property>
+                    <Property name="name">tableName</Property>
+                    <Property name="icon">url(&gt;skin&gt;common/icons.gif) -160px -80px</Property>
+                  </BindingConfig>
+                </BindingConfigs>
+              </DataTree>
+            </Children>
+            <Tools/>
+          </Panel>
+        </SideControl>
+      </SplitPanel>
+    </Container>
+    <AjaxAction id="coderAction">
+      <Property name="service">createMetadata#saveColumnInfos</Property>
+      <Property name="successMessage">创建成功</Property>
+    </AjaxAction>
+    <AjaxAction id="checkAction">
+      <Property name="service">createMetadata#checkExsitFieldMetaData</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

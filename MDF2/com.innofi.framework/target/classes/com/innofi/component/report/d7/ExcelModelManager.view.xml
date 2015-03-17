@@ -1,0 +1,1134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">BDF.Excel</Property>
+  </Property>
+  <Model>
+    <DataType name="$dataTypeExcelModel" parent="global:$dataTypeExcelModel">
+      <ClientEvent name="onDataChange">if(arg.property == &quot;processorType&quot;){&#xD;
+	var autoFormExcelModel=this.id(&quot;autoFormExcelModel&quot;);&#xD;
+	if(&quot;1&quot;==arg.newValue){&#xD;
+		autoFormExcelModel.getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		&#xD;
+		autoFormExcelModel.getElement(&quot;datasourceName&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;tableName&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;tablePrimaryKey&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		autoFormExcelModel.getElement(&quot;primaryKeyType&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		&#xD;
+		arg.entity.set(&quot;processor&quot;,null);&#xD;
+	}else{&#xD;
+		autoFormExcelModel.getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		&#xD;
+		autoFormExcelModel.getElement(&quot;datasourceName&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;tableName&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;tablePrimaryKey&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		autoFormExcelModel.getElement(&quot;primaryKeyType&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		arg.entity.set(&quot;datasourceName&quot;,null);&#xD;
+		arg.entity.set(&quot;tableName&quot;,null);&#xD;
+		arg.entity.set(&quot;tablePrimaryKey&quot;,null);&#xD;
+		arg.entity.set(&quot;primaryKeyType&quot;,null);&#xD;
+		&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+      <Reference name="listExcelModelDetail">
+        <Property name="dataProvider">bdf.excelManagerPR#loadExcelModelDetails</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataType">[$$dataTypeExcelModelDetail]</Property>
+      </Reference>
+      <PropertyDef name="processorType">
+        <Property name="mapping">
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="label">${messageUtil.getMessage('sysProcessType')}</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="label">${messageUtil.getMessage('customerProcessType')}</Property>
+              </Entity>
+            </Collection>
+          </Property>
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+        </Property>
+        <Property name="defaultValue">1</Property>
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label">${messageUtil.getMessage('excelModel.processorType')}</Property>
+      </PropertyDef>
+      <PropertyDef name="dbType">
+        <Property name="mapping">
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">Oracle</Property>
+                <Property name="label">Oracle</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">DB2</Property>
+                <Property name="label">DB2</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <Reference name="tableColumns">
+        <Property name="dataProvider">bdf.excelManagerPR#loadTableColumnNames</Property>
+        <Property name="dataType">[dataTypeTableInfo]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dataSourceName">$${this.datasourceName}</Property>
+            <Property name="tableName">$${this.tableName}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Validator type="ajax" async="true" defaultResultState="error" revalidateOldValue="true" runAt="client">
+          <Property name="service">bdf.excelManagerPR#checkId</Property>
+        </Validator>
+        <Validator type="length" defaultResultState="error" revalidateOldValue="true" runAt="client">
+          <Property name="minLength">6</Property>
+          <Property name="maxLength">50</Property>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeTableInfo" matchType="com.innofi.component.report.d7.domain.TableInfo">
+      <ClientEvent name="onDataChange">if(arg.property == &quot;tableName&quot;){&#xD;
+	var data=this.id(&quot;dataSetExcelDataWrapper&quot;).getData(&quot;#&quot;);&#xD;
+	if(arg.newValue){&#xD;
+		 data.set(&quot;tablePrimaryKey&quot;,&quot;id_&quot;); &#xD;
+	}&#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="creationType">com.innofi.component.report.d7.domain.TableInfo</Property>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="tablePrimaryKey">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="tableColumn">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="primaryKeyType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="$$dataTypeExcelModelDetail" parent="global:$$dataTypeExcelModelDetail">
+      <ClientEvent name="onDataChange">if(arg.property==&quot;interceptorType&quot;){&#xD;
+	var element=this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;interceptor&quot;)&#xD;
+	if(&quot;1&quot;==arg.newValue){&#xD;
+	   element.set(&quot;readOnly&quot;,true);&#xD;
+	   arg.entity.set(&quot;interceptor&quot;,null);&#xD;
+	}else {&#xD;
+		element.set(&quot;readOnly&quot;,false);&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="modelId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="excelColumn">
+        <Property name="dataType">int</Property>
+      </PropertyDef>
+      <PropertyDef name="tableColumn">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="interceptor">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="interceptorType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">1</Property>
+        <Property name="label">是否使用拦截器</Property>
+        <Property name="mapping">
+          <Property name="keyProperty">key</Property>
+          <Property name="valueProperty">label</Property>
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="label">不使用拦截器</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="label">使用用户自定义的拦截器</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">this.$flushColumn = function(){&#xD;
+    var dataSet = this.id(&quot;dataSetTableColumn&quot;);&#xD;
+    var data = this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+    var tableName = data.get(&quot;tableName&quot;);&#xD;
+    var dataSourceName = data.get(&quot;datasourceName&quot;);&#xD;
+    if (tableName) {&#xD;
+        this.id(&quot;dataSetTableColumn&quot;).set(&quot;parameter&quot;, {&#xD;
+            dataSourceName: dataSourceName,&#xD;
+            tableName: tableName&#xD;
+        }).flushAsync();&#xD;
+    }&#xD;
+}&#xD;
+this.$getDataSourceName = function(){&#xD;
+    var data = this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+    var ajaxActionGetDefaultDataSource = this.id(&quot;ajaxActionGetDefaultDataSource&quot;);&#xD;
+    ajaxActionGetDefaultDataSource.execute(function(result){&#xD;
+        data.set(&quot;datasourceName&quot;, result);&#xD;
+    });&#xD;
+}&#xD;
+this.$flushTables = function(datasourceName){&#xD;
+    var dataSetTable = this.id(&quot;dataSetTable&quot;);&#xD;
+    dataSetTable.set(&quot;parameter&quot;, {&#xD;
+        dataSourceName: datasourceName&#xD;
+    });&#xD;
+    dataSetTable.flushAsync();&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+var that = this;&#xD;
+this.jumpTo = function(from, to){&#xD;
+    var details = that.id(&quot;dataSetExcelModel&quot;).getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+    &#xD;
+    details.first();&#xD;
+    var movingItem = details.move(from - 1);&#xD;
+    var movingRow = movingItem.get(&quot;excelColumn&quot;);&#xD;
+    &#xD;
+    var num = to;&#xD;
+    var movingRow = from;&#xD;
+    &#xD;
+    var start = num;&#xD;
+    var end = movingRow;&#xD;
+    &#xD;
+    var offset = 0;&#xD;
+    var insertMode = &quot;before&quot;;&#xD;
+    if (end &lt; start) {&#xD;
+        start = movingRow;&#xD;
+        end = num;&#xD;
+        offset = -1;&#xD;
+        insertMode = &quot;after&quot;;&#xD;
+    }&#xD;
+    details.first();&#xD;
+    details.move(num - 1);&#xD;
+    var oldItem = details.current;&#xD;
+    details.insert({&#xD;
+        excelColumn: movingItem.get(&quot;excelColumn&quot;),&#xD;
+        excelModel: movingItem.get(&quot;excelModel&quot;),&#xD;
+        interceptor: movingItem.get(&quot;interceptor&quot;),&#xD;
+        interceptorType: movingItem.get(&quot;interceptorType&quot;),&#xD;
+        modelId: movingItem.get(&quot;modelId&quot;),&#xD;
+        tableColumn: movingItem.get(&quot;tableColumn&quot;),&#xD;
+    }, insertMode, oldItem);&#xD;
+    movingItem.remove();&#xD;
+    // movingItem.set(&quot;excelColumn&quot;, num);&#xD;
+    &#xD;
+    details.first();&#xD;
+    details.move(start - 1);&#xD;
+    &#xD;
+    var lastItem = details.current;&#xD;
+    while (lastItem &amp;&amp; start &lt;= end) {&#xD;
+        lastItem.set(&quot;excelColumn&quot;, start++);&#xD;
+        lastItem = details.next();&#xD;
+    }&#xD;
+    &#xD;
+    details.first();&#xD;
+    details.move(to - 1);&#xD;
+    &#xD;
+};</ClientEvent>
+    <DataSet id="dataSetTable">
+      <Property name="dataType">[dataTypeTableInfo]</Property>
+      <Property name="dataProvider">bdf.excelManagerPR#loadAllTables</Property>
+    </DataSet>
+    <DataSet id="dataSetExcelModel">
+      <Property name="dataProvider">bdf.excelManagerPR#loadExcelModels</Property>
+      <Property name="dataType">[$dataTypeExcelModel]</Property>
+      <Property name="pageSize">10</Property>
+    </DataSet>
+    <DataSetDropDown id="dataSetDropDownTable">
+      <ClientEvent name="onClose">var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+var tableName=arg.selectedValue;&#xD;
+if (tableName) {&#xD;
+	var ajaxActionGetPrimaryKey = this.id(&quot;ajaxActionGetPrimaryKey&quot;);&#xD;
+	ajaxActionGetPrimaryKey.set(&quot;parameter&quot;, {&#xD;
+		dataSourceName:data.get(&quot;datasourceName&quot;),&#xD;
+		tableName: tableName&#xD;
+	});&#xD;
+	var key;&#xD;
+	ajaxActionGetPrimaryKey.execute(function(result){&#xD;
+		key = result[0].tablePrimaryKey;&#xD;
+		data.set(&quot;tablePrimaryKey&quot;, key);&#xD;
+	});&#xD;
+}</ClientEvent>
+      <Property name="dataSet">dataSetTable</Property>
+      <Property name="property">tableName</Property>
+      <Property name="dynaFilter">false</Property>
+      <Property name="filterOnOpen">false</Property>
+      <Property name="filterOnTyping">true</Property>
+    </DataSetDropDown>
+    <SplitPanel id="splitPanelExcel">
+      <Property name="direction">top</Property>
+      <Property name="position">250</Property>
+      <MainControl>
+        <Panel id="SchemenInfo">
+          <Children>
+            <AjaxAction id="ajaxActionNotNullFirst">
+              <Property name="service">bdf.excelManagerPR#notNullFirst</Property>
+            </AjaxAction>
+            <AjaxAction id="ajaxActionCreateXls">
+              <Property name="service">bdf.excelManagerPR#createWorkSheet</Property>
+              <Property name="successMessage">${messageUtil.getMessage('ajaxActionCreateXlsSuccess')}</Property>
+            </AjaxAction>
+            <ToolBar id="toolBarExcelModelDetail">
+              <ToolBarButton id="toolBarButtonAdd">
+                <ClientEvent name="onClick">&#xD;
+var entity=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+if(entity) {&#xD;
+	var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+	if(data) {&#xD;
+		view.get(&quot;#dialogExcelModelDetail&quot;).show();&#xD;
+		 data.insert({&#xD;
+        excelModel: {&#xD;
+            id: view.get(&quot;#dataSetExcelModel&quot;).getData(&quot;#.id&quot;)&#xD;
+        }&#xD;
+    });&#xD;
+    data.current.set(&quot;excelColumn&quot;, 1);&#xD;
+	if(entity.get(&quot;processor&quot;)){&#xD;
+		this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;tableColumn&quot;).set(&quot;readOnly&quot;, true);&#xD;
+	}else{&#xD;
+		this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;tableColumn&quot;).set(&quot;readOnly&quot;, false);&#xD;
+	}&#xD;
+    this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;interceptor&quot;).set(&quot;readOnly&quot;, true);&#xD;
+	}&#xD;
+} else {&#xD;
+	 dorado.MessageBox.alert(&quot;${messageUtil.getMessage('addAlterTip')}&quot;);&#xD;
+}</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('btnAdd')}</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+              </ToolBarButton>
+              <ToolBarButton id="toolBarButtonDel">
+                <ClientEvent name="onClick">var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+if(!data){&#xD;
+	dorado.MessageBox.alert(&quot;${messageUtil.getMessage('selectNoRecord')}&quot;);&#xD;
+}else{&#xD;
+	var action=this.id(&quot;updateActionExcelModel&quot;);&#xD;
+	dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('deleteRecordTip')}&quot;,function(){&#xD;
+		data.remove();&#xD;
+		action.execute();&#xD;
+	});&#xD;
+}&#xD;
+</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('btnDelete')}</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+              </ToolBarButton>
+              <ToolBarButton id="toolBarButtonMod">
+                <ClientEvent name="onClick">var entity = this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+if (!data) {&#xD;
+		dorado.MessageBox.alert(&quot;${messageUtil.getMessage('editorAlterTip')}&quot;)&#xD;
+}else {&#xD;
+	this.id(&quot;dialogExcelModelDetail&quot;).show();&#xD;
+	var element=this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;interceptor&quot;)&#xD;
+	var interceptor=data.current.get(&quot;interceptor&quot;);	&#xD;
+	if(interceptor!=null){&#xD;
+		data.current.set(&quot;interceptorType&quot;,&quot;2&quot;);&#xD;
+		element.set(&quot;readOnly&quot;,false);&#xD;
+	}else {&#xD;
+		data.current.set(&quot;interceptorType&quot;,&quot;1&quot;);&#xD;
+		element.set(&quot;readOnly&quot;,true);&#xD;
+	}&#xD;
+	if(entity.get(&quot;processor&quot;)){&#xD;
+		this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;tableColumn&quot;).set(&quot;readOnly&quot;, true);&#xD;
+	}else{&#xD;
+		this.id(&quot;autoFormExcelModelDetail&quot;).getElement(&quot;tableColumn&quot;).set(&quot;readOnly&quot;, false);&#xD;
+	}&#xD;
+}</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('btnModify')}</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -100px -120px</Property>
+              </ToolBarButton>
+              <ToolBarButton id="btnAutoMakeUp">
+                <ClientEvent name="onClick">var dataSetExcelModel = this.id(&quot;dataSetExcelModel&quot;);&#xD;
+&#xD;
+var db = dataSetExcelModel.getData(&quot;#.tableColumns&quot;);&#xD;
+var excel = dataSetExcelModel.getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+&#xD;
+var model = dataSetExcelModel.getData(&quot;#.id&quot;);&#xD;
+var tablePrimaryKey = dataSetExcelModel.getData(&quot;#.tablePrimaryKey&quot;);&#xD;
+var tablePrimaryType = dataSetExcelModel.getData(&quot;#.primaryKeyType&quot;);&#xD;
+&#xD;
+&#xD;
+excel.each(function(item){&#xD;
+    item.remove();&#xD;
+});&#xD;
+var ignorePrimaryKey = true;&#xD;
+if (tablePrimaryType == &quot;ASSIGNED&quot;) {&#xD;
+    ignorePrimaryKey = false;&#xD;
+}&#xD;
+&#xD;
+var index = 1;&#xD;
+db.each(function(dbItem){&#xD;
+    var tableColumn = dbItem.get(&quot;tableColumn&quot;);&#xD;
+    if (!ignorePrimaryKey || (tableColumn != tablePrimaryKey &amp;&amp; (ignorePrimaryKey = false || true))) {&#xD;
+        excel.insert({&#xD;
+            excelColumn: index++,&#xD;
+            tableColumn: dbItem.get(&quot;tableColumn&quot;),&#xD;
+            excelModel: {&#xD;
+                id: model&#xD;
+            }&#xD;
+        });&#xD;
+        //excel.current.set(&quot;excelColumn&quot;, index++);&#xD;
+    }&#xD;
+});&#xD;
+&#xD;
+var dialog = this.id(&quot;dialogExcelModelDetail&quot;);&#xD;
+var action = this.id(&quot;updateActionExcelModel&quot;);&#xD;
+&#xD;
+var detailBack = function(id, text){&#xD;
+    if (id == &quot;yes&quot;) {&#xD;
+        action.execute();        &#xD;
+    }&#xD;
+    else {&#xD;
+        excel.cancel();&#xD;
+    }&#xD;
+//    alert(id + &quot;:&quot; + text);&#xD;
+};&#xD;
+dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('saveConfirmTip')}&quot;, {&#xD;
+    title: &quot;${messageUtil.getMessage('saveTitleTip')}&quot;,&#xD;
+    detailCallback: detailBack&#xD;
+});&#xD;
+</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('btnAutoMakeup')}</Property>
+                <Property name="icon"> url(>skin>common/icons.gif) -120px -100px</Property>
+              </ToolBarButton>
+              <ToolBarButton id="btnMove">
+                <ClientEvent name="onClick">var that = this;&#xD;
+//dataSetExcelModel listExcelModelDetail&#xD;
+&#xD;
+dorado.MessageBox.prompt(&quot;${messageUtil.getMessage('moveToLine')}&quot;, function(num){&#xD;
+    if (num &lt; 1) {&#xD;
+        dorado.MessageBox.alert(&quot;${messageUtil.getMessage('lestOneLine')}&quot;);&#xD;
+    }&#xD;
+    var details = that.id(&quot;dataSetExcelModel&quot;).getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+    if (details &amp;&amp; details.current) {&#xD;
+        var from = details.current.get(&quot;excelColumn&quot;);&#xD;
+        debugger;&#xD;
+        that.jumpTo(from, num);&#xD;
+        /*&#xD;
+         var movingItem = details.current;&#xD;
+         var movingRow = movingItem.get(&quot;excelColumn&quot;);&#xD;
+         &#xD;
+         var start = num;&#xD;
+         var end = movingRow;&#xD;
+         &#xD;
+         var offset = 0;&#xD;
+         var insertMode = &quot;before&quot;;&#xD;
+         if (end &lt; start) {&#xD;
+         start = movingRow;&#xD;
+         end = num;&#xD;
+         offset = -1;&#xD;
+         insertMode = &quot;after&quot;;&#xD;
+         }&#xD;
+         details.first();&#xD;
+         details.move(num - 1);&#xD;
+         var oldItem = details.current;&#xD;
+         details.insert({&#xD;
+         excelColumn: movingItem.get(&quot;excelColumn&quot;),&#xD;
+         excelModel: movingItem.get(&quot;excelModel&quot;),&#xD;
+         interceptor: movingItem.get(&quot;interceptor&quot;),&#xD;
+         interceptorType: movingItem.get(&quot;interceptorType&quot;),&#xD;
+         modelId: movingItem.get(&quot;modelId&quot;),&#xD;
+         tableColumn: movingItem.get(&quot;tableColumn&quot;),&#xD;
+         }, insertMode, oldItem);&#xD;
+         movingItem.remove();&#xD;
+         // movingItem.set(&quot;excelColumn&quot;, num);&#xD;
+         &#xD;
+         details.first();&#xD;
+         details.move(start - 1);&#xD;
+         &#xD;
+         var lastItem = details.current;&#xD;
+         while (lastItem &amp;&amp; start &lt;= end) {&#xD;
+         lastItem.set(&quot;excelColumn&quot;, start++);&#xD;
+         lastItem = details.next();&#xD;
+         }&#xD;
+         */&#xD;
+    }&#xD;
+});&#xD;
+</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('btnMove')}</Property>
+                <Property name="icon"> url(>skin>common/icons.gif) -180px -40px</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="ignored">true</Property>
+              </ToolBarButton>
+              <ToolBarButton id="NotEmpty">
+                <ClientEvent name="onClick">var that = this;&#xD;
+var dataSetExcelModel = this.id(&quot;dataSetExcelModel&quot;);&#xD;
+var excel = dataSetExcelModel.getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+var data = dataSetExcelModel.getData(&quot;#&quot;);&#xD;
+&#xD;
+var paramater = {&#xD;
+    tablename: data.get(&quot;tableName&quot;),&#xD;
+    excel: excel&#xD;
+};&#xD;
+&#xD;
+&#xD;
+this.id(&quot;ajaxActionNotNullFirst&quot;).set(&quot;parameter&quot;, paramater).execute(function(datas){&#xD;
+//    var details = that.id(&quot;dataSetExcelModel&quot;).getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+	var to = 1;&#xD;
+	debugger;&#xD;
+	datas.each(function(item){&#xD;
+		var from = item.excelColumn;&#xD;
+		that.jumpTo(from, to++);&#xD;
+	});&#xD;
+});&#xD;
+</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('NotEmpty')}</Property>
+                <Property name="icon"> url(>skin>common/icons.gif) -240px -100px</Property>
+                <Property name="ignored">true</Property>
+              </ToolBarButton>
+              <ToolBarButton id="btnSave">
+                <ClientEvent name="onClick">var dialog=this.id(&quot;dialogExcelModelDetail&quot;);&#xD;
+var action=this.id(&quot;updateActionExcelModel&quot;);&#xD;
+dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('saveConfirmTip')}&quot;,function(){&#xD;
+	action.execute(function(){&#xD;
+		dialog.hide();&#xD;
+	});&#xD;
+});&#xD;
+</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('btnSave')}</Property>
+                <Property name="icon"> url(>skin>common/icons.gif) -160px -20px</Property>
+              </ToolBarButton>
+              <ToolBarButton id="btnCreateExcel">
+                <ClientEvent name="onClick">var dataSetExcelModel = this.id(&quot;dataSetExcelModel&quot;);&#xD;
+var excel = dataSetExcelModel.getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+var data = dataSetExcelModel.getData(&quot;#&quot;);&#xD;
+var paramater = {&#xD;
+	tablename : data.get(&quot;tableName&quot;),&#xD;
+	excel : excel&#xD;
+}&#xD;
+&#xD;
+this.id(&quot;ajaxActionCreateXls&quot;).set(&quot;parameter&quot;, paramater).execute();&#xD;
+</ClientEvent>
+                <Property name="caption">${messageUtil.getMessage('btnCreateExcel')}</Property>
+                <Property name="icon"> url(>skin>common/icons.gif) -300px -60px</Property>
+                <Property name="ignored">true</Property>
+              </ToolBarButton>
+            </ToolBar>
+            <DataGrid id="dataGridExcelModelDetail">
+              <Property name="dataSet">dataSetExcelModel</Property>
+              <Property name="dataPath">#.listExcelModelDetail</Property>
+              <Property name="readOnly">true</Property>
+              <Property name="stretchColumnsMode">allColumns</Property>
+              <DataColumn name="excelColumn">
+                <Property name="property">excelColumn</Property>
+                <Property name="width">100</Property>
+              </DataColumn>
+              <DataColumn name="tableColumn">
+                <Property name="property">tableColumn</Property>
+                <Property name="width">200</Property>
+              </DataColumn>
+              <DataColumn name="interceptor">
+                <Property name="property">interceptor</Property>
+                <Property name="width">200</Property>
+              </DataColumn>
+              <DataColumn name="interceptorType">
+                <Property name="property">interceptorType</Property>
+              </DataColumn>
+            </DataGrid>
+          </Children>
+        </Panel>
+      </MainControl>
+      <SideControl>
+        <Panel id="importPanel">
+          <Children>
+            <ToolBar id="toolBarExcelModel">
+              <DataPilot id="dataPilotExcelModel">
+                <ClientEvent name="onSubControlAction">var excelModelData=this.id(&quot;dataSetExcelModel&quot;).getData();&#xD;
+var updateActionExcelModel=this.id(&quot;updateActionExcelModel&quot;);&#xD;
+switch(arg.code){&#xD;
+	case &quot;+&quot;:&#xD;
+		excelModelData.insert();&#xD;
+		this.id(&quot;dialogExcelModel&quot;).show();&#xD;
+		this.tag(&quot;modelId&quot;).set(&quot;readOnly&quot;,false);&#xD;
+		excelModelData.current.set(&quot;startRow&quot;,1);&#xD;
+		excelModelData.current.set(&quot;endRow&quot;,2);&#xD;
+		excelModelData.current.set(&quot;processorType&quot;,1);&#xD;
+		this.id(&quot;autoFormExcelModel&quot;).getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,true);&#xD;
+		arg.processDefault=false;&#xD;
+		break;&#xD;
+	case &quot;-&quot;:&#xD;
+		if(excelModelData.current){&#xD;
+			dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('deleteTip')}&quot;,function(){&#xD;
+				excelModelData.remove();&#xD;
+				updateActionExcelModel.execute();&#xD;
+			});&#xD;
+		}&#xD;
+		arg.processDefault=false;&#xD;
+		break;&#xD;
+}&#xD;
+</ClientEvent>
+                <Property name="itemCodes">pages,+,-</Property>
+                <Property name="dataSet">dataSetExcelModel</Property>
+              </DataPilot>
+              <ToolBarButton id="toolBarButtonExcelModel">
+                <ClientEvent name="onClick">var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+&#xD;
+if(data){&#xD;
+	this.$flushTables(data.get(&quot;datasourceName&quot;));&#xD;
+	this.id(&quot;dialogExcelModel&quot;).show();&#xD;
+	var processor=data.get(&quot;processor&quot;);&#xD;
+	if(processor!=null){&#xD;
+		data.set(&quot;processorType&quot;,&quot;2&quot;);		&#xD;
+		this.id(&quot;autoFormExcelModel&quot;).getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,false);	&#xD;
+	}else {&#xD;
+		data.set(&quot;processorType&quot;,1);&#xD;
+		this.id(&quot;autoFormExcelModel&quot;).getElement(&quot;processor&quot;).set(&quot;readOnly&quot;,true);&#xD;
+	}&#xD;
+	this.tag(&quot;modelId&quot;).set(&quot;readOnly&quot;,true);	&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${messageUtil.getMessage('editorTip')}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -100px -120px</Property>
+                <Property name="caption">${messageUtil.getMessage('btnModify')}</Property>
+              </ToolBarButton>
+              <ToolBarButton id="toolBarButtonUploadExcel">
+                <ClientEvent name="onClick">var data = this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+if (!data) {&#xD;
+    dorado.MessageBox.alert(&quot;${messageUtil.getMessage('selectNoRecord')}&quot;);&#xD;
+} else {&#xD;
+    var processor = data.get(&quot;processor&quot;);&#xD;
+    if (processor != null) {&#xD;
+        data.set(&quot;processorType&quot;, &quot;2&quot;);&#xD;
+    } else {&#xD;
+        data.set(&quot;processorType&quot;, 1);&#xD;
+    }&#xD;
+	&#xD;
+    view.get(&quot;#uploadhelpDocDialog&quot;).show(); &#xD;
+	&#xD;
+	/*&#xD;
+    var action = this.id(&quot;updateActionExcelModel&quot;);&#xD;
+    var ajaxActionDeleteFileByID = this.id(&quot;ajaxActionDeleteFileByID&quot;);&#xD;
+    var config = {&#xD;
+        caption: &quot;${messageUtil.getMessage('uploadCaption')}&quot;,&#xD;
+        height: 200,&#xD;
+        onSuccess: function(result){&#xD;
+            var sid = result[0].id;&#xD;
+            if (sid) {&#xD;
+            &#xD;
+                var doc = data.get(&quot;helpDoc&quot;);&#xD;
+                if (doc) {&#xD;
+                &#xD;
+                    dorado.MessageBox.confirm(&quot;${messageUtil.getMessage('confirmDeleteDom')}&quot;, function(){&#xD;
+                        ajaxActionDeleteFileByID.set(&quot;parameter&quot;, doc).execute();&#xD;
+                    });&#xD;
+                }&#xD;
+                data.set(&quot;helpDoc&quot;, sid);&#xD;
+                action.execute();&#xD;
+                &#xD;
+            } else {&#xD;
+                dorado.MessageBox.alert(&quot;${messageUtil.getMessage('uploadFailure')}&quot;);&#xD;
+            }&#xD;
+        }&#xD;
+    };&#xD;
+    var upload = new bdf.UploadFile();&#xD;
+    upload.show(config);&#xD;
+    */&#xD;
+}&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+                <Property name="icon">>icons/arrow_up.png</Property>
+                <Property name="caption">${messageUtil.getMessage('uploadCaption')}</Property>
+              </ToolBarButton>
+            </ToolBar>
+            <AjaxAction id="ajaxActionDeleteFileByID">
+              <Property name="service">bdf.excelManagerPR#deleteFileByID</Property>
+              <Property name="successMessage">${messageUtil.getMessage('deleteHelpDocS')}</Property>
+            </AjaxAction>
+            <AjaxAction id="ajaxActionAddFileByID">
+              <Property name="service">bdf.excelManagerPR#addFileById</Property>
+              <Property name="successMessage">${messageUtil.getMessage('addNewHelpDocS')}</Property>
+            </AjaxAction>
+            <DataGrid id="dataGridExcelModel">
+              <Property name="dataSet">dataSetExcelModel</Property>
+              <Property name="showFilterBar">true</Property>
+              <Property name="readOnly">true</Property>
+              <DataColumn name="id">
+                <Property name="property">id</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="name">
+                <Property name="property">name</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="sheet">
+                <Property name="property">sheet</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="datasourceName">
+                <Property name="property">datasourceName</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="tableName">
+                <Property name="property">tableName</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="tablePrimaryKey">
+                <Property name="property">tablePrimaryKey</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="primaryKeyType">
+                <Property name="property">primaryKeyType</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="cmnt">
+                <Property name="property">cmnt</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="sequenceName">
+                <Property name="property">sequenceName</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="processor">
+                <Property name="property">processor</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="processorType">
+                <Property name="property">processorType</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="dbType">
+                <Property name="property">dbType</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+              </DataColumn>
+              <DataColumn name="helpDoc">
+                <Property name="property">helpDoc</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+                <Property name="ignored">true</Property>
+                <Property name="visible">false</Property>
+              </DataColumn>
+              <DataColumn name="crtUserCode">
+                <Property name="property">crtUserCode</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+                <Property name="ignored">true</Property>
+                <Property name="visible">false</Property>
+              </DataColumn>
+              <DataColumn name="crtDate">
+                <Property name="property">crtDate</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+                <Property name="ignored">true</Property>
+                <Property name="visible">false</Property>
+              </DataColumn>
+              <DataColumn name="crtOrgCode">
+                <Property name="property">crtOrgCode</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+                <Property name="ignored">true</Property>
+                <Property name="visible">false</Property>
+              </DataColumn>
+              <DataColumn name="updDate">
+                <Property name="property">updDate</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+                <Property name="ignored">true</Property>
+                <Property name="visible">false</Property>
+              </DataColumn>
+              <DataColumn name="updOrgCode">
+                <Property name="property">updOrgCode</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+                <Property name="ignored">true</Property>
+                <Property name="visible">false</Property>
+              </DataColumn>
+              <DataColumn name="updUserCode">
+                <Property name="property">updUserCode</Property>
+                <Property name="filterable">false</Property>
+                <Property name="width">150</Property>
+                <Property name="ignored">true</Property>
+                <Property name="visible">false</Property>
+              </DataColumn>
+            </DataGrid>
+          </Children>
+        </Panel>
+      </SideControl>
+    </SplitPanel>
+    <Dialog id="dialogExcelModel">
+      <Property name="width">600</Property>
+      <Property name="height">390</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="closeable">false</Property>
+      <Property name="caption">${messageUtil.getMessage('excelModel.import.msg')}</Property>
+      <Buttons>
+        <Button id="buttonExcelModelOk">
+          <ClientEvent name="onClick">var dialog=this.id(&quot;dialogExcelModel&quot;);&#xD;
+var action=this.id(&quot;updateActionExcelModel&quot;);&#xD;
+var entity = this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+if(entity){&#xD;
+	if(entity.get(&quot;processorType&quot;) == 2){&#xD;
+		if(!entity.get(&quot;processor&quot;)){&#xD;
+			dorado.MessageBox.alert(&quot;${messageUtil.getMessage('processorTip')}&quot;);&#xD;
+			return ;&#xD;
+		}&#xD;
+	}else{&#xD;
+		if(!entity.get(&quot;tableName&quot;)){&#xD;
+			dorado.MessageBox.alert(&quot;${messageUtil.getMessage('tableNameTip')}&quot;);&#xD;
+			return ;&#xD;
+		}&#xD;
+		if(entity.get(&quot;tablePrimaryKey&quot;)){&#xD;
+			if(!entity.get(&quot;primaryKeyType&quot;)){&#xD;
+				dorado.MessageBox.alert(&quot;${messageUtil.getMessage('primaryKeyTypeTip')}&quot;);&#xD;
+				return ;&#xD;
+			}&#xD;
+		}&#xD;
+		&#xD;
+	}&#xD;
+}&#xD;
+action.execute(function(){&#xD;
+	dialog.hide();&#xD;
+});&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('btnOK')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+        </Button>
+        <Button id="buttonExcelModelCancel">
+          <ClientEvent name="onClick">var data=this.id(&quot;dataSetExcelModel&quot;).getData();&#xD;
+var dialog=this.id(&quot;dialogExcelModel&quot;);&#xD;
+data.cancel();&#xD;
+dialog.hide();&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('btnCancel')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormExcelModel">
+          <Property name="dataSet">dataSetExcelModel</Property>
+          <Property name="cols">*,*</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="labelWidth">185</Property>
+          <Property name="dataPath">#</Property>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">id</Property>
+            <Property name="property">id</Property>
+            <Property name="tags">modelId</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">name</Property>
+            <Property name="property">name</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">sheet</Property>
+            <Property name="property">sheet</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${messageUtil.getMessage('blankTextTip')}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="processorType" layoutConstraint="colSpan:2">
+            <Property name="label">${messageUtil.getMessage('processorType')}</Property>
+            <Property name="name">processorType</Property>
+            <Property name="type">text</Property>
+            <Editor>
+              <RadioGroup id="radioGroup1">
+                <Property name="layout">flow</Property>
+                <RadioButton>
+                  <Property name="text">${messageUtil.getMessage('sysProcessType')}</Property>
+                  <Property name="value">1</Property>
+                </RadioButton>
+                <RadioButton>
+                  <Property name="text">${messageUtil.getMessage('customerProcessType')}</Property>
+                  <Property name="value">2</Property>
+                </RadioButton>
+              </RadioGroup>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="datasourceName" layoutConstraint="colSpan:2">
+            <Property name="name">datasourceName</Property>
+            <Property name="property">datasourceName</Property>
+            <Property name="trigger">dataSetDropDownDatasource,triggerClear</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">tableName</Property>
+            <Property name="property">tableName</Property>
+            <Property name="trigger">dataSetDropDownTable</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tablePrimaryKey</Property>
+            <Property name="property">tablePrimaryKey</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="primaryKeyType">
+            <Property name="property">primaryKeyType</Property>
+            <Property name="trigger">dataSetDropDownPrimaryKeyType</Property>
+            <Property name="name">primaryKeyType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">processor</Property>
+            <Property name="property">processor</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">cmnt</Property>
+            <Property name="property">cmnt</Property>
+            <Property name="type">textArea</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </Dialog>
+    <Dialog id="dialogExcelModelDetail">
+      <Property name="width">600</Property>
+      <Property name="height">200</Property>
+      <Property name="closeable">false</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">${messageUtil.getMessage('excelModel.import.colum')}</Property>
+      <Buttons>
+        <Button id="buttonExcelModelDetailOk">
+          <ClientEvent name="onClick">var dialog=this.id(&quot;dialogExcelModelDetail&quot;);&#xD;
+var action=this.id(&quot;updateActionExcelModel&quot;);&#xD;
+action.execute(function(){&#xD;
+		dialog.hide();&#xD;
+});&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('btnOK')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+        </Button>
+        <Button id="buttonExcelModelDetailCancel">
+          <ClientEvent name="onClick">var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#.listExcelModelDetail&quot;);&#xD;
+var dialog=this.id(&quot;dialogExcelModelDetail&quot;);&#xD;
+data.cancel();&#xD;
+dialog.hide();&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('btnCancel')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormExcelModelDetail">
+          <Property name="cols">*</Property>
+          <Property name="dataSet">dataSetExcelModel</Property>
+          <Property name="dataPath">#.listExcelModelDetail[#current]</Property>
+          <AutoFormElement>
+            <Property name="name">excelColumn</Property>
+            <Property name="property">excelColumn</Property>
+            <Property name="label">Excel列号</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tableColumn</Property>
+            <Property name="property">tableColumn</Property>
+            <Property name="label">数据库表列名</Property>
+            <Property name="trigger">dataSetDropDownTableColumn</Property>
+            <Property name="hideMode">display</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">interceptorType</Property>
+            <Property name="property">interceptorType</Property>
+            <Property name="label">是否使用拦截器类</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">interceptor</Property>
+            <Property name="property">interceptor</Property>
+            <Property name="trigger">$dataSetDropDownEnum</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <UpdateAction id="updateActionExcelModel">
+      <Property name="successMessage">${messageUtil.getMessage('updateActionSuccess')}</Property>
+      <Property name="dataResolver">bdf.excelManagerPR#saveExcelModel</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetExcelModel</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="ajaxActionGetPrimaryKey">
+      <Property name="service">bdf.excelManagerPR#loadTablePrimaryKeys</Property>
+    </AjaxAction>
+    <DataSetDropDown id="dataSetDropDownTableColumn">
+      <ClientEvent name="onClose">var selectedValue=arg.selectedValue;&#xD;
+var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+var tablePrimaryKey=data.get(&quot;tablePrimaryKey&quot;);&#xD;
+var primaryKeyType=data.get(&quot;primaryKeyType&quot;);&#xD;
+if(tablePrimaryKey==selectedValue){&#xD;
+	if(&quot;ASSIGNED&quot;!=primaryKeyType){&#xD;
+		dorado.MessageBox.alert(&quot;${messageUtil.getMessage('dataSetDropDownTableColumnTip')}&quot;);&#xD;
+	}&#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="dataSet">dataSetExcelModel</Property>
+      <Property name="property">tableColumn</Property>
+      <Property name="dataPath">#.tableColumns</Property>
+    </DataSetDropDown>
+    <DataSet id="dataSetPrimaryKeyType">
+      <Property name="dataType">[dataTypeTableInfo]</Property>
+      <Property name="dataProvider">bdf.excelManagerPR#loadPrimaryKeyTypes</Property>
+    </DataSet>
+    <DataSetDropDown id="dataSetDropDownPrimaryKeyType">
+      <ClientEvent name="onClose">var selectValue=arg.selectedValue;&#xD;
+var dialog=this.id(&quot;dialogSequence&quot;);&#xD;
+if(&quot;SEQUENCE&quot;==selectValue){&#xD;
+   //弹出窗口&#xD;
+	dialog.show();&#xD;
+	&#xD;
+}else {&#xD;
+	var data=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+	data.set(&quot;dbType&quot;,null);&#xD;
+	data.set(&quot;sequenceName&quot;,null);&#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="property">primaryKeyType</Property>
+      <Property name="dataSet">dataSetPrimaryKeyType</Property>
+      <Property name="maxHeight">120</Property>
+    </DataSetDropDown>
+    <Dialog id="dialogSequence">
+      <Property name="center">true</Property>
+      <Property name="width">400</Property>
+      <Property name="height">200</Property>
+      <Property name="closeable">false</Property>
+      <Property name="modal">true</Property>
+      <Buttons>
+        <Button id="buttonSequenceOk">
+          <ClientEvent name="onClick">var sequenceName=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;).get(&quot;sequenceName&quot;);&#xD;
+var dbType=this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;).get(&quot;dbType&quot;);&#xD;
+var dialog=this.id(&quot;dialogSequence&quot;);&#xD;
+&#xD;
+if(sequenceName&amp;&amp;dbType){&#xD;
+	dialog.hide();&#xD;
+}else {&#xD;
+	if(!dbType){&#xD;
+		&#xD;
+	dorado.MessageBox.alert(&quot;${messageUtil.getMessage('dbTypeTip')}&quot;);&#xD;
+	}else{&#xD;
+		&#xD;
+	dorado.MessageBox.alert(&quot;${messageUtil.getMessage('dbTypePrimaryKeyTip')}&quot;);&#xD;
+	}&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('btnOK')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSequence">
+          <Property name="dataSet">dataSetExcelModel</Property>
+          <Property name="dataPath">#</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">dbType</Property>
+            <Property name="property">dbType</Property>
+            <Property name="type">radioGroup</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="sequenceName">
+            <Property name="name">sequenceName</Property>
+            <Property name="property">sequenceName</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </Dialog>
+    <DataSet id="dataSetDatasource">
+      <Property name="dataType">[$dataTypeExcelModel]</Property>
+      <Property name="dataProvider">bdf.excelManagerPR#findDatasourceNames</Property>
+      <Property name="loadMode">onReady</Property>
+    </DataSet>
+    <DataSetDropDown id="dataSetDropDownDatasource">
+      <ClientEvent name="onValueSelect">var dataSourceName=arg.selectedValue;&#xD;
+this.$flushTables(dataSourceName);&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="dataSet">dataSetDatasource</Property>
+      <Property name="property">datasourceName</Property>
+    </DataSetDropDown>
+    <AjaxAction id="ajaxActionGetDefaultDataSource">
+      <Property name="service">bdf.excelManagerPR#getDefaultDataSourceName</Property>
+    </AjaxAction>
+    <Dialog id="uploadhelpDocDialog">
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var MoreUploader = view.get(&quot;#uploadHelpDocExcel&quot;);&#xD;
+var fileId = MoreUploader.get(&quot;userData&quot;); &#xD;
+var data = this.id(&quot;dataSetExcelModel&quot;).getData(&quot;#&quot;);&#xD;
+var idKey = data.get(&quot;id&quot;);&#xD;
+var oldDocFileId = data.get(&quot;helpDoc&quot;);&#xD;
+&#xD;
+if(oldDocFileId) {&#xD;
+	//删除老的文件信息&#xD;
+   var deleteFileAction = view.get(&quot;#ajaxActionDeleteFileByID&quot;);&#xD;
+   deleteFileAction.set(&quot;parameter&quot;,{&quot;id&quot;:oldDocFileId});&#xD;
+   deleteFileAction.execute();&#xD;
+}&#xD;
+&#xD;
+if(fileId) {&#xD;
+	//绑定新的文件信息&#xD;
+   var addFileAction = view.get(&quot;#ajaxActionAddFileByID&quot;);&#xD;
+   addFileAction.set(&quot;parameter&quot;,{&quot;id&quot;:idKey,&quot;fileId&quot;:fileId});&#xD;
+   addFileAction.execute();&#xD;
+   data.set(&quot;helpDoc&quot;, fileId);&#xD;
+}&#xD;
+view.get(&quot;#uploadhelpDocDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <OneUploader id="uploadHelpDocExcel">
+          <Property name="fileSaveType">BLOB</Property>
+          <Property name="maxFileSize">1MB</Property>
+          <Property name="uploadExtensions">xls</Property>
+          <Property name="uploadTittle">Excel文档</Property>
+          <Property name="width">100%</Property>
+          <Buttons/>
+          <Children/>
+          <Tools/>
+        </OneUploader>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

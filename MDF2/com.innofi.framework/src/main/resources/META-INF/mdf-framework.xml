@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--Spring上下文持有者-->
+    <bean id="mdf.contextHolder" class="com.innofi.framework.spring.context.ContextHolder" lazy-init="false"/>
+
+    <!-- 系统属性配置读取对象 -->
+    <bean id="systemProperties" class="com.innofi.framework.properties.SystemProperties" factory-method="getInstance"/>
+
+    <!--DataSource注册器-->
+    <bean id="mdf.dataSourceRegister" class="com.innofi.framework.datasource.DataSourceRegister" abstract="true"/>
+
+    <!--Datasource仓库-->
+    <bean id="mdf.dataSourceRepository" class="com.innofi.framework.datasource.DataSourceRepository" scope="singleton"/>
+
+    <!--数据库方言提供者-->
+    <bean id="mdf.dbDialectProvider" class="com.innofi.framework.dao.jdbc.sqldialect.impl.MultiDBDialectProvider">
+        <property name="dbDialects">
+            <list>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.MySQLDialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.SQLServer2003Dialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.SQLServer2005Dialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.SQLServer2008Dialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.OracleDialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.DB2Dialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.H2Dialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.HsqlDialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.SqlLiteDialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.InformixDialect"/>
+                <bean class="com.innofi.framework.dao.jdbc.sqldialect.impl.DerbyDialect"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- hibernate 环境配置工厂-->
+    <bean id="systemEnvFactory" class="com.innofi.framework.properties.ClassPathProperties" lazy-init="false"
+          scope="singleton">
+        <property name="propertyFileName">
+            <value>META-INF/system-env.properties</value>
+        </property>
+    </bean>
+
+    <!--hibernate properties-->
+    <bean id="hibernatePropertiesFactory" factory-bean="systemEnvFactory" factory-method="getProperties"
+          lazy-init="default" autowire="default" scope="singleton"/>
+
+    <!--hibernate sessionFactory 工厂类-->
+    <bean id="sessionFactoryBean" class="com.innofi.framework.dao.hibernate.HibernateSessionFactoryBean"
+          abstract="true"/>
+
+    <!--Properties加载器-->
+    <bean id="mdf.propertiesConfigurationLoader" class="com.innofi.framework.properties.PropertiesConfigurationLoader">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+    <!--hibernate entity listener  -->
+    <bean id="unByteCodeProxyInterceptor"
+          class="com.innofi.framework.dao.hibernate.interceptor.UnByteCodeProxyInterceptor"/>
+
+    <!--代码翻译 -->
+    <bean id="mdf.codeTransfer" class="com.innofi.component.codetransfer.IdfCodeTransfer"/>
+
+    <bean id="transactionManager" class="com.innofi.framework.dao.hibernate.HibernateTransactionManagerBean">
+        <property name="rollbackOnCommitFailure" value="true"/>
+    </bean>
+
+    <!-- Web环境上下文对象-->
+    <bean id="mdf.defaultFrameWorkContext" class="com.innofi.framework.d7.DefaultFrameworkContext" scope="prototype"/>
+
+    <!-- Base Action对象-->
+    <bean class="com.innofi.framework.action.impl.BaseActionImpl" abstract="true"/>
+
+    <!--异常处理-->
+    <bean id="mdf.exceptionHandle" class="com.innofi.framework.exception.ExceptionHandle">
+        <property name="logDir" value="${mdf.log.dir}"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!--扫描framework、component路径，注册路径下的bean-->
+    <context:component-scan base-package="com.innofi.framework.*"/>
+
+    <context:component-scan base-package="com.innofi.component.*"/>
+<!--    <context:component-scan base-package="com.innofi.component.cache.*"/>
+    <context:component-scan base-package="com.innofi.component.download.*"/>-->
+    <!--mtp模块发布时需要注释掉-->
+    <!--
+    <context:component-scan base-package="com.innofi.component.*"/>
+
+    写日志截器配置
+    <bean id="logAutoWriteInterceptorAfterAdvice" class="com.innofi.component.rbac.log.interceptor.LogAutoWriteInterceptor"/>
+     缓存刷新切入点
+    <bean id="logAutoWriteInterceptorPoint" class="com.innofi.component.cache.aop.LogAutoWriteInterceptorPoint">
+        <property name="mappedNames">
+            <list>
+                <value>*</value>
+            </list>
+        </property>
+    </bean>
+
+         包装通知，指定切点  缓存拦截器配置
+    <bean id="logAutoWriteInterceptor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="pointcut">
+            <ref bean="logAutoWriteInterceptorPoint"/>
+        </property>
+        <property name="advice">
+            <ref bean="logAutoWriteInterceptorAfterAdvice" />
+        </property>
+    </bean>
+
+
+
+    <bean parent="dorado.genericObjectListenerRegister">
+        <property name="listener">
+            <bean class="com.innofi.component.global.listener.DataSetListener">
+                <property name="order" value="3"/>
+                <property name="pattern" value="*"/>
+            </bean>
+        </property>
+    </bean>
+
+    -->
+
+
+    <!--Lob字段服务开始-->
+    <!--    <bean id="mdf.lobStoreService" class="com.innofi.framework.service.LobStoreServiceImpl">
+            <property name="daoSupport" ref="daoSupport"/>
+        </bean>-->
+    <!--Lob字段服务结束-->
+
+
+    <!-- 缓存刷新切入点 -->
+    <!--    <bean id="cacheAutoFlushPoint" class="com.innofi.component.cache.aop.CacheAutoFlushPoint">
+            <property name="mappedNames">
+                <list>
+                    <value>save*</value>
+                    <value>add*</value>
+                    <value>update*</value>
+                    <value>remove*</value>
+                    <value>delete*</value>
+                    <value>del*</value>
+                </list>
+            </property>
+        </bean>-->
+
+    <!-- 在执行cacheAutoFlushPoint点定义的方法时，执行更新缓存操作 -->
+    <!--    <bean id="cacheAutoFlushAfterAdvice" class="com.innofi.component.cache.aop.CacheAutoFlushAfterAdvice"/>-->
+
+
+    <!-- 包装通知，指定切点  缓存拦截器配置 -->
+    <!--    <bean id="cacheAutoFlushAfterAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+            <property name="pointcut">
+                <ref bean="cacheAutoFlushPoint"/>
+            </property>
+            <property name="advice">
+                <ref bean="cacheAutoFlushAfterAdvice"/>
+            </property>
+        </bean>-->
+
+
+    <!--    <bean id="mdf.instanceService" class="com.innofi.framework.service.InstanceServiceImpl">
+            <property name="instanceNameKey" value="${mdf.instanceNameKey}"/>
+        </bean>-->
+
+
+    <!--       <import resource="classpath*:META-INF/mdf-report.xml"/>
+           <import resource="classpath*:META-INF/mdf-message.xml"/>-->
+
+
+    <!--<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor" abstract="false" lazy-loadingDynamicStatement="default" autowire="default">
+        <property name="transactionManager" ref="hibernateTransactionManagerBean"/>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+                <prop key="load*">readOnly</prop>
+                <prop key="get*">readOnly</prop>
+                <prop key="find*">readOnly</prop>
+                <prop key="executeQuery*">readOnly</prop>
+                <prop key="query*">readOnly</prop>
+                <prop key="search*">readOnly</prop>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="save*">PROPAGATION_REQUIRED</prop>
+                <prop key="update*">PROPAGATION_REQUIRED</prop>
+                <prop key="remove*">PROPAGATION_REQUIRED</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>-->
+
+    <!--    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+            <property name="beanNames">
+                <list>
+                    <value>*Service</value>
+                </list>
+            </property>
+            <property name="interceptorNames">
+                <list>
+                    &lt;!&ndash; 				<value>cacheAutoFlushAfterAdvisor</value>
+                                    <value>logAutoWriteInterceptor</value> &ndash;&gt;
+                    <value>transactionInterceptor</value>
+                </list>
+            </property>
+        </bean>-->
+
+    <!--
+         <bean id="baseHibernateDAO" class="com.haier.openplatform.dao.hibernate.BaseDAOHibernateImpl" abstract="true">
+          <property name="sessionFactory">
+           <ref bean="sessionFactory"/>
+          </property>
+          <property name="dynamicStatementBuilder" ref="dynamicStatementBuilder"/>
+         </bean>-->
+
+
+</beans>

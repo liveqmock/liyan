@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context>
+    <Attribute name="appId">
+      <Property name="value">${param[&quot;appId&quot;]}</Property>
+    </Attribute>
+  </Context>
+  <Model/>
+  <View>
+    <Accordion id="secondMenuAccordion" listener="spring:defaultIndexViewListener#onAccordionInit">
+      <ClientEvent name="onReady">try {&#xD;
+	for (var i = 0; i &lt; 50; i++) {&#xD;
+		self.set('currentSection',self.getSection(i));&#xD;
+		if(self.get('currentIndex')==0&amp;&amp;i>0){&#xD;
+			self.set('currentSection',self.getSection((i-1)));&#xD;
+			break;	&#xD;
+		}&#xD;
+	}&#xD;
+}catch(e){&#xD;
+	&#xD;
+}&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="animate">true</Property>
+    </Accordion>
+  </View>
+</ViewConfig>

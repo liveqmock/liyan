@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysMenuManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysMenu" parent="global:dataTypeSysMenu">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">sysMenuAction#findSysMenusByParentId</Property>
+      </Reference>
+      <Reference name="funAction">
+        <Property name="dataType">[dataTypeSysFunAction]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="menuId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">sysFunActionAction#findSysFunActions</Property>
+        <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      </Reference>
+    </DataType>
+    <DataType name="dataTypeSysFunAction" parent="global:dataTypeSysFunAction">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="selectFlag"/>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">window.findImage=function(imageUrl,dataSetId,dataPathName,propertyName,dialogId){
+	view.get(&quot;#&quot;+dataSetId).getData(dataPathName).set(propertyName,imageUrl);
+	view.get(&quot;#&quot;+dialogId).hide();
+}</ClientEvent>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysMenu">
+      <ClientEvent name="onReady">view.get(&quot;#dataSetSysMenu&quot;).set(&quot;parameter&quot;,&quot;0&quot;).flushAsync();
+</ClientEvent>
+      <Property name="dataProvider">sysMenuAction#findSysMenusByParentId</Property>
+      <Property name="dataType">[dataTypeSysMenu]</Property>
+    </DataSet>
+    <DataSet id="dataSetButton">
+      <Property name="dataType">[dataTypeSysFunAction]</Property>
+      <Property name="dataProvider">sysFunActionAction#findActionByMenuUrl</Property>
+    </DataSet>
+    <DataSet id="dataSetAction">
+      <Property name="dataProvider">sysFunActionAction#findActionByMenuId</Property>
+      <Property name="dataType">[dataTypeSysFunAction]</Property>
+    </DataSet>
+    <Container>
+      <ToolBar id="toolBarSysMenu" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#menuTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个节点！&quot;);
+}
+//获得编码
+var menuCode=&quot;&quot;;
+view.get(&quot;#menuCodeAction&quot;).set(&quot;parameter&quot;,&quot;MENU_CODE&quot;).execute(function(result){
+	menuCode=result;
+});
+//TreeSeq
+var currEntity=currentNode.get(&quot;data&quot;);
+var seq=currEntity.get(&quot;treeSeq&quot;);
+var len=seq.substr(0,seq.length-1).lastIndexOf(&quot;.&quot;);
+var treeSeq=currEntity.get(&quot;treeSeq&quot;).substr(0,len+1);
+treeSeq=treeSeq+menuCode+&quot;.&quot;;
+//创建
+var currentEntity = currentNode.get(&quot;data&quot;);
+var brother = currentEntity.createBrother({
+	parentMenuId:currentEntity.get(&quot;parentMenuId&quot;),
+	menuCode:menuCode,
+	openMode:&quot;1&quot;,
+	isStart:&quot;1&quot;,
+	treeSeq:treeSeq
+});
+view.get(&quot;#menuTree&quot;).set(&quot;currentEntity&quot;,brother);
+
+view.get(&quot;#addDialogSysMenu&quot;).show();</ClientEvent>
+          <Property name="icon">>icons/add2.png</Property>
+          <Property name="caption">添加同级</Property>
+        </ToolBarButton>
+        <ToolBarButton id="addChildButton">
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#menuTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var menuCode=&quot;&quot;;
+view.get(&quot;#menuCodeAction&quot;).set(&quot;parameter&quot;,&quot;MENU_CODE&quot;).execute(function(result){
+	menuCode=result;
+});
+var currentEntity = currentNode.get(&quot;data&quot;);
+//TreeSeq
+var currEntity=currentNode.get(&quot;data&quot;);
+var treeSeq=currEntity.get(&quot;treeSeq&quot;);
+treeSeq=treeSeq+menuCode+&quot;.&quot;;
+
+currentNode.expandAsync(function() {
+	var child = currentEntity.createChild(&quot;children&quot;, {
+		parentMenuId:currentEntity.get(&quot;id&quot;),
+		menuCode:menuCode,
+		openMode:&quot;1&quot;,
+		isStart:&quot;1&quot;,
+		treeSeq:treeSeq
+	});
+	view.get(&quot;#menuTree&quot;).set(&quot;currentEntity&quot;,child);
+});
+view.get(&quot;#addDialogSysMenu&quot;).show();</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加下级</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#menuTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个节点！&quot;);
+}else{
+	view.get(&quot;#dialogSysMenu&quot;).show();
+}
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entity = view.get(&quot;#menuTree&quot;).get(&quot;currentEntity&quot;);
+if(entity){
+	if(entity.get(&quot;parentMenuId&quot;) == &quot;0&quot;){
+		dorado.MessageBox.alert(&quot;根节点不能删除！&quot;);
+	}else{
+		dorado.MessageBox.confirm(&quot;确定删除?&quot;,function(){
+			entity.remove();
+			view.get(&quot;#saveSysMenusAction&quot;).execute();
+		});
+	}
+}else{
+	dorado.MessageBox.alert(&quot;没有可以删除的数据！&quot;);
+}</ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#menuTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个节点！&quot;);
+}else{
+	view.get(&quot;#lookdialogSysMenu&quot;).show();
+}
+
+
+</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <SplitPanel>
+          <Property name="position">300</Property>
+          <MainControl>
+            <Container>
+              <ToolBar id="toolBarAction" layoutConstraint="top">
+                <Property name="tags">tags_toolbar</Property>
+                <ToolBarButton id="addActionButton">
+                  <ClientEvent name="onClick">var menuUrl = view.get(&quot;#dataSetSysMenu&quot;).getData(&quot;!CURRENT_MENU&quot;).get(&quot;menuUrl&quot;);
+var menuId = view.get(&quot;#dataSetSysMenu&quot;).getData(&quot;!CURRENT_MENU&quot;).get(&quot;id&quot;);
+if(menuUrl){
+	var dialogButton = view.get(&quot;#dialogButton&quot;);
+	view.get(&quot;#dataSetButton&quot;).set(&quot;parameter&quot;,{&quot;menuUrl&quot;:menuUrl,&quot;menuId&quot;:menuId}).flushAsync();
+	dialogButton.show();
+}else{
+	dorado.MessageBox.alert(&quot;该菜单没有对应页面！&quot;);
+}</ClientEvent>
+                  <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                  <Property name="caption">添加按钮</Property>
+                </ToolBarButton>
+                <ToolBarButton id="delActionButton">
+                  <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetAction&quot;).getData();
+var selection = view.get(&quot;#actionGrid&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveSysFunAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+                  <Property name="caption">删除按钮</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                </ToolBarButton>
+              </ToolBar>
+              <DataGrid id="actionGrid">
+                <Property name="dataSet">dataSetAction</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+                <DataColumn>
+                  <Property name="name">actionCode</Property>
+                  <Property name="property">actionCode</Property>
+                  <Property name="readOnly">true</Property>
+                  <Editor/>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="name">actionName</Property>
+                  <Property name="property">actionName</Property>
+                  <Property name="readOnly">true</Property>
+                  <Editor/>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+          </MainControl>
+          <SideControl>
+            <DataTree id="menuTree">
+              <ClientEvent name="onDataRowClick">var node = self.get(&quot;currentNode&quot;);
+if (node) {
+	var entity = node.get(&quot;data&quot;);
+	if(entity){
+		var parameter = {
+			menuId:entity.get(&quot;id&quot;)
+		};
+		view.get(&quot;#dataSetAction&quot;).set(&quot;parameter&quot;, parameter).flushAsync();
+	}
+}</ClientEvent>
+              <Property name="dataSet">dataSetSysMenu</Property>
+              <Property name="currentNodeDataPath">CURRENT_MENU</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="expandedIcon">icons/page.png</Property>
+                  <Property name="icon">icons/page.png</Property>
+                  <Property name="expandLevel">2</Property>
+                  <Property name="recursive">true</Property>
+                  <Property name="labelProperty">menuName</Property>
+                  <Property name="childrenProperty">children</Property>
+                </BindingConfig>
+              </BindingConfigs>
+            </DataTree>
+          </SideControl>
+        </SplitPanel>
+      </Container>
+    </Container>
+    <Dialog id="dialogSysMenu">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysMenu&quot;).getData().cancel();
+	view.get(&quot;#dialogSysMenu&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysMenusAction&quot;);
+			var dialog=view.get(&quot;#dialogSysMenu&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetSysMenu&quot;).getData().cancel();
+		view.get(&quot;#dialogSysMenu&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysMenu">
+          <Property name="dataType">dataTypeSysMenu</Property>
+          <Property name="dataSet">dataSetSysMenu</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_MENU</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">menuCode</Property>
+            <Property name="property">menuCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuName</Property>
+            <Property name="property">menuName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuLabel</Property>
+            <Property name="property">menuLabel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLabel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLabel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuUrl</Property>
+            <Property name="property">menuUrl</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuUrl&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuUrl&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuPict</Property>
+            <Property name="property">menuPict</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="editable">true</Property>
+            <Property name="trigger">pictTrigger</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuPict&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuPict&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isStart</Property>
+            <Property name="property">isStart</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isRelativePath</Property>
+            <Property name="property">isRelativePath</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuSeq</Property>
+            <Property name="property">menuSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuLevel</Property>
+            <Property name="property">menuLevel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLevel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLevel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">openMode</Property>
+            <Property name="property">openMode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuTip</Property>
+            <Property name="property">menuTip</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuTip&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuTip&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysMenu">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysMenu&quot;).getData(&quot;!CURRENT_MENU&quot;).cancel();
+view.get(&quot;#dialogSysMenu&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysMenusAction&quot;);
+			var dialog=view.get(&quot;#addDialogSysMenu&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysMenu&quot;).getData(&quot;!CURRENT_MENU&quot;).cancel();
+view.get(&quot;#addDialogSysMenu&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysMenu">
+          <Property name="dataSet">dataSetSysMenu</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_MENU</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">menuCode</Property>
+            <Property name="property">menuCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuName</Property>
+            <Property name="property">menuName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuLabel</Property>
+            <Property name="property">menuLabel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLabel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLabel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuUrl</Property>
+            <Property name="property">menuUrl</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuUrl&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuUrl&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuPict</Property>
+            <Property name="property">menuPict</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="editable">true</Property>
+            <Property name="trigger">pictTrigger</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuPict&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuPict&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isStart</Property>
+            <Property name="property">isStart</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isRelativePath</Property>
+            <Property name="property">isRelativePath</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuSeq</Property>
+            <Property name="property">menuSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuLevel</Property>
+            <Property name="property">menuLevel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLevel&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuLevel&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">openMode</Property>
+            <Property name="property">openMode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuTip</Property>
+            <Property name="property">menuTip</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuTip&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.component.rbac.menu.pojo.SysMenu.menuTip&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysMenu">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysMenu&quot;).getData().cancel();
+	view.get(&quot;#lookdialogSysMenu&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysMenu">
+          <Property name="dataType">dataTypeSysMenu</Property>
+          <Property name="dataSet">dataSetSysMenu</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_MENU</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">menuCode</Property>
+            <Property name="property">menuCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+               
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuName</Property>
+            <Property name="property">menuName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+               
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuLabel</Property>
+            <Property name="property">menuLabel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+               
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuUrl</Property>
+            <Property name="property">menuUrl</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuPict</Property>
+            <Property name="property">menuPict</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="editable">false</Property>
+            <Property name="trigger">pictTrigger</Property>
+            <Editor>
+              <TextEditor>
+                
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isStart</Property>
+            <Property name="property">isStart</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isRelativePath</Property>
+            <Property name="property">isRelativePath</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuSeq</Property>
+            <Property name="property">menuSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+               
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuLevel</Property>
+            <Property name="property">menuLevel</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+               
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">openMode</Property>
+            <Property name="property">openMode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">menuTip</Property>
+            <Property name="property">menuTip</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogButton">
+      <Property name="caption">按钮信息</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var dialog = view.get(&quot;#dialogButton&quot;);
+var action = view.get(&quot;#saveSysFunAction&quot;);
+var entitys = view.get(&quot;#dataSetAction&quot;).getData();
+var selection = view.get(&quot;#ButtonGrid&quot;).get(&quot;selection&quot;);
+var menuId = view.get(&quot;#dataSetSysMenu&quot;).getData(&quot;!CURRENT_MENU&quot;).get(&quot;id&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	jQuery.each(selection,function(i,item){
+		//忽略已经存在的按钮
+		var bool = true;
+		entitys.each(function(entity){
+			if(item.get(&quot;actionCode&quot;) == entity.get(&quot;actionCode&quot;)){
+				bool = false;
+				return true;
+			}
+		});
+		if(bool){
+			var entity = {
+				menuId:menuId,
+				actionCode:item.get(&quot;actionCode&quot;),
+				actionName:item.get(&quot;actionName&quot;)
+			};
+			entitys.insert(entity);
+		}
+	});
+	action.execute(function(){
+		dialog.hide();
+	});
+}
+ </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+          <Property name="caption">确定</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetAction&quot;).getData().cancel();
+view.get(&quot;#dialogButton&quot;).hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <DataGrid id="ButtonGrid">
+          <Property name="dataSet">dataSetButton</Property>
+          <Property name="rowSelectionProperty">selectFlag</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn>
+            <Property name="name">actionCode</Property>
+            <Property name="property">actionCode</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn>
+            <Property name="name">actionName</Property>
+            <Property name="property">actionName</Property>
+            <Editor/>
+          </DataColumn>
+        </DataGrid>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <UpdateAction id="saveSysMenusAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysMenuAction#saveSysMenus</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysMenu</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveSysFunAction">
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysFunActionAction#saveSysFunActions</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetAction</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="menuCodeAction">
+      <Property name="service">sysCodeBuilderAction#findCodeByBuilderType</Property>
+      <Property name="async">false</Property>
+    </AjaxAction>
+    <Trigger id="pictTrigger">
+      <ClientEvent name="onExecute">var pictDialog=view.get(&quot;#pictDialog&quot;);
+var imagePath=&quot;/icons/32&quot;;
+var dataSetId=&quot;dataSetSysMenu&quot;;
+var datapath=&quot;!CURRENT_MENU&quot;;
+var property=&quot;menuPict&quot;;
+var dialog=&quot;pictDialog&quot;;
+var path=&quot;${request.contextPath}/com/innofi/module/commons/view/component/PictureSelection.d?imagePath=&quot;+imagePath+&quot;&amp;dataset=&quot;+dataSetId+&quot;&amp;datapath=&quot;+datapath+&quot;&amp;property=&quot;+property+&quot;&amp;dialog=&quot;+dialog;
+view.get(&quot;#imageFrame&quot;).set(&quot;path&quot;,path);
+pictDialog.show();</ClientEvent>
+      <Property name="iconClass">d-trigger-icon-search</Property>
+    </Trigger>
+    <Dialog id="pictDialog">
+      <Property name="center">true</Property>
+      <Property name="caption">图标选择</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">530</Property>
+      <Property name="height">500</Property>
+      <Property name="contentOverflow">auto</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="imageFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

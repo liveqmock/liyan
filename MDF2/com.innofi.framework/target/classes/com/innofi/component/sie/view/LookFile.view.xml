@@ -1,0 +1,1970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeRegInnerForSys">
+      <ClientEvent name="onDataChange">if(arg.property==&quot;bodyName&quot;){&#xD;
+	var bodyName = arg.entity.get(&quot;bodyName&quot;);&#xD;
+	if(bodyName == undefined){&#xD;
+		arg.entity.setMessages(&quot;bodyName&quot;,{state:&quot;error&quot;,text:&quot;正文不能为空！&quot;})&#xD;
+	}&#xD;
+}&#xD;
+if(arg.property==&quot;fileName&quot;){&#xD;
+	var fileName = arg.entity.get(&quot;fileName&quot;);&#xD;
+	var action = view.get(&quot;#checkNameAction&quot;);&#xD;
+	var para = {&quot;fileName&quot;:fileName}&#xD;
+	action.set(&quot;parameter&quot;,para).execute(function(result){&#xD;
+		if(result>0){&#xD;
+			arg.entity.setMessages(&quot;fileName&quot;,{state:&quot;error&quot;,text:&quot;外规名称已经存在！！&quot;})&#xD;
+		}else{&#xD;
+			arg.entity.setMessages(&quot;fileName&quot;,{state:&quot;ok&quot;,text:&quot;外规名称可以使用！！&quot;})&#xD;
+		}&#xD;
+	});&#xD;
+}&#xD;
+if (arg.property==&quot;regCode&quot;){&#xD;
+	var entity=arg.entity.getOldData();&#xD;
+	if(entity==undefined || (arg.value != entity.regCode)){&#xD;
+		view.get(&quot;#checkCode&quot;).set(&quot;parameter&quot;, arg.value).execute(function(result) {&#xD;
+			if(result==&quot;true&quot;)&#xD;
+			{&#xD;
+				arg.entity.setMessages(&quot;regCode&quot;,{ state: &quot;error&quot;, text: &quot;该编号已经被使用,请重新输入!&quot; });&#xD;
+			}&#xD;
+		});&#xD;
+	}&#xD;
+};</ClientEvent>
+      <Property name="creationType">com.innofi.module.file.pojo.RegInner</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="applyOrgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.applyOrg"].propertyLabel}</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="applyOrg">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.applyOrg"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="attachmentId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.attachmentId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="busilineName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.busilineId"].propertyLabel}</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="busilineId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.busilineId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="classified">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;INTER.CLASSIFIED&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.classified"].propertyLabel}</Property>
+        <Property name="required">false</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="effectDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.effectDate"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="fileContent">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.fileContent"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,0)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="fileEffect">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_STATUS&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.fileEffect"].propertyLabel}</Property>
+        <Property name="readOnly">true</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="fileName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.fileName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="fileNo">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.fileNo"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="fileStatus">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CBGRC_STATUS_TYPE&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.fileStatus"].propertyLabel}</Property>
+        <Property name="readOnly">true</Property>
+        <Property name="required">true</Property>
+        <Property name="visible">false</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ineffectDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.ineffectDate"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="mainOrgCodeName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.mainOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="mainOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.mainOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="publishDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.publishDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="regCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.regCode"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Property name="readOnly">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="regLevel">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.regLevel"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_ORG_LEVEL&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="regVersion">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.regVersion"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,32)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="regInnerType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.regInnerType"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="bodyName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.bodyName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="redName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.redName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="modifyId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.modifyId"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="postCode">
+        <Property name="label">岗位</Property>
+      </PropertyDef>
+      <PropertyDef name="postName">
+        <Property name="dataType">String</Property>
+        <Property name="label">岗位</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="modifyName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.modifyName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="bodyRedFileids">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.bodyRedFileids"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="regType">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;INTER.TYPE_SYS&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.module.file.pojo.RegInner.regType"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysUploadFile">
+      <Property name="creationType">com.innofi.component.uploader.pojo.SysUploadFile</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="fileName">
+        <Property name="dataType">String</Property>
+        <Property name="label">附件名称</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">var regId = &quot;${request.getParameter('regId')}&quot;;&#xD;
+var regType = &quot;${request.getParameter('regType')}&quot;;&#xD;
+if(regType==&quot;2&quot;)&#xD;
+{&#xD;
+	view.get(&quot;#tabControl&quot;).getTab(&quot;flowtable&quot;).set(&quot;visible&quot;,true);&#xD;
+}&#xD;
+&#xD;
+&#xD;
+view.get(&quot;#getFilePath&quot;).set(&quot;parameter&quot;, regId).execute(function(result) {&#xD;
+			&#xD;
+			&#xD;
+		  if(result==&quot;null&quot;)&#xD;
+			{&#xD;
+				alert('您还未录入该文件,请录入后点击查看！')&#xD;
+&#xD;
+			}&#xD;
+			else&#xD;
+			{&#xD;
+				var module = result.substring(0,1);&#xD;
+				var filepath = result.substr(2);&#xD;
+				&#xD;
+				if(module==&quot;1&quot;)&#xD;
+				{&#xD;
+					filepath =&quot;${request.contextPath}/&quot;+filepath;&#xD;
+					view.get(&quot;#flowtableCard&quot;).set(&quot;currentIndex&quot;, 0);&#xD;
+					view.get(&quot;#lookfileCard&quot;).set(&quot;currentIndex&quot;, 0);&#xD;
+					//view.get(&quot;#history&quot;).set(&quot;visible&quot;, true);&#xD;
+					//view.get(&quot;#dataSetRegOuter&quot;).set(&quot;parameter&quot;, regId).flush();&#xD;
+					var swfpath = &quot;${request.contextPath}/page/file/lookfile.jsp?swfpath=&quot;+filepath+&quot;&quot;;  &#xD;
+				view.get(&quot;#lookfileIframe&quot;).set(&quot;path&quot;, swfpath);&#xD;
+				}&#xD;
+				if(module==&quot;2&quot;)&#xD;
+				{&#xD;
+					&#xD;
+					&#xD;
+					filepath =&quot;${request.contextPath}/&quot;+filepath;&#xD;
+					view.get(&quot;#flowtableCard&quot;).set(&quot;currentIndex&quot;, 1);&#xD;
+					//view.get(&quot;#lookfileCard&quot;).set(&quot;currentIndex&quot;, 1);&#xD;
+					&#xD;
+					&#xD;
+					view.get(&quot;#history&quot;).set(&quot;visible&quot;, true);&#xD;
+					view.get(&quot;#modify&quot;).set(&quot;visible&quot;,true);&#xD;
+					 //view.get(&quot;#dataSetRegInner&quot;).set(&quot;parameter&quot;, regId).flush();&#xD;
+					//view.get(&quot;#dataSetRegInners&quot;).set(&quot;parameter&quot;, regId).flush();&#xD;
+					var swfpath = &quot;${request.contextPath}/page/file/lookfile.jsp?swfpath=&quot;+filepath+&quot;&quot;;  &#xD;
+					view.get(&quot;#lookfileIframe&quot;).set(&quot;path&quot;, swfpath);&#xD;
+				}&#xD;
+				if(module==&quot;4&quot;)&#xD;
+				{&#xD;
+					&#xD;
+					//var path = &quot;${request.contextPath}/com.innofi.module.commons.view.publicview.LookFile.d?filePath=&quot;+filepath;&#xD;
+					//window.open(path,&quot;查看文件&quot;);&#xD;
+				}&#xD;
+				&#xD;
+				&#xD;
+			}&#xD;
+			&#xD;
+		});&#xD;
+&#xD;
+view.get(&quot;#dataSetRegOuter&quot;).set(&quot;parameter&quot;, regId).flush();&#xD;
+	&#xD;
+view.get(&quot;#dataSetRegInner&quot;).set(&quot;parameter&quot;, regId).flush();		&#xD;
+	&#xD;
+view.get(&quot;#dataSetRegOuterInner&quot;).set(&quot;parameter&quot;, regId).flush();&#xD;
+&#xD;
+view.get(&quot;#dataSetRegInners&quot;).set(&quot;parameter&quot;, regId).flush();&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+    <ClientEvent name="onCreate">&#xD;
+</ClientEvent>
+    <DataSet id="dataSetRegInner">
+      <ClientEvent name="onReady">&#xD;
+	//var regid = &quot;${request.getParameter('regId')}&quot;;&#xD;
+	//view.get(&quot;#dataSetRegInner&quot;).set(&quot;parameter&quot;, regid).flushAsync();&#xD;
+	&#xD;
+</ClientEvent>
+      <Property name="dataType">dataTypeRegInnerForSys</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">regInnerAction#findRegInnerById</Property>
+    </DataSet>
+    <DataSet id="dataSetRegOuterInner">
+      <Property name="dataProvider">regOuterInnerAction#findRegOuterInnersByregId</Property>
+      <Property name="dataType">[dataTypeRegOuterInner]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetRegOuter">
+      <ClientEvent name="onReady">if(&quot;reg_outer&quot;==&quot;${request.getParameter('module')}&quot;)&#xD;
+{&#xD;
+	var regid = &quot;${request.getParameter('regId')}&quot;;&#xD;
+	&#xD;
+	view.get(&quot;#dataSetRegOuter&quot;).set(&quot;parameter&quot;, regid).flushAsync();&#xD;
+}</ClientEvent>
+      <Property name="dataProvider">regOuterAction#findRegOuterById</Property>
+      <Property name="dataType">dataTypeRegOuter</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetRegInners">
+      <Property name="dataProvider">regInnerAction#findRegInnersByCode</Property>
+      <Property name="dataType">[dataTypeRegInnerForSys]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetSysUploadFile">
+      <ClientEvent name="onReady">var module = &quot;${request.getParameter('module')}&quot;;&#xD;
+var regId = &quot;${request.getParameter('regId')}&quot;;&#xD;
+&#xD;
+self.set(&quot;parameter&quot;,{&#xD;
+	regId: regId,&#xD;
+	module: module&#xD;
+}).flushAsync();</ClientEvent>
+      <Property name="dataType">[dataTypeSysUploadFile]</Property>
+      <Property name="dataProvider">regInnerAction#findSysUploadFileById</Property>
+    </DataSet>
+    <Container>
+      <Property name="width">100%</Property>
+      <SplitPanel>
+        <Property name="direction">right</Property>
+        <Property name="resizeable">true</Property>
+        <Property name="previewable">true</Property>
+        <Property name="collapsed">true</Property>
+        <Property name="collapseable">false</Property>
+        <Property name="minPosition">0</Property>
+        <Property name="position">0</Property>
+        <MainControl>
+          <SplitPanel>
+            <Property name="position">1024</Property>
+            <Property name="direction">left</Property>
+            <Property name="minPosition">500</Property>
+            <MainControl>
+              <CardBook id="flowtableCard">
+                <Container layout="vbox" layoutConstraint="right">
+                  <Property name="width">30%</Property>
+                  <Property name="height">100%</Property>
+                  <Property name="contentOverflowX">hidden</Property>
+                  <Property name="contentOverflowY">auto</Property>
+                  <Property name="contentOverflow">auto</Property>
+                  <FieldSet>
+                    <Property name="caption">文件属性</Property>
+                    <Property name="collapseable">true</Property>
+                    <Property name="collapsed">false</Property>
+                    <Buttons/>
+                    <Children>
+                      <Container>
+                        <Property name="contentOverflowX">hidden</Property>
+                        <Property name="contentOverflowY">scroll</Property>
+                        <CardBook id="lookfileCard">
+                          <AutoForm id="lookfileFormRegOuter">
+                            <Property name="dataType">dataTypeRegOuter</Property>
+                            <Property name="dataSet">dataSetRegOuter</Property>
+                            <Property name="labelAlign">right</Property>
+                            <Property name="hideMode">visibility</Property>
+                            <Property name="autoCreateElements">false</Property>
+                            <Property name="cols">*</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="height">180</Property>
+                            <AutoFormElement layoutConstraint="colSpan:2">
+                              <Property name="name">fileName</Property>
+                              <Property name="property">fileName</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.fileName&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.fileName&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileNo</Property>
+                              <Property name="property">fileNo</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.fileNo&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.fileNo&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileGovName</Property>
+                              <Property name="property">fileGovName</Property>
+                              <Property name="trigger">fileGovidDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">fileGovid</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.fileGovid&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.applyOrg&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">lawTypeName</Property>
+                              <Property name="property">lawTypeName</Property>
+                              <Property name="trigger">lawTypeDropDown</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.lawType&quot;].propertyBlankText}</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">lawType</Property>
+                                </Entity>
+                              </Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.lawType&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.lawType&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">classified</Property>
+                              <Property name="property">classified</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileSource</Property>
+                              <Property name="property">fileSource</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">applyScaleName</Property>
+                              <Property name="property">applyScaleName</Property>
+                              <Property name="trigger">applyScaleDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">applyScale</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.applyScale&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.applyScale&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">busilineName</Property>
+                              <Property name="property">busilineName</Property>
+                              <Property name="trigger">busilineIdDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">busilineId</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Property name="visible">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.busilineId&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.busilineId&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">applyOrgName</Property>
+                              <Property name="property">applyOrgName</Property>
+                              <Property name="trigger">applyOrgDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">applyOrg</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Property name="visible">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.fileGovid&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.applyOrg&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">approveDate</Property>
+                              <Property name="property">approveDate</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Property name="label">发文日期</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.approveDate&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.approveDate&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">effectDate</Property>
+                              <Property name="property">effectDate</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.effectDate&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.effectDate&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">ineffectDate</Property>
+                              <Property name="property">ineffectDate</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegOuter.ineffectDate&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegOuter.ineffectDate&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileEffect</Property>
+                              <Property name="property">fileEffect</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileStatus</Property>
+                              <Property name="property">fileStatus</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">false</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                          </AutoForm>
+                          <AutoForm id="lookRegInnerForm">
+                            <ClientEvent name="onReady">var parameter = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;id&quot;)+&quot;upd&quot;;&#xD;
+var name = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;modifyName&quot;);&#xD;
+if(name==null)&#xD;
+{&#xD;
+ name =&quot;&quot;;&#xD;
+ }&#xD;
+var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+parameter+&quot;&quot;;&#xD;
+var content = &quot;&lt;a href=&quot;+path+&quot;>&quot;+name+&quot;&lt;/a>&quot;&#xD;
+view.get(&quot;#uptHtml&quot;).set(&quot;content&quot;,content);</ClientEvent>
+                            <Property name="dataSet">dataSetRegInner</Property>
+                            <Property name="dataType">dataTypeRegInnerForSys</Property>
+                            <Property name="cols">*</Property>
+                            <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="height">180</Property>
+                            <AutoFormElement layoutConstraint="colSpan:2">
+                              <Property name="name">fileName</Property>
+                              <Property name="property">fileName</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.fileName&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.fileName&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">regCode</Property>
+                              <Property name="property">regCode</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.regCode&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.regCode&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileNo</Property>
+                              <Property name="property">fileNo</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.fileNo&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.fileNo&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">regType</Property>
+                              <Property name="property">regType</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">mainOrgCodeName</Property>
+                              <Property name="property">mainOrgCodeName</Property>
+                              <Property name="trigger">mainOrgCodeDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">mainOrgCode</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.mainOrgCode&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.mainOrgCode&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">busilineName</Property>
+                              <Property name="property">busilineName</Property>
+                              <Property name="trigger">busilineIdDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">busilineId</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.busilineId&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.busilineId&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">applyOrgName</Property>
+                              <Property name="property">applyOrgName</Property>
+                              <Property name="trigger">applyOrgDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">applyOrg</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.applyOrg&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.applyOrg&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="property">postName</Property>
+                              <Property name="name">postName</Property>
+                              <Property name="trigger">postDropDown</Property>
+                              <Property name="userData">
+                                <Entity>
+                                  <Property name="code">postCode</Property>
+                                </Entity>
+                              </Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">classified</Property>
+                              <Property name="property">classified</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">effectDate</Property>
+                              <Property name="property">effectDate</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.effectDate&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.effectDate&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">ineffectDate</Property>
+                              <Property name="property">ineffectDate</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.ineffectDate&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.ineffectDate&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">publishDate</Property>
+                              <Property name="property">publishDate</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor>
+                                <TextEditor>
+                                  <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.publishDate&quot;].propertyBlankText}</Property>
+                                  <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.publishDate&quot;].propertyTip}</Property>
+                                </TextEditor>
+                              </Editor>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileEffect</Property>
+                              <Property name="property">fileEffect</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                            <AutoFormElement>
+                              <Property name="name">fileStatus</Property>
+                              <Property name="property">fileStatus</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Editor/>
+                            </AutoFormElement>
+                          </AutoForm>
+                        </CardBook>
+                      </Container>
+                    </Children>
+                  </FieldSet>
+                  <FieldSet id="modify">
+                    <Property name="hideMode">display</Property>
+                    <Property name="caption">制定或修订说明</Property>
+                    <Property name="visible">false</Property>
+                    <Property name="height">50</Property>
+                    <Buttons/>
+                    <Children>
+                      <AutoForm id="lookMRegInnerForm">
+                        <ClientEvent name="onReady">var parameter = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;id&quot;)+&quot;upd&quot;;&#xD;
+var name = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;modifyName&quot;);&#xD;
+if(name==null)&#xD;
+{&#xD;
+ name =&quot;&quot;;&#xD;
+ }&#xD;
+var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+parameter+&quot;&quot;;&#xD;
+var content = &quot;&lt;a href=&quot;+path+&quot;>&quot;+name+&quot;&lt;/a>&quot;&#xD;
+view.get(&quot;#uptHtml&quot;).set(&quot;content&quot;,content);</ClientEvent>
+                        <Property name="dataSet">dataSetRegInner</Property>
+                        <Property name="dataType">dataTypeRegInnerForSys</Property>
+                        <Property name="cols">*</Property>
+                        <Property name="hideMode">display</Property>
+                        <Property name="labelAlign">right</Property>
+                        <Property name="readOnly">true</Property>
+                        <Property name="height">180</Property>
+                        <AutoFormElement>
+                          <Property name="label">修订说明</Property>
+                          <Property name="property">modifyName</Property>
+                          <Property name="name">modifyName</Property>
+                          <Editor>
+                            <HtmlContainer id="uptHtml"/>
+                          </Editor>
+                        </AutoFormElement>
+                      </AutoForm>
+                    </Children>
+                  </FieldSet>
+                  <FieldSet>
+                    <Property name="caption">关联文件</Property>
+                    <Property name="collapseable">true</Property>
+                    <Property name="collapsed">false</Property>
+                    <Buttons/>
+                    <Children>
+                      <DataGrid id="dataGridRegOuterInner" layoutConstraint="center">
+                        <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetRegOuterInner&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+                        <ClientEvent name="onCreate">var OperationCellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {&#xD;
+createSubControl: function(arg) {&#xD;
+	if (arg.data.rowType) return null;&#xD;
+&#xD;
+   return new dorado.widget.Link({&#xD;
+			onClick: function(self) {&#xD;
+				&#xD;
+				var regid=view.get(&quot;#dataSetRegOuterInner&quot;).getData(&quot;#&quot;).get(&quot;relateRegId&quot;);&#xD;
+				var type=view.get(&quot;#dataSetRegOuterInner&quot;).getData(&quot;#&quot;).get(&quot;relateType&quot;);&#xD;
+				if(!type)&#xD;
+				{&#xD;
+					//parent.dorado.MessageBox.&#xD;
+					alert(&quot;您还没有录入该外规，请录入后点击查看！！！&quot;);&#xD;
+				}&#xD;
+				else&#xD;
+				{&#xD;
+			    &#xD;
+				 var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+regid+&quot;&amp;regType=&quot;+type+&quot;&quot;;&#xD;
+				//window.open(path,&quot;查看文件&quot;);&#xD;
+				//var path = &quot;LookFile.d?regId=&quot;+regid+&quot;&amp;module=reg_outer&quot;; &#xD;
+				//var para = {regId:regid};&#xD;
+				//view.get(&quot;#dataSetRegOuter&quot;).set(&quot;parameter&quot;, para).flushAsync();&#xD;
+				window.open(path,&quot;_self&quot;);&#xD;
+				}&#xD;
+				 &#xD;
+			}&#xD;
+		});&#xD;
+		&#xD;
+},&#xD;
+&#xD;
+&#xD;
+ &#xD;
+&#xD;
+&#xD;
+refreshSubControl: function(link, arg) {&#xD;
+		var name = arg.data.get(&quot;relateFileName&quot;);&#xD;
+&#xD;
+		link.set({&#xD;
+			text:name,&#xD;
+			href:&quot;#&quot;&#xD;
+		});&#xD;
+	}&#xD;
+	&#xD;
+});&#xD;
+&#xD;
+self.set(&quot;&amp;relateFileName.renderer&quot;, new OperationCellRenderer());&#xD;
+</ClientEvent>
+                        <Property name="dataSet">dataSetRegOuterInner</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="readOnly">true</Property>
+                        <Property name="dataType">dataTypeRegOuterInner</Property>
+                        <Property name="rowHeight">26</Property>
+                        <Property name="height">155</Property>
+                        <Property name="width">100%</Property>
+                        <RowNumColumn/>
+                        <DataColumn caption="内外规映射ID" name="regMpId" property="regMpId">
+                          <Property name="visible">false</Property>
+                        </DataColumn>
+                        <DataColumn caption="关联内外规ID" name="regId" property="regId">
+                          <Property name="visible">false</Property>
+                        </DataColumn>
+                        <DataColumn caption="被关联内外规ID" name="relateRegId" property="relateRegId">
+                          <Property name="visible">false</Property>
+                        </DataColumn>
+                        <DataColumn caption="被关联文件名称" name="relateFileName" property="relateFileName"/>
+                        <DataColumn name="relateType" property="relateType">
+                          <Property name="visible">true</Property>
+                          <Property name="caption">类型</Property>
+                          <Property name="width">28%</Property>
+                        </DataColumn>
+                      </DataGrid>
+                    </Children>
+                  </FieldSet>
+                  <FieldSet>
+                    <Property name="caption">附件信息</Property>
+                    <Property name="collapseable">true</Property>
+                    <Property name="collapsed">false</Property>
+                    <Property name="hideMode">visibility</Property>
+                    <Buttons/>
+                    <Children/>
+                  </FieldSet>
+                  <FieldSet id="history">
+                    <Property name="caption">版本文件</Property>
+                    <Property name="visible">false</Property>
+                    <Property name="hideMode">display</Property>
+                    <Property name="height">150</Property>
+                    <Buttons/>
+                    <Children>
+                      <ToolBar>
+                        <Property name="visible">false</Property>
+                        <Property name="hideMode">display</Property>
+                        <ToolBarButton id="downloadButton">
+                          <ClientEvent name="onClick">&#xD;
+var selection = view.get(&quot;#dataGridRegInner&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	parent.dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}&#xD;
+&#xD;
+else if(selection.length>1)&#xD;
+{&#xD;
+	parent.dorado.MessageBox.alert(&quot;本系统只支持单个下载，请选择一条记录！！！&quot;);&#xD;
+}&#xD;
+else if (selection.length=1) {&#xD;
+	 view.get(&quot;#dataSetRegInner&quot;).getData().setCurrent(selection[0]);&#xD;
+	var regId = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);&#xD;
+	window.location.href = '${request.contextPath}/downloadById.action?regId='+regId+'&amp;fileType=reg_inner'; &#xD;
+	&#xD;
+}&#xD;
+</ClientEvent>
+                          <Property name="caption">下载</Property>
+                          <Property name="icon">url(>skin>common/icons.gif) -160px -120px</Property>
+                          <Property name="visible">false</Property>
+                          <Property name="hideMode">display</Property>
+                        </ToolBarButton>
+                      </ToolBar>
+                      <DataGrid id="dataGridRegInner" layoutConstraint="center">
+                        <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+                        <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetRegInner&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+                        <ClientEvent name="onCreate">var OperationCellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {&#xD;
+createSubControl: function(arg) {&#xD;
+	if (arg.data.rowType) return null;&#xD;
+&#xD;
+   return new dorado.widget.Link({&#xD;
+			onClick: function(self) {&#xD;
+				var parameter = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);&#xD;
+				var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+parameter+&quot;&quot;;&#xD;
+				window.open(path,&quot;查看文件&quot;);&#xD;
+				//view.get(&quot;#lookFileIframe&quot;).set(&quot;path&quot;, path);&#xD;
+				//view.get(&quot;#lookFileDialog&quot;).show()&#xD;
+			}&#xD;
+		});&#xD;
+		&#xD;
+},&#xD;
+refreshSubControl: function(link, arg) {&#xD;
+		var name = arg.data.get(&quot;fileName&quot;);&#xD;
+&#xD;
+		link.set({&#xD;
+			text:name,&#xD;
+			href:&quot;#&quot;&#xD;
+		});&#xD;
+	}&#xD;
+	&#xD;
+});&#xD;
+&#xD;
+self.set(&quot;&amp;fileName.renderer&quot;, new OperationCellRenderer());</ClientEvent>
+                        <Property name="dataSet">dataSetRegInners</Property>
+                        <Property name="selectionMode">multiRows</Property>
+                        <Property name="readOnly">true</Property>
+                        <Property name="dataType">dataTypeRegInnerForSys</Property>
+                        <Property name="rowHeight">26</Property>
+                        <Property name="height">100%</Property>
+                        <Property name="width">100%</Property>
+                        <Property name="highlightCurrentRow">false</Property>
+                        <RowNumColumn/>
+                        <RowSelectorColumn/>
+                        <DataColumn name="regVersion" property="regVersion"/>
+                        <DataColumn name="fileName" property="fileName"/>
+                        <DataColumn name="fileNo" property="fileNo"/>
+                        <DataColumn name="effectDate" property="effectDate"/>
+                      </DataGrid>
+                    </Children>
+                  </FieldSet>
+                </Container>
+                <TabControl id="tabControl">
+                  <Property name="visible">true</Property>
+                  <ControlTab>
+                    <Property name="caption">文件信息</Property>
+                    <Container layout="vbox" layoutConstraint="right">
+                      <Property name="width">30%</Property>
+                      <Property name="height">100%</Property>
+                      <FieldSet>
+                        <Property name="caption">文件属性</Property>
+                        <Property name="collapseable">true</Property>
+                        <Property name="collapsed">false</Property>
+                        <Buttons/>
+                        <Children>
+                          <Container>
+                            <Property name="contentOverflowX">hidden</Property>
+                            <Property name="contentOverflowY">scroll</Property>
+                            <AutoForm id="lookRegInnerForm1">
+                              <ClientEvent name="onReady">var parameter = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;id&quot;)+&quot;upd&quot;;&#xD;
+var name = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;modifyName&quot;);&#xD;
+if(name==null)&#xD;
+{&#xD;
+ name =&quot;&quot;;&#xD;
+ }&#xD;
+var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+parameter+&quot;&quot;;&#xD;
+var content = &quot;&lt;a href=&quot;+path+&quot;>&quot;+name+&quot;&lt;/a>&quot;&#xD;
+view.get(&quot;#uptHtml&quot;).set(&quot;content&quot;,content);</ClientEvent>
+                              <Property name="dataSet">dataSetRegInner</Property>
+                              <Property name="dataType">dataTypeRegInnerForSys</Property>
+                              <Property name="cols">*</Property>
+                              <Property name="hideMode">display</Property>
+                              <Property name="labelAlign">right</Property>
+                              <Property name="readOnly">true</Property>
+                              <Property name="height">180</Property>
+                              <AutoFormElement layoutConstraint="colSpan:2">
+                                <Property name="name">fileName</Property>
+                                <Property name="property">fileName</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="label">制度名</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.fileName&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.fileName&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">fileNo</Property>
+                                <Property name="property">fileNo</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="label">制度发文文号</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.fileNo&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.fileNo&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">regType</Property>
+                                <Property name="property">regType</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Editor/>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">mainOrgCodeName</Property>
+                                <Property name="property">mainOrgCodeName</Property>
+                                <Property name="trigger">mainOrgCodeDropDown</Property>
+                                <Property name="userData">
+                                  <Entity>
+                                    <Property name="code">mainOrgCode</Property>
+                                  </Entity>
+                                </Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="label">管理部门</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.mainOrgCode&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.mainOrgCode&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">classified</Property>
+                                <Property name="property">classified</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Editor/>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">effectDate</Property>
+                                <Property name="property">effectDate</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.effectDate&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.effectDate&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">publishDate</Property>
+                                <Property name="property">publishDate</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.publishDate&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.publishDate&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">fileEffect</Property>
+                                <Property name="property">fileEffect</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Editor/>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">fileStatus</Property>
+                                <Property name="property">fileStatus</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="visible">false</Property>
+                                <Editor/>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">regCode</Property>
+                                <Property name="property">regCode</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="visible">false</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.regCode&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.regCode&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">busilineName</Property>
+                                <Property name="property">busilineName</Property>
+                                <Property name="trigger">busilineIdDropDown</Property>
+                                <Property name="userData">
+                                  <Entity>
+                                    <Property name="code">busilineId</Property>
+                                  </Entity>
+                                </Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="visible">false</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.busilineId&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.busilineId&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">applyOrgName</Property>
+                                <Property name="property">applyOrgName</Property>
+                                <Property name="trigger">applyOrgDropDown</Property>
+                                <Property name="userData">
+                                  <Entity>
+                                    <Property name="code">applyOrg</Property>
+                                  </Entity>
+                                </Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="visible">false</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.applyOrg&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.applyOrg&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="property">postName</Property>
+                                <Property name="name">postName</Property>
+                                <Property name="trigger">postDropDown</Property>
+                                <Property name="userData">
+                                  <Entity>
+                                    <Property name="code">postCode</Property>
+                                  </Entity>
+                                </Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="visible">false</Property>
+                                <Editor/>
+                              </AutoFormElement>
+                              <AutoFormElement>
+                                <Property name="name">ineffectDate</Property>
+                                <Property name="property">ineffectDate</Property>
+                                <Property name="hideMode">display</Property>
+                                <Property name="labelAlign">right</Property>
+                                <Property name="readOnly">true</Property>
+                                <Property name="visible">false</Property>
+                                <Editor>
+                                  <TextEditor>
+                                    <Property name="blankText">${req[&quot;com.innofi.module.file.pojo.RegInner.ineffectDate&quot;].propertyBlankText}</Property>
+                                    <Property name="tip">${req[&quot;com.innofi.module.file.pojo.RegInner.ineffectDate&quot;].propertyTip}</Property>
+                                  </TextEditor>
+                                </Editor>
+                              </AutoFormElement>
+                            </AutoForm>
+                          </Container>
+                        </Children>
+                      </FieldSet>
+                      <FieldSet id="modify1">
+                        <Property name="hideMode">display</Property>
+                        <Property name="caption">制定或修订说明</Property>
+                        <Property name="visible">false</Property>
+                        <Property name="height">50</Property>
+                        <Buttons/>
+                        <Children>
+                          <AutoForm id="lookMRegInnerForm1">
+                            <ClientEvent name="onReady">var parameter = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;id&quot;)+&quot;upd&quot;;&#xD;
+var name = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;modifyName&quot;);&#xD;
+if(name==null)&#xD;
+{&#xD;
+ name =&quot;&quot;;&#xD;
+ }&#xD;
+var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+parameter+&quot;&quot;;&#xD;
+var content = &quot;&lt;a href=&quot;+path+&quot;>&quot;+name+&quot;&lt;/a>&quot;&#xD;
+view.get(&quot;#uptHtml&quot;).set(&quot;content&quot;,content);</ClientEvent>
+                            <Property name="dataSet">dataSetRegInner</Property>
+                            <Property name="dataType">dataTypeRegInnerForSys</Property>
+                            <Property name="cols">*</Property>
+                            <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="height">180</Property>
+                            <AutoFormElement>
+                              <Property name="label">修订说明</Property>
+                              <Property name="property">modifyName</Property>
+                              <Property name="name">modifyName</Property>
+                              <Editor>
+                                <HtmlContainer id="uptHtml1"/>
+                              </Editor>
+                            </AutoFormElement>
+                          </AutoForm>
+                        </Children>
+                      </FieldSet>
+                      <FieldSet>
+                        <Property name="caption">关联文件</Property>
+                        <Property name="collapseable">true</Property>
+                        <Property name="collapsed">false</Property>
+                        <Buttons/>
+                        <Children>
+                          <DataGrid id="dataGridRegOuterInner1" layoutConstraint="center">
+                            <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetRegOuterInner&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+                            <ClientEvent name="onCreate">var OperationCellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {&#xD;
+createSubControl: function(arg) {&#xD;
+	if (arg.data.rowType) return null;&#xD;
+&#xD;
+   return new dorado.widget.Link({&#xD;
+			onClick: function(self) {&#xD;
+				&#xD;
+				var regid=view.get(&quot;#dataSetRegOuterInner&quot;).getData(&quot;#&quot;).get(&quot;relateRegId&quot;);&#xD;
+				var type=view.get(&quot;#dataSetRegOuterInner&quot;).getData(&quot;#&quot;).get(&quot;relateType&quot;);&#xD;
+				if(!type)&#xD;
+				{&#xD;
+					//parent.dorado.MessageBox.&#xD;
+					alert(&quot;您还没有录入该外规，请录入后点击查看！！！&quot;);&#xD;
+				}&#xD;
+				else&#xD;
+				{&#xD;
+			    &#xD;
+				 var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+regid+&quot;&amp;regType=&quot;+type+&quot;&quot;;&#xD;
+				//window.open(path,&quot;查看文件&quot;);&#xD;
+				//var path = &quot;LookFile.d?regId=&quot;+regid+&quot;&amp;module=reg_outer&quot;; &#xD;
+				//var para = {regId:regid};&#xD;
+				//view.get(&quot;#dataSetRegOuter&quot;).set(&quot;parameter&quot;, para).flushAsync();&#xD;
+				window.open(path,&quot;_self&quot;);&#xD;
+				}&#xD;
+				 &#xD;
+			}&#xD;
+		});&#xD;
+		&#xD;
+},&#xD;
+&#xD;
+&#xD;
+ &#xD;
+&#xD;
+&#xD;
+refreshSubControl: function(link, arg) {&#xD;
+		var name = arg.data.get(&quot;relateFileName&quot;);&#xD;
+&#xD;
+		link.set({&#xD;
+			text:name,&#xD;
+			href:&quot;#&quot;&#xD;
+		});&#xD;
+	}&#xD;
+	&#xD;
+});&#xD;
+&#xD;
+self.set(&quot;&amp;relateFileName.renderer&quot;, new OperationCellRenderer());&#xD;
+</ClientEvent>
+                            <Property name="dataSet">dataSetRegOuterInner</Property>
+                            <Property name="selectionMode">multiRows</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="dataType">dataTypeRegOuterInner</Property>
+                            <Property name="rowHeight">26</Property>
+                            <Property name="height">155</Property>
+                            <Property name="width">100%</Property>
+                            <RowNumColumn/>
+                            <DataColumn caption="内外规映射ID" name="regMpId" property="regMpId">
+                              <Property name="visible">false</Property>
+                            </DataColumn>
+                            <DataColumn caption="关联内外规ID" name="regId" property="regId">
+                              <Property name="visible">false</Property>
+                            </DataColumn>
+                            <DataColumn caption="被关联内外规ID" name="relateRegId" property="relateRegId">
+                              <Property name="visible">false</Property>
+                            </DataColumn>
+                            <DataColumn caption="被关联文件名称" name="relateFileName" property="relateFileName"/>
+                            <DataColumn name="relateType" property="relateType">
+                              <Property name="visible">true</Property>
+                              <Property name="caption">类型</Property>
+                              <Property name="width">28%</Property>
+                            </DataColumn>
+                          </DataGrid>
+                        </Children>
+                      </FieldSet>
+                      <FieldSet>
+                        <Property name="caption">附件信息</Property>
+                        <Property name="collapseable">true</Property>
+                        <Property name="collapsed">false</Property>
+                        <Property name="hideMode">visibility</Property>
+                        <Buttons/>
+                        <Children>
+                          <DataGrid id="dataGridSysUploadFile" layoutConstraint="center">
+                            <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetRegOuterInner&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+                            <ClientEvent name="onCreate">var OperationCellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {&#xD;
+createSubControl: function(arg) {&#xD;
+	if (arg.data.rowType) return null;&#xD;
+&#xD;
+   return new dorado.widget.Link({&#xD;
+		onClick: function(self) {&#xD;
+			var currDate = new Date();&#xD;
+				currDate = currDate.formatDate(&quot;Y-m&quot;);&#xD;
+			var name = arg.data.get(&quot;fileName&quot;);&#xD;
+			var fileId = arg.data.get(&quot;id&quot;);&#xD;
+			var type = name.substring(name.lastIndexOf(&quot;.&quot;)+1);&#xD;
+			var filePath = &quot;/upload/reg_sysUploadFile/&quot;+currDate+&quot;/&quot;+fileId;&#xD;
+			if(type=='doc'||type=='pdf'||type=='DOC'||type=='PDF'){&#xD;
+				var path = &quot;com.innofi.module.commons.view.publicview.LookFile.d?filePath=&quot;+filePath+&quot;.swf&quot;;&#xD;
+				window.open(path,&quot;查看文件&quot;); &#xD;
+			}else{&#xD;
+				dorado.MessageBox.alert(&quot;只能查看2003版word或PDF文件！&quot;);&#xD;
+			}&#xD;
+		}&#xD;
+	});&#xD;
+},&#xD;
+&#xD;
+refreshSubControl: function(link, arg) {&#xD;
+		var name = arg.data.get(&quot;fileName&quot;);&#xD;
+&#xD;
+		link.set({&#xD;
+			text:name,&#xD;
+			href:&quot;#&quot;&#xD;
+		});&#xD;
+	}&#xD;
+	&#xD;
+});&#xD;
+&#xD;
+self.set(&quot;&amp;fileName.renderer&quot;, new OperationCellRenderer());&#xD;
+</ClientEvent>
+                            <Property name="dataSet">dataSetSysUploadFile</Property>
+                            <Property name="selectionMode">multiRows</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="rowHeight">26</Property>
+                            <Property name="height">155</Property>
+                            <Property name="width">100%</Property>
+                            <RowNumColumn/>
+                            <DataColumn>
+                              <Property name="caption">附件名称</Property>
+                              <Property name="name">fileName</Property>
+                              <Property name="property">fileName</Property>
+                            </DataColumn>
+                          </DataGrid>
+                        </Children>
+                      </FieldSet>
+                      <FieldSet id="history1">
+                        <Property name="caption">版本文件</Property>
+                        <Property name="visible">false</Property>
+                        <Property name="hideMode">display</Property>
+                        <Property name="height">150</Property>
+                        <Buttons/>
+                        <Children>
+                          <DataGrid id="dataGridRegInner1" layoutConstraint="center">
+                            <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+                            <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetRegInner&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+                            <ClientEvent name="onCreate">var OperationCellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {&#xD;
+createSubControl: function(arg) {&#xD;
+	if (arg.data.rowType) return null;&#xD;
+&#xD;
+   return new dorado.widget.Link({&#xD;
+			onClick: function(self) {&#xD;
+				var parameter = view.get(&quot;#dataSetRegInner&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);&#xD;
+				var path = &quot;${request.contextPath}/com.innofi.module.file.view.LookFile.d?regId=&quot;+parameter+&quot;&quot;;&#xD;
+				window.open(path,&quot;查看文件&quot;);&#xD;
+				//view.get(&quot;#lookFileIframe&quot;).set(&quot;path&quot;, path);&#xD;
+				//view.get(&quot;#lookFileDialog&quot;).show()&#xD;
+			}&#xD;
+		});&#xD;
+		&#xD;
+},&#xD;
+refreshSubControl: function(link, arg) {&#xD;
+		var name = arg.data.get(&quot;fileName&quot;);&#xD;
+&#xD;
+		link.set({&#xD;
+			text:name,&#xD;
+			href:&quot;#&quot;&#xD;
+		});&#xD;
+	}&#xD;
+	&#xD;
+});&#xD;
+&#xD;
+self.set(&quot;&amp;fileName.renderer&quot;, new OperationCellRenderer());</ClientEvent>
+                            <Property name="dataSet">dataSetRegInners</Property>
+                            <Property name="selectionMode">multiRows</Property>
+                            <Property name="readOnly">true</Property>
+                            <Property name="dataType">dataTypeRegInnerForSys</Property>
+                            <Property name="rowHeight">26</Property>
+                            <Property name="height">100%</Property>
+                            <Property name="width">100%</Property>
+                            <Property name="highlightCurrentRow">false</Property>
+                            <RowNumColumn/>
+                            <RowSelectorColumn/>
+                            <DataColumn name="regVersion" property="regVersion"/>
+                            <DataColumn name="fileName" property="fileName"/>
+                            <DataColumn name="fileNo" property="fileNo"/>
+                            <DataColumn name="effectDate" property="effectDate"/>
+                          </DataGrid>
+                        </Children>
+                      </FieldSet>
+                    </Container>
+                  </ControlTab>
+                  <ControlTab>
+                    <Property name="caption">图表信息</Property>
+                    <Property name="name">flowtable</Property>
+                    <Property name="visible">false</Property>
+                    <Container>
+                      <Property name="contentOverflowX">scroll</Property>
+                      <Property name="width">1024</Property>
+                      <IFrame>
+                        <Property name="path">com.innofi.module.file.view.RegFlowManage.d?regId=${request.getParameter('regId')}&amp;regType=${request.getParameter('regType')}</Property>
+                        <Property name="width">1366</Property>
+                      </IFrame>
+                    </Container>
+                  </ControlTab>
+                </TabControl>
+              </CardBook>
+            </MainControl>
+            <SideControl>
+              <FieldSet layout="padding:0px" layoutConstraint="left ">
+                <Property name="caption">文件查看</Property>
+                <Property name="width">69%</Property>
+                <Property name="collapsed">false</Property>
+                <Property name="height">98%</Property>
+                <Property name="collapseable">false</Property>
+                <Buttons/>
+                <Children>
+                  <IFrame id="lookfileIframe"/>
+                </Children>
+              </FieldSet>
+            </SideControl>
+          </SplitPanel>
+        </MainControl>
+        <SideControl/>
+      </SplitPanel>
+    </Container>
+    <CustomDropDown id="dropdownRiskDict">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;riskDictCode&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;riskDictName&quot;));&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+  &#xD;
+</ClientEvent>
+      <Property name="buttonVisible">true</Property>
+      <Property name="height">200</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="dropdownIframe">
+        <Property name="path">${request.contextPath}/com/innofi/module/basicData/riskDicts/view/SelectRiskDict.d?dropdown=dropdownRiskDict&amp;dictType=PUBORG</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="dropdownFileType">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;riskDictCode&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;riskDictName&quot;));&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+  &#xD;
+</ClientEvent>
+      <Property name="buttonVisible">true</Property>
+      <Property name="height">200</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="iframeFileType">
+        <Property name="path">${request.contextPath}/com/innofi/module/basicData/riskDicts/view/SelectRiskDict.d?dropdown=dropdownFileType&amp;dictType=FILETYPE</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="dropdownFileRange">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;riskDictCode&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;riskDictName&quot;));&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+  &#xD;
+</ClientEvent>
+      <Property name="buttonVisible">true</Property>
+      <Property name="height">200</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="iframeFileRange">
+        <Property name="path">${request.contextPath}/com/innofi/module/basicData/riskDicts/view/SelectRiskDict.d?dropdown=dropdownFileRange&amp;dictType=FILERANGE</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="regFileType">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,arg.selectedValue.code);&#xD;
+	arg.selectedValue = arg.selectedValue.name;&#xD;
+}  &#xD;
+&#xD;
+  &#xD;
+</ClientEvent>
+      <Property name="buttonVisible">true</Property>
+      <Property name="height">200</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="regfileTypeIframe">
+        <Property name="path">${request.contextPath}/com/innofi/module/basicData/riskDicts/view/MselectRiskDict.d?dropdown=regFileType&amp;dictType=INNER.REG_TYPE</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="regFileRange">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = arg.selectedValue;&#xD;
+	view.get(&quot;#querydataSetRegInner&quot;).getData(&quot;#&quot;).set({&#xD;
+		applyScale:entity.get(&quot;orgCode&quot;),&#xD;
+		applyScaleName:entity.get(&quot;orgName&quot;)&#xD;
+	});&#xD;
+}&#xD;
+arg.selectedValue = entity.get(&quot;orgName&quot;);&#xD;
+return false;</ClientEvent>
+      <Property name="buttonVisible">true</Property>
+      <Property name="height">200</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="regfileRangeIframe">
+        <Property name="path">${request.contextPath}/com/innofi/module/frame/commons/view/OrgMultiSelect.d?dropdown=regFileRange</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="dropdownBusi">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var busilineId=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.busilineId&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(busilineId,arg.selectedValue.busilineId);&#xD;
+	arg.selectedValue = arg.selectedValue.name;&#xD;
+}  &#xD;
+</ClientEvent>
+      <Property name="buttonVisible">true</Property>
+      <Property name="height">200</Property>
+      <Property name="assignmentMap">busilineId=busilineId,busilineName=busilineName</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="iframeBusiline">
+        <Property name="path">${request.contextPath}/com/innofi/module/frame/commons/view/MBusiSelect.d?dropdown=dropdownBusi</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="dropdownOrg">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = arg.selectedValue;&#xD;
+	view.get(&quot;#querydataSetRegInner&quot;).getData(&quot;#&quot;).set({&#xD;
+		draftOrgcode:entity.get(&quot;orgCode&quot;),&#xD;
+		draftOrgName:entity.get(&quot;orgName&quot;)&#xD;
+	});&#xD;
+}&#xD;
+arg.selectedValue = entity.get(&quot;orgName&quot;);&#xD;
+return false;</ClientEvent>
+      <Property name="width">260</Property>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame id="OrgIframe">
+        <Property name="path">${request.contextPath}/com/innofi/module/frame/commons/view/OrgSelect.d?dropdown=dropdownOrg&amp;orgCategory=0</Property>
+      </IFrame>
+    </CustomDropDown>
+    <AjaxAction id="getFilePath">
+      <Property name="service">regOuterInnerAction#getFilePathAndType</Property>
+    </AjaxAction>
+    <CustomDropDown id="busilineIdDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var busilineName = &quot;&quot;;&#xD;
+		var id = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			busilineName += entitys[i].get(&quot;busilineName&quot;)+&quot;,&quot;;&#xD;
+			id += entitys[i].get(&quot;id&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(busilineName!=&quot;&quot;){&#xD;
+			busilineName=busilineName.substr(0,busilineName.length-1);&#xD;
+		}&#xD;
+		if(id!=&quot;&quot;){&#xD;
+			id=id.substr(0,id.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,id);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,busilineName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.BusiLineSelect.d?selectType=multiTree&amp;dropdown=busilineIdDropDown&amp;expandLevel=</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="mainOrgCodeDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;orgCode&quot;));
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;orgName&quot;));
+	
+	dataSet.notifyObservers();
+}
+arg.selectedValue = undefined;
+return false;
+&#xD;
+              </ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <Property name="minWidth">200</Property>
+      <Property name="minHeight">250</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=singleTree&amp;category=0&amp;expandLevel=&amp;dropdown=mainOrgCodeDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="postDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+            var entitys = arg.selectedValue;&#xD;
+            var postName = &quot;&quot;;&#xD;
+            var postCode = &quot;&quot;;&#xD;
+            for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+            postName += entitys[i].get(&quot;postName&quot;)+&quot;,&quot;;&#xD;
+            postCode += entitys[i].get(&quot;postCode&quot;)+&quot;,&quot;;&#xD;
+            }&#xD;
+            if(postName!=&quot;&quot;){&#xD;
+            postName=postName.substr(0,postName.length-1);&#xD;
+            }&#xD;
+            if(postCode!=&quot;&quot;){&#xD;
+            postCode=postCode.substr(0,postCode.length-1);&#xD;
+            }&#xD;
+            var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+            var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+            var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+            dataSet.getData(&quot;#&quot;).set(code,postCode);&#xD;
+            dataSet.getData(&quot;#&quot;).set(name,postName);&#xD;
+            &#xD;
+            dataSet.notifyObservers();&#xD;
+            }&#xD;
+            arg.selectedValue = undefined;&#xD;
+            return false;&#xD;
+        </ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.PostSelect.d?selectType=multiList&amp;dropdown=postDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="applyOrgDropDown">
+      <ClientEvent name="onClose">
+                if(arg.selectedValue){&#xD;
+                var entitys = arg.selectedValue;&#xD;
+                var orgName = &quot;&quot;;&#xD;
+                var orgCode = &quot;&quot;;&#xD;
+                for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+                    orgName += entitys[i].get(&quot;orgName&quot;)+&quot;,&quot;;&#xD;
+                    orgCode += entitys[i].get(&quot;orgCode&quot;)+&quot;,&quot;;&#xD;
+                }&#xD;
+                if(orgName!=&quot;&quot;){&#xD;
+                    orgName=orgName.substr(0,orgName.length-1);&#xD;
+                }&#xD;
+                if(orgCode!=&quot;&quot;){&#xD;
+                    orgCode=orgCode.substr(0,orgCode.length-1);&#xD;
+                }&#xD;
+                var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+                var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+                var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+                dataSet.getData(&quot;#&quot;).set(code,orgCode);&#xD;
+                dataSet.getData(&quot;#&quot;).set(name,orgName);&#xD;
+                &#xD;
+                dataSet.notifyObservers();&#xD;
+                }&#xD;
+                arg.selectedValue = undefined;&#xD;
+                return false;&#xD;
+              </ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <Property name="minWidth">200</Property>
+      <Property name="minHeight">250</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.OrgSelect.d?selectType=multiTree&amp;category=1&amp;expandLevel=&amp;dropdown=applyOrgDropDown</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="applyScaleDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+		var entitys = arg.selectedValue;&#xD;
+		var dictName = &quot;&quot;;&#xD;
+		var dictCode = &quot;&quot;;&#xD;
+		for (var i = 0; i &lt; entitys.length; i++) {&#xD;
+			dictName += entitys[i].get(&quot;dictName&quot;)+&quot;,&quot;;&#xD;
+			dictCode += entitys[i].get(&quot;dictCode&quot;)+&quot;,&quot;;&#xD;
+		}&#xD;
+		if(dictName!=&quot;&quot;){&#xD;
+			dictName=dictName.substr(0,dictName.length-1);&#xD;
+		}&#xD;
+		if(dictCode!=&quot;&quot;){&#xD;
+			dictCode=dictCode.substr(0,dictCode.length-1);&#xD;
+		}&#xD;
+		var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+		var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+		var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+		dataSet.getData(&quot;#&quot;).set(code,dictCode);&#xD;
+		dataSet.getData(&quot;#&quot;).set(name,dictName);&#xD;
+		&#xD;
+		dataSet.notifyObservers();&#xD;
+		}&#xD;
+		arg.selectedValue = undefined;&#xD;
+		return false;&#xD;
+	</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=multiTree&amp;dictId=C7989782095C499F97B265E2331EE619&amp;dropdown=applyScaleDropDown&amp;expandLevel=2</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="fileGovidDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleTree&amp;dictId=D61E7EDDADB44811AF0C2CC24E2E812B&amp;dropdown=fileGovidDropDown&amp;expandLevel=2</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="lawTypeDropDown">
+      <ClientEvent name="onClose">if(arg.selectedValue){&#xD;
+	var entity = new dorado.Entity();&#xD;
+	entity.fromJSON(JSON.parse(arg.selectedValue));&#xD;
+	var dataSet=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;dataSet&quot;);&#xD;
+	var name=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;property&quot;);&#xD;
+	var code=self.get(&quot;editor&quot;).get(&quot;parent&quot;).get(&quot;userData.code&quot;);&#xD;
+	dataSet.getData(&quot;#&quot;).set(code,entity.get(&quot;dictCode&quot;));&#xD;
+	dataSet.getData(&quot;#&quot;).set(name,entity.get(&quot;dictName&quot;));&#xD;
+	&#xD;
+	dataSet.notifyObservers();&#xD;
+}&#xD;
+arg.selectedValue = undefined;&#xD;
+return false;&#xD;
+</ClientEvent>
+      <Property name="height">300</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com.innofi.module.commons.view.dropdown.DictSelect.d?selectType=singleTree&amp;dictId=2EBFFFE97CBB4E7A800F00924B9E4000&amp;dropdown=lawTypeDropDown&amp;expandLevel=2</Property>
+      </IFrame>
+    </CustomDropDown>
+  </View>
+</ViewConfig>

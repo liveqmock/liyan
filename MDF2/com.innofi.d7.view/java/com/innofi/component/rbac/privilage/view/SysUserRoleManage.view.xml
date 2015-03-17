@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysUserRoleManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysUserRole">
+      <Property name="creationType">com.innofi.component.rbac.user.pojo.SysUser</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="userCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.userCode"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="userName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.user.pojo.SysUser.userName"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="orgName">
+        <Property name="dataType">String</Property>
+        <Property name="label">所属部门</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysUserRole">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dsLeft">
+      <ClientEvent name="onReady">var roleId='${param[&quot;roleId&quot;]}';
+view.get(&quot;#dsLeft&quot;).set(&quot;parameter&quot;,{&quot;roleId&quot;:roleId}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">sysUserRoleAction#findSysUserNoSetByRoleId</Property>
+      <Property name="dataType">[dataTypeSysUserRole]</Property>
+    </DataSet>
+    <DataSet id="dsRight">
+      <ClientEvent name="onReady">var roleId='${param[&quot;roleId&quot;]}';
+view.get(&quot;#dsRight&quot;).set(&quot;parameter&quot;,{&quot;roleId&quot;:roleId}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">sysUserRoleAction#findSysUserSetByRoleId</Property>
+      <Property name="dataType">[dataTypeSysUserRole]</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysUserRole">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysUserRole]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Property name="hideMode">display</Property>
+        <Property name="visible">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+	view.get(&quot;#dataSetSysUserRole&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysUserRole&quot;).getData(&quot;#&quot;)).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+            
+            var entity = view.get(&quot;#querydataSetSysUserRole&quot;).getData(&quot;#&quot;);
+			with (entity){
+			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysUserRoleQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysUserRole</Property>
+            <Property name="dataType">querydataTypeSysUserRole</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysUserRole" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <Property name="icon">>icons/save.gif </Property>
+          <Property name="caption">保存</Property>
+          <Property name="action">saveUserRole</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DualListSelection id="postSelection">
+          <Property name="dataSetLeft">dsLeft</Property>
+          <Property name="dataSetRight">dsRight</Property>
+          <Property name="captionLeft">可选择人员</Property>
+          <Property name="captionRight">已选择人员</Property>
+        </DualListSelection>
+      </Container>
+    </Container>
+    <AjaxAction id="saveUserRole">
+      <ClientEvent name="beforeExecute" signature="self,arg,postSelection">var roleId=&quot;${request.getParameter(&quot;roleId&quot;)}&quot;;
+self.set(&quot;parameter&quot;, {
+	roleId:roleId,
+	added: postSelection.get(&quot;added&quot;),
+	removed: postSelection.get(&quot;removed&quot;)
+});</ClientEvent>
+      <Property name="service">sysUserRoleAction#saveSysUserRoles</Property>
+      <Property name="successMessage">保存成功</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

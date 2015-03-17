@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeServcieCofig">
+      <Property name="creationType">com.innofi.component.webservice.pojo.SysServiceBeanConfig</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.id')}</Property>
+      </PropertyDef>
+      <PropertyDef name="beanId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.beanId')}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="beanPath">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.beanPath')}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="intfPath">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.intfPath')}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="serviceDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.serviceDoc')}</Property>
+      </PropertyDef>
+      <PropertyDef name="serviceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.serviceName')}</Property>
+        <Property name="required">true</Property>
+        <Validator type="regExp">
+          <Property name="validateMode">blackWhite</Property>
+          <Property name="resultMessage">不能输入中文</Property>
+          <Property name="whiteRegExp">[u4e00-u9fa5]</Property>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeMethodCofig">
+      <Property name="creationType">com.innofi.component.webservice.pojo.SysServiceBeanmethodConfig</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.methodId')}</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.methodName')}</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="serviceId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.serviceId')}</Property>
+      </PropertyDef>
+      <PropertyDef name="isauth">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.auth')}</Property>
+        <Property name="required">true</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeEntity">
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdEntityObject</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.class')}</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.className')}</Property>
+      </PropertyDef>
+      <PropertyDef name="objPath">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.classPath')}</Property>
+      </PropertyDef>
+      <PropertyDef name="interFace">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.intf')}</Property>
+      </PropertyDef>
+      <PropertyDef name="interFaceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.intfName')}</Property>
+      </PropertyDef>
+      <PropertyDef name="objType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${messageUtil.getMessage('webservice.classType')}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypEntityMethod">
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdObjectMethod</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="objId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="methodName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="methodParameter">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="methodReturn">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="methodOprType">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <HtmlContainer id="container1">
+      <Property name="contentOverflow">auto</Property>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">${messageUtil.getMessage('webservice.queryCond')}</Property>
+        <Property name="collapsed">true</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">//view.get(&quot;#dataSet1&quot;).set(&quot;parameter&quot;, view.get(&quot;#queryServiceSet&quot;).getData(&quot;#&quot;)).flushAsync();&#xD;
+&#xD;
+&#xD;
+&#xD;
+var autoform = view.get(&quot;#autoFormQuery&quot;);&#xD;
+var condition = autoform.get(&quot;entity&quot;);&#xD;
+view.get(&quot;#dataSet2&quot;).clear();&#xD;
+var dataset = view.get(&quot;#dataSet1&quot;);&#xD;
+dataset.set(&quot;parameter&quot;,condition);&#xD;
+dataset.flush();&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">var autoform = view.get(&quot;#autoFormQuery&quot;);&#xD;
+//var condition = autoform.get(&quot;entity&quot;);&#xD;
+&#xD;
+autoform.set(&quot;entity&quot;,{});</ClientEvent>
+            <Property name="caption">重置</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormQuery">
+            <Property name="cols">*,*</Property>
+            <Property name="showHintMessage">false</Property>
+            <Property name="showLabel">true</Property>
+            <AutoFormElement>
+              <Property name="name">qServiceName</Property>
+              <Property name="label">服务名称</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">qBeanId</Property>
+              <Property name="label">Spring ID</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">qBeanPath</Property>
+              <Property name="label">类路径</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar layoutConstraint="top">
+        <ToolBarLabel>
+          <Property name="text">类配置</Property>
+        </ToolBarLabel>
+        <ToolBarButton>
+          <ClientEvent name="onClick">&#xD;
+&#xD;
+view.get(&quot;#dataSet1&quot;).set(&quot;readOnly&quot;,false);&#xD;
+view.get(&quot;#dataSet1.data&quot;).insert();&#xD;
+view.get(&quot;#addServcieConfigBean&quot;).show();&#xD;
+                &#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.add')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton>
+          <ClientEvent name="onClick">&#xD;
+                    var entitys = view.get(&quot;#dataSet1&quot;).getData();&#xD;
+                    var selection = view.get(&quot;#dataGrid1&quot;).get(&quot;selection&quot;);&#xD;
+                    if(selection.length==0){&#xD;
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+                    }else if(selection.length>1){&#xD;
+                        dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);&#xD;
+                    }else if (selection.length == 1) {&#xD;
+                        var entityClass = view.get('#dataSet1').get(&quot;userData&quot;)[0].entityClass;&#xD;
+                        var idValue = view.get(&quot;#dataSet1&quot;).getData(&quot;#.id&quot;);&#xD;
+                        var action=view.get(&quot;#checkPermissionAction&quot;);&#xD;
+                        var idValueArray = new Array();&#xD;
+                        idValueArray[0] = idValue;&#xD;
+                        action.set(&quot;parameter&quot;,{&#xD;
+                            entityClass:entityClass,&#xD;
+                            idValues:idValueArray,&#xD;
+                            operationType:'2'&#xD;
+                        });&#xD;
+                        action.execute(function(result){&#xD;
+                            if(result.length>0){&#xD;
+                                dorado.MessageBox.alert(&quot;不能进行此操作，您无选中记录的修改权限！&quot;);&#xD;
+                                return;&#xD;
+                            }&#xD;
+                            view.get(&quot;#dataSet1&quot;).getData().setCurrent(selection[0]);&#xD;
+                            view.get(&quot;#addServcieConfigBean&quot;).show();&#xD;
+                            view.get(&quot;#dataSet1&quot;).set(&quot;readOnly&quot;,false);&#xD;
+                        });&#xD;
+                    }&#xD;
+                </ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.modify')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton>
+          <ClientEvent name="onClick">//获取当前选中的select集合&#xD;
+var entitys = view.get(&quot;#dataSet1&quot;).getData();&#xD;
+var selection = view.get(&quot;#dataGrid1&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+var action = view.get(&quot;#updateServiceAction&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+       dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+ }else if (selection.length != 0) {&#xD;
+    var entityClass = view.get('#dataSet1').get(&quot;userData&quot;)[0].entityClass;&#xD;
+    var idValue = view.get(&quot;#dataSet1&quot;).getData(&quot;#.id&quot;);&#xD;
+	&#xD;
+	//校验当前用户是否有权限操作&#xD;
+	var checkPermissionAction=view.get(&quot;#checkPermissionAction&quot;);&#xD;
+    var idValueArray = new Array();&#xD;
+    jQuery.each(selection,function(i,item){&#xD;
+             idValueArray[i] = item.get(&quot;id&quot;);&#xD;
+    });&#xD;
+    checkPermissionAction.set(&quot;parameter&quot;,{&#xD;
+            entityClass:entityClass,&#xD;
+            idValues:idValueArray,&#xD;
+            operationType:'3'&#xD;
+    });&#xD;
+&#xD;
+     checkPermissionAction.execute(function(result){&#xD;
+         if(result.length>0){&#xD;
+               var idValueFilter = new Object();&#xD;
+               result.each(function(it){&#xD;
+                    idValueFilter[it] = true;&#xD;
+               });&#xD;
+               dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+                  var haveRemove = false;&#xD;
+                  jQuery.each(selection,function(i,item){&#xD;
+                     if(!idValueFilter[item.get('id')]){&#xD;
+                        haveRemove = true;&#xD;
+                        entitys.remove(item);&#xD;
+                     }&#xD;
+               });&#xD;
+               if(haveRemove){&#xD;
+                 action.execute();&#xD;
+               }&#xD;
+               dorado.MessageBox.alert(&quot;您无选中记录的删除权限！&quot;);&#xD;
+                 return;&#xD;
+               });&#xD;
+          }else{&#xD;
+               dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+                  jQuery.each(selection,function(i,item){&#xD;
+                    entitys.remove(item);&#xD;
+                  });&#xD;
+                  action.execute();&#xD;
+               });&#xD;
+          }&#xD;
+		  view.get(&quot;#dataSet2&quot;).clear();&#xD;
+   });&#xD;
+ }&#xD;
+                </ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.delete')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton>
+          <ClientEvent name="onClick">dorado.MessageBox.confirm(&quot;确定发布所有接口吗？&quot;, function(){&#xD;
+   var publishAjaxAction=view.get(&quot;#publishAjaxAction&quot;);&#xD;
+   publishAjaxAction.execute(function(data){&#xD;
+   });        &#xD;
+});&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.publish')}</Property>
+          <Property name="icon">>icons/book_open.png</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container layoutConstraint="top">
+        <DataGrid id="dataGrid1" layoutConstraint="top">
+          <ClientEvent name="onDataRowClick">var serviceId = view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);&#xD;
+view.get(&quot;#dataSet2&quot;).set(&quot;parameter&quot;,{&quot;serviceId&quot;:serviceId}).flushAsync();&#xD;
+</ClientEvent>
+          <ClientEvent name="onSelectionChange"> if (arg.added){&#xD;
+     view.get(&quot;#dataSet1&quot;).getData().setCurrent(arg.added[0])&#xD;
+  }&#xD;
+                </ClientEvent>
+          <Property name="dataSet">dataSet1</Property>
+          <Property name="width">100%</Property>
+          <Property name="height">200</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="serviceName">
+            <Property name="property">serviceName</Property>
+            <Property name="required">true</Property>
+          </DataColumn>
+          <DataColumn name="beanPath">
+            <Property name="property">beanPath</Property>
+            <Property name="required">true</Property>
+          </DataColumn>
+          <DataColumn name="beanId">
+            <Property name="property">beanId</Property>
+            <Property name="required">true</Property>
+          </DataColumn>
+          <DataColumn name="intfPath">
+            <Property name="property">intfPath</Property>
+            <Property name="required">true</Property>
+          </DataColumn>
+          <DataColumn name="serviceDesc">
+            <Property name="property">serviceDesc</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="top">
+        <DataPilot>
+          <Property name="dataSet">dataSet1</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+      <ToolBar layoutConstraint="top">
+        <ToolBarLabel>
+          <Property name="text">方法配置</Property>
+        </ToolBarLabel>
+        <ToolBarButton>
+          <ClientEvent name="onClick">/*&#xD;
+var selection = view.get(&quot;#dataGrid1&quot;).get(&quot;selection&quot;);&#xD;
+if(selection.length==0){&#xD;
+     dorado.MessageBox.alert(&quot;请选择一个服务类！&quot;);&#xD;
+	 return;&#xD;
+}else if(selection.length>1){&#xD;
+     dorado.MessageBox.alert(&quot;只能选择一个服务类！&quot;);&#xD;
+	 return;&#xD;
+}&#xD;
+*/&#xD;
+var serviceId =  view.get(&quot;#dataSet1&quot;).getData(&quot;#.id&quot;);  &#xD;
+view.get(&quot;#dataSet2&quot;).set(&quot;readOnly&quot;,false);&#xD;
+view.get(&quot;#dataSet2.data&quot;).insert({serviceId:serviceId});&#xD;
+view.get(&quot;#addmethodDialog&quot;).show();&#xD;
+                </ClientEvent>
+          <Property name="caption">添加</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton>
+          <ClientEvent name="onClick">&#xD;
+                    var entitys = view.get(&quot;#dataSet2&quot;).getData();&#xD;
+                    var selection = view.get(&quot;#dataGrid2&quot;).get(&quot;selection&quot;);&#xD;
+                    if(selection.length==0){&#xD;
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+                    }else if(selection.length>1){&#xD;
+                        dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);&#xD;
+                    }else if (selection.length == 1) {&#xD;
+                        var entityClass = view.get('#dataSet2').get(&quot;userData&quot;)[0].entityClass;&#xD;
+                        var idValue = view.get(&quot;#dataSet2&quot;).getData(&quot;#.id&quot;);&#xD;
+                        var action=view.get(&quot;#checkPermissionAction&quot;);&#xD;
+                        var idValueArray = new Array();&#xD;
+                        idValueArray[0] = idValue;&#xD;
+                        action.set(&quot;parameter&quot;,{&#xD;
+                            entityClass:entityClass,&#xD;
+                            idValues:idValueArray,&#xD;
+                            operationType:'2'&#xD;
+                        });&#xD;
+                        action.execute(function(result){&#xD;
+                            if(result.length>0){&#xD;
+                                dorado.MessageBox.alert(&quot;不能进行此操作，您无选中记录的修改权限！&quot;);&#xD;
+                                return;&#xD;
+                            }&#xD;
+                            view.get(&quot;#dataSet2&quot;).getData().setCurrent(selection[0]);&#xD;
+                            view.get(&quot;#addmethodDialog&quot;).show();&#xD;
+                            view.get(&quot;#dataSet2&quot;).set(&quot;readOnly&quot;,false);&#xD;
+                        });&#xD;
+                    }&#xD;
+                </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton>
+          <ClientEvent name="onClick">//获取当前选中的select集合&#xD;
+var entitys = view.get(&quot;#dataSet2&quot;).getData();&#xD;
+var selection = view.get(&quot;#dataGrid2&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+var action = view.get(&quot;#updateMethodAction&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+       dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+ }else if (selection.length != 0) {&#xD;
+    var entityClass = view.get('#dataSet2').get(&quot;userData&quot;)[0].entityClass;&#xD;
+    var idValue = view.get(&quot;#dataSet2&quot;).getData(&quot;#.id&quot;);&#xD;
+	&#xD;
+	//校验当前用户是否有权限操作&#xD;
+	var checkPermissionAction=view.get(&quot;#checkPermissionAction&quot;);&#xD;
+    var idValueArray = new Array();&#xD;
+    jQuery.each(selection,function(i,item){&#xD;
+             idValueArray[i] = item.get(&quot;id&quot;);&#xD;
+    });&#xD;
+    checkPermissionAction.set(&quot;parameter&quot;,{&#xD;
+            entityClass:entityClass,&#xD;
+            idValues:idValueArray,&#xD;
+            operationType:'3'&#xD;
+    });&#xD;
+&#xD;
+     checkPermissionAction.execute(function(result){&#xD;
+         if(result.length>0){&#xD;
+            var idValueFilter = new Object();&#xD;
+            result.each(function(it){&#xD;
+                    idValueFilter[it] = true;&#xD;
+            });&#xD;
+          dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+                var haveRemove = false;&#xD;
+                jQuery.each(selection,function(i,item){&#xD;
+                    if(!idValueFilter[item.get('id')]){&#xD;
+                        haveRemove = true;&#xD;
+                        entitys.remove(item);&#xD;
+                }&#xD;
+           });&#xD;
+           if(haveRemove){&#xD;
+                action.execute();&#xD;
+           }&#xD;
+           dorado.MessageBox.alert(&quot;您无选中记录的删除权限！&quot;);&#xD;
+               return;&#xD;
+            });&#xD;
+          }else{&#xD;
+               dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){&#xD;
+                  jQuery.each(selection,function(i,item){&#xD;
+                    entitys.remove(item);&#xD;
+                  });&#xD;
+                  action.execute();&#xD;
+               });&#xD;
+          }&#xD;
+   });&#xD;
+ }&#xD;
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container layoutConstraint="center">
+        <DataGrid id="dataGrid2" layoutConstraint="center">
+          <ClientEvent name="onSelectionChange"> if (arg.added){&#xD;
+     view.get(&quot;#dataSet2&quot;).getData().setCurrent(arg.added[0])&#xD;
+  }&#xD;
+                </ClientEvent>
+          <Property name="dataSet">dataSet2</Property>
+          <Property name="width">100%</Property>
+          <Property name="height">100%</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="methodName">
+            <Property name="property">methodName</Property>
+            <Property name="required">true</Property>
+          </DataColumn>
+          <DataColumn name="serviceId">
+            <Property name="property">serviceId</Property>
+            <Property name="required">true</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="isauth">
+            <Property name="property">isauth</Property>
+            <Property name="required">true</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+    </HtmlContainer>
+    <Dialog id="addServcieConfigBean" layoutConstraint="center">
+      <ClientEvent name="onClose">view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).cancel();&#xD;
+</ClientEvent>
+      <ClientEvent name="onMaximize">&#xD;
+</ClientEvent>
+      <ClientEvent name="onMinimize">view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).cancel();</ClientEvent>
+      <Property name="width">60%</Property>
+      <Property name="height">60%</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">//校验服务名称是否存在，如果存在则不能提交&#xD;
+var currDataSet1ServiceName = view.get(&quot;#dataSet1&quot;).getData(&quot;#.serviceName&quot;);&#xD;
+if(currDataSet1ServiceName) {&#xD;
+	var entitys = view.get(&quot;#dataSet1&quot;).getData();		&#xD;
+	var i = 0;&#xD;
+	entitys.each(function(entity){&#xD;
+		if(entity.get(&quot;serviceName&quot;)==currDataSet1ServiceName){&#xD;
+			i++;&#xD;
+		}&#xD;
+	});&#xD;
+	if(i>=2) {&#xD;
+		dorado.MessageBox.alert(&quot;服务名称已经存在了，请修改服务名称！&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+//校验通过，提交后台保存&#xD;
+var updateServcieAction = view.get(&quot;#updateServiceAction&quot;);&#xD;
+updateServcieAction.execute(function(){&#xD;
+	view.get(&quot;#addServcieConfigBean&quot;).hide();&#xD;
+});&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.confirm')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).cancel();&#xD;
+view.get(&quot;#addServcieConfigBean&quot;).hide();</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.cancel')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dataSet1</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <ClientEvent name="onBlur">&#xD;
+//alert(&quot;here&quot;);&#xD;
+//var data = view.get(&quot;#dataSet1&quot;).getData();&#xD;
+//alert(data.length);&#xD;
+//for(var i in data) {&#xD;
+//	var serviceName = i.serviceName;&#xD;
+&#xD;
+//}&#xD;
+&#xD;
+//view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).set({serviceName:&quot;&quot;});</ClientEvent>
+            <Property name="name">serviceName</Property>
+            <Property name="property">serviceName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">beanPath</Property>
+            <Property name="property">beanPath</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">customDropDown1</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">beanId</Property>
+            <Property name="property">beanId</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">intfPath</Property>
+            <Property name="property">intfPath</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">serviceDesc</Property>
+            <Property name="property">serviceDesc</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addmethodDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSet2&quot;).getData(&quot;#&quot;).cancel();&#xD;
+</ClientEvent>
+      <ClientEvent name="onMinimize">view.get(&quot;#dataSet2&quot;).getData(&quot;#&quot;).cancel();</ClientEvent>
+      <Property name="center">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">50%</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">//校验方法名称是否已经发布，如果存在则不能提交&#xD;
+var currDataSet2MethodName = view.get(&quot;#dataSet2&quot;).getData(&quot;#.methodName&quot;);&#xD;
+if(currDataSet2MethodName) {&#xD;
+	var entitys = view.get(&quot;#dataSet2&quot;).getData();		&#xD;
+	var i = 0;&#xD;
+	entitys.each(function(entity){&#xD;
+		if(entity.get(&quot;methodName&quot;)==currDataSet2MethodName){&#xD;
+			i++;&#xD;
+		}&#xD;
+	});&#xD;
+	if(i>=2) {&#xD;
+		dorado.MessageBox.alert(&quot;此方法已经发布了，请选择其他方法!&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+//校验通过，提交后台保存&#xD;
+var updateMethodAction = view.get(&quot;#updateMethodAction&quot;);&#xD;
+updateMethodAction.execute(function(){&#xD;
+	view.get(&quot;#addmethodDialog&quot;).hide();&#xD;
+});&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.confirm')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">var dataSet2 = view.get(&quot;#dataSet2&quot;).getData(&quot;#&quot;).cancel();&#xD;
+view.get(&quot;#addmethodDialog&quot;).hide();&#xD;
+</ClientEvent>
+          <Property name="caption">${messageUtil.getMessage('webservice.cancel')}</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addMethod">
+          <Property name="dataSet">dataSet2</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">methodName</Property>
+            <Property name="property">methodName</Property>
+            <Property name="trigger">dataSetDropDown2</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isauth</Property>
+            <Property name="property">isauth</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <DataSet id="dataSet1">
+      <ClientEvent name="onAttributeChange">&#xD;
+</ClientEvent>
+      <Property name="dataType">[dataTypeServcieCofig]</Property>
+      <Property name="dataProvider">sysServiceBeanConfigAction#findSysServiceBeanConfigs</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.webservice.pojo.SysServiceBeanConfig</Property>
+          </Entity>
+        </Collection>
+      </Property>
+    </DataSet>
+    <DataSet id="dataSet2">
+      <Property name="dataProvider">sysServiceBeanmethodConfigAction#findmethodConfigByServcieId</Property>
+      <Property name="dataType">[dataTypeMethodCofig]</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.webservice.pojo.SysServiceBeanmethodConfig</Property>
+          </Entity>
+        </Collection>
+      </Property>
+    </DataSet>
+    <DataSet id="dataSet3">
+      <Property name="dataType">[dataTypeEntity]</Property>
+      <Property name="dataProvider">sysServiceBeanConfigAction#findEntity</Property>
+    </DataSet>
+    <DataSet id="dataSet4">
+      <ClientEvent name="beforeLoadData">var path = view.get(&quot;#dataSet1&quot;).getData(&quot;#.beanPath&quot;);&#xD;
+view.get(&quot;#dataSet4&quot;).set(&quot;parameter&quot;,{&quot;beanPath&quot;:path});&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="dataType">[dataTypEntityMethod]</Property>
+      <Property name="dataProvider">sysServiceBeanConfigAction#findEntityMethod</Property>
+      <Property name="parameter"></Property>
+    </DataSet>
+    <UpdateAction id="updateServiceAction">
+      <Property name="dataResolver">sysServiceBeanConfigAction#saveSysServiceBeanConfigs</Property>
+      <Property name="executingMessage">正在处理中...</Property>
+      <Property name="successMessage">保存成功</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSet1</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="updateMethodAction">
+      <Property name="dataResolver">sysServiceBeanmethodConfigAction#saveSysServiceBeanmethodConfigs</Property>
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">保存成功！</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSet2</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="checkPermissionAction">
+      <Property name="service">sysServiceBeanmethodConfigAction#checkUpdDelPermission</Property>
+    </AjaxAction>
+    <AjaxAction id="publishAjaxAction">
+      <Property name="service">sysServiceBeanConfigAction#savePublishWebservice</Property>
+      <Property name="successMessage">发布成功,重启应用后生效！</Property>
+      <Property name="executingMessage">处理中...</Property>
+    </AjaxAction>
+    <AjaxAction id="getIntfInfoAjaxAction">
+      <Property name="service">sysServiceBeanConfigAction#getIntfPathAndBeanId</Property>
+    </AjaxAction>
+    <DataSetDropDown id="dataSetDropDown1">
+      <ClientEvent name="onClose">var currBeanPath = view.get(&quot;#dataSet3&quot;).getData(&quot;#.objPath&quot;);&#xD;
+//获取action对象&#xD;
+var getIntfInfoAjaxAction = view.get(&quot;#getIntfInfoAjaxAction&quot;);&#xD;
+&#xD;
+getIntfInfoAjaxAction.set(&quot;parameter&quot;,{beanPath:currBeanPath});&#xD;
+&#xD;
+getIntfInfoAjaxAction.execute(function(result){&#xD;
+	if(result){&#xD;
+		var beanId = result.beanId;&#xD;
+		var intfPath = result.intfPath;&#xD;
+	    view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).set({beanId:beanId,intfPath:intfPath});&#xD;
+	}else{&#xD;
+		view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).set({beanId:&quot;&quot;,intfPath:&quot;&quot;,beanPath:&quot;&quot;});&#xD;
+		var msg = &quot;这个类不存在或者配置存在问题，请检查bean的配置:1,是否配置了@component（value='XXX')2，是否继承了满足规范的接口，详细配置方法请参考《09_IPDP通用组件使用及二次开发手册.doc》1.5.公共Webservice开发章节&quot;&#xD;
+		dorado.MessageBox.alert(msg);&#xD;
+	}&#xD;
+});&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="dataSet">dataSet3</Property>
+      <Property name="property">objPath</Property>
+      <DataColumn>
+        <Property name="property">objName</Property>
+        <Property name="caption">${messageUtil.getMessage('webservice.className')}</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="property">objPath</Property>
+        <Property name="caption">${messageUtil.getMessage('webservice.classPath')}</Property>
+        <Editor/>
+      </DataColumn>
+    </DataSetDropDown>
+    <DataSetDropDown id="dataSetDropDown2">
+      <ClientEvent name="onOpen">&#xD;
+</ClientEvent>
+      <ClientEvent name="onExecute">var path = view.get(&quot;#dataSet1&quot;).getData(&quot;#.beanPath&quot;);&#xD;
+view.get(&quot;#dataSet4&quot;).set(&quot;parameter&quot;,{&quot;beanPath&quot;:path});&#xD;
+var dataSet4 = view.get(&quot;#dataSet4&quot;);&#xD;
+dataSet4.flushAsync();&#xD;
+</ClientEvent>
+      <Property name="dataSet">dataSet4</Property>
+      <Property name="property">methodName</Property>
+      <DataColumn>
+        <Property name="property">methodName</Property>
+        <Property name="caption">${messageUtil.getMessage('webservice.methodName')}</Property>
+        <Editor/>
+      </DataColumn>
+    </DataSetDropDown>
+    <CustomDropDown id="customDropDown1">
+      <ClientEvent name="onClose">var currBeanPath = arg.selectedValue;&#xD;
+if(!currBeanPath) {&#xD;
+	//view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).set({beanId:&quot;&quot;,intfPath:&quot;&quot;,beanPath:&quot;&quot;});&#xD;
+	return;&#xD;
+}&#xD;
+&#xD;
+//获取action对象&#xD;
+var getIntfInfoAjaxAction = view.get(&quot;#getIntfInfoAjaxAction&quot;);&#xD;
+&#xD;
+getIntfInfoAjaxAction.set(&quot;parameter&quot;,{beanPath:currBeanPath});&#xD;
+&#xD;
+getIntfInfoAjaxAction.execute(function(result){&#xD;
+	if(result){&#xD;
+		var beanId = result.beanId;&#xD;
+		var intfPath = result.intfPath;&#xD;
+	    view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).set({beanId:beanId,intfPath:intfPath});&#xD;
+	}else{&#xD;
+		view.get(&quot;#dataSet1&quot;).getData(&quot;#&quot;).set({beanId:&quot;&quot;,intfPath:&quot;&quot;,beanPath:&quot;&quot;});&#xD;
+		var msg = &quot;这个类不存在或者配置存在问题，请检查bean的配置:1,是否配置了@component（value='XXX')2,是否继承了满足规范的接口3,服务类及其接口的命名是否满足规范.详细配置方法请参考《09_IPDP通用组件使用及二次开发手册.doc》1.5.公共Webservice开发章节&quot;&#xD;
+		dorado.MessageBox.alert(msg);&#xD;
+	}&#xD;
+});&#xD;
+&#xD;
+</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="width">50%</Property>
+      <Property name="height">400</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/framework/webservice/view/SelectBean.d?beanPath=1&amp;dropdown=customDropDown1</Property>
+      </IFrame>
+    </CustomDropDown>
+  </View>
+</ViewConfig>

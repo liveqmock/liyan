@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+
+    <diskStore path="${user.home}/ms"/>
+
+    <!-- DefaultCache setting. -->
+
+
+    <defaultCache maxElementsInMemory="5000" memoryStoreEvictionPolicy="LRU" eternal="true" diskPersistent="false" overflowToDisk="true"/>
+
+</ehcache>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataType1">
+      <PropertyDef name="p1">
+        <Property name="label">附件名称</Property>
+      </PropertyDef>
+      <PropertyDef name="p2">
+        <Property name="label">上传时间</Property>
+      </PropertyDef>
+      <PropertyDef name="p3">
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="p4">
+        <Property name="label">最后修改时间</Property>
+      </PropertyDef>
+      <PropertyDef name="p5">
+        <Property name="label">...</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSet1">
+      <Property name="dataType">[dataType1]</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">50%</Property>
+      <MainControl>
+        <FieldSet layoutConstraint="center">
+          <Property name="width">100%</Property>
+          <Property name="caption">附件详细信息</Property>
+          <Buttons/>
+          <Children>
+            <AutoForm>
+              <Property name="dataSet">dataSet1</Property>
+              <Property name="cols">*</Property>
+              <Property name="dataType">dataType1</Property>
+              <AutoFormElement>
+                <Property name="name">p1</Property>
+                <Property name="property">p1</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">p2</Property>
+                <Property name="property">p2</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">p3</Property>
+                <Property name="property">p3</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">p4</Property>
+                <Property name="property">p4</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">p5</Property>
+                <Property name="property">p5</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+        </FieldSet>
+      </MainControl>
+      <SideControl>
+        <DataGrid id="dataGridMdTable" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get("selection");
+var entity = view.get("#dataSetMdTable").getData("#");
+var found = false;
+selection.each(function(data){
+	if (data.get("id") == entity.get("id")) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set("selection", newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get("#dataSetMdTable").getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <Property name="dataSet">dataSet1</Property>
+          <Property name="dataType">dataType1</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="p1">
+            <Property name="property">p1</Property>
+          </DataColumn>
+          <DataColumn name="p2">
+            <Property name="property">p2</Property>
+          </DataColumn>
+          <DataColumn name="p3">
+            <Property name="property">p3</Property>
+          </DataColumn>
+          <DataColumn name="p4">
+            <Property name="property">p4</Property>
+          </DataColumn>
+          <DataColumn name="p5">
+            <Property name="property">p5</Property>
+          </DataColumn>
+        </DataGrid>
+      </SideControl>
+    </SplitPanel>
+  </View>
+</ViewConfig>

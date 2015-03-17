@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysOrgRoleManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysOrgRole">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="creationType">com.innofi.component.rbac.org.pojo.SysOrgInfo</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="orgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.orgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="orgName">
+        <Property name="label">${req["com.innofi.component.rbac.org.pojo.SysOrgInfo.orgName"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysOrgRole">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dsLeft">
+      <ClientEvent name="onReady">var roleId='${param["roleId"]}';
+view.get("#dsLeft").set("parameter",{"roleId":roleId}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">sysOrgRoleAction#findSysOrgInfoNoSetByRoleId</Property>
+      <Property name="dataType">[dataTypeSysOrgRole]</Property>
+    </DataSet>
+    <DataSet id="dsRight">
+      <ClientEvent name="onReady">var roleId='${param["roleId"]}';
+view.get("#dsRight").set("parameter",{"roleId":roleId}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">sysOrgRoleAction#findSysOrgInfoSetByRoleId</Property>
+      <Property name="dataType">[dataTypeSysOrgRole]</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysOrgRole">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysOrgRole]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Property name="hideMode">display</Property>
+        <Property name="visible">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+	view.get("#dataSetSysOrgRole").set("parameter", view.get("#querydataSetSysOrgRole").getData("#")).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+            
+            var entity = view.get("#querydataSetSysOrgRole").getData("#");
+			with (entity){
+			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysOrgRoleQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysOrgRole</Property>
+            <Property name="dataType">querydataTypeSysOrgRole</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <Container layout="anchor">
+        <ToolBar id="toolBarSysOrgRole" layoutConstraint="top">
+          <Property name="tags">tags_toolbar</Property>
+          <ToolBarButton id="addButton">
+            <Property name="icon">>icons/save.gif </Property>
+            <Property name="caption">保存</Property>
+            <Property name="action">saveOrgRole</Property>
+          </ToolBarButton>
+        </ToolBar>
+      </Container>
+      <Container>
+        <DualListSelection id="postSelection">
+          <Property name="dataSetLeft">dsLeft</Property>
+          <Property name="dataSetRight">dsRight</Property>
+          <Property name="captionLeft">可选择部门</Property>
+          <Property name="captionRight">已选择部门</Property>
+        </DualListSelection>
+      </Container>
+    </Container>
+    <AjaxAction id="saveOrgRole">
+      <ClientEvent name="beforeExecute" signature="self,arg,postSelection">var roleId="${request.getParameter("roleId")}";
+self.set("parameter", {
+	roleId:roleId,
+	added: postSelection.get("added"),
+	removed: postSelection.get("removed")
+});</ClientEvent>
+      <Property name="service">sysOrgRoleAction#saveSysOrgRole</Property>
+      <Property name="successMessage">保存成功</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

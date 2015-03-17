@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdStoredProcManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdStoredproc" meta="x:210;y:90">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMprocName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">like</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="procName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMprocDesc">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">like</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="procDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMpara">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">like</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="para">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMstatus">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdStoredProc.status"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetMdStoredproc">
+      <Property name="dataProvider">mdStoredProcAction#findMdStoredProcs</Property>
+      <Property name="dataType">[dataTypeMdStoredProc]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdStoredproc">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeMdStoredproc]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+	view.get(&quot;#dataSetMdStoredproc&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetMdStoredproc&quot;).getData(&quot;#&quot;)).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+            
+            var entity = view.get(&quot;#querydataSetMdStoredproc&quot;).getData(&quot;#&quot;);
+			with (entity){
+			 			 			 			 			 set(&quot;procName&quot;,&quot;&quot;);
+			 set(&quot;qMprocName&quot;,&quot;eq&quot;);
+			 			 			 			 set(&quot;procDesc&quot;,&quot;&quot;);
+			 set(&quot;qMprocDesc&quot;,&quot;eq&quot;);
+			 			 			 			 set(&quot;para&quot;,&quot;&quot;);
+			 set(&quot;qMpara&quot;,&quot;eq&quot;);
+			 			 			 			 set(&quot;status&quot;,&quot;&quot;);
+			 set(&quot;qMstatus&quot;,&quot;eq&quot;);
+			 			 			 			 			 			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdStoredProcQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetMdStoredproc</Property>
+            <Property name="dataType">querydataTypeMdStoredproc</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+            <AutoFormElement name="autoFormElementprocName">
+              <Property name="name">procName</Property>
+              <Property name="property">procName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMprocName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">procName</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementprocDesc">
+              <Property name="name">procDesc</Property>
+              <Property name="property">procDesc</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMprocDesc</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">procDesc</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementpara">
+              <Property name="name">para</Property>
+              <Property name="property">para</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMpara</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">para</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementstatus">
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMstatus</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">status</Property>
+                    <Property name="dataSet">querydataSetMdStoredproc</Property>
+                    <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.status&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.status&quot;].propertyTip}</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdStoredproc" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">
+          view.get(&quot;#dataSetMdStoredproc&quot;).set(&quot;readOnly&quot;,false);
+          view.get(&quot;#dataSetMdStoredproc.data&quot;).insert();
+
+view.get(&quot;#addDialogMdStoredProc&quot;).show();
+        </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">
+          
+var entitys = view.get(&quot;#dataSetMdStoredproc&quot;).getData();
+var selection = view.get(&quot;#dataGridMdStoredproc&quot;).get(&quot;selection&quot;);
+
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}
+else if (selection.length == 1) {
+	
+ view.get(&quot;#dataSetMdStoredproc&quot;).getData().setCurrent(selection[0]);
+view.get(&quot;#dialogMdStoredProc&quot;).show();
+view.get(&quot;#dataSetMdStoredproc&quot;).set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetMdStoredproc&quot;).getData();
+var selection = view.get(&quot;#dataGridMdStoredproc&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveMdStoredProcsAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdStoredproc&quot;);
+var selection = view.get(&quot;#dataGridMdStoredproc&quot;).get(&quot;selection&quot;);
+var mdmId=&quot;${request.getParameter('mdmId')}&quot;;
+var dialog = view.get(&quot;#lookDialog&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData(&quot;#&quot;);
+	var iframe = view.get(&quot;#lookIframe&quot;);
+	var path = &quot;${request.contextPath}/com.innofi.component.metadata.commons.view.TabControlMain.d?mdmId=&quot;+mdmId+&quot;&amp;mdId=&quot;+entity.get(&quot;id&quot;)+&quot;&amp;lookStyle=look&amp;randomId=&quot;+Math.random();
+		iframe.set(&quot;path&quot;,path);
+	dialog.show();
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="procflush">
+          <ClientEvent name="onClick">var action = view.get(&quot;#ajaxActionProcedure&quot;);
+var dataSet = view.get(&quot;#dataSetMdStoredproc&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdStoredproc&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.confirm(&quot;是否全部刷新？&quot;, function(){
+		action.execute(function(){
+			dataSet.flushAsync();
+			action.set(&quot;successMessage&quot;,&quot;刷新成功!&quot;);
+		});
+	});
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否刷新？&quot;, function(){
+		var arrProcName = new Array(selection.length);
+
+		jQuery.each(selection,function(i,item){
+			arrProcName[i] = item.get(&quot;procName&quot;);
+		});
+		
+		para={
+			arrProcName:arrProcName
+		}
+		action.set(&quot;parameter&quot;,para).execute(function(){
+			dataSet.flushAsync();
+			action.set(&quot;successMessage&quot;,&quot;刷新成功!&quot;);
+		});
+	});
+}
+ </ClientEvent>
+          <Property name="caption">刷新</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -240px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdStoredproc" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdStoredproc&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdStoredproc&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdStoredproc</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdStoredProc</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="procName" property="procName"/>
+          <DataColumn name="procDesc" property="procDesc"/>
+          <DataColumn name="para" property="para"/>
+          <DataColumn name="status" property="status"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdStoredproc</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdStoredProcsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdStoredProcAction#saveMdStoredProcs</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdStoredproc</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogMdStoredProc">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetMdStoredproc&quot;).getData().cancel();
+	view.get(&quot;#dialogMdStoredProc&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveMdStoredProcsAction&quot;);
+			var dialog=view.get(&quot;#dialogMdStoredProc&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetMdStoredproc&quot;).getData().cancel();
+		view.get(&quot;#dialogMdStoredProc&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormMdStoredProc">
+          <Property name="dataType">dataTypeMdStoredProc</Property>
+          <Property name="dataSet">dataSetMdStoredproc</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">procName</Property>
+            <Property name="property">procName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">procDesc</Property>
+            <Property name="property">procDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">para</Property>
+            <Property name="property">para</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogMdStoredProc">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetMdStoredproc&quot;).getData().cancel();
+	view.get(&quot;#dialogMdStoredProc&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveMdStoredProcsAction&quot;);
+			var dialog=view.get(&quot;#addDialogMdStoredProc&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetMdStoredproc&quot;).getData().cancel();
+		view.get(&quot;#addDialogMdStoredProc&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormMdStoredProc">
+          <Property name="dataType">dataTypeMdStoredProc</Property>
+          <Property name="dataSet">dataSetMdStoredproc</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">procName</Property>
+            <Property name="property">procName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">procDesc</Property>
+            <Property name="property">procDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.procDesc&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">para</Property>
+            <Property name="property">para</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req["com.innofi.framework.pojo.metadata.MdStoredProc.para&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogMdStoredProc">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetMdStoredproc&quot;).getData().cancel();
+	view.get(&quot;#lookdialogMdStoredProc&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormMdStoredProc">
+          <Property name="dataType">dataTypeMdStoredProc</Property>
+          <Property name="dataSet">dataSetMdStoredproc</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="ajaxActionProcedure">
+      <Property name="service">mdStoredProcAction#refreshMetaData</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

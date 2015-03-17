@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">IeStatisticsObjectManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeIeStatisticsObject">
+      <Property name="creationType">com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.ieId"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.ieCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="targetCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.targetCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,2000)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="dimenType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.dimenType"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;DIMEN_TYPE&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="periodCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.periodCode"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="targetTypeCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.targetTypeCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeIeStatisticsObject">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMieCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="ieCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.ieCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMdimenType">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="dimenType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.dimenType"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;DIMEN_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="qMperiodCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="periodCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.periodCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMtargetCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="targetCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.targetCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMtargetTypeCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="targetTypeCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.targetTypeCode"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetIeStatisticsObject">
+      <Property name="dataProvider">ieStatisticsObjectAction#findIeStatisticsObjects</Property>
+      <Property name="dataType">[dataTypeIeStatisticsObject]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="userData">
+        <Collection>
+          <Entity>
+            <Property name="entityClass">com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject</Property>
+          </Entity>
+        </Collection>
+      </Property>
+    </DataSet>
+    <DataSet id="querydataSetIeStatisticsObject">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeIeStatisticsObject]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">view.get(&quot;#dataSetIeStatisticsObject&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetIeStatisticsObject&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetIeStatisticsObject&quot;).clear();
+                view.get(&quot;#querydataSetIeStatisticsObject&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormIeStatisticsObjectQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+            <Property name="dataType">querydataTypeIeStatisticsObject</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">100</Property>
+            <AutoFormElement name="autoFormElementieCode">
+              <Property name="name">ieCode</Property>
+              <Property name="property">ieCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMieCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">ieCode</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.ieCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.ieCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementdimenType">
+              <Property name="name">dimenType</Property>
+              <Property name="property">dimenType</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMdimenType</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">dimenType</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.dimenType&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.dimenType&quot;].propertyTip}</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementperiodCode">
+              <Property name="name">periodCode</Property>
+              <Property name="property">periodCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMperiodCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">periodCode</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.periodCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.periodCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementtargetTypeCode">
+              <Property name="name">targetTypeCode</Property>
+              <Property name="property">targetTypeCode</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMtargetTypeCode</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">targetTypeCode</Property>
+                    <Property name="dataSet">querydataSetIeStatisticsObject</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.targetTypeCode&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.common.statisticsobject.pojo.IeStatisticsObject.targetTypeCode&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarIeStatisticsObject" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="batchAdd">
+          <ClientEvent name="onClick">view.get(&quot;#batchAddDialog&quot;).show();&#xD;
+</ClientEvent>
+          <Property name="caption">批量插入</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetIeStatisticsObject&quot;).getData();
+var selection = view.get(&quot;#dataGridIeStatisticsObject&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveIeStatisticsObjectsAction&quot;);
+    if(selection.length==0){
+        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+    }else if (selection.length != 0) {
+        dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+           jQuery.each(selection,function(i,item){
+                entitys.remove(item);
+           });
+           action.execute();
+        });
+}
+                </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="mcButton">
+          <ClientEvent name="onClick">view.get(&quot;#mcDialog&quot;).show();</ClientEvent>
+          <Property name="caption">测算</Property>
+          <Property name="icon">>icons/comment_edit.png</Property>
+        </ToolBarButton>
+        <ToolBarButton id="mcDataButton">
+          <ClientEvent name="onClick">dorado.MessageBox.alert(&quot;测试数据，需要时由项目开发！&quot;);</ClientEvent>
+          <Property name="caption">测试数据</Property>
+          <Property name="icon">>icons/comment_edit.png</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridIeStatisticsObject" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetIeStatisticsObject&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetIeStatisticsObject&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetIeStatisticsObject</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeIeStatisticsObject</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="ieCode" property="ieCode"/>
+          <DataColumn name="dimenType" property="dimenType"/>
+          <DataColumn name="targetCode" property="targetCode"/>
+          <DataColumn name="targetTypeCode" property="targetTypeCode"/>
+          <DataColumn name="periodCode" property="periodCode"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetIeStatisticsObject</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveIeStatisticsObjectsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">ieStatisticsObjectAction#saveIeStatisticsObjects</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetIeStatisticsObject</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="batchAddDialog">
+      <ClientEvent name="onClose">view.get(&quot;#batchAddDialog&quot;).hide();</ClientEvent>
+      <Property name="center">true</Property>
+      <Property name="caption">批量添加</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">90%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var ieCode = view.get(&quot;#ieCode&quot;).get(&quot;value&quot;);   &#xD;
+var periodCode = view.get(&quot;#periodCode&quot;).get(&quot;value&quot;);   &#xD;
+if(!ieCode){&#xD;
+	dorado.MessageBox.alert(&quot;请输入指标编号！&quot;);&#xD;
+	return ;&#xD;
+}else if(!periodCode){&#xD;
+	dorado.MessageBox.alert(&quot;请输入考核期！&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+&#xD;
+var param = {&#xD;
+	&quot;type&quot;:&quot;1&quot;, //存在这个属性 就使用 后台接口批量插入了&#xD;
+	&quot;ieId&quot;:&quot;000000&quot;,&#xD;
+	&quot;ieCode&quot;:ieCode,&#xD;
+	&quot;periodCode&quot;:view.get(&quot;#periodCode&quot;).get(&quot;value&quot;),&#xD;
+	&quot;targetTypeCode&quot;:view.get(&quot;#targetTypeCode&quot;).get(&quot;value&quot;),&#xD;
+	&quot;value1&quot;:view.get(&quot;#value1&quot;).get(&quot;value&quot;),&#xD;
+	&quot;value2&quot;:view.get(&quot;#value2&quot;).get(&quot;value&quot;),&#xD;
+	&quot;value3&quot;:view.get(&quot;#value3&quot;).get(&quot;value&quot;),&#xD;
+	&quot;value4&quot;:view.get(&quot;#value4&quot;).get(&quot;value&quot;),&#xD;
+	&quot;value5&quot;:view.get(&quot;#value5&quot;).get(&quot;value&quot;),&#xD;
+	&quot;value6&quot;:view.get(&quot;#value6&quot;).get(&quot;value&quot;),&#xD;
+	&quot;value7&quot;:view.get(&quot;#value7&quot;).get(&quot;value&quot;),&#xD;
+}  &#xD;
+&#xD;
+view.get(&quot;#batchAddAjaxAction&quot;).set(&quot;parameter&quot;,param).execute(function(result){&#xD;
+	&#xD;
+    view.get(&quot;#dataSetIeStatisticsObject&quot;).set(&quot;parameter&quot;,{&quot;ieCode&quot;:ieCode} ).flush();&#xD;
+	view.get(&quot;#batchAddDialog&quot;).hide();&#xD;
+	&#xD;
+});&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#batchAddDialog&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="batchAddIeStatObjAuitoForm">
+          <Property name="labelWidth">150</Property>
+          <Property name="labelAlign">right</Property>
+          <AutoFormElement id="ieCode">
+            <Property name="name">指标编号</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="periodCode">
+            <Property name="name">考核期</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="targetTypeCode" layoutConstraint="colSpan:2">
+            <Property name="name">批号（考核对象类型）</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="value6" layoutConstraint="colSpan:2">
+            <Property name="name">考核对象维度</Property>
+            <Editor>
+              <TextArea>
+                <ClientEvent name="onClick">var value2 = view.get(&quot;#value2&quot;).get(&quot;value&quot;);&#xD;
+&#xD;
+if(value2){&#xD;
+&#xD;
+}else{&#xD;
+    view.get(&quot;#value2&quot;).set(&quot;value&quot;,view.get(&quot;#periodCode&quot;).get(&quot;value&quot;));&#xD;
+}&#xD;
+&#xD;
+var value7 = view.get(&quot;#value7&quot;).get(&quot;value&quot;);&#xD;
+&#xD;
+if(value7){&#xD;
+	&#xD;
+}else{&#xD;
+	view.get(&quot;#value7&quot;).set(&quot;value&quot;,view.get(&quot;#targetTypeCode&quot;).get(&quot;value&quot;));&#xD;
+}&#xD;
+</ClientEvent>
+                <Property name="blankText">T0001;T0002;T0003;T0004;T0005;T0006;T0007</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="value7">
+            <Property name="name">考核对象类型维度</Property>
+            <Editor>
+              <TextEditor>
+                <ClientEvent name="onClick">var value7 = view.get(&quot;#value7&quot;).get(&quot;value&quot;);&#xD;
+&#xD;
+if(value7){&#xD;
+	&#xD;
+}else{&#xD;
+	view.get(&quot;#value7&quot;).set(&quot;value&quot;,view.get(&quot;#targetTypeCode&quot;).get(&quot;value&quot;));&#xD;
+}&#xD;
+</ClientEvent>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="value2">
+            <Property name="name">时间维度</Property>
+            <Editor>
+              <TextEditor>
+                <ClientEvent name="onClick">var value2 = view.get(&quot;#value2&quot;).get(&quot;value&quot;);&#xD;
+&#xD;
+if(value2){&#xD;
+&#xD;
+}else{&#xD;
+    view.get(&quot;#value2&quot;).set(&quot;value&quot;,view.get(&quot;#periodCode&quot;).get(&quot;value&quot;));&#xD;
+}</ClientEvent>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="value1" layoutConstraint="colSpan:2">
+            <Property name="name">机构维度</Property>
+            <Editor>
+              <TextArea/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="value3" layoutConstraint="colSpan:2">
+            <Property name="name">业务条线维度</Property>
+            <Editor>
+              <TextArea/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="value4" layoutConstraint="colSpan:2">
+            <Property name="name">产品维度</Property>
+            <Editor>
+              <TextArea/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="value5" layoutConstraint="colSpan:2">
+            <Property name="name">币种维度</Property>
+            <Editor>
+              <TextArea/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement id="ieId" layoutConstraint="colSpan:2">
+            <Property name="name">指标id</Property>
+            <Property name="visible">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="text">0000</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="batchAddAjaxAction">
+      <Property name="service">ieStatisticsObjectAction#batchAddIeStatisticsObjects</Property>
+    </AjaxAction>
+    <Dialog id="mcDialog">
+      <ClientEvent name="onClose">view.get(&quot;#mcDialog&quot;).hide();</ClientEvent>
+      <Property name="center">true</Property>
+      <Property name="caption">测算</Property>
+      <Property name="width">40%</Property>
+      <Property name="height">40%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var ieCode = view.get(&quot;#mcIeCode&quot;).get(&quot;value&quot;);   &#xD;
+var periodCode = view.get(&quot;#mcPeriodCode&quot;).get(&quot;value&quot;);   &#xD;
+if(!ieCode){&#xD;
+	dorado.MessageBox.alert(&quot;请输入指标编号！&quot;);&#xD;
+	return ;&#xD;
+}else if(!periodCode){&#xD;
+	dorado.MessageBox.alert(&quot;请输入考核期！&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+&#xD;
+var param = {&#xD;
+	&quot;ieCode&quot;:ieCode,&#xD;
+	&quot;periodCode&quot;:periodCode,&#xD;
+	&quot;targetTypeCode&quot;:view.get(&quot;#mcTargetTypeCode&quot;).get(&quot;value&quot;),&#xD;
+}  &#xD;
+&#xD;
+view.get(&quot;#mcAjaxAction&quot;).set(&quot;parameter&quot;,param).execute(function(result){&#xD;
+	dorado.MessageBox.alert(&quot;操作成功！&quot;);&#xD;
+	view.get(&quot;#batchAddDialog&quot;).hide();&#xD;
+	&#xD;
+});&#xD;
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#mcDialog&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="mcAutoForm">
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">150</Property>
+          <Property name="labelAlign">right</Property>
+          <AutoFormElement id="mcIeCode">
+            <Property name="name">指标编号</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="mcPeriodCode">
+            <Property name="name">考核期</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="mcTargetTypeCode">
+            <Property name="name">批号（考核对象类型）</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="mcAjaxAction">
+      <Property name="service">ieStatisticsObjectAction#measureCalculate</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

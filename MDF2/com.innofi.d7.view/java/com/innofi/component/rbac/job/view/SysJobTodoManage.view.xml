@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysJobTodoManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysJobTodo" parent="global:dataTypeSysJobTodo">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="dataTypeSysMenu" parent="global:dataTypeSysMenu">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">sysMenuAction#findSysMenusByParentId</Property>
+      </Reference>
+    </DataType>
+    <DataType name="dataTypeSysFunAction" parent="global:dataTypeSysFunAction">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="selectFlag"/>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">window.showJobTodo=function(jobTodo){
+	var dialog=view.get(&quot;#jobTodoDialog&quot;);
+	var jobTodoFrame=view.get(&quot;#jobTodoFrame&quot;);
+	var path=&quot;${request.contextPath}/&quot;+jobTodo.get(&quot;gotoUrl&quot;);
+	dialog.set(&quot;caption&quot;,jobTodo.get(&quot;jobTodoName&quot;));
+	jobTodoFrame.set(&quot;path&quot;,path);
+	dialog.show();
+}</ClientEvent>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysJobTodo">
+      <Property name="dataProvider">sysJobTodoAction#findSysJobTodos</Property>
+      <Property name="dataType">[dataTypeSysJobTodo]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetSysMenu">
+      <ClientEvent name="onReady">view.get(&quot;#dataSetSysMenu&quot;).set(&quot;parameter&quot;,&quot;0&quot;).flushAsync();
+</ClientEvent>
+      <Property name="dataProvider">sysMenuAction#findSysMenusByParentId</Property>
+      <Property name="dataType">[dataTypeSysMenu]</Property>
+    </DataSet>
+    <DataSet id="dataSetAction">
+      <Property name="dataProvider">sysFunActionAction#findActionByMenuId</Property>
+      <Property name="dataType">[dataTypeSysFunAction]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">30%</Property>
+      <Property name="direction">left</Property>
+      <MainControl>
+        <SplitPanel>
+          <Property name="direction">bottom</Property>
+          <Property name="position">50%</Property>
+          <MainControl>
+            <Container>
+              <Panel>
+                <Property name="caption">按钮</Property>
+                <Buttons/>
+                <Children>
+                  <DataGrid id="actionGrid">
+                    <ClientEvent name="onDataRowClick">var actionId = view.get(&quot;#dataSetAction&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);
+view.get(&quot;#dataSetSysJobTodo&quot;).set(&quot;parameter&quot;,{&quot;actionId&quot;:actionId}).flushAsync();
+</ClientEvent>
+                    <Property name="dataSet">dataSetAction</Property>
+                    <Property name="selectionMode">multiRows</Property>
+                    <RowNumColumn/>
+                    <DataColumn>
+                      <Property name="name">actionCode</Property>
+                      <Property name="property">actionCode</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                    <DataColumn>
+                      <Property name="name">actionName</Property>
+                      <Property name="property">actionName</Property>
+                      <Property name="readOnly">true</Property>
+                      <Editor/>
+                    </DataColumn>
+                  </DataGrid>
+                </Children>
+                <Tools/>
+              </Panel>
+            </Container>
+          </MainControl>
+          <SideControl>
+            <Container>
+              <Panel>
+                <Property name="caption">待办管理</Property>
+                <Buttons/>
+                <Children>
+                  <ToolBar id="toolBarJob" layoutConstraint="top">
+                    <Property name="tags">tags_toolbar</Property>
+                    <ToolBarButton id="addButton">
+                      <ClientEvent name="onClick">var entity=view.get(&quot;#dataSetAction&quot;).getData(&quot;#&quot;);
+if(entity==undefined || entity==null){
+	dorado.MessageBox.alert(&quot;请先选中按钮再添加！&quot;);
+}else{
+	//var menuUrl=view.get(&quot;#menuTree&quot;).get(&quot;currentNode&quot;).get(&quot;data&quot;).get(&quot;menuUrl&quot;);
+	var menuUrl=view.get(&quot;#dataSetSysMenu&quot;).getData(&quot;!CURRENT_MENU&quot;).get(&quot;menuUrl&quot;);
+	var actionId=view.get(&quot;#dataSetAction&quot;).getData(&quot;#.id&quot;);
+	view.get(&quot;#dataSetSysJobTodo&quot;).set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetSysJobTodo.data&quot;).insert({&quot;actionId&quot;:actionId,&quot;gotoUrl&quot;:menuUrl});
+	view.get(&quot;#addDialogSysJobTodo&quot;).show();
+}</ClientEvent>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                      <Property name="caption">添加</Property>
+                    </ToolBarButton>
+                    <ToolBarButton id="updateButton">
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysJobTodo&quot;).getData();
+var selection = view.get(&quot;#dataGridSysJobTodo&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+    dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+    view.get(&quot;#dataSetSysJobTodo&quot;).getData().setCurrent(selection[0]);
+    view.get(&quot;#dialogSysJobTodo&quot;).show();
+    view.get(&quot;#dataSetSysJobTodo&quot;).set(&quot;readOnly&quot;,false);
+}
+                </ClientEvent>
+                      <Property name="caption">修改</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton id="delButton">
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysJobTodo&quot;).getData();
+var selection = view.get(&quot;#dataGridSysJobTodo&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveSysJobTodosAction&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+    dorado.MessageBox.confirm(&quot;确定停用？&quot;, function(){
+    jQuery.each(selection,function(i,item){
+        item.set(&quot;status&quot;,&quot;0&quot;);
+    });
+    action.execute();
+    });
+}
+                </ClientEvent>
+                      <Property name="caption">停用</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton id="lookButton">
+                      <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetSysJobTodo&quot;).getData();
+                    var found = false;
+                    var selection = view.get(&quot;#dataGridSysJobTodo&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+                    }else if (selection.length == 1) {
+                    view.get(&quot;#dataSetSysJobTodo&quot;).getData().setCurrent(selection[0]);
+                    view.get(&quot;#lookdialogSysJobTodo&quot;).show();
+                    view.get(&quot;#dataSetSysJobTodo&quot;).set(&quot;readOnly&quot;,true);
+                    }
+                </ClientEvent>
+                      <Property name="caption">查看</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+                    </ToolBarButton>
+                    <ToolBarButton id="test">
+                      <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysJobTodo&quot;).getData();
+var selection = view.get(&quot;#dataGridSysJobTodo&quot;).get(&quot;selection&quot;);
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+    dorado.MessageBox.alert(&quot;只能选择一条记录！&quot;);
+}else if (selection.length == 1) {
+	var id=selection[0].get(&quot;id&quot;);
+	var path=&quot;${request.contextPath}/com/innofi/component/rbac/job/view/SysJobTodoOnMain.d?id=&quot;+id;
+	view.get(&quot;#testJobTodoFrame&quot;).set(&quot;path&quot;,path);
+	view.get(&quot;#testTodoDialog&quot;).show();
+}</ClientEvent>
+                      <Property name="caption">测试</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                  <Container>
+                    <DataGrid id="dataGridSysJobTodo" layoutConstraint="center">
+                      <Property name="dataSet">dataSetSysJobTodo</Property>
+                      <Property name="selectionMode">multiRows</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="dataType">dataTypeSysJobTodo</Property>
+                      <Property name="rowHeight">26</Property>
+                      <Property name="height">100%</Property>
+                      <Property name="width">100%</Property>
+                      <Property name="highlightCurrentRow">false</Property>
+                      <RowNumColumn/>
+                      <RowSelectorColumn/>
+                      <DataColumn name="jobTodoNo" property="jobTodoNo"/>
+                      <DataColumn name="jobTodoName" property="jobTodoName"/>
+                      <DataColumn name="jobTodoDesc" property="jobTodoDesc"/>
+                      <DataColumn name="status" property="status"/>
+                    </DataGrid>
+                  </Container>
+                  <ToolBar layoutConstraint="bottom">
+                    <DataPilot>
+                      <Property name="dataSet">dataSetSysJobTodo</Property>
+                      <Property name="itemCodes">pages</Property>
+                    </DataPilot>
+                    <Separator/>
+                  </ToolBar>
+                </Children>
+                <Tools/>
+              </Panel>
+            </Container>
+          </SideControl>
+        </SplitPanel>
+      </MainControl>
+      <SideControl>
+        <Container>
+          <Panel>
+            <Property name="caption">菜单</Property>
+            <Buttons/>
+            <Children>
+              <DataTree id="menuTree">
+                <ClientEvent name="onDataRowClick">var node = self.get(&quot;currentNode&quot;);
+if (node) {
+	var entity = node.get(&quot;data&quot;);
+	if(entity){
+		var parameter = {
+			menuId:entity.get(&quot;id&quot;)
+		};
+		view.get(&quot;#dataSetAction&quot;).set(&quot;parameter&quot;, parameter).flush();
+	}
+	var entity = view.get(&quot;#dataSetAction&quot;).getData(&quot;#&quot;)
+	if(entity==undefined){
+		view.get(&quot;#dataSetSysJobTodo&quot;).set(&quot;data&quot;,null);
+	}else{
+		var actionId=entity.get(&quot;id&quot;);
+		view.get(&quot;#dataSetSysJobTodo&quot;).set(&quot;parameter&quot;,{&quot;actionId&quot;:actionId}).flushAsync();
+	}
+}</ClientEvent>
+                <Property name="dataSet">dataSetSysMenu</Property>
+                <Property name="currentNodeDataPath">CURRENT_MENU</Property>
+                <BindingConfigs>
+                  <BindingConfig>
+                    <Property name="expandedIcon">icons/page.png</Property>
+                    <Property name="icon">icons/page.png</Property>
+                    <Property name="expandLevel">2</Property>
+                    <Property name="recursive">true</Property>
+                    <Property name="labelProperty">menuName</Property>
+                    <Property name="childrenProperty">children</Property>
+                  </BindingConfig>
+                </BindingConfigs>
+              </DataTree>
+            </Children>
+            <Tools/>
+          </Panel>
+        </Container>
+      </SideControl>
+    </SplitPanel>
+    <UpdateAction id="saveSysJobTodosAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysJobTodoAction#saveSysJobTodos</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysJobTodo</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysJobTodo">
+      <ClientEvent name="onClose">
+            view.get(&quot;#dataSetSysJobTodo&quot;).getData().cancel();
+            view.get(&quot;#dialogSysJobTodo&quot;).hide();
+        </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get(&quot;#saveSysJobTodosAction&quot;);
+            var dialog=view.get(&quot;#dialogSysJobTodo&quot;);
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetSysJobTodo&quot;).getData().cancel();
+            view.get(&quot;#dialogSysJobTodo&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysJobTodo">
+          <Property name="dataType">dataTypeSysJobTodo</Property>
+          <Property name="dataSet">dataSetSysJobTodo</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <AutoFormElement>
+            <Property name="name">jobTodoNo</Property>
+            <Property name="property">jobTodoNo</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoNo&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoNo&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">jobTodoName</Property>
+            <Property name="property">jobTodoName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <Label/>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">seleCountSql</Property>
+            <Property name="property">seleCountSql</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;seleCountSql&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;seleCountSql&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">gotoUrl</Property>
+            <Property name="property">gotoUrl</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;gotoUrl&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;gotoUrl&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">jobTodoDesc</Property>
+            <Property name="property">jobTodoDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;jobTodoDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;jobTodoDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysJobTodo">
+      <ClientEvent name="onClose">
+         view.get(&quot;#dataSetSysJobTodo&quot;).getData().cancel();
+         view.get(&quot;#dialogSysJobTodo&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get(&quot;#saveSysJobTodosAction&quot;);
+              var dialog=view.get(&quot;#addDialogSysJobTodo&quot;);
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get(&quot;#dataSetSysJobTodo&quot;).getData().cancel();
+            view.get(&quot;#addDialogSysJobTodo&quot;).hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysJobTodo">
+          <Property name="dataType">dataTypeSysJobTodo</Property>
+          <Property name="dataSet">dataSetSysJobTodo</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*,*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">jobTodoNo</Property>
+            <Property name="property">jobTodoNo</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoNo&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoNo&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">jobTodoName</Property>
+            <Property name="property">jobTodoName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <Label/>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">seleCountSql</Property>
+            <Property name="property">seleCountSql</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;seleCountSql&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;seleCountSql&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">gotoUrl</Property>
+            <Property name="property">gotoUrl</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;gotoUrl&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;gotoUrl&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">jobTodoDesc</Property>
+            <Property name="property">jobTodoDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;jobTodoDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;jobTodoDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysJobTodo">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetSysJobTodo&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogSysJobTodo&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysJobTodo">
+          <Property name="dataType">dataTypeSysJobTodo</Property>
+          <Property name="dataSet">dataSetSysJobTodo</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">false</Property>
+          <AutoFormElement>
+            <Property name="name">jobTodoNo</Property>
+            <Property name="property">jobTodoNo</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoNo&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoNo&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">jobTodoName</Property>
+            <Property name="property">jobTodoName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.job.pojo.SysJobTodo.jobTodoName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <Label/>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">seleCountSql</Property>
+            <Property name="property">seleCountSql</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;seleCountSql&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;seleCountSql&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">gotoUrl</Property>
+            <Property name="property">gotoUrl</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;gotoUrl&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;gotoUrl&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">jobTodoDesc</Property>
+            <Property name="property">jobTodoDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea layoutConstraint="rowSpan:2">
+                <Property name="blankText">${req[&quot;jobTodoDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;jobTodoDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="testTodoDialog">
+      <Property name="caption">待办测试</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">50%</Property>
+      <Property name="height">50%</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="testJobTodoFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="jobTodoDialog">
+      <Property name="center">true</Property>
+      <Property name="width">95%</Property>
+      <Property name="height">95%</Property>
+      <Property name="modal">true</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="jobTodoFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

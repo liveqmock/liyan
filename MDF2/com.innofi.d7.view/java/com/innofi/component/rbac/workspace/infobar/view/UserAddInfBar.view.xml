@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysInfBarManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysInfBar">
+      <Property name="creationType">com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="infBarName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarName"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="infBarDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarDesc"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="infBarPict">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarPict"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="infBarTitle">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarTitle"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="infBarUrl">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarUrl"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="infBarCol">
+        <Property name="dataType">String</Property>
+        <Property name="label">显示列位置</Property>
+        <Property name="required">true</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;INFBAR_COL&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysInfBar">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMinfBarName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="infBarName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMinfBarTitle">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="infBarTitle">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarTitle"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysInfBar">
+      <Property name="dataProvider">sysInfBarAction#findUserInfBars</Property>
+      <Property name="dataType">[dataTypeSysInfBar]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysInfBar">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysInfBar]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#dataSetSysInfBar&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysInfBar&quot;).getData(&quot;#&quot;)).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get(&quot;#querydataSetSysInfBar&quot;).clear();
+                view.get(&quot;#querydataSetSysInfBar&quot;).getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormSysInfBarQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetSysInfBar</Property>
+            <Property name="dataType">querydataTypeSysInfBar</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="labelWidth">120</Property>
+            <AutoFormElement name="autoFormElementinfBarName">
+              <Property name="name">infBarName</Property>
+              <Property name="property">infBarName</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMinfBarName</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysInfBar</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">infBarName</Property>
+                    <Property name="dataSet">querydataSetSysInfBar</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarName&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarName&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement name="autoFormElementinfBarTitle">
+              <Property name="name">infBarTitle</Property>
+              <Property name="property">infBarTitle</Property>
+              <Editor>
+                <Container>
+                  <TextEditor layoutConstraint="left">
+                    <Property name="property">qMinfBarTitle</Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">querydataSetSysInfBar</Property>
+                    <Property name="width">60</Property>
+                  </TextEditor>
+                  <TextEditor>
+                    <Property name="property">infBarTitle</Property>
+                    <Property name="dataSet">querydataSetSysInfBar</Property>
+                    <Property name="blankText">${req[&quot;com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarTitle&quot;].propertyBlankText}</Property>
+                    <Property name="tip">${req[&quot;com.innofi.component.rbac.workspace.infobar.pojo.SysInfBar.infBarTitle&quot;].propertyTip}</Property>
+                  </TextEditor>
+                </Container>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarSysInfBar" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysInfBar&quot;).getData();
+var selection = view.get(&quot;#dataGridSysInfBar&quot;).get(&quot;selection&quot;);
+var infbarid = &quot;&quot;;
+if(selection.length==0){
+    dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) { 
+	jQuery.each(selection,function(i,item){
+		infbarid+=item.get(&quot;id&quot;)+&quot;,&quot;;
+	});            
+ 	view.get(&quot;#saveUserInfbarAction&quot;).set(&quot;parameter&quot;, infbarid).execute(
+	function() {	
+		parent.dorado.MessageBox.alert(&quot;添加成功！&quot;);
+		parent.$id(&quot;addInfbar&quot;).objects[0].hide(); 
+		parent.document.location.reload(); 
+	});
+}
+       </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridSysInfBar" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetSysInfBar&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetSysInfBar&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetSysInfBar</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeSysInfBar</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="infBarName" property="infBarName"/>
+          <DataColumn name="infBarTitle" property="infBarTitle"/>
+          <DataColumn name="infBarDesc" property="infBarDesc"/>
+          <DataColumn name="infBarPict" property="infBarPict"/>
+          <DataColumn name="infBarUrl" property="infBarUrl">
+            <Property name="width">300</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetSysInfBar</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <AjaxAction id="saveUserInfbarAction">
+      <Property name="service">sysInfBarAction#saveUserInfbar</Property>
+      <Property name="successMessage">添加成功</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

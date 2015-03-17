@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag"/>
+  </Property>
+  <Arguments/>
+  <Context>
+    <Attribute name="querySql"/>
+    <Attribute name="token">
+      <Property name="value">${request.getParameter("token")}</Property>
+    </Attribute>
+    <Attribute name="dataTotalCount"/>
+    <Attribute name="pageCount"/>
+    <Attribute name="consumeTime"/>
+    <Attribute name="startCount"/>
+    <Attribute name="pageNo"/>
+    <Attribute name="limitSize"/>
+  </Context>
+  <Model>
+    <DataType listener="spring:mdf.dbConsoleDataTabInterceptor#onInit" name="dataTypeData">
+      <Property name="autoCreatePropertyDefs">true</Property>
+    </DataType>
+  </Model>
+  <View listener="spring:mdf.dbConsoleDataTabInterceptor#onInit">
+    <ClientEvent name="onReady">DataTab = {
+	version:"1.0",
+	selectCount:0
+};
+/*
+ alert();
+var entityCount = self.get('data.entityCount');
+alert(entityCount)
+if(entityCount==0){
+	dorado.MessageBox.alert("无符合条件的记录!");
+}
+ */</ClientEvent>
+    <DataSet id="dataSetData" listener="spring:mdf.dbConsoleDataTabInterceptor#onReady">
+      <Property name="dataProvider">mdf.dbConsoleAction#loadTaskQueryData</Property>
+      <Property name="dataType">[dataTypeData]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <Panel>
+      <Buttons/>
+      <Children>
+        <DataGrid id="dataGridData" layoutConstraint="center" listener="spring:mdf.dbConsoleDataTabInterceptor#onReady">
+          <ClientEvent name="onSelectionChange">try{
+	if(DataTab){
+		if(arg.added){
+			DataTab.selectCount += arg.added.length;
+		}
+		if(arg.removed){
+			DataTab.selectCount -= arg.removed.length;
+		}
+		view.set('#selectedRowCount._text',"选中行:"+DataTab.selectCount+"行");
+		view.get('#selectedRowCount').refresh();
+	}
+}catch(e){
+}</ClientEvent>
+          <Property name="dataSet">dataSetData</Property>
+          <Property name="stretchColumnsMode">off</Property>
+          <Property name="readOnly">false</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="height">92%</Property>
+        </DataGrid>
+        <ToolBar layoutConstraint="bottom">
+          <ToolBarLabel id="selectedRowCount">
+            <Property name="text">选中行数：0行</Property>
+          </ToolBarLabel>
+          <Separator/>
+          <ToolBarLabel>
+            <Property name="text">耗时:${ctx["consumeTime"]}s</Property>
+          </ToolBarLabel>
+          <Separator/>
+          <FormElement id="pageNo">
+            <ClientEvent name="onReady">self.set('value','${ctx["pageNo"]}');</ClientEvent>
+            <Property name="label">起始页</Property>
+            <Property name="labelWidth">50</Property>
+            <Property name="editorWidth">60</Property>
+            <Property name="width">120</Property>
+            <Editor>
+              <NumberSpinner>
+                <Property name="min">1</Property>
+                <Property name="max">${ctx["pageCount"]}</Property>
+              </NumberSpinner>
+            </Editor>
+          </FormElement>
+          <FormElement id="limitSize">
+            <ClientEvent name="onReady">self.set('value','${ctx["limitSize"]}');</ClientEvent>
+            <Property name="label">提取限制</Property>
+            <Property name="labelWidth">60</Property>
+            <Property name="editorWidth">60</Property>
+            <Property name="width">130</Property>
+            <Editor>
+              <NumberSpinner>
+                <Property name="min">1</Property>
+                <Property name="max">1000</Property>
+              </NumberSpinner>
+            </Editor>
+          </FormElement>
+          <ToolBarButton id="dataRefresh">
+            <ClientEvent name="onClick">var querySql = "${ctx['querySql']}";
+var pageNo = view.get('#pageNo.value');
+var limitSize = view.get('#limitSize.value');
+parent.executeQuery(querySql,pageNo,limitSize);
+</ClientEvent>
+            <Property name="icon">&gt;icons/refresh.png</Property>
+          </ToolBarButton>
+          <Separator/>
+          <ToolBarLabel>
+            <Property name="text">页数:${ctx["pageCount"]}</Property>
+          </ToolBarLabel>
+          <Separator/>
+          <ToolBarLabel id="pageInfo">
+            <ClientEvent name="onReady">var startCount = '${ctx["startCount"]}';
+var totalCount = '${ctx["dataTotalCount"]}';
+var entityCount = view.get('#dataSetData.data.entityCount');
+var pageInfo = '当前页记录/总记录数:'+startCount+'-'+entityCount+'/'+totalCount;
+view.set("#pageInfo._text",pageInfo);
+view.get("#pageInfo").refresh();</ClientEvent>
+          </ToolBarLabel>
+        </ToolBar>
+      </Children>
+      <Tools/>
+    </Panel>
+  </View>
+</ViewConfig>

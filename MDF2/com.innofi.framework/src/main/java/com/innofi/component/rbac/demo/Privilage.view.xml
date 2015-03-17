@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+    <Arguments/>
+    <Context/>
+    <Model/>
+    <View>
+        <TabControl>
+            <IFrameTab>
+                <Property name="caption">功能权限维护</Property>
+                <Property name="path">FunctionPermission.d</Property>
+            </IFrameTab>
+            <IFrameTab>
+                <Property name="caption">数据权限维护</Property>
+                <Property name="path">DataPermission.d</Property>
+            </IFrameTab>
+            <IFrameTab>
+                <Property name="caption">角色授权</Property>
+                <Property name="path">RoleRelation.d</Property>
+            </IFrameTab>
+        </TabControl>
+    </View>
+</ViewConfig>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">IeDeriveIeExpManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeIeDeriveIeExp">
+      <Property name="creationType">com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="ieExpDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.ieExpDesc"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,255)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="islast">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.islast"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieExp">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.ieExp"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.ieCode"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.status"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.ieId"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="startDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.startDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="stopDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.stopDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetIeDeriveIeExp">
+      <ClientEvent name="onReady">var ieId=&quot;${request.getParameter('ieId')}&quot;;&#xD;
+&#xD;
+if(ieId &amp;&amp; &quot;&quot; != ieId){&#xD;
+	&#xD;
+  view.get(&quot;#dataSetIeDeriveIeExp&quot;).set(&quot;parameter&quot;, {&quot;ieId&quot;:ieId}).flushAsync();&#xD;
+ &#xD;
+}else{&#xD;
+	&#xD;
+  view.get(&quot;#dataSetIeDeriveIeExp&quot;).set(&quot;parameter&quot;, {&quot;ieId&quot;:-9999}).flushAsync();	&#xD;
+ &#xD;
+}&#xD;
+</ClientEvent>
+      <Property name="dataProvider">ieDeriveIeExpAction#findIeDeriveIeExps</Property>
+      <Property name="dataType">[dataTypeIeDeriveIeExp]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <Container>
+      <ToolBar id="toolBarIeDeriveIeExp" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">
+                    var entitys = view.get(&quot;#dataSetIeDeriveIeExp&quot;).getData();
+                    var found = false;
+                    var selection = view.get(&quot;#dataGridIeDeriveIeExp&quot;).get(&quot;selection&quot;);
+                    if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+                    }else if (selection.length == 1) {
+                    view.get(&quot;#dataSetIeDeriveIeExp&quot;).getData().setCurrent(selection[0]);
+                    view.get(&quot;#lookdialogIeDeriveIeExp&quot;).show();
+                    view.get(&quot;#dataSetIeDeriveIeExp&quot;).set(&quot;readOnly&quot;,true);
+                    }
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridIeDeriveIeExp" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetIeDeriveIeExp&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetIeDeriveIeExp&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetIeDeriveIeExp</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeIeDeriveIeExp</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="ieCode" property="ieCode"/>
+          <DataColumn name="ieExp" property="ieExp"/>
+          <DataColumn name="ieExpDesc" property="ieExpDesc"/>
+          <DataColumn name="stopDate" property="stopDate"/>
+          <DataColumn name="startDate" property="startDate"/>
+          <DataColumn name="islast" property="islast"/>
+          <DataColumn name="status" property="status"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetIeDeriveIeExp</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <Dialog id="lookdialogIeDeriveIeExp">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetIeDeriveIeExp&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogIeDeriveIeExp&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookAutoFormIeDeriveIeExp">
+          <Property name="dataType">dataTypeIeDeriveIeExp</Property>
+          <Property name="dataSet">dataSetIeDeriveIeExp</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*,*</Property>
+          <AutoFormElement layoutConstraint="colSpan:2;rowSpan:2">
+            <Property name="name">ieExp</Property>
+            <Property name="property">ieExp</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="editable">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.valScaleDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.ieExp&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2;rowSpan:2">
+            <Property name="name">ieExpDesc</Property>
+            <Property name="property">ieExpDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.ieExpDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.ieExpDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">startDate</Property>
+            <Property name="property">startDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.startDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.startDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">stopDate</Property>
+            <Property name="property">stopDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.stopDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.derivedindcators.deriveexp.pojo.IeDeriveIeExp.stopDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

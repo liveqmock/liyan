@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysParameterManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysParameter">
+      <ClientEvent name="onDataChange">if(arg.property==&quot;paraCode&quot;){
+	view.get(&quot;#checkCode&quot;).set(&quot;parameter&quot;,{&quot;paraCode&quot;:arg.value,&quot;paraType&quot;:arg.entity.get(&quot;paraType&quot;)}).execute(function(result){
+		if(result==&quot;false&quot;){
+			arg.entity.setMessages(&quot;paraCode&quot;,{ state: &quot;error&quot;, text: &quot;该参数类型下已存在此编号，请重新输入！&quot; });
+		}
+	});
+}
+</ClientEvent>
+      <Property name="creationType">com.innofi.component.rbac.parameter.pojo.SysParameter</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="paraCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="paraName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.paraName"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,100)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="parentParaId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.parentParaId"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="paraType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.paraType"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="paraValue">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.paraValue"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="paraDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.paraDesc"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,500)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="querydataTypeSysParameter">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="qMparaCode">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="paraCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="qMparaName">
+        <Property name="dataType">String</Property>
+        <Property name="defaultValue">eq</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;QUERY_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="paraName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.rbac.parameter.pojo.SysParameter.paraName"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeSysDict" parent="global:dataTypeSysDict">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="dataProvider">sysDictAction#findSysDicts</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="parentDictId">$${this.id}</Property>
+            <Property name="status">1</Property>
+          </Entity>
+        </Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysParameter">
+      <Property name="dataProvider">sysParameterAction#findSysParameters</Property>
+      <Property name="dataType">[dataTypeSysParameter]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysParameter">
+      <ClientEvent name="onReady">self.insert({});</ClientEvent>
+      <Property name="dataType">[querydataTypeSysParameter]</Property>
+    </DataSet>
+    <DataSet id="dataSetSysDict">
+      <ClientEvent name="onReady">view.get(&quot;#dataSetSysDict&quot;).set(&quot;parameter&quot;,{&quot;id&quot;:&quot;*PARA_TYPE&quot;,&quot;status&quot;:&quot;1&quot;}).flushAsync();
+</ClientEvent>
+      <Property name="dataProvider">sysDictAction#findSysDicts</Property>
+      <Property name="dataType">[dataTypeSysDict]</Property>
+    </DataSet>
+    <Dialog id="dialogDictTree">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysParameter&quot;).getData().cancel();
+	view.get(&quot;#dialogSysParameter&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">参数分类</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysParameter&quot;).getData();
+var selection = view.get(&quot;#dataGridSysParameter&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveSysParametersAction&quot;);
+var currentNode = view.get(&quot;#dictTree2&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var dictCode = currentNode.get(&quot;data&quot;).get(&quot;dictCode&quot;);
+if(dictCode==&quot;PARA_TYPE&quot;){
+	dorado.MessageBox.alert(&quot;不能在指定参数类型根节点！&quot;);
+}else{
+	jQuery.each(selection,function(i,item){
+		item.set(&quot;paraType&quot;,dictCode);
+	});
+	action.execute(function(){
+		view.get(&quot;#dialogDictTree&quot;).hide();
+	});
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dialogDictTree&quot;).hide();	  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <DataTree id="dictTree2">
+          <Property name="dataSet">dataSetSysDict</Property>
+          <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+          <BindingConfigs>
+            <BindingConfig>
+              <Property name="labelProperty">dictName</Property>
+              <Property name="childrenProperty">children</Property>
+              <Property name="expandedIcon">>icons/paragraph.png</Property>
+              <Property name="icon">>icons/paragraph.png</Property>
+              <Property name="recursive">true</Property>
+              <Property name="expandLevel">1</Property>
+            </BindingConfig>
+          </BindingConfigs>
+        </DataTree>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Container>
+      <ToolBar>
+        <ToolBarButton>
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#dictTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var dictCode=&quot;&quot;;
+view.get(&quot;#dictCodeAction&quot;).set(&quot;parameter&quot;,&quot;PARA_TYPE_CODE&quot;).execute(function(result){
+	dictCode=result;
+});
+
+var currentEntity = currentNode.get(&quot;data&quot;);
+currentNode.expandAsync(function() {
+	var child = currentEntity.createChild(&quot;children&quot;, {
+		parentDictId:currentEntity.get(&quot;id&quot;),
+		dictType:currentEntity.get(&quot;dictType&quot;),
+		dictCode:dictCode
+	});
+	view.get(&quot;#dictTree&quot;).set(&quot;currentEntity&quot;,child);
+});
+view.get(&quot;#addDialogSysDict&quot;).show();</ClientEvent>
+          <Property name="caption">添加下级</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton>
+          <ClientEvent name="onClick">var currentNode = view.get(&quot;#dictTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+
+var currentEntity = currentNode.get(&quot;data&quot;);
+currentEntity.set(&quot;status&quot;,&quot;0&quot;);
+var action = view.get(&quot;#saveSysDictsAction&quot;);
+action.execute(function(){});
+view.get(&quot;#dataSetSysDict&quot;).set(&quot;parameter&quot;,{&quot;id&quot;:&quot;*PARA_TYPE&quot;,&quot;status&quot;:&quot;1&quot;}).flushAsync();
+</ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <SplitPanel>
+        <Property name="position">30%</Property>
+        <MainControl>
+          <Container>
+            <Property name="hideMode">visibility</Property>
+            <FieldSet layoutConstraint="top">
+              <Property name="caption">查询条件</Property>
+              <Property name="collapsed">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Buttons>
+                <Button id="queryButton">
+                  <ClientEvent name="onClick">
+	view.get(&quot;#dataSetSysParameter&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetSysParameter&quot;).getData(&quot;#&quot;)).flushAsync();
+</ClientEvent>
+                  <Property name="caption">查询</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+                </Button>
+                <Button id="resetButton">
+                  <ClientEvent name="onClick">
+            
+            var entity = view.get(&quot;#querydataSetSysParameter&quot;).getData(&quot;#&quot;);
+			with (entity){
+			 			 			 			 			 set(&quot;paraCode&quot;,&quot;&quot;);
+			 			 			 			 set(&quot;paraName&quot;,&quot;&quot;);
+			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			 			};
+            
+</ClientEvent>
+                  <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                  <Property name="caption">重置</Property>
+                </Button>
+              </Buttons>
+              <Children>
+                <AutoForm id="autoFormSysParameterQuery" layoutConstraint="center">
+                  <Property name="cols">*,*,*</Property>
+                  <Property name="dataSet">querydataSetSysParameter</Property>
+                  <Property name="dataType">querydataTypeSysParameter</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="labelWidth">120</Property>
+                  <AutoFormElement name="autoFormElementparaCode">
+                    <Property name="name">paraCode</Property>
+                    <Property name="property">paraCode</Property>
+                    <Editor>
+                      <Container>
+                        <TextEditor layoutConstraint="left">
+                          <Property name="property">qMparaCode</Property>
+                          <Property name="trigger">autoMappingDropDown1</Property>
+                          <Property name="dataSet">querydataSetSysParameter</Property>
+                          <Property name="width">60</Property>
+                        </TextEditor>
+                        <TextEditor>
+                          <Property name="property">paraCode</Property>
+                          <Property name="dataSet">querydataSetSysParameter</Property>
+                          <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode&quot;].propertyBlankText}</Property>
+                          <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode&quot;].propertyTip}</Property>
+                        </TextEditor>
+                      </Container>
+                    </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement name="autoFormElementparaName">
+                    <Property name="name">paraName</Property>
+                    <Property name="property">paraName</Property>
+                    <Editor>
+                      <Container>
+                        <TextEditor layoutConstraint="left">
+                          <Property name="property">qMparaName</Property>
+                          <Property name="trigger">autoMappingDropDown1</Property>
+                          <Property name="dataSet">querydataSetSysParameter</Property>
+                          <Property name="width">60</Property>
+                        </TextEditor>
+                        <TextEditor>
+                          <Property name="property">paraName</Property>
+                          <Property name="dataSet">querydataSetSysParameter</Property>
+                          <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraName&quot;].propertyBlankText}</Property>
+                          <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraName&quot;].propertyTip}</Property>
+                        </TextEditor>
+                      </Container>
+                    </Editor>
+                  </AutoFormElement>
+                </AutoForm>
+              </Children>
+            </FieldSet>
+            <ToolBar id="toolBarSysParameter" layoutConstraint="top">
+              <Property name="tags">tags_toolbar</Property>
+              <ToolBarButton id="addButton">
+                <ClientEvent name="onClick">var currentNode = view.get(&quot;#dictTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var dictCode = currentNode.get(&quot;data&quot;).get(&quot;dictCode&quot;);
+if(dictCode==&quot;PARA_TYPE&quot;){
+	dorado.MessageBox.alert(&quot;不能在参数类型根节点添加参数！&quot;);
+}else{
+	view.get(&quot;#dataSetSysParameter&quot;).set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetSysParameter.data&quot;).insert({&quot;paraType&quot;:dictCode});
+	view.get(&quot;#addDialogSysParameter&quot;).show();
+}
+        </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                <Property name="caption">添加</Property>
+              </ToolBarButton>
+              <ToolBarButton id="updateButton">
+                <ClientEvent name="onClick">
+          
+var entitys = view.get(&quot;#dataSetSysParameter&quot;).getData();
+var selection = view.get(&quot;#dataGridSysParameter&quot;).get(&quot;selection&quot;);
+
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}
+else if (selection.length == 1) {
+	
+view.get(&quot;#dataSetSysParameter&quot;).getData().setCurrent(selection[0]);
+view.get(&quot;#dialogSysParameter&quot;).show();
+view.get(&quot;#dataSetSysParameter&quot;).set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+                <Property name="caption">修改</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+              </ToolBarButton>
+              <ToolBarButton id="delButton">
+                <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetSysParameter&quot;).getData();
+var selection = view.get(&quot;#dataGridSysParameter&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveSysParametersAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;确定删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+                <Property name="caption">删除</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+              </ToolBarButton>
+              <ToolBarButton id="lookButton">
+                <ClientEvent name="onClick">
+var entitys = view.get(&quot;#dataSetSysParameter&quot;).getData();
+var found = false;
+var selection = view.get(&quot;#dataGridSysParameter&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}
+else if(selection.length>1)
+{
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}
+else if (selection.length == 1) {
+ view.get(&quot;#dataSetSysParameter&quot;).getData().setCurrent(selection[0]);
+view.get(&quot;#lookdialogSysParameter&quot;).show();
+view.get(&quot;#dataSetSysParameter&quot;).set(&quot;readOnly&quot;,true);
+}
+
+
+</ClientEvent>
+                <Property name="caption">查看</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+              </ToolBarButton>
+              <ToolBarButton>
+                <ClientEvent name="onClick">&#xD;
+&#xD;
+var entitys = view.get(&quot;#dataSetSysParameter&quot;).getData();&#xD;
+var selection = view.get(&quot;#dataGridSysParameter&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if(selection.length>1){&#xD;
+	dorado.MessageBox.alert(&quot;只能选择一条记录进行修改！&quot;);&#xD;
+}&#xD;
+else if (selection.length == 1) {&#xD;
+	var paraId = selection[0].get(&quot;id&quot;);&#xD;
+	var paraValue = selection[0].get(&quot;paraValue&quot;);&#xD;
+	var paraCode = selection[0].get(&quot;paraCode&quot;);&#xD;
+	var reloadParaAjaxAction = view.get(&quot;#reloadParaAjaxAction&quot;);&#xD;
+	reloadParaAjaxAction.set(&quot;parameter&quot;,{&quot;paraId&quot;: paraId,&quot;paraCode&quot;:paraCode,&quot;paraValue&quot;:paraValue});&#xD;
+	reloadParaAjaxAction.execute(function(paraValue){&#xD;
+		selection[0].set(&quot;paraValue&quot;,paraValue);&#xD;
+	});&#xD;
+}</ClientEvent>
+                <Property name="caption">加载默认值</Property>
+                <Property name="icon">>icons/table_refresh.png</Property>
+              </ToolBarButton>
+              <ToolBarButton>
+                <ClientEvent name="onClick">var loadParaAjaxAction = view.get(&quot;#loadParaAjaxAction&quot;);&#xD;
+loadParaAjaxAction.execute(function(){&#xD;
+	view.get(&quot;#dataSetSysParameter&quot;).flushAsync();&#xD;
+});</ClientEvent>
+                <Property name="caption">加载配置文件参数</Property>
+                <Property name="tip">加载配置文件中有但数据库中没有的参数</Property>
+                <Property name="ignored">${fctx.isNotAdmin()}</Property>
+                <Property name="icon">>icons/refresh.png</Property>
+              </ToolBarButton>
+              <ToolBarButton>
+                <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridSysParameter&quot;).get(&quot;selection&quot;);&#xD;
+&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else if (selection.length != 0) {&#xD;
+	view.get(&quot;#dialogDictTree&quot;).show();	  &#xD;
+}&#xD;
+</ClientEvent>
+                <Property name="caption">设置参数分类</Property>
+                <Property name="tip">加载配置文件中有但数据库中没有的参数</Property>
+                <Property name="ignored">${fctx.isNotAdmin()}</Property>
+                <Property name="icon">>icons/folder_gear.png</Property>
+              </ToolBarButton>
+            </ToolBar>
+            <Container>
+              <DataGrid id="dataGridSysParameter" layoutConstraint="center">
+                <Property name="dataSet">dataSetSysParameter</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="dataType">dataTypeSysParameter</Property>
+                <Property name="rowHeight">26</Property>
+                <Property name="height">100%</Property>
+                <Property name="width">100%</Property>
+                <Property name="highlightCurrentRow">false</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+                <DataColumn name="paraCode" property="paraCode"/>
+                <DataColumn name="paraName" property="paraName"/>
+                <DataColumn name="paraValue" property="paraValue"/>
+                <DataColumn name="paraDesc" property="paraDesc"/>
+              </DataGrid>
+            </Container>
+            <ToolBar layoutConstraint="bottom">
+              <DataPilot>
+                <Property name="dataSet">dataSetSysParameter</Property>
+                <Property name="itemCodes">pages</Property>
+              </DataPilot>
+              <Separator/>
+            </ToolBar>
+          </Container>
+        </MainControl>
+        <SideControl>
+          <Container>
+            <DataTree id="dictTree">
+              <ClientEvent name="onDataRowClick">var currentNode = view.get(&quot;#dictTree&quot;).get(&quot;currentNode&quot;);
+if (!currentNode) {
+	throw new dorado.Exception(&quot;请先点中一个树节点！&quot;);
+}
+var dictCode = currentNode.get(&quot;data&quot;).get(&quot;dictCode&quot;);
+view.get(&quot;#dataSetSysParameter&quot;).set(&quot;parameter&quot;,{&quot;paraType&quot;:dictCode}).flushAsync();
+</ClientEvent>
+              <Property name="dataSet">dataSetSysDict</Property>
+              <Property name="currentNodeDataPath">CURRENT_NODE</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="labelProperty">dictName</Property>
+                  <Property name="childrenProperty">children</Property>
+                  <Property name="expandedIcon">>icons/paragraph.png</Property>
+                  <Property name="icon">>icons/paragraph.png</Property>
+                  <Property name="recursive">true</Property>
+                  <Property name="expandLevel">1</Property>
+                </BindingConfig>
+              </BindingConfigs>
+            </DataTree>
+          </Container>
+        </SideControl>
+      </SplitPanel>
+    </Container>
+    <UpdateAction id="saveSysParametersAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysParameterAction#saveSysParameters</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysParameter</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="saveSysDictsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysDictAction#saveSysDicts</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysDict</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysParameter">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysParameter&quot;).getData().cancel();
+	view.get(&quot;#dialogSysParameter&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysParametersAction&quot;);
+			var dialog=view.get(&quot;#dialogSysParameter&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetSysParameter&quot;).getData().cancel();
+		view.get(&quot;#dialogSysParameter&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysParameter">
+          <Property name="dataType">dataTypeSysParameter</Property>
+          <Property name="dataSet">dataSetSysParameter</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">paraCode</Property>
+            <Property name="property">paraCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraName</Property>
+            <Property name="property">paraName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraValue</Property>
+            <Property name="property">paraValue</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraValue&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraValue&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraDesc</Property>
+            <Property name="property">paraDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysParameter">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysParameter&quot;).getData().cancel();
+	view.get(&quot;#dialogSysParameter&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysParametersAction&quot;);
+			var dialog=view.get(&quot;#addDialogSysParameter&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetSysParameter&quot;).getData().cancel();
+		view.get(&quot;#addDialogSysParameter&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysParameter">
+          <Property name="dataType">dataTypeSysParameter</Property>
+          <Property name="dataSet">dataSetSysParameter</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">paraCode</Property>
+            <Property name="property">paraCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraName</Property>
+            <Property name="property">paraName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraValue</Property>
+            <Property name="property">paraValue</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraValue&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraValue&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraDesc</Property>
+            <Property name="property">paraDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogSysParameter">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetSysParameter&quot;).getData().cancel();
+	view.get(&quot;#lookdialogSysParameter&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">60%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysParameter">
+          <Property name="dataType">dataTypeSysParameter</Property>
+          <Property name="dataSet">dataSetSysParameter</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">paraCode</Property>
+            <Property name="property">paraCode</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraName</Property>
+            <Property name="property">paraName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraValue</Property>
+            <Property name="property">paraValue</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">paraDesc</Property>
+            <Property name="property">paraDesc</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.parameter.pojo.SysParameter.paraDesc&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogSysDict">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetSysDict&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#addDialogSysDict&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveSysDictsAction&quot;);
+			var dialog=view.get(&quot;#addDialogSysDict&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetSysDict&quot;).getData(&quot;!CURRENT_NODE&quot;).cancel();
+view.get(&quot;#addDialogSysDict&quot;).hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysDict">
+          <Property name="dataType">dataTypeSysDict</Property>
+          <Property name="dataSet">dataSetSysDict</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="dataPath">!CURRENT_NODE</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">dictCode</Property>
+            <Property name="property">dictCode</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">true</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictCode&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dictName</Property>
+            <Property name="property">dictName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictName&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">dictDesc</Property>
+            <Property name="property">dictDesc</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictDesc&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.dictDesc&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">viewSeq</Property>
+            <Property name="property">viewSeq</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.viewSeq&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.rbac.dict.pojo.SysDict.viewSeq&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="dictCodeAction">
+      <Property name="service">sysCodeBuilderAction#findCodeByBuilderType</Property>
+      <Property name="async">false</Property>
+    </AjaxAction>
+    <AjaxAction id="checkCode">
+      <Property name="service">sysParameterAction#checkCode</Property>
+      <Property name="async">true</Property>
+    </AjaxAction>
+    <AjaxAction id="reloadParaAjaxAction">
+      <Property name="service">sysParameterAction#updateSysParameterByParaCode</Property>
+      <Property name="successMessage">加载成功！</Property>
+    </AjaxAction>
+    <AjaxAction id="loadParaAjaxAction">
+      <Property name="service">sysParameterAction#loadNewParameter</Property>
+      <Property name="successMessage">加载成功！</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

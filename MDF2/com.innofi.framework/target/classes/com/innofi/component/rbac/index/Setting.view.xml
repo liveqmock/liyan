@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeSysUser" parent="global:dataTypeSysUser">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="mainPostNames">
+        <Property name="label">用户主岗位</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="partPostNames">
+        <Property name="label">用户兼职岗位</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="dataRoleNames">
+        <Property name="label">用户数据角色</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="functionRoleNames">
+        <Property name="label">用户功能角色</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="password">
+      <ClientEvent name="onDataChange">if(arg.property==&quot;oldPassword&quot;){&#xD;
+	var currData = view.get(&quot;#dataSetPassword&quot;).getData(&quot;#&quot;);&#xD;
+	var checkPassword = view.get(&quot;#checkPasswordAjaxAction&quot;);&#xD;
+	var oldPassword = currData.get(&quot;oldPassword&quot;);&#xD;
+	if(oldPassword!=null &amp;&amp; oldPassword!=&quot;&quot;){&#xD;
+		var para = {&#xD;
+			oldPassword:oldPassword&#xD;
+		}&#xD;
+		&#xD;
+		checkPassword.set(&quot;parameter&quot;,para).execute(function(result){&#xD;
+			if(result != &quot;1&quot;){&#xD;
+				arg.entity.setMessages(&quot;oldPassword&quot;,{state:&quot;error&quot;,text:&quot;原始密码错误！&quot;});&#xD;
+			}&#xD;
+		});&#xD;
+	}else{&#xD;
+		//dorado.MessageBox.alert(&quot;请输入原始密码！&quot;);&#xD;
+		arg.entity.setMessages(&quot;oldPassword&quot;,{state:&quot;error&quot;,text:&quot;请输入原始密码！&quot;});&#xD;
+	}&#xD;
+}</ClientEvent>
+      <PropertyDef name="oldPassword">
+        <Property name="dataType">String</Property>
+        <Property name="label">原密码</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="newPassword1">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+      <PropertyDef name="newPassword2">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label"></Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">
+fullScreenApi = { 
+			supportsFullScreen: false,
+			isFullScreen: function() { return false; }, 
+			requestFullScreen: function() {}, 
+			cancelFullScreen: function() {},
+			fullScreenEventName: '',
+			prefix: ''
+		},
+		browserPrefixes = 'webkit moz o ms khtml'.split(' ');
+	
+	// check for native support
+	if (typeof document.cancelFullScreen != 'undefined') {
+		fullScreenApi.supportsFullScreen = true;
+	} else {	 
+		// check for fullscreen support by vendor prefix
+		for (var i = 0, il = browserPrefixes.length; i &lt; il; i++ ) {
+			fullScreenApi.prefix = browserPrefixes[i];
+			
+			if (typeof document[fullScreenApi.prefix + 'CancelFullScreen' ] != 'undefined' ) {
+				fullScreenApi.supportsFullScreen = true;
+				break;
+			}
+		}
+	}
+	
+	// update methods to do something useful
+	if (fullScreenApi.supportsFullScreen) {
+		fullScreenApi.fullScreenEventName = fullScreenApi.prefix + 'fullscreenchange';
+		
+		fullScreenApi.isFullScreen = function() {
+			switch (this.prefix) {	
+				case '':
+					return document.fullScreen;
+				case 'webkit':
+					return document.webkitIsFullScreen;
+				default:
+					return document[this.prefix + 'FullScreen'];
+			}
+		}
+		fullScreenApi.requestFullScreen = function(el) {
+			alert(el.innerHTML)
+			alert(this.prefix)
+			return (this.prefix === '') ? el.requestFullScreen() : el[this.prefix + 'RequestFullScreen']();
+		}
+		fullScreenApi.cancelFullScreen = function(el) {
+			return (this.prefix === '') ? document.cancelFullScreen() : document[this.prefix + 'CancelFullScreen']();
+		}		
+	}
+
+	// jQuery plugin
+	if (typeof jQuery != 'undefined') {
+		jQuery.fn.requestFullScreen = function() {
+
+			return this.each(function() {
+				var el = jQuery(this);
+				if (fullScreenApi.supportsFullScreen) {
+					fullScreenApi.requestFullScreen(el);
+				}
+			});
+		};
+	}
+
+	// export api
+	window.fullScreenApi = fullScreenApi;</ClientEvent>
+    <Property name="title">个人设置</Property>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysUser">
+      <Property name="dataProvider">sysUserAction#findUser</Property>
+      <Property name="dataType">dataTypeSysUser</Property>
+      <Property name="parameter"></Property>
+    </DataSet>
+    <DataSet id="dataSetPassword">
+      <ClientEvent name="onReady">self.insert({});&#xD;
+</ClientEvent>
+      <Property name="dataType">password</Property>
+    </DataSet>
+    <DataSet id="dataSetSysUserTheme">
+      <Property name="dataType">dataTypeSysUserTheme</Property>
+      <Property name="dataProvider">sysUserThemeAction#findUserTheme</Property>
+    </DataSet>
+    <Accordion layoutConstraint="center">
+      <Section>
+        <Property name="caption">个人信息设置</Property>
+        <Property name="icon">>icons/user_edit.png</Property>
+        <Panel>
+          <Buttons/>
+          <Children>
+            <FieldSet>
+              <Property name="caption">基本信息</Property>
+              <Property name="collapseable">false</Property>
+              <Property name="height">340</Property>
+              <Buttons>
+                <Button>
+                  <ClientEvent name="onClick">var action = view.get(&quot;#saveSysUsersAction&quot;);
+			//var dialog=view.get(&quot;#addDialogSysUser&quot;);
+				action.execute(function(){
+					//dialog.hide();
+				});</ClientEvent>
+                  <Property name="caption">确定</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+                </Button>
+              </Buttons>
+              <Children>
+                <AutoForm id="addAutoFormSysUser">
+                  <Property name="dataSet">dataSetSysUser</Property>
+                  <Property name="labelAlign">right</Property>
+                  <Property name="hideMode">visibility</Property>
+                  <Property name="cols">*</Property>
+                  <Property name="labelWidth">120</Property>
+                  <AutoFormElement>
+                    <Property name="name">userCode</Property>
+                    <Property name="property">userCode</Property>
+                    <Property name="hideMode">display</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">true</Property>
+                    <Editor>
+                      <TextEditor>
+                        <Property name="blankText">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.userCode&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.userCode&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">userName</Property>
+                    <Property name="property">userName</Property>
+                    <Property name="hideMode">display</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">true</Property>
+                    <Editor>
+                      <TextEditor>
+                        <Property name="blankText">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.userName&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.userName&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">mobile</Property>
+                    <Property name="property">mobile</Property>
+                    <Property name="hideMode">display</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                    <Editor>
+                      <TextEditor>
+                        <Property name="blankText">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.mobile&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.mobile&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">tel</Property>
+                    <Property name="property">tel</Property>
+                    <Property name="hideMode">display</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                    <Editor>
+                      <TextEditor>
+                        <Property name="blankText">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.tel&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.tel&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">email</Property>
+                    <Property name="property">email</Property>
+                    <Property name="hideMode">display</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                    <Editor>
+                      <TextEditor>
+                        <Property name="blankText">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.email&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.email&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">address</Property>
+                    <Property name="property">address</Property>
+                    <Property name="hideMode">display</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                    <Editor>
+                      <TextEditor>
+                        <Property name="blankText">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.address&quot;].propertyBlankText}</Property>
+                        <Property name="tip">${req[&quot;com.innofi.component.rbac.user.pojo.SysUser.address&quot;].propertyTip}</Property>
+                      </TextEditor>
+                    </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">functionRoleNames</Property>
+                    <Property name="property">functionRoleNames</Property>
+                    <Property name="readOnly">true</Property>
+                    <Property name="visible">true</Property>
+                    <Property name="ignored">false</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">dataRoleNames</Property>
+                    <Property name="property">dataRoleNames</Property>
+                    <Property name="readOnly">true</Property>
+                    <Property name="visible">true</Property>
+                    <Property name="ignored">false</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">mainPostNames</Property>
+                    <Property name="property">mainPostNames</Property>
+                    <Property name="readOnly">true</Property>
+                    <Property name="visible">false</Property>
+                    <Property name="ignored">true</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="name">partPostNames</Property>
+                    <Property name="property">partPostNames</Property>
+                    <Property name="readOnly">true</Property>
+                    <Property name="visible">false</Property>
+                    <Property name="ignored">true</Property>
+                    <Editor/>
+                  </AutoFormElement>
+                </AutoForm>
+              </Children>
+            </FieldSet>
+          </Children>
+          <Tools/>
+        </Panel>
+      </Section>
+      <Section>
+        <Property name="caption">密码设置</Property>
+        <Property name="icon">>icons/keyboard.png</Property>
+        <Panel>
+          <Buttons/>
+          <Children>
+            <FieldSet>
+              <Property name="caption">修改密码</Property>
+              <Property name="collapseable">false</Property>
+              <Property name="height">300</Property>
+              <Buttons>
+                <Button>
+                  <ClientEvent name="onClick">var entity = view.get(&quot;#dataSetPassword&quot;).getData(&quot;#&quot;);
+
+var oldPassword = entity.get(&quot;oldPassword&quot;);
+var newPassword = entity.get(&quot;newPassword1&quot;);
+var againNewPassword = entity.get(&quot;newPassword2&quot;);
+
+if(oldPassword == null || oldPassword == &quot;&quot;){
+	entity.setMessages(&quot;oldPassword&quot;,{state:&quot;error&quot;,text:&quot;原始密码不能为空！&quot;});
+}else if(newPassword!=againNewPassword){
+	entity.setMessages(&quot;newPassword2&quot;,{state:&quot;error&quot;,text:&quot;确认密码与新密码不匹配，请重新输入！&quot;});
+}else if(newPassword == &quot;&quot; || newPassword == null){
+	entity.setMessages(&quot;newPassword1&quot;,{state:&quot;error&quot;,text:&quot;请输入新密码！&quot;});
+}
+
+if(entity.getMessageState(&quot;oldPassword&quot;)==&quot;ok&quot; &amp;&amp; entity.getMessageState(&quot;newPassword1&quot;) &amp;&amp; entity.getMessageState(&quot;newPassword2&quot;)){
+	var modifyPassword=view.get(&quot;#modifyPasswordAjaxAction&quot;);
+	var id=view.get(&quot;#dataSetSysUser&quot;).getData(&quot;#&quot;).get(&quot;id&quot;);
+	var para = {
+		userId:id,
+		password:newPassword
+	}
+	modifyPassword.set(&quot;parameter&quot;,para).execute(function(){
+		//dorado.widget.NotifyTipManager.notify(&quot;操作成功！&quot;);
+	});
+}
+
+</ClientEvent>
+                  <Property name="caption">确定</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+                </Button>
+              </Buttons>
+              <Children>
+                <AutoForm>
+                  <Property name="cols">*</Property>
+                  <Property name="dataSet">dataSetPassword</Property>
+                  <Property name="dataType">password</Property>
+                  <Property name="labelWidth">130</Property>
+                  <AutoFormElement>
+                    <Property name="label">原密码</Property>
+                    <Property name="property">oldPassword</Property>
+                    <Property name="name">oldPassword</Property>
+                    <Property name="editorType">PasswordEditor</Property>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="label">新密码</Property>
+                    <Property name="property">newPassword1</Property>
+                    <Property name="editorType">PasswordEditor</Property>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                    <Property name="label">再次输入新密码</Property>
+                    <Property name="property">newPassword2</Property>
+                    <Property name="editorType">PasswordEditor</Property>
+                  </AutoFormElement>
+                </AutoForm>
+              </Children>
+            </FieldSet>
+          </Children>
+          <Tools/>
+        </Panel>
+      </Section>
+      <Section>
+        <Property name="caption">展现设置</Property>
+        <Property name="icon">>icons/layout_content.png</Property>
+        <Property name="visible">false</Property>
+        <Panel id="left" layoutConstraint="left">
+          <Property name="caption">展现设置</Property>
+          <Buttons>
+            <Button id="ok">
+              <ClientEvent name="onClick" signature="portal, frameSelectView, resetColumnDialog">var data = frameSelectView.getCurrentItem();
+if (data &amp;&amp; data.label) {
+	var mainTHeme = data.id;
+	var isFullScreen = view.get(&quot;#isFullScreen&quot;).get(&quot;value&quot;);	
+	var param={
+		mainTHeme:mainTHeme,
+		isFullScreen:isFullScreen
+	};
+	view.get(&quot;#saveMainTheme&quot;).set(&quot;parameter&quot;, param).execute(function(){
+		dorado.MessageBox.confirm(&quot;保存成功重新登录后才能生效,\n是否刷新?&quot;, function(){
+			var loginUrl = '${sys.getString(&quot;mdf.security.loginFormUrl&quot;)}';
+			location.href = loginUrl.substring(1)+&quot;?resetFullScreen=true&quot;;
+		});
+	});
+} else {
+	dorado.MessageBox.alert(&quot;请选择一个版式!&quot;);
+}</ClientEvent>
+              <Property name="caption">确定</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+            </Button>
+          </Buttons>
+          <Children>
+            <BlockView id="frameSelectView" layoutConstraint="top">
+              <ClientEvent name="onCreate">self.set({
+	&quot;renderer&quot;: new dorado.widget.blockview.ImageBlockRenderer({
+			captionProperty: &quot;label&quot;
+		}),
+	&quot;items&quot;: [{
+			id:&quot;classURL&quot;,
+			label: &quot;桌面&quot;,
+			image: &quot;>dorado/res/com/innofi/component/rbac/index/desktop.png&quot;
+		}, {
+			id:&quot;tradURL&quot;,
+			label: &quot;传统&quot;,
+			image: &quot;>dorado/res/com/innofi/component/rbac/index/default.png&quot;
+		}]
+});</ClientEvent>
+              <ClientEvent name="onReady">var Entity = view.get(&quot;#dataSetSysUserTheme&quot;).getData(&quot;#&quot;);&#xD;
+//alert(&quot;mainFrame------&quot;+Entity.get(&quot;mainFrame&quot;));&#xD;
+var mainFrame = Entity.get(&quot;mainFrame&quot;);&#xD;
+//alert(&quot;isFullScreen-----&quot;+Entity.get(&quot;isFullScreen&quot;));&#xD;
+var isFullScreen = Entity.get(&quot;isFullScreen&quot;);&#xD;
+var items = self.get(&quot;items&quot;);&#xD;
+for(var i=0;i&lt;items.length;i++){&#xD;
+	if(items[i].id==mainFrame){&#xD;
+			self.set(&quot;currentIndex&quot;,i);&#xD;
+			//self.setCurrentEntity(items[i]);&#xD;
+			//self.set('selection',items[i]);	&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+&#xD;
+</ClientEvent>
+              <Property name="fillLine">true</Property>
+              <Property name="lineSize">2</Property>
+              <Property name="blockHeight">140</Property>
+              <Property name="items"></Property>
+              <Property name="scrollMode">viewport</Property>
+            </BlockView>
+            <AutoForm id="setting" layoutConstraint="center">
+              <Property name="cols">*</Property>
+              <Property name="height">100%</Property>
+              <Property name="labelWidth">120</Property>
+              <Property name="padding">0</Property>
+              <Property name="colPadding">0</Property>
+              <AutoFormElement>
+                <Property name="label">是否全屏显示</Property>
+                <Property name="trigger">autoMappingDropDown1</Property>
+                <Editor>
+                  <TextEditor id="isFullScreen">
+                    <Property name="mapping">
+                      <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+                    </Property>
+                    <Property name="trigger">autoMappingDropDown1</Property>
+                    <Property name="dataSet">dataSetSysUserTheme</Property>
+                    <Property name="property">isFullScreen</Property>
+                  </TextEditor>
+                </Editor>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+          <Tools/>
+        </Panel>
+      </Section>
+    </Accordion>
+    <Panel id="ctn" layoutConstraint="bottom">
+      <Property name="height">5%</Property>
+      <Buttons>
+        <Button id="cancel">
+          <ClientEvent name="onClick" signature="resetColumnDialog">this.get('parent.parent').hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children/>
+      <Tools/>
+    </Panel>
+    <AjaxAction id="saveMainTheme">
+      <Property name="service">sysUserThemeAction#saveMainTheme</Property>
+      <Property name="successMessage">保存成功!</Property>
+    </AjaxAction>
+    <UpdateAction id="saveSysUsersAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">sysUserAction#saveSysUser</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSysUser</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="modifyPasswordAjaxAction">
+      <Property name="service">sysUserAction#modifyPassword</Property>
+      <Property name="successMessage">密码更新成功</Property>
+    </AjaxAction>
+    <AjaxAction id="checkPasswordAjaxAction">
+      <Property name="service">sysUserAction#checkPassword</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

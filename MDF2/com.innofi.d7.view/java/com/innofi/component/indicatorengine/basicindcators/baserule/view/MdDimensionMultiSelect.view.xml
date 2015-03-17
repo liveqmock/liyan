@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="MdDimension" parent="global:dataTypeMdDimension">
+      <PropertyDef name="tableCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">表名</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdDimension">
+      <ClientEvent name="onReady">var status=&quot;${request.getParameter('status')}&quot;;
+var tableName=&quot;${request.getParameter('tableName')}&quot;;
+var ziTableName=&quot;${request.getParameter('ziTableName')}&quot;;
+
+var temp=&quot;-999999&quot;;
+
+ if(tableName &amp;&amp; &quot;&quot;!=tableName){
+ 	 
+ 	if(ziTableName &amp;&amp; &quot;&quot;!=ziTableName){
+        temp = tableName+&quot;,&quot;+ziTableName ;
+	}else{
+		temp = tableName ;
+	}
+ }
+
+view.get(&quot;#dataSetMdDimension&quot;).set(&quot;parameter&quot;, {&quot;status&quot;:status,&quot;tableNames&quot;:temp}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">ieBaseIeRuleAction#findMdDimensions</Property>
+      <Property name="dataType">[MdDimension]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <Container>
+      <Panel>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">var selection = view.get(&quot;#dataGridMdDimension&quot;).get(&quot;selection&quot;);&#xD;
+if(selection.length==0){&#xD;
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);&#xD;
+}else{&#xD;
+	var entitys = new Array();&#xD;
+	var dataMap = new dorado.util.Map();&#xD;
+	var chick = false ;&#xD;
+	var msg = &quot;&quot;;&#xD;
+	selection.each(function(data){&#xD;
+		&#xD;
+		//var json = {id:data.get(&quot;id&quot;),code:data.get(&quot;tableName&quot;),name:data.get(&quot;tableCnName&quot;)};&#xD;
+     if(!dataMap.isEmpty() &amp;&amp; dataMap.get(data.get(&quot;dimenType&quot;))){&#xD;
+	 	 chick = true ;&#xD;
+		 msg = data.get(&quot;dimenType&quot;) ;&#xD;
+	 }else{&#xD;
+	 	dataMap.set(data.get(&quot;dimenType&quot;),data.get(&quot;dimenType&quot;));&#xD;
+	 }&#xD;
+     &#xD;
+     &#xD;
+		entitys.push(data);&#xD;
+	});&#xD;
+	&#xD;
+	if(chick){&#xD;
+		dorado.MessageBox.alert(&quot;选择的数据中维度类型不能相同 &quot;);&#xD;
+	}else{&#xD;
+	  var dropdown = parent.$id(&quot;${request.getParameter(&quot;dropdown&quot;)}&quot;);&#xD;
+		if(dropdown){&#xD;
+			dropdown.invoke(&quot;close&quot;,entitys);&#xD;
+	  }&#xD;
+	}&#xD;
+}</ClientEvent>
+            <Property name="caption">确定</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick"> var dropdown = parent.$id(&quot;${request.getParameter(&quot;dropdown&quot;)}&quot;);&#xD;
+		if(dropdown){&#xD;
+			dropdown.invoke(&quot;close&quot;,null);&#xD;
+	  }</ClientEvent>
+            <Property name="caption">取消</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <DataGrid id="dataGridMdDimension" layoutConstraint="center">
+            <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+            <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdDimension&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+            <Property name="dataSet">dataSetMdDimension</Property>
+            <Property name="selectionMode">multiRows</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="dataType">dataTypeMdDimension</Property>
+            <Property name="rowHeight">26</Property>
+            <Property name="height">100%</Property>
+            <Property name="width">100%</Property>
+            <Property name="highlightCurrentRow">false</Property>
+            <RowNumColumn/>
+            <RowSelectorColumn/>
+            <DataColumn>
+              <Property name="property">tableCnName</Property>
+              <Property name="name">tableCnName</Property>
+            </DataColumn>
+            <DataColumn name="dimenName">
+              <Property name="property">dimenName</Property>
+            </DataColumn>
+            <DataColumn>
+              <Property name="property">dimenType</Property>
+              <Property name="name">dimenType</Property>
+            </DataColumn>
+          </DataGrid>
+        </Children>
+        <Tools/>
+      </Panel>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdDimension</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+  </View>
+</ViewConfig>

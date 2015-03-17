@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">IeBaseIeRuleManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeIeBaseIeRule">
+      <Property name="creationType">com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule</Property>
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.id"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieId">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.ieId"].propertyLabel}</Property>
+        <Property name="required">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.ieCode"].propertyLabel}</Property>
+        <Property name="required">false</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="islast">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.islast"].propertyLabel}</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="startDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.startDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="stopDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.status"].propertyLabel}</Property>
+        <Property name="required">false</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.crtOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.crtUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">Y-m-d</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.updOrgCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.updUserCode"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="ieSql">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.ieSql"].propertyLabel}</Property>
+        <Property name="readOnly">true</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,2000)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="sqlFrom">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.sqlFrom"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,2000)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="sqlGroupby">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.sqlGroupby"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,2000)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="sqlSelect">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.sqlSelect"].propertyLabel}</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,2000)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="sqlWhere">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.sqlWhere"].propertyLabel}</Property>
+        <Property name="readOnly">false</Property>
+        <Validator type="custom">
+          <ClientEvent name="onValidate">charLengthValidator(arg.data,2000)</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="guiZeTable">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeTableCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeTableName">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label">主表</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeGuanLanTable">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeGuanLanTableCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeGuanLanTableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">关联表</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeGetZiDuan">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeGetZiDuanCode">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeGetZiDuanName">
+        <Property name="dataType">String</Property>
+        <Property name="required">true</Property>
+        <Property name="label">取值列</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeHanShu">
+        <Property name="dataType">String</Property>
+        <Property name="mapping">
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">Max</Property>
+                <Property name="value">最大值</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">Min</Property>
+                <Property name="value">最小值</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">Count</Property>
+                <Property name="value">计数</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">Avg</Property>
+                <Property name="value">平均值</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">Sum</Property>
+                <Property name="value">求和</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+        <Property name="required">true</Property>
+        <Property name="label">统计函数</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeChongFu">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+        <Property name="label">去重复信息</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeWhere">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeWhereName">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeWeiDu">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="guiZeWeiDuName">
+        <Property name="dataType">String</Property>
+        <Property name="label">指标维度</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetIeBaseIeRule">
+      <ClientEvent name="onReady">var ieId=&quot;${request.getParameter('ieId')}&quot;;&#xD;
+&#xD;
+view.get(&quot;#dataSetIeBaseIeRule&quot;).set(&quot;parameter&quot;, &#xD;
+{&#xD;
+	&quot;ieId&quot;:ieId,&#xD;
+	&quot;qMcrtOrgCode&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMcrtUserCode&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMieCode&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMieDataUnit&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMid&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMieId&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMieSql&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMislast&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMsqlFrom&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMsqlGroupby&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMsqlSelect&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMsqlWhere&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMstatus&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMupdOrgCode&quot;:&quot;eq&quot;,&#xD;
+	&quot;qMupdUserCode&quot;:&quot;eq&quot;&#xD;
+	}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">ieBaseIeRuleAction#findIeBaseIeRules</Property>
+      <Property name="dataType">[dataTypeIeBaseIeRule]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <Container>
+      <ToolBar id="toolBarIeBaseIeRule" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetIeBaseIeRule&quot;).getData();
+var found = false;
+var selection = view.get(&quot;#dataGridIeBaseIeRule&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+                        dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+   }else if (selection.length == 1) {
+     
+	 view.get(&quot;#dataSetIeBaseIeRule&quot;).getData().setCurrent(selection[0]);
+     var baseData = view.get(&quot;#dataSetIeBaseIeRule&quot;).getData(&quot;#&quot;);
+	 if(baseData){
+	    
+		 var fromEntity = new dorado.Entity();
+		 
+		 if(baseData.get(&quot;sqlFrom&quot;)){
+	         fromEntity.fromJSON(JSON.parse(baseData.get(&quot;sqlFrom&quot;)));
+		 
+		     baseData.set(&quot;guiZeTable&quot;,fromEntity.get(&quot;guiZeTable&quot;));
+		     baseData.set(&quot;guiZeGuanLanTable&quot;,fromEntity.get(&quot;guiZeGuanLanTable&quot;));
+		 
+		     baseData.set(&quot;guiZeTableCode&quot;,fromEntity.get(&quot;guiZeTableCode&quot;));
+		     baseData.set(&quot;guiZeGuanLanTableCode&quot;,fromEntity.get(&quot;guiZeGuanLanTableCode&quot;));
+		 
+		     baseData.set(&quot;guiZeTableName&quot;,fromEntity.get(&quot;guiZeTableName&quot;));
+		     baseData.set(&quot;guiZeGuanLanTableName&quot;,fromEntity.get(&quot;guiZeGuanLanTableName&quot;));
+        }
+
+         var selectEntity = new dorado.Entity();
+		 if(baseData.get(&quot;sqlSelect&quot;)){
+		 	
+	         selectEntity.fromJSON(JSON.parse(baseData.get(&quot;sqlSelect&quot;)));
+		 
+		     baseData.set(&quot;guiZeHanShu&quot;,selectEntity.get(&quot;guiZeHanShu&quot;));
+		     baseData.set(&quot;guiZeGetZiDuan&quot;,selectEntity.get(&quot;guiZeGetZiDuan&quot;));
+		     baseData.set(&quot;guiZeChongFu&quot;,selectEntity.get(&quot;guiZeChongFu&quot;));
+		 
+		     baseData.set(&quot;guiZeGetZiDuanCode&quot;,selectEntity.get(&quot;guiZeGetZiDuanCode&quot;));
+		  
+		     baseData.set(&quot;guiZeGetZiDuanName&quot;,selectEntity.get(&quot;guiZeGetZiDuanName&quot;));
+		 }
+		 
+		 var groupByEntity = new dorado.Entity();
+		 if(baseData.get(&quot;sqlGroupby&quot;)){
+	        groupByEntity.fromJSON(JSON.parse(baseData.get(&quot;sqlGroupby&quot;)));
+		 
+		   if(groupByEntity){
+		 	  baseData.set(&quot;guiZeWeiDu&quot;,groupByEntity.get(&quot;guiZeWeiDu&quot;));
+		      baseData.set(&quot;guiZeWeiDuName&quot;,groupByEntity.get(&quot;guiZeWeiDuName&quot;));
+		    }
+		 }
+
+	 }
+	 
+     view.get(&quot;#lookdialogIeBaseIeRule&quot;).show();
+	 view.get(&quot;#dataSetIeBaseIeRule&quot;).set(&quot;readOnly&quot;,true);
+}
+                </ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridIeBaseIeRule" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get(&quot;selection&quot;);
+                    var entity = view.get(&quot;#dataSetIeBaseIeRule&quot;).getData(&quot;#&quot;);
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set(&quot;selection&quot;, newSelection);*/
+                </ClientEvent>
+          <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get(&quot;#dataSetIeBaseIeRule&quot;).getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+          <Property name="dataSet">dataSetIeBaseIeRule</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeIeBaseIeRule</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="ieCode" property="ieCode"/>
+          <DataColumn name="ieSql" property="ieSql"/>
+          <DataColumn name="islast" property="islast"/>
+          <DataColumn name="startDate" property="startDate"/>
+          <DataColumn name="stopDate" property="stopDate"/>
+          <DataColumn name="updDate" property="updDate"/>
+          <DataColumn name="status" property="status"/>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetIeBaseIeRule</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+        <Separator/>
+      </ToolBar>
+    </Container>
+    <Dialog id="lookdialogIeBaseIeRule">
+      <ClientEvent name="onClose">
+        view.get(&quot;#dataSetIeBaseIeRule&quot;).getData().cancel();
+	    view.get(&quot;#lookdialogIeBaseIeRule&quot;).hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">90%</Property>
+      <Property name="width">90%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormIeBaseIeRule">
+          <Property name="dataType">dataTypeIeBaseIeRule</Property>
+          <Property name="dataSet">dataSetIeBaseIeRule</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*,*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">guiZeTableName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">guiZeTableCode</Property>
+                <Property name="id">guiZeTable</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">guiZeTableDropDown</Property>
+            <Property name="property">guiZeTableName</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.islast&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.islast&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">guiZeGetZiDuanName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="property">guiZeGetZiDuanName</Property>
+            <Property name="trigger">guiZeGetZiDuanDropDown</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">guiZeGetZiDuanCode</Property>
+                <Property name="id">guiZeGetZiDuan</Property>
+              </Entity>
+            </Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">guiZeGuanLanTableName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="property">guiZeGuanLanTableName</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="code">guiZeGuanLanTableCode</Property>
+                <Property name="id">guiZeGuanLanTable</Property>
+              </Entity>
+            </Property>
+            <Property name="trigger">guiZeGuanLanTableDropDown</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.startDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.startDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">guiZeHanShu</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="property">guiZeHanShu</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyTip}</Property>
+                <Property name="trigger">autoMappingDropDown1</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">guiZeChongFu</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="trigger">autoMappingDropDown1</Property>
+            <Property name="property">guiZeChongFu</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2;rowSpan:2">
+            <Property name="name">sqlWhere</Property>
+            <Property name="property">sqlWhere</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="editorType">TextArea</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="readOnly">true</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">guiZeWeiDuName</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Property name="property">guiZeWeiDuName</Property>
+            <Property name="userData">
+              <Entity>
+                <Property name="id">guiZeWeiDu</Property>
+              </Entity>
+            </Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyTip}</Property>
+                <Property name="trigger">guiZeWeiduDropDown</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">startDate</Property>
+            <Property name="property">startDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.startDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.startDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">stopDate</Property>
+            <Property name="property">stopDate</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.stopDate&quot;].propertyTip}</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2;rowSpan:2">
+            <Property name="name">ieSql</Property>
+            <Property name="property">ieSql</Property>
+            <Property name="hideMode">display</Property>
+            <Property name="editorType">TextArea</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="readOnly">false</Property>
+            <Editor>
+              <TextArea>
+                <Property name="blankText">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.ieSql&quot;].propertyBlankText}</Property>
+                <Property name="tip">${req[&quot;com.innofi.component.indicatorengine.basicindcators.baserule.pojo.IeBaseIeRule.ieSql&quot;].propertyTip}</Property>
+              </TextArea>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

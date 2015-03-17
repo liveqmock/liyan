@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <ClientEvent name="onCreate">//全局变量用于存储 别名 也名字的对应关系&#xD;
+var allExpRuleParamMsg = &quot;&quot;;&#xD;
+&#xD;
+/**&#xD;
+ * 只进行表达式翻译不进行维度计算&#xD;
+ */&#xD;
+window.$localFanYiRuleMsg = function(){&#xD;
+&#xD;
+	var data = view.getDataValue();&#xD;
+	var temp = data ;&#xD;
+	&#xD;
+	if(!temp || temp.indexOf(&quot;[&quot;)&lt;0){&#xD;
+  		view.get(&quot;#messageFanYi&quot;).doSetText(view.getDataValue()) ;&#xD;
+	}else if(allExpRuleParamMsg==&quot;&quot;){&#xD;
+		view.get(&quot;#messageFanYi&quot;).doSetText(view.getDataValue()) ;&#xD;
+	}else{&#xD;
+	    var paramArray = allExpRuleParamMsg.split(&quot;;&quot;);&#xD;
+		   &#xD;
+        paramArray.each(function(paramObj){&#xD;
+	       var param = paramObj.split(&quot;,&quot;);&#xD;
+&#xD;
+		   if(temp.indexOf(param[0])>-1){&#xD;
+			       var re = new RegExp(&quot;\\[&quot;+param[0]+&quot;\\]&quot;,'g');&#xD;
+		           temp = temp.replace(re,&quot;[&quot;+param[1]+&quot;]&quot;);&#xD;
+		   }&#xD;
+	    });&#xD;
+		view.get(&quot;#messageFanYi&quot;).doSetText(temp) ;&#xD;
+	}&#xD;
+	&#xD;
+}&#xD;
+&#xD;
+/**&#xD;
+ * 将别名插入文本框，并实时翻译&#xD;
+ * @param {Object} str&#xD;
+ */&#xD;
+window.$setHtmlValue = function(str){&#xD;
+	view.insertValue(str);&#xD;
+	$localFanYiRuleMsg();&#xD;
+}&#xD;
+&#xD;
+/**&#xD;
+ * 将别名插入文本框， 之后关闭弹出框&#xD;
+ * @param {String} insetStr&#xD;
+ */&#xD;
+window.$setDataAndColesDialog = function(insetStr){&#xD;
+	&#xD;
+    var dialog = view.get(&quot;#ieIndexDialog&quot;);&#xD;
+&#xD;
+    if(dialog){&#xD;
+		&#xD;
+	    if(insetStr){&#xD;
+		  	$setHtmlValue(insetStr);&#xD;
+		   //view.insertValue(insetStr);&#xD;
+		}&#xD;
+				&#xD;
+		dialog.hide();&#xD;
+            &#xD;
+    }&#xD;
+&#xD;
+}&#xD;
+&#xD;
+/**&#xD;
+ * 全局记录 别名与名称的对应关系 &#xD;
+ * @param {String} paramStr&#xD;
+ */&#xD;
+window.$setGlobalParamMsg = function(paramStr){&#xD;
+	&#xD;
+	if(allExpRuleParamMsg==&quot;&quot;){&#xD;
+		allExpRuleParamMsg=paramStr;&#xD;
+	}else{&#xD;
+		allExpRuleParamMsg = allExpRuleParamMsg+&quot;;&quot;+paramStr; &#xD;
+	}&#xD;
+	&#xD;
+    &#xD;
+}&#xD;
+&#xD;
+/**&#xD;
+ * 翻译指标规则&#xD;
+ * @param {String} oldMsg   需要翻译的信息&#xD;
+ * @param {boolean} isColse 是否关闭&#xD;
+ */&#xD;
+window.$serverFanyiRuleMsg = function(ieCode,oldMsg,isColse){&#xD;
+	 if(oldMsg.indexOf(&quot;[&quot;)&lt;0){&#xD;
+	  	$localFanYiRuleMsg();&#xD;
+	  	return ;&#xD;
+	  }&#xD;
+      view.get(&quot;#fanyiAjaxAction&quot;).set(&quot;parameter&quot;,{&quot;guize&quot;:oldMsg,&quot;ieCode&quot;:ieCode}).execute(function(result){&#xD;
+&#xD;
+	      var newMsg=result;&#xD;
+		  &#xD;
+          if(isColse){&#xD;
+		  	$setIeBaseIeRuleSqlWhereAndColesDialog(oldMsg,newMsg)&#xD;
+		  }else{&#xD;
+		  	$serverFanyiRuleMsgNotColse(newMsg);&#xD;
+		  }&#xD;
+       });&#xD;
+}&#xD;
+&#xD;
+/**&#xD;
+ * 翻译指标规则&#xD;
+ * @param {String} newMsg   翻译后的结构信息&#xD;
+ */&#xD;
+window.$serverFanyiRuleMsgNotColse = function(newMsg){&#xD;
+	   &#xD;
+	view.get(&quot;#messageFanYi&quot;).doSetText(null);&#xD;
+	view.get(&quot;#dimenTypeMsg&quot;).set('text',null) ;&#xD;
+	  &#xD;
+	if(newMsg){&#xD;
+	     //对照参数别名与参数名称对照记录在本地&#xD;
+		 if(newMsg.paramMsg){&#xD;
+		 	$setGlobalParamMsg(newMsg.paramMsg);&#xD;
+			$localFanYiRuleMsg();&#xD;
+		 }     &#xD;
+	&#xD;
+         //if(newMsg.msg){ //使用本地翻译&#xD;
+		 //    view.get(&quot;#messageFanYi&quot;).doSetText(newMsg.msg) ;&#xD;
+		 //}&#xD;
+		 &#xD;
+		 //首先指标维度类型信息&#xD;
+		 if(newMsg.dimenMsg){&#xD;
+		     view.get(&quot;#dimenTypeMsg&quot;).set(&quot;text&quot;,&quot;信息提示 :\r\n&quot;+newMsg.dimenMsg) ;	&#xD;
+		 }&#xD;
+		 //查看是否有警告信息&#xD;
+		 if(newMsg.err){&#xD;
+		     dorado.MessageBox.alert(newMsg.err);&#xD;
+		 }else if(newMsg.dimenErr){&#xD;
+		     dorado.MessageBox.alert(newMsg.dimenErr);&#xD;
+		 }&#xD;
+    }else{&#xD;
+		 dorado.MessageBox.alert(&quot;未正确获取服务端返回信息！&quot;);&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+/**&#xD;
+ * 翻译指标规则&#xD;
+ * @param {String} oldMsg   翻译前的规则表达式&#xD;
+ * @param {String} newMsg   翻译后的结构信息&#xD;
+ */&#xD;
+window.$setIeBaseIeRuleSqlWhereAndColesDialog = function(oldMsg,newMsg){&#xD;
+	debugger;&#xD;
+	view.get(&quot;#messageFanYi&quot;).doSetText(null);&#xD;
+	view.get(&quot;#dimenTypeMsg&quot;).set(&quot;text&quot;,null) ;&#xD;
+	  &#xD;
+	if(newMsg){&#xD;
+		&#xD;
+		 if(newMsg.paramMsg){&#xD;
+		 	$setGlobalParamMsg(newMsg.paramMsg);&#xD;
+			$localFanYiRuleMsg();&#xD;
+		 }     &#xD;
+		 &#xD;
+         //if(newMsg.msg){ //使用本地翻译&#xD;
+		 //    view.get(&quot;#messageFanYi&quot;).doSetText(newMsg.msg) ;&#xD;
+		 //}&#xD;
+		 if(newMsg.dimenMsg){&#xD;
+		     view.get(&quot;#dimenTypeMsg&quot;).set(&quot;text&quot;,&quot;信息提示 :\r\n&quot;+newMsg.dimenMsg) ;	&#xD;
+		 }&#xD;
+&#xD;
+		 //查看是否有警告信息&#xD;
+		 if(newMsg.err){&#xD;
+		     dorado.MessageBox.alert(newMsg.err);&#xD;
+		 }else if(newMsg.dimenErr){&#xD;
+		     dorado.MessageBox.alert(newMsg.dimenErr);&#xD;
+		 }else if(newMsg.dimenType){ //没有警告的时候才有意义&#xD;
+		     var ieExpDesc =  view.get(&quot;#ieExpTextArea&quot;).doGetText();&#xD;
+		     parent.$setIeExpRuleIeExpAndColesDialog(oldMsg,newMsg.dimenType,ieExpDesc);&#xD;
+		 }else{&#xD;
+		     dorado.MessageBox.alert(&quot;未正确解析信息！&quot;);&#xD;
+		 }&#xD;
+    }else{&#xD;
+		 dorado.MessageBox.alert(&quot;未正确获取服务端返回信息！&quot;);&#xD;
+	}&#xD;
+&#xD;
+}&#xD;
+</ClientEvent>
+    <ClientEvent name="onDataLoaded">var data = parent.$getIeExpRuleIeExp();&#xD;
+var ieCode = parent.$getIeExpRuleIeCode();&#xD;
+if(data){&#xD;
+   view.insertValue(data);&#xD;
+   $serverFanyiRuleMsg(ieCode,data,false);&#xD;
+}&#xD;
+&#xD;
+var ieExpDescData = parent.$getIeExpRuleIeExpDesc();&#xD;
+&#xD;
+if(ieExpDescData){&#xD;
+	view.get(&quot;#ieExpTextArea&quot;).doSetText(ieExpDescData);&#xD;
+}&#xD;
+</ClientEvent>
+    <Property name="packages">validator</Property>
+    <Panel>
+      <Buttons>
+        <Button layoutConstraint="anchorLeft:container">
+          <ClientEvent name="onClick">
+var oldMsg = view.getDataValue();
+var ieCode = parent.$getIeExpRuleIeCode();
+
+if(oldMsg&amp;&amp;oldMsg!=&quot;&quot;){
+ 	  
+	  $serverFanyiRuleMsg(ieCode,oldMsg,true);
+	   
+}else{
+		dorado.MessageBox.alert(&quot;请先编辑规则&quot;);
+}
+</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button layoutConstraint="anchorLeft:container">
+          <ClientEvent name="onClick">parent.$colesIeExpDialog();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Container layoutConstraint="top">
+            <Property name="height">50%</Property>
+            <Property name="width">100%</Property>
+            <Container layoutConstraint="top ">
+              <Property name="height">45%</Property>
+              <Property name="width">100%</Property>
+              <Container layoutConstraint="right padding:2">
+                <Property name="width">12%</Property>
+                <Property name="style">
+                  <Property name="padding-top">15</Property>
+                </Property>
+                <Button layoutConstraint="padding:4">
+                  <ClientEvent name="onClick">view.clareValue();&#xD;
+view.get(&quot;#messageFanYi&quot;).doSetText(&quot;&quot;);&#xD;
+view.get(&quot;#dimenTypeMsg&quot;).set(&quot;text&quot;,&quot;信息提示 :\r\n&quot;) ;	&#xD;
+			 &#xD;
+</ClientEvent>
+                  <Property name="caption">清空</Property>
+                  <Property name="width">60</Property>
+                  <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+                </Button>
+                <Button layoutConstraint="padding:4">
+                  <ClientEvent name="onClick">var oldMsg = view.getDataValue();&#xD;
+var ieCode = parent.$getIeExpRuleIeCode();&#xD;
+&#xD;
+if(oldMsg&amp;&amp;oldMsg!=&quot;&quot;){&#xD;
+	   $serverFanyiRuleMsg(ieCode,oldMsg,false);&#xD;
+}else{&#xD;
+		dorado.MessageBox.alert(&quot;请先编辑规则&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                  <Property name="caption">翻译</Property>
+                  <Property name="width">60</Property>
+                  <Property name="icon">>icons/comment_edit.png</Property>
+                </Button>
+              </Container>
+              <Container layoutConstraint="center padding:2">
+                <Property name="width">88%</Property>
+                <HtmlContainer layoutConstraint="center">
+                  <ClientEvent name="onKeyPress">$localFanYiRuleMsg();&#xD;
+</ClientEvent>
+                  <ClientEvent name="onClick">$localFanYiRuleMsg();&#xD;
+</ClientEvent>
+                  <Property name="content">&lt;table width=100% height=&quot;90%&quot;>&#xD;
+&lt;tr  width=100% height=&quot;100%&quot; >&#xD;
+	&lt;td  width=100% height=&quot;100%&quot;>&lt;textarea id=&quot;base_expression&quot; style=&quot;height:95%;width:95%&quot;>&lt;/textarea>&lt;/td>&#xD;
+&lt;/tr>&#xD;
+&lt;/table>&#xD;
+</Property>
+                  <Property name="width">100%</Property>
+                  <Property name="height">100%</Property>
+                </HtmlContainer>
+              </Container>
+            </Container>
+            <Container layoutConstraint="top ">
+              <Property name="height">25%</Property>
+              <Property name="style">
+                <Property name="padding-left">6px</Property>
+                <Property name="padding-right">15px</Property>
+              </Property>
+              <TextArea id="messageFanYi">
+                <Property name="readOnly">true</Property>
+                <Property name="width">98%</Property>
+              </TextArea>
+            </Container>
+            <Container layoutConstraint="center ">
+              <Property name="height">30%</Property>
+              <Property name="style">
+                <Property name="padding-left">6px</Property>
+                <Property name="padding-right">15px</Property>
+              </Property>
+              <Label layoutConstraint="top ">
+                <Property name="text">表达式描述:</Property>
+              </Label>
+              <TextArea id="ieExpTextArea">
+                <Property name="blankText">请填写表达式描述</Property>
+                <Property name="width">98%</Property>
+              </TextArea>
+            </Container>
+          </Container>
+          <Container layoutConstraint="center padding:2">
+            <Property name="width">100%</Property>
+            <Container layout="form cols:110,110;colPadding:0;rowPadding:0;padding:0" layoutConstraint="left padding:2">
+              <Button>
+                <ClientEvent name="onClick">// 代表树的&#xD;
+var ieTypeCode = &quot;1&quot;;&#xD;
+	&#xD;
+view.get(&quot;#ieIndexIFrame&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com.innofi.component.indicatorengine.derivedindcators.deriveexp.view.IeIndexMultiSelect.d?status=1&amp;ieTypeCode=&quot;+ieTypeCode).refresh();&#xD;
+&#xD;
+var dialog=view.get(&quot;#ieIndexDialog&quot;);&#xD;
+&#xD;
+dialog.catpion = &quot;基础指标查询&quot;;&#xD;
+&#xD;
+dialog.show();&#xD;
+	&#xD;
+&#xD;
+</ClientEvent>
+                <Property name="caption">基础指标</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">&#xD;
+var ieTypeCode = &quot;2&quot;;&#xD;
+	&#xD;
+view.get(&quot;#ieIndexIFrame&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com.innofi.component.indicatorengine.derivedindcators.deriveexp.view.IeIndexMultiSelect.d?status=1&amp;ieTypeCode=&quot;+ieTypeCode).refresh();&#xD;
+&#xD;
+var dialog=view.get(&quot;#ieIndexDialog&quot;);&#xD;
+   &#xD;
+dialog.catpion = &quot;派生指标查询&quot;;&#xD;
+&#xD;
+dialog.show();&#xD;
+	&#xD;
+&#xD;
+</ClientEvent>
+                <Property name="caption">派生指标</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">&#xD;
+view.get(&quot;#ieIndexIFrame&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com/innofi/pas/module/indicator/custom/view/ParmCommonParamSelect.d&quot;).refresh();&#xD;
+&#xD;
+var dialog=view.get(&quot;#ieIndexDialog&quot;);&#xD;
+&#xD;
+dialog.show();&#xD;
+	&#xD;
+&#xD;
+</ClientEvent>
+                <Property name="caption">参数</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">// 代表树的&#xD;
+var ieTypeCode = &quot;1&quot;;&#xD;
+	&#xD;
+view.get(&quot;#ieIndexIFrame&quot;).set(&quot;path&quot;,&quot;${request.contextPath}/com/innofi/pas/module/indicator/custom/view/IeUIndexDefineSelect.d&quot;).refresh();&#xD;
+&#xD;
+var dialog=view.get(&quot;#ieIndexDialog&quot;);&#xD;
+&#xD;
+dialog.show();&#xD;
+	&#xD;
+&#xD;
+</ClientEvent>
+                <Property name="caption">计划指标</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;(&quot;);</ClientEvent>
+                <Property name="caption">(</Property>
+                <Property name="width">100</Property>
+                <Property name="height">6</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;)&quot;);</ClientEvent>
+                <Property name="caption">)</Property>
+                <Property name="width">100</Property>
+                <Property name="height">6</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;+&quot;);&#xD;
+</ClientEvent>
+                <Property name="caption">+</Property>
+                <Property name="width">100</Property>
+                <Property name="height">6</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;-&quot;);</ClientEvent>
+                <Property name="caption">-</Property>
+                <Property name="width">100</Property>
+                <Property name="height">6</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;*&quot;);</ClientEvent>
+                <Property name="caption">*</Property>
+                <Property name="width">100</Property>
+                <Property name="height">6</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;/&quot;);</ClientEvent>
+                <Property name="caption">/</Property>
+                <Property name="width">100</Property>
+                <Property name="height">6</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;=&quot;);</ClientEvent>
+                <Property name="caption">等于</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;!=&quot;);</ClientEvent>
+                <Property name="caption">不等于</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;>&quot;);</ClientEvent>
+                <Property name="caption">大于</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;&lt;=&quot;);</ClientEvent>
+                <Property name="caption">大于等于</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;&lt;&quot;);</ClientEvent>
+                <Property name="caption">小于</Property>
+                <Property name="width">100</Property>
+              </Button>
+              <Button>
+                <ClientEvent name="onClick">$setHtmlValue(&quot;&lt;=&quot;);</ClientEvent>
+                <Property name="caption">小于等于</Property>
+                <Property name="width">100</Property>
+              </Button>
+            </Container>
+            <Container layoutConstraint="center">
+              <Property name="height">100%</Property>
+              <Container layoutConstraint="left padding:4">
+                <Property name="width">50%</Property>
+                <Property name="height">100%</Property>
+                <Tree layoutConstraint="padding:2">
+                  <ClientEvent name="onMouseDown">&#xD;
+var currentNode = self.get(&quot;currentNode&quot;);&#xD;
+&#xD;
+if(currentNode.get(&quot;userData&quot;)){&#xD;
+	$setHtmlValue(currentNode.get(&quot;userData&quot;));&#xD;
+}</ClientEvent>
+                  <ClientEvent name="onReady">&#xD;
+var currentNode = self.get(&quot;currentNode&quot;);&#xD;
+&#xD;
+if(currentNode){&#xD;
+	&#xD;
+   currentNode.expand();//&#xD;
+&#xD;
+}</ClientEvent>
+                  <Node>
+                    <Property name="label">数学函数</Property>
+                    <Node>
+                      <Property name="label">abs 绝对值</Property>
+                      <Property name="userData">math.abs(numValue2)</Property>
+                    </Node>
+                    <Node>
+                      <Property name="label">if-else</Property>
+                      <Property name="userData">((numValue1>numValue2)?numValue1:numValue2)</Property>
+                    </Node>
+                  </Node>
+                </Tree>
+              </Container>
+              <Container layoutConstraint="padding:4">
+                <Property name="width">50%</Property>
+                <Property name="height">100%</Property>
+                <Label id="dimenTypeMsg">
+                  <Property name="width">100%</Property>
+                  <Property name="height">100%</Property>
+                  <Property name="text">指标维度 :</Property>
+                </Label>
+              </Container>
+            </Container>
+          </Container>
+        </Container>
+      </Children>
+      <Tools/>
+    </Panel>
+    <Dialog id="ieIndexDialog">
+      <Property name="height">90%</Property>
+      <Property name="width">90%</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">选择指标</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="ieIndexIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="fanyiAjaxAction">
+      <Property name="service">ieDeriveIeExpAction#getIeIndexNamesByIECodes</Property>
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作完成</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

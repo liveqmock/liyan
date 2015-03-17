@@ -1,0 +1,762 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">IeRuleDimenManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+
+
+
+    <DataType name="dataTypeIeRuleDimen">
+
+
+        <Property name="creationType">com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen</Property>
+        <Property name="autoCreatePropertyDefs">false</Property>
+    
+     	
+	        <PropertyDef name="dimenId">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="dimenType">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,10)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="ieExpId">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="id">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyLabel}</Property>
+              </PropertyDef>
+    </DataType>
+
+    <DataType name="querydataTypeIeRuleDimen">
+        <Property name="autoCreatePropertyDefs">false</Property>
+                    <PropertyDef name="qMdimenId">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="dimenId">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMdimenType">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="dimenType">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMieExpId">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="ieExpId">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMid">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="id">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+        </DataType>
+
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetIeRuleDimen">
+        <Property name="dataProvider">ieRuleDimenAction#findIeRuleDimens</Property>
+        <Property name="dataType">[dataTypeIeRuleDimen]</Property>
+        <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetIeRuleDimen">
+        <ClientEvent name="onReady">self.insert({});</ClientEvent>
+        <Property name="dataType">[querydataTypeIeRuleDimen]</Property>
+    </DataSet>
+    <Container>
+        <FieldSet layoutConstraint="top">
+            <Property name="caption">查询条件</Property>
+            <Property name="collapsed">false</Property>
+            <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get("#dataSetIeRuleDimen").set("parameter", view.get("#querydataSetIeRuleDimen").getData("#")).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get("#querydataSetIeRuleDimen").clear();
+                view.get("#querydataSetIeRuleDimen").getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+            <Children>
+                <AutoForm id="autoFormIeRuleDimenQuery" layoutConstraint="center">
+                    <Property name="cols">*,*</Property>
+                    <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                    <Property name="dataType">querydataTypeIeRuleDimen</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="labelWidth">100</Property>
+                            <AutoFormElement name="autoFormElementdimenId">
+                                <Property name="name">dimenId</Property>
+                    <Property name="property">dimenId</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMdimenId</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">dimenId</Property>
+                                                        <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementdimenType">
+                                <Property name="name">dimenType</Property>
+                    <Property name="property">dimenType</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMdimenType</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">dimenType</Property>
+                                                        <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementieExpId">
+                                <Property name="name">ieExpId</Property>
+                    <Property name="property">ieExpId</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMieExpId</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">ieExpId</Property>
+                                                        <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementid">
+                                <Property name="name">id</Property>
+                    <Property name="property">id</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMid</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">id</Property>
+                                                        <Property name="dataSet">querydataSetIeRuleDimen</Property>
+                                <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                            </AutoForm>
+            </Children>
+        </FieldSet>
+        <ToolBar id="toolBarIeRuleDimen" layoutConstraint="top">
+            <Property name="tags">tags_toolbar</Property>
+            <ToolBarButton  id="addButton">
+                <ClientEvent name="onClick">
+                    view.get("#dataSetIeRuleDimen").set("readOnly",false);
+                    view.get("#dataSetIeRuleDimen.data").insert();
+                    view.get("#addDialogIeRuleDimen").show();
+                </ClientEvent>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+                <Property name="caption">添加</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updateButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSetIeRuleDimen").getData();
+                    var selection = view.get("#dataGridIeRuleDimen").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert("只能选择一条记录查看修改！");
+                    }else if (selection.length == 1) {
+                        view.get("#dataSetIeRuleDimen").getData().setCurrent(selection[0]);
+                        view.get("#dialogIeRuleDimen").show();
+                        view.get("#dataSetIeRuleDimen").set("readOnly",false);
+                    }
+                </ClientEvent>
+                <Property name="caption">修改</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delButton">
+                <ClientEvent name="onClick">var entitys = view.get("#dataSetIeRuleDimen").getData();
+                    var selection = view.get("#dataGridIeRuleDimen").get("selection");
+                    var action = view.get("#saveIeRuleDimensAction");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if (selection.length != 0) {
+                        dorado.MessageBox.confirm("确定删除？", function(){
+                        jQuery.each(selection,function(i,item){
+                            entitys.remove(item);
+                        });
+                        action.execute();
+                        });
+                    }
+                </ClientEvent>
+                <Property name="caption">删除</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="lookButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSetIeRuleDimen").getData();
+                    var found = false;
+                    var selection = view.get("#dataGridIeRuleDimen").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length>1){
+                        dorado.MessageBox.alert("只能查看一条记录！");
+                    }else if (selection.length == 1) {
+                    view.get("#dataSetIeRuleDimen").getData().setCurrent(selection[0]);
+                    view.get("#lookdialogIeRuleDimen").show();
+                    view.get("#dataSetIeRuleDimen").set("readOnly",true);
+                    }
+                </ClientEvent>
+                <Property name="caption">查看</Property>
+                <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+            </ToolBarButton>
+      </ToolBar>
+        <Container>
+            <DataGrid id="dataGridIeRuleDimen" layoutConstraint="center">
+                <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get("selection");
+                    var entity = view.get("#dataSetIeRuleDimen").getData("#");
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get("id") == entity.get("id")) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set("selection", newSelection);*/
+                </ClientEvent>
+                <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get("#dataSetIeRuleDimen").getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+                <Property name="dataSet">dataSetIeRuleDimen</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="dataType">dataTypeIeRuleDimen</Property>
+                <Property name="rowHeight">26</Property>
+                <Property name="height">100%</Property>
+                <Property name="width">100%</Property>
+                <Property name="highlightCurrentRow">false</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+                            <DataColumn name="dimenId" property="dimenId"/>
+                                        <DataColumn name="dimenType" property="dimenType"/>
+                                        <DataColumn name="ieExpId" property="ieExpId"/>
+                                        <DataColumn name="id" property="id"/>
+                        </DataGrid>
+        </Container>
+        <ToolBar layoutConstraint="bottom">
+            <DataPilot>
+                <Property name="dataSet">dataSetIeRuleDimen</Property>
+                <Property name="itemCodes">pages</Property>
+            </DataPilot>
+            <Separator/>
+        </ToolBar>
+    </Container>
+    <UpdateAction id="saveIeRuleDimensAction">
+        <Property name="executingMessage">正在处理...</Property>
+        <Property name="successMessage">操作成功</Property>
+        <Property name="dataResolver">ieRuleDimenAction#saveIeRuleDimens</Property>
+        <UpdateItem>
+        <Property name="dataSet">dataSetIeRuleDimen</Property>
+        </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogIeRuleDimen">
+        <ClientEvent name="onClose">
+            view.get("#dataSetIeRuleDimen").getData().cancel();
+            view.get("#dialogIeRuleDimen").hide();
+        </ClientEvent>
+        <Property name="caption">信息编辑</Property>
+        <Property name="center">true</Property>
+        <Property name="border">normal</Property>
+        <Property name="minimizeable">true</Property>
+        <Property name="maximizeable">true</Property>
+        <Property name="modal">true</Property>
+        <Property name="width">60%</Property>
+        <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get("#saveIeRuleDimensAction");
+            var dialog=view.get("#dialogIeRuleDimen");
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSetIeRuleDimen").getData().cancel();
+            view.get("#dialogIeRuleDimen").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormIeRuleDimen">
+          <Property name="dataType">dataTypeIeRuleDimen</Property>
+          <Property name="dataSet">dataSetIeRuleDimen</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+                    <Property name="name">dimenId</Property>
+            <Property name="property">dimenId</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">dimenType</Property>
+            <Property name="property">dimenType</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">ieExpId</Property>
+            <Property name="property">ieExpId</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">id</Property>
+            <Property name="property">id</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+            </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+    <Dialog id="addDialogIeRuleDimen">
+     <ClientEvent name="onClose">
+         view.get("#dataSetIeRuleDimen").getData().cancel();
+         view.get("#dialogIeRuleDimen").hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get("#saveIeRuleDimensAction");
+              var dialog=view.get("#addDialogIeRuleDimen");
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSetIeRuleDimen").getData().cancel();
+            view.get("#addDialogIeRuleDimen").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormIeRuleDimen">
+          <Property name="dataType">dataTypeIeRuleDimen</Property>
+          <Property name="dataSet">dataSetIeRuleDimen</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                  <Property name="name">dimenId</Property>
+          <Property name="property">dimenId</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">dimenType</Property>
+          <Property name="property">dimenType</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.dimenType"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">ieExpId</Property>
+          <Property name="property">ieExpId</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.ieExpId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">id</Property>
+          <Property name="property">id</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.indicatorengine.common.ruledimen.pojo.IeRuleDimen.id"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+            </AutoForm>
+    </Children>
+    <Tools/>
+    </Dialog>
+
+   <Dialog id="lookdialogIeRuleDimen">
+      <ClientEvent name="onClose">
+        view.get("#dataSetIeRuleDimen").getData().cancel();
+	    view.get("#lookdialogIeRuleDimen").hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormIeRuleDimen">
+          <Property name="dataType">dataTypeIeRuleDimen</Property>
+          <Property name="dataSet">dataSetIeRuleDimen</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+
+									  </View>
+</ViewConfig>

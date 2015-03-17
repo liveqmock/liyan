@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes>
+    <clazz>
+        <packageName>pojo</packageName>
+        <className>${model.modelName}.java</className>
+        <template>pojo-template.vm</template>
+    </clazz>
+    <clazz>
+        <packageName>pojo.ddl.oracle</packageName>
+        <className>${model.modelName}.ddl.sql</className>
+        <template>ddl-template.vm</template>
+    </clazz>
+    <clazz>
+        <packageName>dao</packageName>
+        <className>${model.modelName}DaoSupport.java</className>
+        <template>dao-template.vm</template>
+    </clazz>
+    <clazz>
+        <packageName>service</packageName>
+        <className>I${model.modelName}Service.java</className>
+        <template>service-template.vm</template>
+    </clazz>
+    <clazz>
+        <packageName>service.impl</packageName>
+        <className>${model.modelName}ServiceImpl.java</className>
+        <template>serviceimpl-template.vm</template>
+    </clazz>
+    <clazz>
+        <packageName>action</packageName>
+        <className>${model.modelName}Action.java</className>
+        <template>action-template.vm</template>
+    </clazz>
+    <clazz>
+        <packageName>view</packageName>
+        <className>${model.modelName}Manage.view.xml</className>
+        <template>view-template-20140915.vm</template>
+    </clazz>
+    <clazz>
+        <packageName>view</packageName>
+        <className>${model.modelName}Manage.js</className>
+        <template>js-template-20140915.vm</template>
+    </clazz>
+</classes>

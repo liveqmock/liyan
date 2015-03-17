@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="entityDataType"/>
+  </Model>
+  <View>
+    <DataSet id="entityDataSet">
+      <ClientEvent name="onReady">var mdId=&quot;${request.getParameter('mdId')}&quot;;
+if(mdId!=&quot;&quot;||mdId.length!=0){
+	parm={id:mdId};
+	self.set(&quot;parameter&quot;,parm).flushAsync();
+}</ClientEvent>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="dataType">[entityDataType]</Property>
+      <Property name="dataProvider">mdTableAction#findMdTables</Property>
+    </DataSet>
+    <FieldSet id="EntityFieldSet">
+      <Buttons/>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm>
+            <Property name="dataSet">entityDataSet</Property>
+            <Property name="autoCreateElements">true</Property>
+            <Property name="dataType">entityDataType</Property>
+          </AutoForm>
+        </Container>
+      </Children>
+    </FieldSet>
+  </View>
+</ViewConfig>

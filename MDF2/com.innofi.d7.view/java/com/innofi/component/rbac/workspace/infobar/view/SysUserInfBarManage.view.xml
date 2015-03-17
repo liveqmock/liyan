@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">SysUserInfBarManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+
+
+
+    <DataType name="dataTypeSysUserInfBar">
+
+
+        <Property name="creationType">com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar</Property>
+        <Property name="autoCreatePropertyDefs">false</Property>
+    
+     	
+	        <PropertyDef name="userThemeId">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="id">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="infBarId">
+                <Property name="dataType">String</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,36)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyLabel}</Property>
+              </PropertyDef>
+    
+     	
+	        <PropertyDef name="seq">
+                <Property name="dataType">BigDecimal</Property>
+                    <Validator type="custom">
+                <ClientEvent name="onValidate">charLengthValidator(arg.data,38)</ClientEvent>
+            </Validator>
+	            <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyLabel}</Property>
+              </PropertyDef>
+    </DataType>
+
+    <DataType name="querydataTypeSysUserInfBar">
+        <Property name="autoCreatePropertyDefs">false</Property>
+                    <PropertyDef name="qMuserThemeId">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="userThemeId">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMid">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="id">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                        <PropertyDef name="qMinfBarId">
+            <Property name="dataType">String</Property>
+            <Property name="defaultValue">eq</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getDict").getResult("QUERY_METHOD")}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="infBarId">
+            <Property name="dataType">String</Property>
+                        <Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyLabel}</Property>
+        </PropertyDef>
+                                
+        
+
+                                <PropertyDef name="qMseq">
+            <Property name="defaultValue">eq</Property>
+            <Property name="dataType">String</Property>
+            <Property name="mapping">
+                <Property name="mapValues">${dorado.getDataProvider("coderCreate#getQueryMethod").getResult()}</Property>
+            </Property>
+        </PropertyDef>
+        <PropertyDef name="seq">
+            <Property name="dataType">BigDecimal</Property>
+                    	<Property name="label">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyLabel}</Property>
+        </PropertyDef>
+                        
+        
+
+        </DataType>
+
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetSysUserInfBar">
+        <Property name="dataProvider">sysUserInfBarAction#findSysUserInfBars</Property>
+        <Property name="dataType">[dataTypeSysUserInfBar]</Property>
+        <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetSysUserInfBar">
+        <ClientEvent name="onReady">self.insert({});</ClientEvent>
+        <Property name="dataType">[querydataTypeSysUserInfBar]</Property>
+    </DataSet>
+    <Container>
+        <FieldSet layoutConstraint="top">
+            <Property name="caption">查询条件</Property>
+            <Property name="collapsed">false</Property>
+            <Buttons>
+          <Button id="queryButton">
+            <ClientEvent name="onClick">
+                view.get("#dataSetSysUserInfBar").set("parameter", view.get("#querydataSetSysUserInfBar").getData("#")).flushAsync();
+            </ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button id="resetButton">
+            <ClientEvent name="onClick">
+                view.get("#querydataSetSysUserInfBar").clear();
+                view.get("#querydataSetSysUserInfBar").getData().insert({});
+            </ClientEvent>
+            <Property name="icon">url(&gt;skin&gt;common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+            <Children>
+                <AutoForm id="autoFormSysUserInfBarQuery" layoutConstraint="center">
+                    <Property name="cols">*,*</Property>
+                    <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                    <Property name="dataType">querydataTypeSysUserInfBar</Property>
+                    <Property name="labelAlign">right</Property>
+                    <Property name="labelWidth">120</Property>
+                            <AutoFormElement name="autoFormElementuserThemeId">
+                                <Property name="name">userThemeId</Property>
+                    <Property name="property">userThemeId</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMuserThemeId</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">userThemeId</Property>
+                                                        <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementid">
+                                <Property name="name">id</Property>
+                    <Property name="property">id</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMid</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">id</Property>
+                                                        <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementinfBarId">
+                                <Property name="name">infBarId</Property>
+                    <Property name="property">infBarId</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMinfBarId</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">infBarId</Property>
+                                                        <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                                        <AutoFormElement name="autoFormElementseq">
+                                <Property name="name">seq</Property>
+                    <Property name="property">seq</Property>
+                                <Editor>
+                        <Container>
+                            <TextEditor layoutConstraint="left">
+                                <Property name="property">qMseq</Property>
+                                <Property name="trigger">autoMappingDropDown1</Property>
+                                <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="width">60</Property>
+                            </TextEditor>
+                            <TextEditor>
+                                                        <Property name="property">seq</Property>
+                                                        <Property name="dataSet">querydataSetSysUserInfBar</Property>
+                                <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyBlankText}</Property>
+                                <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyTip}</Property>
+                                                                            </TextEditor>
+                                    </Container>
+                    </Editor>
+                </AutoFormElement>
+                            </AutoForm>
+            </Children>
+        </FieldSet>
+        <ToolBar id="toolBarSysUserInfBar" layoutConstraint="top">
+            <Property name="tags">tags_toolbar</Property>
+            <ToolBarButton id="addButton">
+                <ClientEvent name="onClick">
+                    view.get("#dataSetSysUserInfBar").set("readOnly",false);
+                    view.get("#dataSetSysUserInfBar.data").insert();
+                    view.get("#addDialogSysUserInfBar").show();
+                </ClientEvent>
+                <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -0px</Property>
+                <Property name="caption">添加</Property>
+            </ToolBarButton>
+            <ToolBarButton id="updateButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSetSysUserInfBar").getData();
+                    var selection = view.get("#dataGridSysUserInfBar").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length&gt;1){
+                        dorado.MessageBox.alert("只能选择一条记录查看修改！");
+                    }else if (selection.length == 1) {
+                        view.get("#dataSetSysUserInfBar").getData().setCurrent(selection[0]);
+                        view.get("#dialogSysUserInfBar").show();
+                        view.get("#dataSetSysUserInfBar").set("readOnly",false);
+                    }
+                </ClientEvent>
+                <Property name="caption">修改</Property>
+                <Property name="icon">url(&gt;skin&gt;common/icons.gif) -200px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="delButton">
+                <ClientEvent name="onClick">var entitys = view.get("#dataSetSysUserInfBar").getData();
+                    var selection = view.get("#dataGridSysUserInfBar").get("selection");
+                    var action = view.get("#saveSysUserInfBarsAction");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if (selection.length != 0) {
+                        dorado.MessageBox.confirm("确定删除？", function(){
+                        jQuery.each(selection,function(i,item){
+                            entitys.remove(item);
+                        });
+                        action.execute();
+                        });
+                    }
+                </ClientEvent>
+                <Property name="caption">删除</Property>
+                <Property name="icon">url(&gt;skin&gt;common/icons.gif) -140px -0px</Property>
+            </ToolBarButton>
+            <ToolBarButton id="lookButton">
+                <ClientEvent name="onClick">
+                    var entitys = view.get("#dataSetSysUserInfBar").getData();
+                    var found = false;
+                    var selection = view.get("#dataGridSysUserInfBar").get("selection");
+                    if(selection.length==0){
+                        dorado.MessageBox.alert("请选择记录！");
+                    }else if(selection.length&gt;1){
+                        dorado.MessageBox.alert("只能查看一条记录！");
+                    }else if (selection.length == 1) {
+                    view.get("#dataSetSysUserInfBar").getData().setCurrent(selection[0]);
+                    view.get("#lookdialogSysUserInfBar").show();
+                    view.get("#dataSetSysUserInfBar").set("readOnly",true);
+                    }
+                </ClientEvent>
+                <Property name="caption">查看</Property>
+                <Property name="icon">url(&gt;skin&gt;common/icons.gif) -120px -120px</Property>
+            </ToolBarButton>
+      </ToolBar>
+        <Container>
+            <DataGrid id="dataGridSysUserInfBar" layoutConstraint="center">
+                <ClientEvent name="onDataRowClick">
+                    /*var newSelection = [];
+                    var selection = self.get("selection");
+                    var entity = view.get("#dataSetSysUserInfBar").getData("#");
+                    var found = false;
+                    selection.each(function(data){
+                        if (data.get("id") == entity.get("id")) {
+                            found = true;
+                        }else{
+                            newSelection.push(data);
+                        }
+                    });
+                    if (!found) {
+                        newSelection.push(entity);
+                    }
+                    self.set("selection", newSelection);*/
+                </ClientEvent>
+                <ClientEvent name="onSelectionChange">
+                    if (arg.added){
+                     view.get("#dataSetSysUserInfBar").getData().setCurrent(arg.added[0])
+                    }
+                </ClientEvent>
+                <Property name="dataSet">dataSetSysUserInfBar</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="dataType">dataTypeSysUserInfBar</Property>
+                <Property name="rowHeight">26</Property>
+                <Property name="height">100%</Property>
+                <Property name="width">100%</Property>
+                <Property name="highlightCurrentRow">false</Property>
+                <RowNumColumn/>
+                <RowSelectorColumn/>
+                            <DataColumn name="userThemeId" property="userThemeId"/>
+                                        <DataColumn name="id" property="id"/>
+                                        <DataColumn name="infBarId" property="infBarId"/>
+                                        <DataColumn name="seq" property="seq"/>
+                        </DataGrid>
+        </Container>
+        <ToolBar layoutConstraint="bottom">
+            <DataPilot>
+                <Property name="dataSet">dataSetSysUserInfBar</Property>
+                <Property name="itemCodes">pages</Property>
+            </DataPilot>
+            <Separator/>
+        </ToolBar>
+    </Container>
+    <UpdateAction id="saveSysUserInfBarsAction">
+        <Property name="executingMessage">正在处理...</Property>
+        <Property name="successMessage">操作成功</Property>
+        <Property name="dataResolver">sysUserInfBarAction#saveSysUserInfBars</Property>
+        <UpdateItem>
+        <Property name="dataSet">dataSetSysUserInfBar</Property>
+        </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSysUserInfBar">
+        <ClientEvent name="onClose">
+            view.get("#dataSetSysUserInfBar").getData().cancel();
+            view.get("#dialogSysUserInfBar").hide();
+        </ClientEvent>
+        <Property name="caption">信息编辑</Property>
+        <Property name="center">true</Property>
+        <Property name="border">normal</Property>
+        <Property name="minimizeable">true</Property>
+        <Property name="maximizeable">true</Property>
+        <Property name="modal">true</Property>
+        <Property name="width">60%</Property>
+        <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+            var action = view.get("#saveSysUserInfBarsAction");
+            var dialog=view.get("#dialogSysUserInfBar");
+            action.execute(function(){
+                dialog.hide();
+            });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSetSysUserInfBar").getData().cancel();
+            view.get("#dialogSysUserInfBar").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormSysUserInfBar">
+          <Property name="dataType">dataTypeSysUserInfBar</Property>
+          <Property name="dataSet">dataSetSysUserInfBar</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+                    <Property name="name">userThemeId</Property>
+            <Property name="property">userThemeId</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">id</Property>
+            <Property name="property">id</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">infBarId</Property>
+            <Property name="property">infBarId</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+                <AutoFormElement>
+                    <Property name="name">seq</Property>
+            <Property name="property">seq</Property>
+                    <Property name="hideMode">display</Property>
+                
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                </AutoFormElement>
+            </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+    <Dialog id="addDialogSysUserInfBar">
+     <ClientEvent name="onClose">
+         view.get("#dataSetSysUserInfBar").getData().cancel();
+         view.get("#dialogSysUserInfBar").hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">60%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+              var action = view.get("#saveSysUserInfBarsAction");
+              var dialog=view.get("#addDialogSysUserInfBar");
+              action.execute(function(){
+                dialog.hide();
+              });
+          </ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">
+            view.get("#dataSetSysUserInfBar").getData().cancel();
+            view.get("#addDialogSysUserInfBar").hide();
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormSysUserInfBar">
+          <Property name="dataType">dataTypeSysUserInfBar</Property>
+          <Property name="dataSet">dataSetSysUserInfBar</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+              <AutoFormElement>
+                  <Property name="name">userThemeId</Property>
+          <Property name="property">userThemeId</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.userThemeId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">id</Property>
+          <Property name="property">id</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.id"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">infBarId</Property>
+          <Property name="property">infBarId</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.infBarId"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+                  <AutoFormElement>
+                  <Property name="name">seq</Property>
+          <Property name="property">seq</Property>
+                     <Property name="hideMode">display</Property>
+                            <Property name="labelAlign">right</Property>
+                    <Property name="readOnly">false</Property>
+                            <Editor>
+                <TextEditor>
+                    <Property name="blankText">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyBlankText}</Property>
+                    <Property name="tip">${req["com.innofi.component.rbac.workspace.infobar.pojo.SysUserInfBar.seq"].propertyTip}</Property>
+                </TextEditor>
+            </Editor>
+                  </AutoFormElement>
+            </AutoForm>
+    </Children>
+    <Tools/>
+    </Dialog>
+
+   <Dialog id="lookdialogSysUserInfBar">
+      <ClientEvent name="onClose">
+        view.get("#dataSetSysUserInfBar").getData().cancel();
+	    view.get("#lookdialogSysUserInfBar").hide();
+      </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">60%</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm id="lookFormSysUserInfBar">
+          <Property name="dataType">dataTypeSysUserInfBar</Property>
+          <Property name="dataSet">dataSetSysUserInfBar</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="autoCreateElements">true</Property>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+    
+    
+    
+    
+    
+    
+
+        
+    
+    
+    
+          
+    
+       
+         
+    
+    
+        
+    
+    
+    
+          
+    
+       
+        
+   
+     
+        
+    
+    
+    
+          
+    
+       
+         
+     
+        
+    
+    
+    
+          
+    
+       
+         
+
+
+									  </View>
+</ViewConfig>

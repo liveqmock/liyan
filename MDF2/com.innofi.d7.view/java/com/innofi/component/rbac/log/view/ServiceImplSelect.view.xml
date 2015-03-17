@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdEntityObject">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象ID</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象名</Property>
+      </PropertyDef>
+      <PropertyDef name="objDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体对象描述</Property>
+      </PropertyDef>
+      <PropertyDef name="objPath">
+        <Property name="dataType">String</Property>
+        <Property name="label">路径</Property>
+      </PropertyDef>
+      <PropertyDef name="interFace">
+        <Property name="dataType">String</Property>
+        <Property name="label">接口</Property>
+      </PropertyDef>
+      <PropertyDef name="objType">
+        <Property name="dataType">String</Property>
+        <Property name="label">对象类型</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改人</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dataTypeMdEntityObject">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Property name="creationType">com.innofi.framework.pojo.metadata.MdEntityObject</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.id"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="objName">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objName"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="objDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objDesc"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="objPath">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objPath"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="interFace">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.interFace"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="objType">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.objType"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.crtOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.crtUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.crtDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.updOrgCode"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.updDate"].propertyLabel}</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">${req["com.innofi.framework.pojo.metadata.MdEntityObject.updUserCode"].propertyLabel}</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetMdEntityObject">
+      <Property name="dataProvider">mdEntityObjectAction#findMdEntityService</Property>
+      <Property name="dataType">[dataTypeMdEntityObject]</Property>
+      <Property name="pageSize">${sys.getLong("mdf.default.pagesize")}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdEntityObject">
+      <ClientEvent name="onReady">self.insert({});
+//self.getData("#").set("status","1");</ClientEvent>
+      <Property name="dataType">[querydataTypeMdEntityObject]</Property>
+    </DataSet>
+    <Container id="singleList">
+      <Property name="hideMode">display</Property>
+      <Property name="visible">true</Property>
+      <FieldSet>
+        <Property name="collapsed">true</Property>
+        <Property name="buttonAlign">right</Property>
+        <Property name="caption">查询</Property>
+        <Buttons/>
+        <Children>
+          <AutoForm>
+            <Property name="dataSet">querydataSetMdEntityObject</Property>
+            <Property name="cols">*,30</Property>
+            <Property name="labelAlign">right</Property>
+            <AutoFormElement>
+              <Property name="name">objName</Property>
+              <Property name="property">objName</Property>
+              <Property name="showLabel">true</Property>
+              <Property name="label"> 实体名称</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor/>
+            </AutoFormElement>
+            <Button id="dictSingleListSearch">
+              <ClientEvent name="onClick">var objName=view.get("#querydataSetMdEntityObject").getData("#").get("objName");
+view.get("#dataSetMdEntityObject").set("parameter", {"objName":objName}).flushAsync();
+</ClientEvent>
+              <Property name="caption">查询</Property>
+            </Button>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <DataGrid id="entityObjectSingleList">
+        <ClientEvent name="onDataRowClick">var entity = view.get("#dataSetMdEntityObject").getData("#");
+var json = JSON.stringify(entity);
+var dropdown = parent.$id("${request.getParameter('dropdown')}");
+if(dropdown){
+	dropdown.invoke("close",json);
+}</ClientEvent>
+        <Property name="dataSet">dataSetMdEntityObject</Property>
+        <Property name="showHeader">true</Property>
+        <Property name="readOnly">true</Property>
+        <DataColumn name="objName">
+          <Property name="property">objName</Property>
+        </DataColumn>
+        <DataColumn name="objDesc">
+          <Property name="property">objDesc</Property>
+        </DataColumn>
+        <DataColumn name="objPath">
+          <Property name="property">objPath</Property>
+        </DataColumn>
+      </DataGrid>
+      <ToolBar id="sigleListPilot" layoutConstraint="bottom">
+        <Property name="hideMode">display</Property>
+        <DataPilot>
+          <Property name="itemCodes">pages</Property>
+          <Property name="dataSet">dataSetMdEntityObject</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+  </View>
+</ViewConfig>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">DaTablePolicyManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeDaTablePolicy" parent="global:dataTypeDaTablePolicy">
+      <Property name="autoCreatePropertyDefs">false</Property>
+    </DataType>
+    <DataType name="dimenDataType" parent="dataTypeMdDimension">
+      <Reference name="fields">
+        <Property name="dataType">[fieldDataType]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dimenControlId">$${this.dimenControlId}</Property>
+            <Property name="dimenId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">daDimenDataAction#findDimenFieldForDimenControl</Property>
+      </Reference>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenControlId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="fieldDataType" parent="dataTypeMdDimenField">
+      <Reference name="dimenData">
+        <Property name="dataType">[dimenData]</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="dimenControlId">$${this.dimenControlId}</Property>
+            <Property name="dimenFieldId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataProvider">daDimenDataAction#findDimenDatasForDimenControl</Property>
+      </Reference>
+      <PropertyDef name="selectFlag">
+        <Property name="dataType">boolean</Property>
+      </PropertyDef>
+      <PropertyDef name="dimenControlId">
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="dimenData" parent="dataTypeDaDimenData">
+      <PropertyDef name="dispName">
+        <Property name="dataType">String</Property>
+        <Property name="label">部门名称</Property>
+      </PropertyDef>
+      <PropertyDef name="startDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">开始日期</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">结束日期</Property>
+        <Property name="required">false</Property>
+      </PropertyDef>
+      <PropertyDef name="category">
+        <Property name="dataType">String</Property>
+        <Property name="label">类型</Property>
+        <Property name="required">false</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CATEGORY&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetDaTablePolicy">
+      <ClientEvent name="onReady">var tableAuthId=&quot;${request.getParameter(&quot;tableAuthId&quot;)}&quot;&#xD;
+var tableId=&quot;${request.getParameter(&quot;tableId&quot;)}&quot;&#xD;
+//view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId,&quot;tableId&quot;:tableId,searchFlag:&quot;disp&quot;}).flushAsync();&#xD;
+var relateTableFlag='true';&#xD;
+view.get(&quot;#dataSetDimen&quot;).set(&quot;parameter&quot;,{&quot;tableAuthId&quot;:tableAuthId,&quot;tableId&quot;:tableId,&quot;relateTableFlag&quot;:relateTableFlag,searchFlag:&quot;disp&quot;}).flushAsync();</ClientEvent>
+      <Property name="dataProvider">daTablePolicyAction#findDaTablePolicyById</Property>
+      <Property name="dataType">dataTypeDaTablePolicy</Property>
+      <Property name="parameter">${request.getParameter(&quot;tableAuthId&quot;)}</Property>
+    </DataSet>
+    <DataSet id="dataSetDimen">
+      <Property name="dataType">[dimenDataType]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">daDimenControlAction#findMdDimensionForControls</Property>
+    </DataSet>
+    <Container>
+      <FieldSet>
+        <Property name="caption">控制策略</Property>
+        <Buttons/>
+        <Children>
+          <AutoForm id="lookAutoFormDaTablePolicy">
+            <Property name="dataType">dataTypeDaTablePolicy</Property>
+            <Property name="dataSet">dataSetDaTablePolicy</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="cols">*,*</Property>
+            <Property name="readOnly">true</Property>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="readOnly">false</Property>
+              <Property name="trigger">tableList</Property>
+              <Property name="userData">
+                <Entity>
+                  <Property name="code">tableId</Property>
+                </Entity>
+              </Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">operType</Property>
+              <Property name="property">operType</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="readOnly">false</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">sqlWhere</Property>
+              <Property name="property">sqlWhere</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="readOnly">false</Property>
+              <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.sqlWhere&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.sqlWhere&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">authDesc</Property>
+              <Property name="property">authDesc</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="readOnly">false</Property>
+              <Editor>
+                <TextEditor>
+                  <Property name="blankText">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyBlankText}</Property>
+                  <Property name="tip">${req["com.innofi.component.rbac.privilage.pojo.DaTablePolicy.authDesc&quot;].propertyTip}</Property>
+                </TextEditor>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <FieldSet>
+        <Property name="collapsed">false</Property>
+        <Property name="caption">维度信息</Property>
+        <Buttons/>
+        <Children>
+          <SplitPanel>
+            <Property name="position">50%</Property>
+            <Property name="height">150</Property>
+            <Property name="collapseable">false</Property>
+            <Property name="resizeable">false</Property>
+            <MainControl>
+              <DataGrid id="lookFieldGrid">
+                <ClientEvent name="onDataRowClick">var dimenType=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#&quot;).get(&quot;dimenType&quot;);&#xD;
+var field=view.get(&quot;#dataSetDimen&quot;).getData(&quot;#.#fields&quot;).get(&quot;fieldName&quot;);&#xD;
+var cardBook=view.get(&quot;#cardBookLook&quot;);&#xD;
+if(dimenType==&quot;1&quot;){//机构&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 1);&#xD;
+}else if(dimenType==&quot;2&quot;){&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 2);&#xD;
+}else if(dimenType==&quot;3&quot;){//业务&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 3);&#xD;
+}else if(dimenType==&quot;4&quot;){//产品&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 4);&#xD;
+}else{&#xD;
+	cardBook.set(&quot;currentIndex&quot;, 0);&#xD;
+}&#xD;
+</ClientEvent>
+                <ClientEvent name="onRenderRow">var entity=arg.data;&#xD;
+if(entity.get(&quot;selectFlag&quot;)!=true){&#xD;
+	arg.processDefault=false;&#xD;
+}</ClientEvent>
+                <Property name="dataSet">dataSetDimen</Property>
+                <Property name="dataPath">#.fields</Property>
+                <Property name="selectionMode">none</Property>
+                <Property name="rowSelectionProperty">selectFlag</Property>
+                <Property name="highlightSelectedRow">false</Property>
+                <Property name="readOnly">true</Property>
+                <RowNumColumn/>
+                <DataColumn>
+                  <Property name="name">fieldName</Property>
+                  <Property name="property">fieldName</Property>
+                  <Property name="readOnly">true</Property>
+                  <Editor/>
+                </DataColumn>
+              </DataGrid>
+            </MainControl>
+            <SideControl>
+              <DataGrid id="lookDimenGrid">
+                <ClientEvent name="onDataRowClick">var cardBook=view.get(&quot;#cardBookLook&quot;);&#xD;
+cardBook.set(&quot;currentIndex&quot;, 0);</ClientEvent>
+                <Property name="dataSet">dataSetDimen</Property>
+                <Property name="selectionMode">none</Property>
+                <Property name="rowSelectionProperty">selectFlag</Property>
+                <Property name="highlightSelectedRow">false</Property>
+                <Property name="readOnly">true</Property>
+                <RowNumColumn/>
+                <DataColumn>
+                  <Property name="name">dimenName</Property>
+                  <Property name="property">dimenName</Property>
+                  <Property name="readOnly">true</Property>
+                  <Editor/>
+                </DataColumn>
+              </DataGrid>
+            </SideControl>
+          </SplitPanel>
+        </Children>
+      </FieldSet>
+      <FieldSet>
+        <Property name="collapsed">false</Property>
+        <Property name="caption">维度数据</Property>
+        <Property name="height">250</Property>
+        <Buttons/>
+        <Children>
+          <CardBook id="cardBookLook">
+            <Container id="lookBlank"/>
+            <Container id="lookOrgDimen">
+              <DataGrid id="lookOrgDimenDataGrid">
+                <Property name="dataSet">dataSetDimen</Property>
+                <Property name="dataPath">#.#fields.dimenData</Property>
+                <Property name="selectionMode">none</Property>
+                <Property name="highlightSelectedRow">true</Property>
+                <Property name="readOnly">true</Property>
+                <RowNumColumn/>
+                <DataColumn>
+                  <Property name="property">dispName</Property>
+                  <Property name="readOnly">true</Property>
+                  <Property name="name">dispName</Property>
+                  <Property name="caption">部门名称</Property>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="name">category</Property>
+                  <Property name="property">category</Property>
+                  <Property name="caption">类型</Property>
+                  <Property name="readOnly">true</Property>
+                </DataColumn>
+                <DataColumn name="dimenAuthType">
+                  <Property name="property">dimenAuthType</Property>
+                  <Property name="caption">权限类型</Property>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+            <Container id="lookDateDimen">
+              <DataGrid id="lookDateDimenDataGrid">
+                <Property name="dataSet">dataSetDimen</Property>
+                <Property name="dataPath">#.#fields.dimenData</Property>
+                <Property name="selectionMode">none</Property>
+                <Property name="readOnly">true</Property>
+                <RowNumColumn/>
+                <DataColumn name="startDate">
+                  <Property name="property">startDate</Property>
+                  <Property name="readOnly">true</Property>
+                </DataColumn>
+                <DataColumn name="endDate">
+                  <Property name="property">endDate</Property>
+                  <Property name="readOnly">true</Property>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+            <Container id="bizlineDimen">
+              <DataGrid id="bizDimenDataGrid">
+                <Property name="dataSet">dataSetDimen</Property>
+                <Property name="dataPath">#.#fields.dimenData</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <RowNumColumn/>
+                <DataColumn>
+                  <Property name="property">dispName</Property>
+                  <Property name="readOnly">true</Property>
+                  <Property name="name">dispName</Property>
+                  <Property name="caption">业务线名称</Property>
+                </DataColumn>
+                <DataColumn name="dimenAuthType">
+                  <Property name="property">dimenAuthType</Property>
+                  <Property name="caption">权限类型</Property>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+            <Container id="productDimen">
+              <DataGrid id="productDimenDataGrid">
+                <Property name="dataSet">dataSetDimen</Property>
+                <Property name="dataPath">#.#fields.dimenData</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <Property name="readOnly">true</Property>
+                <RowNumColumn/>
+                <DataColumn>
+                  <Property name="property">dispName</Property>
+                  <Property name="readOnly">true</Property>
+                  <Property name="name">dispName</Property>
+                  <Property name="caption">产品名称</Property>
+                </DataColumn>
+                <DataColumn name="dimenAuthType">
+                  <Property name="property">dimenAuthType</Property>
+                  <Property name="caption">权限类型</Property>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+          </CardBook>
+        </Children>
+      </FieldSet>
+    </Container>
+  </View>
+</ViewConfig>

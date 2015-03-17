@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <Property name="packages">idfReport</Property>
+    <Button>
+      <ClientEvent name="onClick">var importExcel = new bdf.ImportExcel();&#xD;
+importExcel.upload(this, &quot;liuhuaiyang&quot;, {width: 700,showRownum: true,showImportData: true});</ClientEvent>
+      <Property name="caption">导入Excel</Property>
+    </Button>
+  </View>
+</ViewConfig>

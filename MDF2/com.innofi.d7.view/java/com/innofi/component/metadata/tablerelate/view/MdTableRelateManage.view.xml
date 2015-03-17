@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdTableRelate">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">表关联关系表</Property>
+      </PropertyDef>
+      <PropertyDef name="dependId">
+        <Property name="dataType">String</Property>
+        <Property name="label">依赖关系表</Property>
+      </PropertyDef>
+      <PropertyDef name="mainTableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">主表ID</Property>
+      </PropertyDef>
+      <PropertyDef name="mainTableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">主表名称</Property>
+      </PropertyDef>
+      <PropertyDef name="mainField">
+        <Property name="dataType">String</Property>
+        <Property name="label">主键字段名</Property>
+      </PropertyDef>
+      <PropertyDef name="foreignTableId">
+        <Property name="dataType">String</Property>
+        <Property name="label">从表ID</Property>
+      </PropertyDef>
+      <PropertyDef name="foreignTableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">从表名称</Property>
+      </PropertyDef>
+      <PropertyDef name="foreignField">
+        <Property name="dataType">String</Property>
+        <Property name="label">外键字段名</Property>
+      </PropertyDef>
+      <PropertyDef name="relateName">
+        <Property name="dataType">String</Property>
+        <Property name="label">关系描述</Property>
+      </PropertyDef>
+      <PropertyDef name="relateDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">关系描述</Property>
+      </PropertyDef>
+      <PropertyDef name="relateType">
+        <Property name="dataType">String</Property>
+        <Property name="label">关系类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;RELATE_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="corrType">
+        <Property name="dataType">String</Property>
+        <Property name="label">对多关系类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;CORR_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="isCrt">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否已创建</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdTableRelate">
+      <ClientEvent name="onReady">var lookStyle=&quot;${request.getParameter('lookStyle')}&quot;;
+var mdId=&quot;${request.getParameter('mdId')}&quot;;
+var tableName = &quot;${request.getParameter('query')}&quot;;
+if(lookStyle ==&quot;look&quot;){
+	parm={mainTableId:mdId,isCrt:&quot;1&quot;};
+	self.set(&quot;parameter&quot;, parm).flushAsync();
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;visible&quot;,false);
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;hideMode&quot;,&quot;display&quot;);
+}else{
+	parm={isCrt:&quot;1&quot;};
+	self.set(&quot;parameter&quot;, parm).flushAsync();
+}</ClientEvent>
+      <Property name="dataProvider">mdTableRelateAction#findMdTableRelates</Property>
+      <Property name="dataType">[dataTypeMdTableRelate]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdTableRelate">
+      <ClientEvent name="onReady">self.insert({});
+self.getData(&quot;#&quot;).set(&quot;isCrt&quot;,&quot;1&quot;);</ClientEvent>
+      <Property name="dataType">[querydataTypeMdTableRelate]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet id="queryFieldSet" layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">view.get(&quot;#dataSetMdTableRelate&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetMdTableRelate&quot;).getData(&quot;#&quot;)).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdTableRelate.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdTableRelateQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetMdTableRelate</Property>
+            <Property name="dataType">dataTypeMdTableRelate</Property>
+            <AutoFormElement>
+              <Property name="name">mainTableName</Property>
+              <Property name="property">mainTableName</Property>
+              <Property name="trigger">customDropDownMdTableM</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">foreignTableName</Property>
+              <Property name="property">foreignTableName</Property>
+              <Property name="trigger">customDropDownMdTableF</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">mainField</Property>
+              <Property name="property">mainField</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">foreignField</Property>
+              <Property name="property">foreignField</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">relateType</Property>
+              <Property name="property">relateType</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">corrType</Property>
+              <Property name="property">corrType</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isCrt</Property>
+              <Property name="property">isCrt</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdTableRelate" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+var dialog = view.get(&quot;#addMdTableRelateDialog&quot;);
+	dataSet.set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetMdTableRelate.data&quot;).insert();
+	view.get(&quot;#dataSetMdTableRelate&quot;).getData(&quot;#&quot;).set(&quot;isCrt&quot;,&quot;0&quot;);
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+var dialog = view.get(&quot;#updateMdTableRelateDialog&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdTableRelate&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdTableRelate&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveMdTableRelatesAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+var selection = view.get(&quot;#dataGridMdTableRelate&quot;).get(&quot;selection&quot;);
+var dialog = view.get(&quot;#lookMdTableRelateDialog&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,true);
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdTableRelate" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdTableRelate</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdTableRelate</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn>
+            <Property name="property">mainTableName</Property>
+            <Property name="name">mainTableName</Property>
+          </DataColumn>
+          <DataColumn name="mainField">
+            <Property name="property">mainField</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">foreignTableName</Property>
+            <Property name="name">foreignTableName</Property>
+          </DataColumn>
+          <DataColumn name="foreignField">
+            <Property name="property">foreignField</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">relateName</Property>
+            <Property name="name">relateName</Property>
+          </DataColumn>
+          <DataColumn name="relateType">
+            <Property name="property">relateType</Property>
+          </DataColumn>
+          <DataColumn name="corrType">
+            <Property name="property">corrType</Property>
+          </DataColumn>
+          <DataColumn name="isCrt">
+            <Property name="property">isCrt</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdTableRelate</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdTableRelatesAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdTableRelateAction#saveMdTableRelates</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdTableRelate</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdTableRelateDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdTableRelate&quot;).getData().cancel();
+view.get(&quot;#updateMdTableRelateDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdTableRelatesAction&quot;);
+var dialog = view.get(&quot;#updateMdTableRelateDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdTableRelate&quot;).getData().cancel();
+view.get(&quot;#updateMdTableRelateDialog&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormMdTableRelate">
+          <Property name="dataType">dataTypeMdTableRelate</Property>
+          <Property name="dataSet">dataSetMdTableRelate</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">mainTableName</Property>
+            <Property name="property">mainTableName</Property>
+            <Property name="trigger">customDropDownMdTableM</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mainField</Property>
+            <Property name="property">mainField</Property>
+            <Property name="trigger">customDropDownMdFieldM</Property>
+            <Editor>
+              <TextEditor>
+                <ClientEvent name="onFocus">var iframe = view.get(&quot;#customDropDownMdFieldMIFrame&quot;);
+var entity = view.get(&quot;#dataSetMdTableRelate&quot;).getData(&quot;#&quot;);
+var dropDown = view.get(&quot;#customDropDownMdFieldM&quot;);
+
+if(entity.get(&quot;mainTableId&quot;)==undefined){
+	dorado.MessageBox.alert(&quot;请先选择主表！&quot;);
+}else{
+	dropDown.set(&quot;autoOpen&quot;,true);
+	var path = &quot;${request.contextPath}/com/innofi/module/commons/view/dropdown/MdFieldSelect.d?status=1&amp;tableId=&quot;+entity.get(&quot;mainTableId&quot;)+&quot;&amp;dropdown=customDropDownMdFieldM&quot;;
+	iframe.set(&quot;path&quot;,path);
+}</ClientEvent>
+                <Property name="dataSet">dataSetMdTableRelate</Property>
+                <Property name="property">mainField</Property>
+                <Property name="trigger">customDropDownMdFieldM</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">foreignTableName</Property>
+            <Property name="property">foreignTableName</Property>
+            <Property name="trigger">customDropDownMdTableF</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">foreignField</Property>
+            <Property name="property">foreignField</Property>
+            <Property name="trigger">customDropDownMdFieldF</Property>
+            <Editor>
+              <TextEditor>
+                <ClientEvent name="onFocus">
+var iframe = view.get(&quot;#customDropDownMdFieldFIFrame&quot;);
+var entity = view.get(&quot;#dataSetMdTableRelate&quot;).getData(&quot;#&quot;);
+var dropDown = view.get(&quot;#customDropDownMdFieldF&quot;);
+if(entity.get(&quot;foreignTableId&quot;)==undefined){
+	dorado.MessageBox.alert(&quot;请先选择从表！&quot;);
+}else{
+	dropDown.set(&quot;autoOpen&quot;,true);
+	var path = &quot;${request.contextPath}/com/innofi/module/commons/view/dropdown/MdFieldSelect.d?status=1&amp;tableId=&quot;+entity.get(&quot;foreignTableId&quot;)+&quot;&amp;dropdown=customDropDownMdFieldF&quot;;
+	iframe.set(&quot;path&quot;,path);
+}</ClientEvent>
+                <Property name="dataSet">dataSetMdTableRelate</Property>
+                <Property name="property">foreignField</Property>
+                <Property name="trigger">customDropDownMdFieldF</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateName</Property>
+            <Property name="property">relateName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateDesc</Property>
+            <Property name="property">relateDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateType</Property>
+            <Property name="property">relateType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">corrType</Property>
+            <Property name="property">corrType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isCrt</Property>
+            <Property name="property">isCrt</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdTableRelateDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdTableRelate&quot;).getData().cancel();
+view.get(&quot;#addMdTableRelateDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdTableRelatesAction&quot;);
+var dialog = view.get(&quot;#addMdTableRelateDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdTableRelate&quot;).getData().cancel();
+view.get(&quot;#addMdTableRelateDialog&quot;).hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="addAutoFormMdTableRelate">
+          <Property name="dataType">dataTypeMdTableRelate</Property>
+          <Property name="dataSet">dataSetMdTableRelate</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">mainTableName</Property>
+            <Property name="property">mainTableName</Property>
+            <Property name="trigger">customDropDownMdTableM</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mainField</Property>
+            <Property name="property">mainField</Property>
+            <Property name="trigger">customDropDownMdFieldM</Property>
+            <Editor>
+              <TextEditor>
+                <ClientEvent name="onFocus">var iframe = view.get(&quot;#customDropDownMdFieldMIFrame&quot;);
+var entity = view.get(&quot;#dataSetMdTableRelate&quot;).getData(&quot;#&quot;);
+var dropDown = view.get(&quot;#customDropDownMdFieldM&quot;);
+
+if(entity.get(&quot;mainTableId&quot;)==undefined){
+	dorado.MessageBox.alert(&quot;请先选择主表！&quot;);
+}else{
+	dropDown.set(&quot;autoOpen&quot;,true);
+	var path = &quot;${request.contextPath}/com/innofi/module/commons/view/dropdown/MdFieldSelect.d?status=1&amp;tableId=&quot;+entity.get(&quot;mainTableId&quot;)+&quot;&amp;dropdown=customDropDownMdFieldM&quot;;
+	iframe.set(&quot;path&quot;,path);
+}</ClientEvent>
+                <Property name="dataSet">dataSetMdTableRelate</Property>
+                <Property name="property">mainField</Property>
+                <Property name="trigger">customDropDownMdFieldM</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">foreignTableName</Property>
+            <Property name="property">foreignTableName</Property>
+            <Property name="trigger">customDropDownMdTableF</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">foreignField</Property>
+            <Property name="property">foreignField</Property>
+            <Property name="trigger">customDropDownMdFieldF</Property>
+            <Editor>
+              <TextEditor>
+                <ClientEvent name="onFocus">
+var iframe = view.get(&quot;#customDropDownMdFieldFIFrame&quot;);
+var entity = view.get(&quot;#dataSetMdTableRelate&quot;).getData(&quot;#&quot;);
+var dropDown = view.get(&quot;#customDropDownMdFieldF&quot;);
+if(entity.get(&quot;foreignTableId&quot;)==undefined){
+	dorado.MessageBox.alert(&quot;请先选择从表！&quot;);
+}else{
+	dropDown.set(&quot;autoOpen&quot;,true);
+	var path = &quot;${request.contextPath}/com/innofi/module/commons/view/dropdown/MdFieldSelect.d?status=1&amp;tableId=&quot;+entity.get(&quot;foreignTableId&quot;)+&quot;&amp;dropdown=customDropDownMdFieldF&quot;;
+	iframe.set(&quot;path&quot;,path);
+}</ClientEvent>
+                <Property name="dataSet">dataSetMdTableRelate</Property>
+                <Property name="property">foreignField</Property>
+                <Property name="trigger">customDropDownMdFieldF</Property>
+              </TextEditor>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateName</Property>
+            <Property name="property">relateName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateDesc</Property>
+            <Property name="property">relateDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateType</Property>
+            <Property name="property">relateType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">corrType</Property>
+            <Property name="property">corrType</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isCrt</Property>
+            <Property name="property">isCrt</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdTableRelateDialog">
+      <ClientEvent name="onClose">view.get(&quot;#lookMdTableRelateDialog&quot;).hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#lookMdTableRelateDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="lookFormMdTableRelate">
+          <Property name="dataType">dataTypeMdTableRelate</Property>
+          <Property name="dataSet">dataSetMdTableRelate</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="hideMode">visibility</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">120</Property>
+          <AutoFormElement>
+            <Property name="name">mainTableName</Property>
+            <Property name="property">mainTableName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mainField</Property>
+            <Property name="property">mainField</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">foreignTableName</Property>
+            <Property name="property">foreignTableName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">foreignField</Property>
+            <Property name="property">foreignField</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateName</Property>
+            <Property name="property">relateName</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateDesc</Property>
+            <Property name="property">relateDesc</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">relateType</Property>
+            <Property name="property">relateType</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">corrType</Property>
+            <Property name="property">corrType</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isCrt</Property>
+            <Property name="property">isCrt</Property>
+            <Editor>
+              <TextEditor/>
+            </Editor>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <CustomDropDown id="customDropDownMdTableM">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+if(arg.editor._dataSet._id==&quot;dataSetMdTableRelate&quot;)
+	if(dataSet.getData(&quot;#&quot;).get(&quot;foreignTableId&quot;)==entity.get(&quot;id&quot;)){
+		dorado.MessageBox.alert(&quot;主表和从表不能相同!&quot;);
+	}else{
+		dataSet.getData(&quot;#&quot;).set(&quot;mainTableId&quot;,entity.get(&quot;id&quot;));
+		dataSet.getData(&quot;#&quot;).set(&quot;mainTableName&quot;,entity.get(&quot;tableName&quot;));
+	}
+}
+if(arg.editor._dataSet._id==&quot;querydataSetMdTableRelate&quot;){
+	view.get(&quot;#querydataSetMdTableRelate&quot;).getData(&quot;#&quot;).set(&quot;mainTableId&quot;,entity.get(&quot;id&quot;));
+	view.get(&quot;#querydataSetMdTableRelate&quot;).getData(&quot;#&quot;).set(&quot;mainTableName&quot;,entity.get(&quot;tableName&quot;));
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <Property name="height">300</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/MdTableSelect.d?status=1&amp;dropdown=customDropDownMdTableM</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="customDropDownMdTableF">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+	if(arg.editor._dataSet._id==&quot;dataSetMdTableRelate&quot;){		
+		if(dataSet.getData(&quot;#&quot;).get(&quot;mainTableId&quot;)==entity.get(&quot;id&quot;)){
+			dorado.MessageBox.alert(&quot;主表和从表不能相同!&quot;);
+		}else{
+			dataSet.getData(&quot;#&quot;).set(&quot;foreignTableId&quot;,entity.get(&quot;id&quot;));
+			dataSet.getData(&quot;#&quot;).set(&quot;foreignTableName&quot;,entity.get(&quot;tableName&quot;));
+		}
+	}if(arg.editor._dataSet._id==&quot;querydataSetMdTableRelate&quot;){
+		view.get(&quot;#querydataSetMdTableRelate&quot;).getData(&quot;#&quot;).set(&quot;foreignTableId&quot;,entity.get(&quot;tableName&quot;));
+		view.get(&quot;#querydataSetMdTableRelate&quot;).getData(&quot;#&quot;).set(&quot;foreignTableName&quot;,entity.get(&quot;tableName&quot;));
+	}
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <Property name="height">300</Property>
+      <IFrame>
+        <Property name="path">${request.contextPath}/com/innofi/module/commons/view/dropdown/MdTableSelect.d? status=1 &amp;dropdown=customDropDownMdTableF</Property>
+      </IFrame>
+    </CustomDropDown>
+    <CustomDropDown id="customDropDownMdFieldM">
+      <ClientEvent name="onClose">if(arg.selectedValue){
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+	//dataSet.getData(&quot;#&quot;).set(&quot;mainTableId&quot;,entity.get(&quot;id&quot;));
+	dataSet.getData(&quot;#&quot;).set(&quot;mainField&quot;,entity.get(&quot;fieldName&quot;));
+	
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <ClientEvent name="onOpen">var iframe = view.get(&quot;#customDropDownMdFieldMIFrameM&quot;);&#xD;
+var entity = view.get(&quot;#dataSetMdTableRelate&quot;).getData(&quot;#&quot;);&#xD;
+var tableId = entity.get(&quot;mainTableId&quot;);&#xD;
+var path =&quot;${request.contextPath}/com/innofi/module/commons/view/dropdown/MdFieldSelect.d?status=1&amp;tableId=&quot;+tableId+&quot;&amp;dropdown=customDropDownMdFieldM&quot;;&#xD;
+iframe.set(&quot;path&quot;,path);</ClientEvent>
+      <Property name="editable">false</Property>
+      <Property name="height">300</Property>
+      <IFrame id="customDropDownMdFieldMIFrameM"/>
+    </CustomDropDown>
+    <CustomDropDown id="customDropDownMdFieldF">
+      <ClientEvent name="onClose">
+if(arg.selectedValue){
+
+	var entity = new dorado.Entity();
+	entity.fromJSON(JSON.parse(arg.selectedValue));
+	var dataSet = view.get(&quot;#dataSetMdTableRelate&quot;);
+	dataSet.getData(&quot;#&quot;).set(&quot;foreignField&quot;,entity.get(&quot;fieldName&quot;));
+}
+arg.selectedValue = undefined;
+return false;</ClientEvent>
+      <ClientEvent name="onOpen">var iframe = view.get(&quot;#customDropDownMdFieldFIFrameF&quot;);&#xD;
+var entity = view.get(&quot;#dataSetMdTableRelate&quot;).getData(&quot;#&quot;);&#xD;
+var tableId = entity.get(&quot;foreignTableId&quot;);&#xD;
+var path =&quot;${request.contextPath}/com/innofi/module/commons/view/dropdown/MdFieldSelect.d?status=1&amp;tableId=&quot;+tableId+&quot;&amp;dropdown=customDropDownMdFieldF&quot;;&#xD;
+iframe.set(&quot;path&quot;,path);</ClientEvent>
+      <Property name="editable">false</Property>
+      <Property name="height">300</Property>
+      <IFrame id="customDropDownMdFieldFIFrameF"/>
+    </CustomDropDown>
+  </View>
+</ViewConfig>

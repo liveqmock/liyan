@@ -1,0 +1,26 @@
+-- Dorp table ${model.tableName}
+
+drop table ${model.tableName};
+-- Create table ${model.tableName}
+
+create table ${model.tableName}
+(
+#foreach($field in $fields)
+	${field.oldColumnName}	${field.columnType},
+#end
+);
+-- Add comments to the table 
+comment on table ${model.tableName}
+  is '${model.modelCnName}';
+-- Add comments to the columns 
+#foreach($field in $fields)
+comment on column ${model.tableName}.${field.columnName}
+  is '${field.remarks}';
+#end
+#foreach($field in $fields)
+	#if(${field.isprimaryKey})
+-- Create/Recreate primary, unique and foreign key constraints
+alter table ${model.tableName}
+  add constraint PK_${model.tableName} primary key (DICT_ID);
+  #end
+#end

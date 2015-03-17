@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdTable">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">ID</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建用户</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改用户</Property>
+      </PropertyDef>
+      <PropertyDef name="systemCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">系统编码</Property>
+      </PropertyDef>
+      <PropertyDef name="tableName">
+        <Property name="dataType">String</Property>
+        <Property name="label">表名</Property>
+      </PropertyDef>
+      <PropertyDef name="tableCnName">
+        <Property name="dataType">String</Property>
+        <Property name="label">表中文名</Property>
+      </PropertyDef>
+      <PropertyDef name="tableDesc">
+        <Property name="dataType">String</Property>
+        <Property name="label">表描述</Property>
+      </PropertyDef>
+      <PropertyDef name="tableType">
+        <Property name="dataType">String</Property>
+        <Property name="label">表类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;TABLE_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="entityName">
+        <Property name="dataType">String</Property>
+        <Property name="label">实体类型</Property>
+      </PropertyDef>
+      <PropertyDef name="daoName">
+        <Property name="dataType">String</Property>
+        <Property name="label">DAO类</Property>
+      </PropertyDef>
+      <PropertyDef name="serviceName">
+        <Property name="dataType">String</Property>
+        <Property name="label">service类</Property>
+      </PropertyDef>
+      <PropertyDef name="actionName">
+        <Property name="dataType">String</Property>
+        <Property name="label">action类</Property>
+      </PropertyDef>
+      <PropertyDef name="uiName">
+        <Property name="dataType">String</Property>
+        <Property name="label">UI界面</Property>
+      </PropertyDef>
+      <PropertyDef name="loadMethod">
+        <Property name="dataType">String</Property>
+        <Property name="label">加载方法</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;LOAD_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="tbsName">
+        <Property name="dataType">String</Property>
+        <Property name="label">储存表空间</Property>
+      </PropertyDef>
+      <PropertyDef name="dataStatus">
+        <Property name="dataType">String</Property>
+        <Property name="label">数据状态</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;DATA_STATUS&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="hisTabCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">历史数据保存表名</Property>
+      </PropertyDef>
+      <PropertyDef name="isTreeStruct">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否树型结构</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="isLog">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否记操作日志</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">状态</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="verNo">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">版本号</Property>
+      </PropertyDef>
+      <PropertyDef name="isCloseSaved">
+        <Property name="dataType">String</Property>
+        <Property name="label">是否关闭保存</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="packages">validator</Property>
+    <Dialog id="uploadDialog">
+      <Property name="width">50%</Property>
+      <Property name="center">true</Property>
+      <Property name="caption">上传Excel</Property>
+      <Buttons/>
+      <Children>
+        <HtmlContainer>
+          <Property name="content">&lt;form action=&quot;${request.contextPath}/uploadExcelAction.uploadExcel.c?mdmId=${param['mdmId']}&quot; method=&quot;post&quot; onsubmit=&quot;return check();&quot;>&#xD;
+  &lt;p>上传文件: &lt;input id= &quot;file1&quot; type=&quot;file&quot; name=&quot;file&quot; />&lt;input type=&quot;submit&quot; value=&quot;上传&quot; />&lt;/p>&#xD;
+&lt;/form>&#xD;
+</Property>
+        </HtmlContainer>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <DataSet id="dataSetMdTable">
+      <ClientEvent name="onReady">var lookStyle=&quot;${request.getParameter('lookStyle')}&quot;;
+if(lookStyle ==&quot;look&quot;){
+	//parm={tbsName:tbsName,status:&quot;1&quot;,lookStyle:lookStyle};
+	//self.set(&quot;parameter&quot;, parm).flushAsync();
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;visible&quot;,false);
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;hideMode&quot;,&quot;display&quot;);
+}else{
+	parm={status:&quot;1&quot;};
+	self.set(&quot;parameter&quot;, parm).flushAsync();
+}
+</ClientEvent>
+      <Property name="dataProvider">mdTableAction#findMdTables</Property>
+      <Property name="dataType">[dataTypeMdTable]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdTable">
+      <ClientEvent name="onReady">self.insert({});
+self.getData(&quot;#&quot;).set(&quot;status&quot;,&quot;1&quot;);</ClientEvent>
+      <Property name="dataType">[querydataTypeMdTable]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet id="queryFieldSet" layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+	view.get(&quot;#dataSetMdTable&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetMdTable&quot;).getData(&quot;#&quot;)).flushAsync();
+</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdTable.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdTableQuery" layoutConstraint="center">
+            <Property name="cols">*,*</Property>
+            <Property name="dataSet">querydataSetMdTable</Property>
+            <Property name="dataType">querydataTypeMdTable</Property>
+            <Property name="labelAlign">right</Property>
+            <AutoFormElement>
+              <Property name="name">systemCode</Property>
+              <Property name="property">systemCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableCnName</Property>
+              <Property name="property">tableCnName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableType</Property>
+              <Property name="property">tableType</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdTable" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdTable&quot;).set(&quot;readOnly&quot;,false);
+view.get(&quot;#dataSetMdTable.data&quot;).insert();
+view.get(&quot;#addDialogMdTable&quot;).show();        </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+          <Property name="visible">false</Property>
+          <Property name="hideMode">display</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetMdTable&quot;).getData();
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+	view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(selection[0]);
+	view.get(&quot;#dialogMdTable&quot;).show();
+	view.get(&quot;#dataSetMdTable&quot;).set(&quot;readOnly&quot;,false);
+}</ClientEvent>
+          <Property name="caption">修改表</Property>
+          <Property name="icon">>icons/table_edit.png</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateFieldButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetMdTable&quot;).getData();
+var dataSet = view.get(&quot;#dataSetMdTable&quot;);
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var dialog = view.get(&quot;#updateFieldDialog&quot;);
+var iframe = view.get(&quot;#updateFieldIFrame&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData(&quot;#&quot;);
+	var path = &quot;${request.contextPath}/com.innofi.component.metadata.field.view.MdFieldManage.d?tableId=&quot;+entity.get(&quot;id&quot;)+&quot;&amp;randomId=&quot;+Math.random();
+	iframe.set(&quot;path&quot;,path);
+	dialog.show();
+}
+
+         </ClientEvent>
+          <Property name="caption">修改字段</Property>
+          <Property name="icon">>icons/column.png</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetMdTable&quot;).getData();
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveMdTablesAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+          <Property name="visible">false</Property>
+          <Property name="hideMode">display</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTable&quot;);
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var dialog = view.get(&quot;#lookdialogMdTable&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,true);
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="tableflush">
+          <ClientEvent name="onClick">var action = view.get(&quot;#ajaxActionTable&quot;);
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var taskId;
+if(selection.length==0){
+	dorado.MessageBox.confirm(&quot;是否全部刷新？&quot;, function(){
+		taskId = dorado.util.TaskIndicator.showTaskIndicator(&quot;【正在刷新请稍后...】&quot;,&quot;main&quot;);
+		action.execute(function(result){
+			view.get(&quot;#dataSetMdTable&quot;).flushAsync();
+			dorado.util.TaskIndicator.hideTaskIndicator(taskId);
+			if(result=='0'){
+				action.set(&quot;successMessage&quot;,&quot;操作成功，元数据产生新的版本!&quot;);
+			}else{
+				action.set(&quot;successMessage&quot;,&quot;操作成功，元数据无变化！!&quot;);
+			}
+		});
+	});
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否刷新选中记录？&quot;, function(){
+		var tableNames=&quot;&quot;;//定义一个id串。
+		jQuery.each(selection,function(i,item){
+			tableNames=tableNames+item.get(&quot;tableName&quot;)+&quot;,&quot;;
+		});
+		tableNames=tableNames.substring(0,tableNames.length-1);
+		para={
+			tableNames:tableNames
+		}
+		taskId = dorado.util.TaskIndicator.showTaskIndicator(&quot;【正在刷新请稍后...】&quot;,&quot;main&quot;);
+		action.set(&quot;parameter&quot;,para).execute(function(result){
+			view.get(&quot;#dataSetMdTable&quot;).flushAsync();
+			dorado.util.TaskIndicator.hideTaskIndicator(taskId);
+			if(result=='0'){
+				action.set(&quot;successMessage&quot;,&quot;操作成功，元数据产生新的版本!&quot;);
+			}else{
+				action.set(&quot;successMessage&quot;,&quot;操作成功，元数据无变化！!&quot;);
+			}
+		});
+	});
+}</ClientEvent>
+          <Property name="caption">从数据库刷新</Property>
+          <Property name="icon">>icons/table_refresh.png</Property>
+        </ToolBarButton>
+        <ToolBarButton id="programflush">
+          <ClientEvent name="onClick">dorado.MessageBox.alert(&quot;请在执行此操作前，进行数据库和源代码备份，\n以便在刷新程序出错时进行数据恢复!&quot;,{title:'温馨提示',icon:'WARNING'});
+dorado.MessageBox.confirm('是否根据此路径['+&quot;${sys.getString('mdf.coder.path')}&quot;+']下的程序，\n刷新程序元数据?', function(){
+	view.get(&quot;#ajaxActionProgramFlush&quot;).execute();
+});
+
+</ClientEvent>
+          <Property name="caption">从程序文件刷新</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -240px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="versionManage">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTable&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var iframe = view.get(&quot;#versionManageIFrame&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+	view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(selection[0]);
+	var tableId = dataSet.getData(&quot;#&quot;).get(&quot;id&quot;);
+	var tableName = dataSet.getData(&quot;#&quot;).get(&quot;tableName&quot;);
+	var path = &quot;${request.contextPath}/com/innofi/component/metadata/metamodel/view/VersionManage.d?tableId=&quot;+tableId+&quot;&amp;tableName=&quot;+tableName+&quot;&amp;randomId=&quot;+Math.random();
+	iframe.set(&quot;path&quot;,path);
+	view.get(&quot;#versionManageDialog&quot;).show();
+}</ClientEvent>
+          <Property name="caption">版本管理</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -40px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="createModelButton">
+          <ClientEvent name="onClick">var entitys = view.get(&quot;#dataSetMdTable&quot;).getData();
+var dataSet = view.get(&quot;#dataSetMdTable&quot;);
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var dialog = view.get(&quot;#updateFieldDialog&quot;);
+var iframe = view.get(&quot;#updateFieldIFrame&quot;);
+dialog.set(&quot;caption&quot;,&quot;导出模版&quot;)
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData(&quot;#&quot;);
+	var path = &quot;${request.contextPath}/com.innofi.component.metadata.field.view.MdFieldModelManage.d?tableId=&quot;+entity.get(&quot;id&quot;)+&quot;&amp;tableCnName=&quot;+encodeURI(encodeURI(entity.get(&quot;tableCnName&quot;)))+&quot;&amp;randomId=&quot;+Math.random();
+	iframe.set(&quot;path&quot;,path);
+	dialog.show();
+}
+
+         </ClientEvent>
+          <Property name="caption">生成模版</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="importDataButton">
+          <ClientEvent name="onClick">
+var entitys = view.get(&quot;#dataSetMdTable&quot;).getData();
+var dataSet = view.get(&quot;#dataSetMdTable&quot;);
+/*var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var dialog = view.get(&quot;#updateFieldDialog&quot;);
+var iframe = view.get(&quot;#updateFieldIFrame&quot;);
+dialog.set(&quot;caption&quot;,&quot;导出模版&quot;)
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1) {
+	view.get(&quot;#uploadDialog&quot;).show();
+	
+}*/
+
+view.get(&quot;#uploadDialog&quot;).show();
+
+      </ClientEvent>
+          <Property name="caption">导入</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="dimenRelate">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTable&quot;);
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var dialog = view.get(&quot;#dimenRelateDialog&quot;);
+var iframe = view.get(&quot;#dimenRelateIFrame&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	var entity = dataSet.getData(&quot;#&quot;);
+	var tableId = entity.get(&quot;id&quot;);
+	var tableName = entity.get(&quot;tableName&quot;);
+	var path = &quot;${request.contextPath}/com.innofi.component.metadata.dimension.view.MdDimensionManage.d?tableId=&quot;+tableId+&quot;&amp;tableName=&quot;+tableName+&quot;&amp;randomId=&quot;+Math.random();
+		iframe.set(&quot;path&quot;,path);
+	dialog.show();
+}
+
+
+
+
+
+
+
+
+
+
+
+//var dialog = view.get(&quot;#dimenRelateDialog&quot;);
+//dialog.show();
+//${request.contextPath}/com/innofi/component/metadata/dimension/view/MdDimensionManage.d</ClientEvent>
+          <Property name="caption">维度维护</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -100px</Property>
+          <Property name="visible">false</Property>
+          <Property name="hideMode">display</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdTable" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdTable</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <Property name="stretchColumnsMode">stretchableColumns</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="systemCode">
+            <Property name="property">systemCode</Property>
+          </DataColumn>
+          <DataColumn name="tableName">
+            <Property name="property">tableName</Property>
+          </DataColumn>
+          <DataColumn name="tableCnName">
+            <Property name="property">tableCnName</Property>
+          </DataColumn>
+          <DataColumn name="tableDesc">
+            <Property name="property">tableDesc</Property>
+          </DataColumn>
+          <DataColumn name="tableType">
+            <Property name="property">tableType</Property>
+          </DataColumn>
+          <DataColumn name="tbsName">
+            <Property name="property">tbsName</Property>
+          </DataColumn>
+          <DataColumn name="dataStatus">
+            <Property name="property">dataStatus</Property>
+          </DataColumn>
+          <DataColumn name="hisTabCode">
+            <Property name="property">hisTabCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="isTreeStruct">
+            <Property name="property">isTreeStruct</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdTable</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdTablesAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdTableAction#saveMdTables</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdTable</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogMdTable">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetMdTable&quot;).getData().cancel();
+	view.get(&quot;#dialogMdTable&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">90%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdTablesAction&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+if(entity.state == 2){
+	var dialog=view.get(&quot;#dialogMdTable&quot;);
+		action.execute(function(){
+		dialog.hide();
+	});
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetMdTable&quot;).getData().cancel();
+		view.get(&quot;#dialogMdTable&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <FieldSet>
+          <Property name="caption">数据表信息</Property>
+          <Buttons/>
+          <Children>
+            <AutoForm id="autoFormMdTable">
+              <Property name="dataType">dataTypeMdTable</Property>
+              <Property name="dataSet">dataSetMdTable</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="hideMode">visibility</Property>
+              <Property name="labelWidth">120</Property>
+              <AutoFormElement>
+                <Property name="name">systemCode</Property>
+                <Property name="property">systemCode</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableName</Property>
+                <Property name="property">tableName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableCnName</Property>
+                <Property name="property">tableCnName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableDesc</Property>
+                <Property name="property">tableDesc</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableType</Property>
+                <Property name="property">tableType</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">entityName</Property>
+                <Property name="property">entityName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">daoName</Property>
+                <Property name="property">daoName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">serviceName</Property>
+                <Property name="property">serviceName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">actionName</Property>
+                <Property name="property">actionName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">uiName</Property>
+                <Property name="property">uiName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">loadMethod</Property>
+                <Property name="property">loadMethod</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tbsName</Property>
+                <Property name="property">tbsName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">dataStatus</Property>
+                <Property name="property">dataStatus</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">hisTabCode</Property>
+                <Property name="property">hisTabCode</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isTreeStruct</Property>
+                <Property name="property">isTreeStruct</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isCloseSaved</Property>
+                <Property name="property">isCloseSaved</Property>
+                <Property name="labelWidth">80</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isDaControl</Property>
+                <Property name="property">isDaControl</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isMaintain</Property>
+                <Property name="property">isMaintain</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+        </FieldSet>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="updateFieldDialog">
+      <ClientEvent name="onClose">var fieldDataSet = view.getComponentReference(&quot;updateFieldIFrame&quot;).getIFrameWindow().$id(&quot;dataSetMdField&quot;).objects[0];
+var fieldAction = view.getComponentReference(&quot;updateFieldIFrame&quot;).getIFrameWindow().$id(&quot;saveMdFieldsAction&quot;).objects[0];
+var fieldEntityList = fieldDataSet.getData();
+var num = 0;
+	fieldEntityList.each(function(fieldEntity){
+
+		if(fieldEntity.state == 2){
+			num = num + 1;
+		}
+	});
+if(num > 0){
+	dorado.MessageBox.confirm(&quot;有&quot;+num+&quot;条未保存的表字段数据,是否保存？&quot;, {
+		detailCallback: function(button, text) {
+			if(button == &quot;yes&quot;){
+				fieldAction.execute();
+			view.get(&quot;#updateFieldDialog&quot;).hide();
+			}
+			if(button == &quot;no&quot;){
+				view.get(&quot;#updateFieldDialog&quot;).hide();
+			}
+		}
+	});
+}else{
+	view.get(&quot;#updateFieldDialog&quot;).hide();
+}</ClientEvent>
+      <Property name="modal">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">80%</Property>
+      <Property name="caption">修改表字段</Property>
+      <Property name="center">true</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var fieldDataSet = view.getComponentReference(&quot;updateFieldIFrame&quot;).getIFrameWindow().$id(&quot;dataSetMdField&quot;).objects[0];
+var fieldAction = view.getComponentReference(&quot;updateFieldIFrame&quot;).getIFrameWindow().$id(&quot;saveMdFieldsAction&quot;).objects[0];
+var fieldEntityList = fieldDataSet.getData();
+var num = 0;
+	fieldEntityList.each(function(fieldEntity){
+
+		if(fieldEntity.state == 2){
+			num = num + 1;
+		}
+	});
+if(num > 0){
+	dorado.MessageBox.confirm(&quot;有&quot;+num+&quot;条未保存的表字段数据,是否保存？&quot;, {
+		detailCallback: function(button, text) {
+			if(button == &quot;yes&quot;){
+				fieldAction.execute();
+			view.get(&quot;#updateFieldDialog&quot;).hide();
+			}
+			if(button == &quot;no&quot;){
+				view.get(&quot;#updateFieldDialog&quot;).hide();
+			}
+		}
+	});
+}else{
+	view.get(&quot;#updateFieldDialog&quot;).hide();
+}</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <IFrame id="updateFieldIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addDialogMdTable">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetMdTable&quot;).getData().cancel();
+	view.get(&quot;#dialogMdTable&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">
+
+var action = view.get(&quot;#saveMdTablesAction&quot;);
+			var dialog=view.get(&quot;#addDialogMdTable&quot;);
+				action.execute(function(){
+					dialog.hide();
+				});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">      
+          
+          view.get(&quot;#dataSetMdTable&quot;).getData().cancel();
+		view.get(&quot;#addDialogMdTable&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="addAutoFormMdTable">
+            <Property name="dataType">dataTypeMdTable</Property>
+            <Property name="dataSet">dataSetMdTable</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+              <Property name="name">systemCode</Property>
+              <Property name="property">systemCode</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableName</Property>
+              <Property name="property">tableName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableCnName</Property>
+              <Property name="property">tableCnName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableDesc</Property>
+              <Property name="property">tableDesc</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tableType</Property>
+              <Property name="property">tableType</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">entityName</Property>
+              <Property name="property">entityName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">daoName</Property>
+              <Property name="property">daoName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">serviceName</Property>
+              <Property name="property">serviceName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">actionName</Property>
+              <Property name="property">actionName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">uiName</Property>
+              <Property name="property">uiName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">loadMethod</Property>
+              <Property name="property">loadMethod</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsName</Property>
+              <Property name="property">tbsName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">dataStatus</Property>
+              <Property name="property">dataStatus</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">hisTabCode</Property>
+              <Property name="property">hisTabCode</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isTreeStruct</Property>
+              <Property name="property">isTreeStruct</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isLog</Property>
+              <Property name="property">isLog</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">isCloseSaved</Property>
+              <Property name="property">isCloseSaved</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">verNo</Property>
+              <Property name="property">verNo</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookdialogMdTable">
+      <ClientEvent name="onClose">
+     view.get(&quot;#dataSetMdTable&quot;).getData().cancel();
+	view.get(&quot;#lookdialogMdTable&quot;).hide();
+     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#lookdialogMdTable&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+        </Container>
+        <FieldSet>
+          <Property name="caption">数据表信息</Property>
+          <Buttons/>
+          <Children>
+            <AutoForm id="lookFormMdTable">
+              <Property name="dataType">dataTypeMdTable</Property>
+              <Property name="dataSet">dataSetMdTable</Property>
+              <Property name="labelAlign">right</Property>
+              <Property name="hideMode">visibility</Property>
+              <Property name="labelWidth">120</Property>
+              <AutoFormElement>
+                <Property name="name">systemCode</Property>
+                <Property name="property">systemCode</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableName</Property>
+                <Property name="property">tableName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableCnName</Property>
+                <Property name="property">tableCnName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableDesc</Property>
+                <Property name="property">tableDesc</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tableType</Property>
+                <Property name="property">tableType</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">entityName</Property>
+                <Property name="property">entityName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">daoName</Property>
+                <Property name="property">daoName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">serviceName</Property>
+                <Property name="property">serviceName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">actionName</Property>
+                <Property name="property">actionName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">uiName</Property>
+                <Property name="property">uiName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">loadMethod</Property>
+                <Property name="property">loadMethod</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tbsName</Property>
+                <Property name="property">tbsName</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">dataStatus</Property>
+                <Property name="property">dataStatus</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">hisTabCode</Property>
+                <Property name="property">hisTabCode</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isTreeStruct</Property>
+                <Property name="property">isTreeStruct</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isLog</Property>
+                <Property name="property">isLog</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">status</Property>
+                <Property name="property">status</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isCloseSaved</Property>
+                <Property name="property">isCloseSaved</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">isDaControl</Property>
+                <Property name="property">isDaControl</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">crtDate</Property>
+                <Property name="property">crtDate</Property>
+                <Property name="visible">false</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">updDate</Property>
+                <Property name="property">updDate</Property>
+                <Property name="visible">false</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">crtOrgCode</Property>
+                <Property name="property">crtOrgCode</Property>
+                <Property name="visible">false</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">updOrgCode</Property>
+                <Property name="property">updOrgCode</Property>
+                <Property name="visible">false</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">crtUserCode</Property>
+                <Property name="property">crtUserCode</Property>
+                <Property name="visible">false</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">updUserCode</Property>
+                <Property name="property">updUserCode</Property>
+                <Property name="visible">false</Property>
+                <Property name="hideMode">display</Property>
+                <Property name="labelWidth">120</Property>
+                <Editor>
+                  <TextEditor/>
+                </Editor>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">verNo</Property>
+                <Property name="property">verNo</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+        </FieldSet>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="ajaxActionTable">
+      <Property name="service">mdTableAction#refreshMetaData</Property>
+      <Property name="successMessage">刷新成功!</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionProgram">
+      <Property name="service">tableAdapterImpl#refreshMetaData</Property>
+      <Property name="successMessage">刷新成功!</Property>
+    </AjaxAction>
+    <Dialog id="versionManageDialog">
+      <Property name="caption">版本管理</Property>
+      <Property name="height">80%</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#versionManageDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <IFrame id="versionManageIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dimenRelateDialog">
+      <Property name="center">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Property name="height">100%</Property>
+      <Property name="caption">表维度维护</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dimenRelateDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <IFrame id="dimenRelateIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="ajaxActionProgramFlush">
+      <Property name="service">mdFieldAction#refreshMdFieldLabel</Property>
+      <Property name="successMessage">刷新成功</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

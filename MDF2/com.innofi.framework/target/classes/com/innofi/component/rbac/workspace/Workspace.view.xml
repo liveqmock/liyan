@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig listener="spring:workspaceListener#onInit">
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <ClientEvent name="onReady">window.showNotice=function(id){
+	var dialog=view.get(&quot;#showNoticeDialog&quot;);
+	var iframe=view.get(&quot;#showNoticeIFrame&quot;);
+	var path=&quot;${request.contextPath}/com/innofi/component/rbac/notice/view/SysNoticeContentDisp.d?id=&quot;+id;
+	iframe.set(&quot;path&quot;,path);
+	dialog.show();
+}
+
+</ClientEvent>
+    <Property name="title">我的工作台</Property>
+    <ToolBar id="toolBarControl" layoutConstraint="top">
+      <ToolBarButton id="addPortlet">
+        <ClientEvent name="onClick">view.get(&quot;#addInfbar&quot;).show();
+</ClientEvent>
+        <Property name="caption">添加信息栏</Property>
+        <Property name="icon">>icons/window_application_enterprise_add.png</Property>
+      </ToolBarButton>
+      <ToolBarButton id="resetLayout">
+        <ClientEvent name="onClick" signature="resetColumnDialog">resetColumnDialog.show();</ClientEvent>
+        <Property name="caption">调整布局</Property>
+        <Property name="icon">>icons/layout_edit.png</Property>
+      </ToolBarButton>
+      <ToolBarButton id="savePortletSetting">
+        <ClientEvent name="onClick">var index=&quot;0&quot;;
+var column=&quot;&quot;;
+var entitys = new Array();
+var data = view.get(&quot;#frameSelectView&quot;).getCurrentItem();
+if (data &amp;&amp; data.label) {
+	 index = data.label.replace(&quot;版式&quot;, &quot;&quot;);
+}
+
+var portals = view.get(&quot;#portal&quot;).get(&quot;portlets&quot;);
+jQuery.each(portals,function(i,item)
+{
+	 var portal=&quot;#&quot;+item.get(&quot;id&quot;);
+	 column+=view.get(portal).get(&quot;tags&quot;)+&quot;,&quot;+view.get(portal).get(&quot;column&quot;)+&quot;#&quot;;	 
+});
+
+var param={
+	theme:index,
+	portal:column
+};
+
+view.get(&quot;#saveInfTheme&quot;).set(&quot;parameter&quot;, param).execute();
+
+
+</ClientEvent>
+        <Property name="caption">保存设置</Property>
+        <Property name="icon">>icons/page_save.png</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <Portal id="portal" layoutConstraint="center">
+      <ClientEvent name="onCreate">
+</ClientEvent>
+      <ClientEvent name="onPortletRemove">var infbarId =arg.portlet.get(&quot;tags&quot;);
+view.get(&quot;#removePortalAction&quot;).set(&quot;parameter&quot;, infbarId).execute();
+</ClientEvent>
+      <Property name="defaultPortletHeight">${sys.getInteger(&quot;mdf.workspace.inofibar.height&quot;)}</Property>
+      <Columns>
+        <Column/>
+        <Column/>
+      </Columns>
+      <Portlets/>
+    </Portal>
+    <Dialog id="resetColumnDialog">
+      <Property name="width">400</Property>
+      <Property name="height">400</Property>
+      <Property name="caption">更改布局版式</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="modalType">transparent</Property>
+      <Buttons>
+        <Button id="ok">
+          <ClientEvent name="onClick" signature="portal, frameSelectView, resetColumnDialog">var data = frameSelectView.getCurrentItem();
+if (data &amp;&amp; data.label) {
+	var index = parseInt(data.label.replace(&quot;版式&quot;, &quot;&quot;), 10), setting;
+	switch (index) {
+		case 0:
+			setting = [{ width: &quot;25%&quot;}, {}, { width: &quot;30%&quot;}];
+			break;
+		case 1:
+			setting = [{}, {}, {}];
+			break;
+		case 2:
+			setting = [{}, { width: &quot;30%&quot; }];
+			break;
+		case 3:
+			setting = [{ width: &quot;30%&quot; }, { }];
+			break;
+		case 4:
+			setting = [{ }, { }];
+			break;
+	}
+	portal.set(&quot;columns&quot;, setting);
+	resetColumnDialog.hide();
+} else {
+	dorado.MessageBox.alert(&quot;请选择一个版式!&quot;);
+}</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button id="cancel">
+          <ClientEvent name="onClick" signature="resetColumnDialog">resetColumnDialog.hide();</ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <BlockView id="frameSelectView">
+          <ClientEvent name="onCreate">self.set({
+	&quot;renderer&quot;: new dorado.widget.blockview.ImageBlockRenderer({
+			captionProperty: &quot;label&quot;
+		}),
+	&quot;items&quot;: [
+		{
+			label: &quot;版式1&quot;,
+			image: &quot;>dorado/res/com/innofi/component/rbac/workspace/frame-1.gif&quot;
+		}, {
+			label: &quot;版式2&quot;,
+			image: &quot;>dorado/res/com/innofi/component/rbac/workspace/frame-2.gif&quot;
+		}, {
+			label: &quot;版式3&quot;,
+			image: &quot;>dorado/res/com/innofi/component/rbac/workspace/frame-3.gif&quot;
+		}, {
+			label: &quot;版式4&quot;,
+			image: &quot;>dorado/res/com/innofi/component/rbac/workspace/frame-4.gif&quot;
+		}]
+});</ClientEvent>
+          <Property name="fillLine">true</Property>
+          <Property name="lineSize">4</Property>
+          <Property name="blockHeight">72</Property>
+        </BlockView>
+      </Children>
+    </Dialog>
+    <AjaxAction id="saveInfTheme">
+      <Property name="service">sysInfBarAction#saveTheme</Property>
+      <Property name="successMessage">保存成功</Property>
+    </AjaxAction>
+    <Dialog id="addInfbar">
+      <ClientEvent name="beforeShow">
+</ClientEvent>
+      <ClientEvent name="onClose">view.get(&quot;#addInfbar&quot;).hide();</ClientEvent>
+      <ClientEvent name="onShow">
+var path=&quot;${request.contextPath}/com.innofi.component.rbac.workspace.infobar.view.UserAddInfBar.d&quot;;
+view.get(&quot;#infbarframe&quot;).set(&quot;path&quot;,path);
+</ClientEvent>
+      <Property name="center">true</Property>
+      <Property name="caption">添加信息栏</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">70%</Property>
+      <Property name="maximizeable">true</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="infbarframe"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="removePortalAction">
+      <Property name="service">sysInfBarAction#removePortal</Property>
+      <Property name="successMessage">移除成功</Property>
+    </AjaxAction>
+    <Dialog id="showNoticeDialog">
+      <Property name="caption">公告查看</Property>
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">90%</Property>
+      <Property name="height">90%</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="showNoticeIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

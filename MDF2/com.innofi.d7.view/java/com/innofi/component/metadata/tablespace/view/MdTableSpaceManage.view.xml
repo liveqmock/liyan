@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="querydataTypeMdTableSpace">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <PropertyDef name="id">
+        <Property name="dataType">String</Property>
+        <Property name="label">表空间ID</Property>
+      </PropertyDef>
+      <PropertyDef name="tbsName">
+        <Property name="dataType">String</Property>
+        <Property name="label">表空间名</Property>
+      </PropertyDef>
+      <PropertyDef name="tbsType">
+        <Property name="dataType">String</Property>
+        <Property name="label">表空间类型</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;TBS_TYPE&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="tbsPagesize">
+        <Property name="dataType">String</Property>
+        <Property name="label">页大小</Property>
+      </PropertyDef>
+      <PropertyDef name="tbsManageMethod">
+        <Property name="dataType">String</Property>
+        <Property name="label">管理方式</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;TBS_MANAGE_METHOD&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="usedPercent">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">表空间使用率(%)</Property>
+      </PropertyDef>
+      <PropertyDef name="tbsSize">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">表空间大小(M)</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="dataType">String</Property>
+        <Property name="label">存储状态</Property>
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;coderCreate#getDict&quot;).getResult(&quot;COMM_Y_N&quot;)}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="crtOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建机构</Property>
+      </PropertyDef>
+      <PropertyDef name="crtUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">创建人</Property>
+      </PropertyDef>
+      <PropertyDef name="crtDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updOrgCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改机构</Property>
+      </PropertyDef>
+      <PropertyDef name="updDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">修改日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updUserCode">
+        <Property name="dataType">String</Property>
+        <Property name="label">修改人</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetMdTableSpace">
+      <ClientEvent name="onReady">var lookStyle=&quot;${request.getParameter('lookStyle')}&quot;;
+if(lookStyle ==&quot;look&quot;){
+	parm={tbsId:mdId,status:&quot;1&quot;};
+	view.get(&quot;toolBarMdTableSpace&quot;).set(&quot;visible&quot;,false);
+	view.get(&quot;toolBarMdTableSpace&quot;).set(&quot;hideMode&quot;,&quot;display&quot;);
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;visible&quot;,false);
+	view.get(&quot;#queryFieldSet&quot;).set(&quot;hideMode&quot;,&quot;display&quot;);
+}</ClientEvent>
+      <Property name="dataProvider">mdTableSpaceAction#findMdTableSpaces</Property>
+      <Property name="dataType">[dataTypeMdTableSpace]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="querydataSetMdTableSpace">
+      <ClientEvent name="onReady">self.insert({});
+self.getData(&quot;#&quot;).set(&quot;status&quot;,&quot;1&quot;);</ClientEvent>
+      <Property name="dataType">[querydataTypeMdTableSpace]</Property>
+    </DataSet>
+    <Container>
+      <FieldSet id="queryFieldSet" layoutConstraint="top">
+        <Property name="caption">查询条件</Property>
+        <Property name="collapsed">false</Property>
+        <Buttons>
+          <Button>
+            <ClientEvent name="onClick">
+view.get(&quot;#dataSetMdTableSpace&quot;).set(&quot;parameter&quot;, view.get(&quot;#querydataSetMdTableSpace&quot;).getData(&quot;#&quot;)).flushAsync();</ClientEvent>
+            <Property name="caption">查询</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+          </Button>
+          <Button>
+            <ClientEvent name="onClick">view.set(&quot;#querydataSetMdTableSpace.data&quot;,{});
+</ClientEvent>
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">重置</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormMdTableSpaceQuery" layoutConstraint="center">
+            <Property name="cols">*,*,*</Property>
+            <Property name="dataSet">querydataSetMdTableSpace</Property>
+            <Property name="dataType">dataTypeMdTableSpace</Property>
+            <AutoFormElement>
+              <Property name="name">tbsName</Property>
+              <Property name="property">tbsName</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsType</Property>
+              <Property name="property">tbsType</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsManageMethod</Property>
+              <Property name="property">tbsManageMethod</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsSize</Property>
+              <Property name="property">tbsSize</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">usedPercent</Property>
+              <Property name="property">usedPercent</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsPagesize</Property>
+              <Property name="property">tbsPagesize</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">id</Property>
+              <Property name="property">id</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor>
+                  <Property name="tip">默认生成的ID</Property>
+                  <Property name="blankText">默认生成</Property>
+                </TextEditor>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="visible">false</Property>
+              <Property name="hideMode">display</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Children>
+      </FieldSet>
+      <ToolBar id="toolBarMdTableSpace" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableSpace&quot;);
+var dialog = view.get(&quot;#addMdTableSpaceDialog&quot;);
+	dataSet.set(&quot;readOnly&quot;,false);
+	view.get(&quot;#dataSetMdTableSpace.data&quot;).insert();
+	dialog.show();
+        </ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="updateButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableSpace&quot;);
+var dialog = view.get(&quot;#updateMdTableSpaceDialog&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdTableSpace&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能选择一条记录查看修改！&quot;);
+}else if (selection.length == 1){
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,false);
+}
+
+         </ClientEvent>
+          <Property name="caption">修改</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableSpace&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdTableSpace&quot;).get(&quot;selection&quot;);
+var action = view.get(&quot;#saveMdTableSpacesAction&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+		action.execute();
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="lookButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTableSpace&quot;);
+var selection = view.get(&quot;#dataGridMdTableSpace&quot;).get(&quot;selection&quot;);
+var dialog = view.get(&quot;#lookMdTableSpaceDialog&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length>1){
+	dorado.MessageBox.alert(&quot;只能查看一条记录！&quot;);
+}else if (selection.length == 1) {
+	dataSet.getData().setCurrent(selection[0]);
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,true);
+}</ClientEvent>
+          <Property name="caption">查看</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -120px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="tablespaceflush">
+          <ClientEvent name="onClick">var action = view.get(&quot;#ajaxActionTableSpace&quot;);
+var dataSet = view.get(&quot;#dataSetMdTableSpace&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdTableSpace&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.confirm(&quot;是否全部刷新？&quot;, function(){
+		action.execute(function(){
+			view.get(&quot;#dataSetMdTableSpace&quot;).flushAsync();
+			action.set(&quot;successMessage&quot;,&quot;刷新成功!&quot;);
+		});
+	});
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否刷新选中记录？&quot;, function(){
+		var arrTbsName = new Array(selection.length);
+
+		jQuery.each(selection,function(i,item){
+			arrTbsName[i] = item.get(&quot;tbsName&quot;);
+		});
+		
+		para={
+			arrTbsName:arrTbsName
+		}
+		action.set(&quot;parameter&quot;,para).execute(function(){
+			view.get(&quot;#dataSetMdTableSpace&quot;).flushAsync();
+			action.set(&quot;successMessage&quot;,&quot;刷新成功!&quot;);
+		});
+	});
+}
+ </ClientEvent>
+          <Property name="caption">刷新</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -240px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdTableSpace" layoutConstraint="center">
+          <ClientEvent name="onDataRowClick">/*var newSelection = [];
+var selection = self.get(&quot;selection&quot;);
+var entity = view.get(&quot;#dataSetMdTable&quot;).getData(&quot;#&quot;);
+var found = false;
+selection.each(function(data){
+	if (data.get(&quot;id&quot;) == entity.get(&quot;id&quot;)) {
+		found = true;
+	}else{
+		newSelection.push(data);
+	}
+});
+
+if (!found) {
+	newSelection.push(entity);
+}
+self.set(&quot;selection&quot;, newSelection);*/</ClientEvent>
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdTableSpace</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="dataType">dataTypeMdTableSpace</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="tbsName">
+            <Property name="property">tbsName</Property>
+          </DataColumn>
+          <DataColumn name="tbsType">
+            <Property name="property">tbsType</Property>
+          </DataColumn>
+          <DataColumn name="tbsManageMethod">
+            <Property name="property">tbsManageMethod</Property>
+          </DataColumn>
+          <DataColumn name="tbsPagesize">
+            <Property name="property">tbsPagesize</Property>
+          </DataColumn>
+          <DataColumn name="tbsSize">
+            <Property name="property">tbsSize</Property>
+          </DataColumn>
+          <DataColumn name="usedPercent">
+            <Property name="renderer">dorado.widget.grid.ProgressBarCellRenderer</Property>
+            <Property name="property">usedPercent</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">status</Property>
+            <Property name="name">status</Property>
+          </DataColumn>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtUserCode">
+            <Property name="property">crtUserCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtDate">
+            <Property name="property">crtDate</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updDate">
+            <Property name="property">updDate</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updOrgCode">
+            <Property name="property">updOrgCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="updUserCode">
+            <Property name="property">updUserCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+          <DataColumn name="crtOrgCode">
+            <Property name="property">crtOrgCode</Property>
+            <Property name="visible">false</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdTableSpace</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdTableSpacesAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdTableSpaceAction#saveMdTableSpaces</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdTableSpace</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="updateMdTableSpaceDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdTableSpace&quot;).getData().cancel();
+view.get(&quot;#updateMdTableSpaceDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">信息编辑</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">60%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdTableSpacesAction&quot;);
+var dialog = view.get(&quot;#updateMdTableSpaceDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdTableSpace&quot;).getData().cancel();
+view.get(&quot;#updateMdTableSpaceDialog&quot;).hide();
+              	
+		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="autoFormMdTableSpace">
+            <Property name="dataType">dataTypeMdTableSpace</Property>
+            <Property name="dataSet">dataSetMdTableSpace</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+              <Property name="name">tbsName</Property>
+              <Property name="property">tbsName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsType</Property>
+              <Property name="property">tbsType</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsManageMethod</Property>
+              <Property name="property">tbsManageMethod</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsPagesize</Property>
+              <Property name="property">tbsPagesize</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsSize</Property>
+              <Property name="property">tbsSize</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">usedPercent</Property>
+              <Property name="property">usedPercent</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="addMdTableSpaceDialog">
+      <ClientEvent name="onClose">view.get(&quot;#dataSetMdTableSpace&quot;).getData().cancel();
+view.get(&quot;#addMdTableSpaceDialog&quot;).hide();</ClientEvent>
+      <Property name="caption">新增信息</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">80%</Property>
+      <Property name="height">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdTableSpacesAction&quot;);
+var dialog = view.get(&quot;#addMdTableSpaceDialog&quot;);
+	action.execute(function(){
+		dialog.hide();
+	});</ClientEvent>
+          <Property name="caption">确定</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+        </Button>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#dataSetMdTableSpace&quot;).getData().cancel();
+view.get(&quot;#addMdTableSpaceDialog&quot;).hide();		  </ClientEvent>
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -180px -160px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="addAutoFormMdTableSpace">
+            <Property name="dataType">dataTypeMdTableSpace</Property>
+            <Property name="dataSet">dataSetMdTableSpace</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <AutoFormElement>
+              <Property name="name">tbsName</Property>
+              <Property name="property">tbsName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsType</Property>
+              <Property name="property">tbsType</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsManageMethod</Property>
+              <Property name="property">tbsManageMethod</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsPagesize</Property>
+              <Property name="property">tbsPagesize</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsSize</Property>
+              <Property name="property">tbsSize</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">usedPercent</Property>
+              <Property name="property">usedPercent</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="lookMdTableSpaceDialog">
+      <ClientEvent name="onClose">view.get(&quot;#lookMdTableSpaceDialog&quot;).hide();     </ClientEvent>
+      <Property name="caption">信息查看</Property>
+      <Property name="center">true</Property>
+      <Property name="border">normal</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">80%</Property>
+      <Property name="width">80%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#lookMdTableSpaceDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <AutoForm id="lookFormMdTableSpace">
+            <Property name="dataType">dataTypeMdTableSpace</Property>
+            <Property name="dataSet">dataSetMdTableSpace</Property>
+            <Property name="labelAlign">right</Property>
+            <Property name="hideMode">visibility</Property>
+            <Property name="autoCreateElements">false</Property>
+            <AutoFormElement>
+              <Property name="name">tbsName</Property>
+              <Property name="property">tbsName</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsType</Property>
+              <Property name="property">tbsType</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsManageMethod</Property>
+              <Property name="property">tbsManageMethod</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsPagesize</Property>
+              <Property name="property">tbsPagesize</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsSize</Property>
+              <Property name="property">tbsSize</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">usedPercent</Property>
+              <Property name="property">usedPercent</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">tbsPagesize</Property>
+              <Property name="property">tbsPagesize</Property>
+              <Property name="trigger">triggerClear</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">status</Property>
+              <Property name="property">status</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtUserCode</Property>
+              <Property name="property">crtUserCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtDate</Property>
+              <Property name="property">crtDate</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updDate</Property>
+              <Property name="property">updDate</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updOrgCode</Property>
+              <Property name="property">updOrgCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">updUserCode</Property>
+              <Property name="property">updUserCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">crtOrgCode</Property>
+              <Property name="property">crtOrgCode</Property>
+              <Property name="hideMode">display</Property>
+              <Property name="visible">false</Property>
+              <Property name="labelWidth">120</Property>
+              <Editor>
+                <TextEditor/>
+              </Editor>
+            </AutoFormElement>
+          </AutoForm>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="ajaxActionTableSpace">
+      <Property name="service">mdTableSpaceAction#refreshMetaData</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

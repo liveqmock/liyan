@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">Report.Security</Property>
+  </Property>
+  <Model>
+    <DataType name="dataTypeReport" parent="$dataTypeReport">
+      <Reference name="userMembers">
+        <Property name="dataType">[$dataTypeReportMember]</Property>
+        <Property name="dataProvider">bdf.reportSecurityManagerPR#findReportMembers</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="reportId">$${this.id}</Property>
+            <Property name="type">U</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <Reference name="deptMembers">
+        <Property name="dataType">[$dataTypeReportMember]</Property>
+        <Property name="dataProvider">bdf.reportSecurityManagerPR#findReportMembers</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="reportId">$${this.id}</Property>
+            <Property name="type">D</Property>
+          </Entity>
+        </Property>
+      </Reference>
+      <Reference name="groupMembers">
+        <Property name="dataType">[$dataTypeReportMember]</Property>
+        <Property name="dataProvider">bdf.reportSecurityManagerPR#findReportMembers</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="reportId">$${this.id}</Property>
+            <Property name="type">G</Property>
+          </Entity>
+        </Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetReport">
+      <Property name="dataType">[dataTypeReport]</Property>
+      <Property name="dataProvider">bdf.reportSecurityManagerPR#findReports</Property>
+      <Property name="pageSize">25</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">360</Property>
+      <MainControl>
+        <TabControl>
+          <ControlTab>
+            <Property name="caption">${res.tabUser}</Property>
+            <Property name="name">tabUser</Property>
+            <Container>
+              <ToolBar>
+                <ToolBarButton id="btnAdd">
+                  <ClientEvent name="onClick">var ds=this.id(&quot;dataSetReport&quot;);&#xD;
+&#xD;
+var selectedMembers=ds.getData(&quot;#.userMembers&quot;);&#xD;
+var reportId=ds.getData(&quot;#.id&quot;);&#xD;
+if(!reportId){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectReportAlterTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var dialog=this.id(&quot;$dialogSelectUser&quot;);&#xD;
+var ajaxAction=this.id(&quot;ajaxActionSaveReportMember&quot;);&#xD;
+var config={&#xD;
+	caption:&quot;${res.tabUserCaption}&quot;,&#xD;
+	onSelect:function(users){&#xD;
+		var errorInfo=&quot;&quot;;&#xD;
+		var usernames = new Array();&#xD;
+		for(var i=0;i&lt;users.length;i++){&#xD;
+			var username=users[i].get(&quot;username&quot;);&#xD;
+			usernames.push(username);&#xD;
+			selectedMembers.each(function(member){&#xD;
+				if(username==member.get(&quot;memberId&quot;)){&#xD;
+					errorInfo+=member.get(&quot;memberName&quot;)+&quot; &quot;&#xD;
+				}&#xD;
+			});&#xD;
+		}&#xD;
+		if(errorInfo!=&quot;&quot;){&#xD;
+			dorado.MessageBox.alert(&quot;${res.memberIsExist}&quot;);&#xD;
+			//return;&#xD;
+		}&#xD;
+		dorado.MessageBox.confirm(&quot;${res.selectConfirmTip}&quot;,function(){&#xD;
+			ajaxAction.set(&quot;parameter&quot;,{reportId:reportId,memberIds:usernames,type:&quot;U&quot;,operate:&quot;add&quot;});&#xD;
+			ajaxAction.execute(function(){&#xD;
+				ds.getData(&quot;#&quot;).reset(&quot;userMembers&quot;);&#xD;
+				dialog.$hide();&#xD;
+			});		&#xD;
+		});&#xD;
+	}&#xD;
+}&#xD;
+dialog.$show(config);&#xD;
+</ClientEvent>
+                  <Property name="caption">${res.add}</Property>
+                  <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/user_add.png</Property>
+                </ToolBarButton>
+                <ToolBarButton id="btnDelete">
+                  <ClientEvent name="onClick">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+	var selectMembers = this.id(&quot;dataGridUserMember&quot;).get(&quot;selection&quot;);&#xD;
+	var reportId = entity.get(&quot;id&quot;);&#xD;
+	&#xD;
+	var ajaxAction = this.id(&quot;ajaxActionSaveReportMember&quot;);&#xD;
+	if (selectMembers.length == 0) {&#xD;
+		dorado.MessageBox.alert(&quot;${res.selectDeleteRecordTip}&quot;);&#xD;
+		return;&#xD;
+	}&#xD;
+	var memberIds = new Array();&#xD;
+	for (var i = 0; i &lt; selectMembers.length; i++) {&#xD;
+		memberIds.push(selectMembers[i].get(&quot;id&quot;))&#xD;
+	}&#xD;
+	dorado.MessageBox.confirm(&quot;${res.deleteSelectUserConfirm}&quot;, function(){&#xD;
+		ajaxAction.set(&quot;parameter&quot;, {&#xD;
+			reportId: reportId,&#xD;
+			memberIds: memberIds,&#xD;
+			type: &quot;U&quot;,&#xD;
+			operate: &quot;delete&quot;&#xD;
+		});&#xD;
+		ajaxAction.execute(function(){&#xD;
+			entity.reset(&quot;userMembers&quot;);&#xD;
+		});&#xD;
+	});&#xD;
+}else{&#xD;
+	dorado.MessageBox.alert(&quot;${res.deleteSelectReport}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                  <Property name="caption">${res.delete}</Property>
+                  <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/user_delete.png</Property>
+                </ToolBarButton>
+              </ToolBar>
+              <DataGrid id="dataGridUserMember">
+                <Property name="dataSet">dataSetReport</Property>
+                <Property name="dataPath">#.userMembers</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <RowSelectorColumn/>
+                <DataColumn>
+                  <Property name="name">memberName</Property>
+                  <Property name="property">memberName</Property>
+                  <Property name="caption">${res.memberName}</Property>
+                </DataColumn>
+                <DataColumn name="createUser">
+                  <Property name="property">createUser</Property>
+                </DataColumn>
+                <DataColumn name="createDate">
+                  <Property name="property">createDate</Property>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+          </ControlTab>
+          <ControlTab>
+            <Property name="caption">${res.tabDept}</Property>
+            <Property name="name">tabDept</Property>
+            <Container>
+              <ToolBar>
+                <ToolBarButton id="deptAdd">
+                  <ClientEvent name="onClick">var ds=this.id(&quot;dataSetReport&quot;);&#xD;
+&#xD;
+var selectedMembers=ds.getData(&quot;#.deptMembers&quot;);&#xD;
+var reportId=ds.getData(&quot;#.id&quot;);&#xD;
+if(!reportId){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectReportAlterTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var dialog=this.id(&quot;$dialogSelectDept&quot;);&#xD;
+var ajaxAction=this.id(&quot;ajaxActionSaveReportMember&quot;);&#xD;
+var config={&#xD;
+	caption:&quot;${tabDeptCaption}&quot;,&#xD;
+	onSelect:function(depts){&#xD;
+		var ids= new Array();&#xD;
+		var errorInfo=&quot;&quot;;&#xD;
+		for(var i=0;i&lt;depts.length;i++){&#xD;
+			var id=depts[i].get(&quot;id&quot;);&#xD;
+			ids.push(id);&#xD;
+			selectedMembers.each(function(member){&#xD;
+				if(id==member.get(&quot;memberId&quot;)){&#xD;
+					errorInfo+=member.get(&quot;memberName&quot;)+&quot; &quot;&#xD;
+				}&#xD;
+			});&#xD;
+		}&#xD;
+		if(errorInfo!=&quot;&quot;){&#xD;
+			dorado.MessageBox.alert(&quot;${res.memberIsExist}&quot;);&#xD;
+			//return;&#xD;
+		}&#xD;
+		dorado.MessageBox.confirm(&quot;${res.selectConfirmTip}&quot;,function(){&#xD;
+			ajaxAction.set(&quot;parameter&quot;,{reportId:reportId,memberIds:ids,type:&quot;D&quot;,operate:&quot;add&quot;});&#xD;
+			ajaxAction.execute(function(){&#xD;
+				dialog.$hide();&#xD;
+				ds.getData(&quot;#&quot;).reset(&quot;deptMembers&quot;);&#xD;
+			});		&#xD;
+		});&#xD;
+	}&#xD;
+}&#xD;
+dialog.$show(config);&#xD;
+</ClientEvent>
+                  <Property name="caption">${res.add}</Property>
+                  <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/chart_organisation_add.png</Property>
+                </ToolBarButton>
+                <ToolBarButton id="deptDelete">
+                  <ClientEvent name="onClick">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+    var selectMembers = this.id(&quot;dataGridDeptMember&quot;).get(&quot;selection&quot;);&#xD;
+    var reportId = entity.get(&quot;id&quot;);&#xD;
+    &#xD;
+    var ajaxAction = this.id(&quot;ajaxActionSaveReportMember&quot;);&#xD;
+    if (selectMembers.length == 0) {&#xD;
+        dorado.MessageBox.alert(&quot;${res.selectDeleteDeptTip}&quot;);&#xD;
+        return;&#xD;
+    }&#xD;
+    var memberIds = new Array();&#xD;
+    for (var i = 0; i &lt; selectMembers.length; i++) {&#xD;
+        memberIds.push(selectMembers[i].get(&quot;id&quot;));&#xD;
+    }&#xD;
+    dorado.MessageBox.confirm(&quot;${res.deleteSelectUserConfirm}&quot;, function(){&#xD;
+        ajaxAction.set(&quot;parameter&quot;, {&#xD;
+            reportId: reportId,&#xD;
+            memberIds: memberIds,&#xD;
+            type: &quot;D&quot;,&#xD;
+            operate: &quot;delete&quot;&#xD;
+        });&#xD;
+        ajaxAction.execute(function(){&#xD;
+            entity.reset(&quot;deptMembers&quot;);&#xD;
+        });&#xD;
+    });&#xD;
+}&#xD;
+else {&#xD;
+    dorado.MessageBox.alert(&quot;${res.deleteSelectReport}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                  <Property name="caption">${res.delete}</Property>
+                  <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/chart_organisation_delete.png</Property>
+                </ToolBarButton>
+              </ToolBar>
+              <DataGrid id="dataGridDeptMember">
+                <Property name="dataSet">dataSetReport</Property>
+                <Property name="dataPath">#.deptMembers</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <RowSelectorColumn/>
+                <DataColumn>
+                  <Property name="name">memberName</Property>
+                  <Property name="property">memberName</Property>
+                  <Property name="caption">${res.deptCaptionName}</Property>
+                </DataColumn>
+                <DataColumn name="createUser">
+                  <Property name="property">createUser</Property>
+                </DataColumn>
+                <DataColumn name="createDate">
+                  <Property name="property">createDate</Property>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+          </ControlTab>
+          <ControlTab>
+            <Property name="caption">${res.tabGroup}</Property>
+            <Property name="name">tabGroup</Property>
+            <Container>
+              <ToolBar>
+                <ToolBarButton id="groupAdd">
+                  <ClientEvent name="onClick">var ds= this.id(&quot;dataSetReport&quot;)&#xD;
+&#xD;
+var selectedMembers=ds.getData(&quot;#.groupMembers&quot;);&#xD;
+var reportId=ds.getData(&quot;#.id&quot;);&#xD;
+if(!reportId){&#xD;
+	dorado.MessageBox.alert(&quot;${res.selectReportAlterTip}&quot;);&#xD;
+	return ;&#xD;
+}&#xD;
+var dialog=this.id(&quot;$dialogSelectGroup&quot;);&#xD;
+var ajaxAction=this.id(&quot;ajaxActionSaveReportMember&quot;);&#xD;
+var config={&#xD;
+	caption:&quot;${res.tabGroupCaption}&quot;,&#xD;
+	onSelect:function(groups){&#xD;
+		var ids=new Array();&#xD;
+		var errorInfo=&quot;&quot;;&#xD;
+		for(var i=0;i&lt;groups.length;i++){&#xD;
+			var id=groups[i].get(&quot;id&quot;);&#xD;
+			ids.push(id);&#xD;
+			selectedMembers.each(function(member){&#xD;
+				if(id==member.get(&quot;memberId&quot;)){&#xD;
+					errorInfo+=member.get(&quot;memberName&quot;)+&quot; &quot;&#xD;
+				}&#xD;
+			});&#xD;
+		}&#xD;
+		if(errorInfo!=&quot;&quot;){&#xD;
+			dorado.MessageBox.alert(&quot;${res.memberIsExist}&quot;);&#xD;
+			//return;&#xD;
+		}&#xD;
+		dorado.MessageBox.confirm(&quot;${res.selectConfirmTip}&quot;,function(){&#xD;
+			ajaxAction.set(&quot;parameter&quot;,{reportId:reportId,memberIds:ids,type:&quot;G&quot;,operate:&quot;add&quot;});&#xD;
+			ajaxAction.execute(function(){&#xD;
+				dialog.$hide();&#xD;
+				ds.getData(&quot;#&quot;).reset(&quot;groupMembers&quot;);&#xD;
+			});&#xD;
+		});&#xD;
+	}&#xD;
+}&#xD;
+dialog.$show(config);&#xD;
+</ClientEvent>
+                  <Property name="caption">${res.add}</Property>
+                  <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/database_add.png</Property>
+                </ToolBarButton>
+                <ToolBarButton id="groupDelete">
+                  <ClientEvent name="onClick">var entity = this.id(&quot;dataSetReport&quot;).getData(&quot;#&quot;);&#xD;
+if (entity) {&#xD;
+    var selectMembers = this.id(&quot;dataGridGroupMember&quot;).get(&quot;selection&quot;);&#xD;
+    var reportId = entity.get(&quot;id&quot;);&#xD;
+    &#xD;
+    var ajaxAction = this.id(&quot;ajaxActionSaveReportMember&quot;);&#xD;
+    if (selectMembers.length == 0) {&#xD;
+        dorado.MessageBox.alert(&quot;${res.selectDeleteGroup}&quot;);&#xD;
+        return;&#xD;
+    }&#xD;
+    var memberIds = new Array();&#xD;
+    for (var i = 0; i &lt; selectMembers.length; i++) {&#xD;
+        memberIds.push(selectMembers[i].get(&quot;id&quot;));&#xD;
+    }&#xD;
+    dorado.MessageBox.confirm(&quot;${res.deleteSelectUserConfirm}&quot;, function(){&#xD;
+        ajaxAction.set(&quot;parameter&quot;, {&#xD;
+            reportId: reportId,&#xD;
+            memberIds: memberIds,&#xD;
+            type: &quot;G&quot;,&#xD;
+            operate: &quot;delete&quot;&#xD;
+        });&#xD;
+        ajaxAction.execute(function(){&#xD;
+            entity.reset(&quot;groupMembers&quot;);&#xD;
+        });&#xD;
+    });&#xD;
+}&#xD;
+else {&#xD;
+    dorado.MessageBox.alert(&quot;${res.deleteSelectReport}&quot;);&#xD;
+}&#xD;
+</ClientEvent>
+                  <Property name="caption">${res.delete}</Property>
+                  <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/database_delete.png</Property>
+                </ToolBarButton>
+              </ToolBar>
+              <DataGrid id="dataGridGroupMember">
+                <Property name="dataSet">dataSetReport</Property>
+                <Property name="dataPath">#.groupMembers</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="selectionMode">multiRows</Property>
+                <RowSelectorColumn/>
+                <DataColumn>
+                  <Property name="name">memberName</Property>
+                  <Property name="property">memberName</Property>
+                  <Property name="caption">${res.groupName}</Property>
+                </DataColumn>
+                <DataColumn name="createUser">
+                  <Property name="property">createUser</Property>
+                </DataColumn>
+                <DataColumn name="createDate">
+                  <Property name="property">createDate</Property>
+                </DataColumn>
+              </DataGrid>
+            </Container>
+          </ControlTab>
+        </TabControl>
+      </MainControl>
+      <SideControl>
+        <Container>
+          <ToolBar>
+            <DataPilot>
+              <Property name="dataSet">dataSetReport</Property>
+            </DataPilot>
+            <ToolBarButton id="reflashCache">
+              <Property name="icon">${request.getContextPath()}/dorado/res/com/bstek/bdf/d7/resources/icons/arrow_refresh.png</Property>
+              <Property name="action">ajaxActionRefreshCache</Property>
+            </ToolBarButton>
+          </ToolBar>
+          <DataGrid>
+            <Property name="dataSet">dataSetReport</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="filterMode">serverSide</Property>
+            <Property name="showFilterBar">true</Property>
+            <DataColumn name="ename">
+              <Property name="property">ename</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </SideControl>
+    </SplitPanel>
+    <Import id="importGroupSelect" src="d7.commons.Common#$dialogSelectGroup"/>
+    <Import id="importDeptSelect" src="d7.commons.Common#$dialogSelectDept"/>
+    <Import id="importUserSelect" src="d7.commons.Common#$dialogSelectUser"/>
+    <AjaxAction id="ajaxActionSaveReportMember">
+      <Property name="service">bdf.reportSecurityManagerPR#saveReportMembers</Property>
+      <Property name="async">false</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionRefreshCache">
+      <Property name="service">bdf.reportSecurityManagerPR#refreshCache</Property>
+      <Property name="confirmMessage">${res.ajaxActionConfirm}</Property>
+      <Property name="successMessage">${res.ajaxActionSuccess}</Property>
+      <Property name="icon">>/dorado/res/com/bstek/bdf/d7/resources/icons/refresh.png</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

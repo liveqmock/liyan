@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context>
+    <Attribute name="appId">
+      <Property name="value">${param[&quot;appId&quot;]}</Property>
+    </Attribute>
+  </Context>
+  <Model>
+    <DataType name="dataTypeSysMenu" parent="global:dataTypeSysMenu">
+      <Property name="autoCreatePropertyDefs">false</Property>
+      <Reference name="children">
+        <Property name="dataType">[SELF]</Property>
+        <Property name="parameter">$${this.id}</Property>
+        <Property name="dataProvider">sysMenuAction#findSysMenusByRoles</Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <Property name="tags">tags_toolbar</Property>
+    <Property name="title">风险管控平台</Property>
+    <DataSet id="dataSetMenu">
+      <Property name="dataType">[dataTypeSysMenu]</Property>
+      <Property name="dataProvider">sysMenuAction#findSysMenusByRoles</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <ToolBar id="moduleToolBar" listener="spring:defaultIndexViewListener#onModuleToolBarInit" layoutConstraint="top">
+      <Property name="renderTo">#appsToolBar</Property>
+    </ToolBar>
+    <Menu id="menuTab">
+      <MenuItem>
+        <ClientEvent name="onClick">var tabControl=this.id(&quot;tabControlWorkspace&quot;);
+var currentTab=tabControl.get(&quot;currentTab&quot;);
+tabControl.closeTab (currentTab);
+</ClientEvent>
+        <Property name="caption">关闭当前标签页</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var tabControl=this.id(&quot;tabControlWorkspace&quot;);
+var currentTab=tabControl.get(&quot;currentTab&quot;);
+tabControl.closeOtherTabs(currentTab);
+</ClientEvent>
+        <Property name="caption">关闭其他标签页</Property>
+        <Property name="icon">>icons/page.png</Property>
+      </MenuItem>
+      <MenuItem>
+        <ClientEvent name="onClick">var tabControl=this.id(&quot;tabControlWorkspace&quot;);
+tabControl.closeAllTabs ();
+</ClientEvent>
+        <Property name="caption">关闭所有标签页</Property>
+        <Property name="icon">>icons/page_copy.png</Property>
+      </MenuItem>
+    </Menu>
+    <SplitPanel id="mainSplitPanel">
+      <Property name="position">180</Property>
+      <Property name="collapsed">true</Property>
+      <Property name="collapseable">true</Property>
+      <Property name="previewable">true</Property>
+      <MainControl>
+        <TabControl id="tabControlWorkspace">
+          <ClientEvent name="onTabContextMenu">this.id(&quot;menuTab&quot;).show({
+	position:{
+		left:arg.event.pageX,
+		top:arg.event.pageY
+	}
+});
+</ClientEvent>
+          <ClientEvent name="onTabChange">if(self.get(&quot;tabs&quot;).size>1){&#xD;
+	var tab = self.getTab(0);&#xD;
+	if(tab.get('caption')=='${sys.getString(&quot;mdf.moduleIndex.welcomeTabLabel&quot;,&quot;欢迎&quot;)}'){&#xD;
+		tab.close();	&#xD;
+	}&#xD;
+}&#xD;
+</ClientEvent>
+          <Property name="showMenuButton">true</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <IFrameTab>
+            <Property name="path">${sys.getString(&quot;mdf.moduleIndex.welcomeUrl&quot;,&quot;module-welcome.html&quot;)}</Property>
+            <Property name="caption">${sys.getString(&quot;mdf.moduleIndex.welcomeTabLabel&quot;,&quot;欢迎&quot;)}</Property>
+          </IFrameTab>
+        </TabControl>
+      </MainControl>
+      <SideControl>
+        <Panel id="panelSubMenuTree">
+          <ClientEvent name="onCreate">self.$showSubMenuTree = function(parentMenuResource){
+	//直接委托给树去处理
+	var childrenControls = self.get(&quot;children&quot;);
+	var currentTree = childrenControls.getFirst();	
+	currentTree.$refresh(parentMenuResource);
+};
+</ClientEvent>
+          <Property name="showCaptionBar">true</Property>
+          <Property name="caption">子菜单导航</Property>
+          <Property name="collapseable">false</Property>
+          <Property name="icon">${request.contextPath}/icons/arrow_right.png</Property>
+          <Children>
+            <DataTree id="treeMenu">
+              <ClientEvent name="onDataRowClick">var node = self.get(&quot;currentNode&quot;);
+if (node) {
+	var entity = node.get(&quot;data&quot;);
+	if(entity.get(&quot;menuUrl&quot;)&amp;&amp;entity.get(&quot;menuUrl&quot;).indexOf(&quot;com&quot;)==0){
+		var tabset = view.get(&quot;#tabControlWorkspace&quot;);
+		var frameTab = tabset.getTab(&quot;menuId&quot;+entity.get(&quot;id&quot;));
+		if(frameTab == null){
+			var tab = {
+				name:&quot;menuId&quot;+entity.get(&quot;id&quot;),
+				caption:entity.get(&quot;menuName&quot;),
+				path:&quot;${request.contextPath}/&quot;+entity.get(&quot;menuUrl&quot;),
+				closeable:true,
+				icon:entity.get(&quot;menuPict&quot;)
+			};
+			frameTab = new dorado.widget.tab.IFrameTab(tab);
+			tabset.addTab(frameTab);
+		}
+		tabset.set(&quot;currentTab&quot;,frameTab);
+		var index = tabset.get(&quot;currentIndex&quot;);
+		if(index > 5){
+			var tab = tabset.getTab(0);
+			tab.close();
+		}
+		var menuCodes = entity.get('treeSeq').split('.');
+		parent.setMainWindowCation(view.get('#panelSubMenuTree.caption')+'->'+entity.get('menuLabel'),menuCodes[1]);
+	}else if(entity.get(&quot;menuUrl&quot;)){
+		window.open(entity.get(&quot;menuUrl&quot;),'_blank');
+	}
+}</ClientEvent>
+              <ClientEvent name="onRefreshDom">view.get('#mainSplitPanel').set('collapsed',false);</ClientEvent>
+              <Property name="dataSet">dataSetMenu</Property>
+              <Property name="currentNodeDataPath">CURRENT_MENU</Property>
+              <BindingConfigs>
+                <BindingConfig>
+                  <Property name="childrenProperty">children</Property>
+                  <Property name="hasChild">true</Property>
+                  <Property name="recursive">true</Property>
+                  <Property name="labelProperty">menuLabel</Property>
+                  <Property name="expandedIcon">url(>skin>common/icons.gif) -200px -60px</Property>
+                  <Property name="iconProperty">menuPict</Property>
+                  <Property name="expandLevel">1</Property>
+                </BindingConfig>
+              </BindingConfigs>
+            </DataTree>
+          </Children>
+        </Panel>
+      </SideControl>
+    </SplitPanel>
+  </View>
+</ViewConfig>

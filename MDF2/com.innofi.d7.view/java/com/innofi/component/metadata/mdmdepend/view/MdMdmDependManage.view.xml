@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <DataSet id="dataSetMdMdmDepend">
+      <ClientEvent name="onReady">var id=&quot;${request.getParameter('id')}&quot;;
+if(id!=&quot;&quot;||id.length!=0){
+	parm={mdmId:id};
+}
+self.set(&quot;parameter&quot;, parm).flushAsync();</ClientEvent>
+      <Property name="dataProvider">mdMdmDependAction#findMdMdmDepends</Property>
+      <Property name="dataType">[dataTypeMdMdmDepend]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <Container>
+      <ToolBar id="toolBarMdTable" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="addButton">
+          <ClientEvent name="onClick">var id=&quot;${request.getParameter('id')}&quot;;
+var dataSet = view.get(&quot;#dataSetMdMdmDepend&quot;);
+var dialog = view.get(&quot;#mdMdmDependDialog&quot;);
+var entitys = dataSet.getData();
+var mdmIds=&quot;&quot;;//定义一个id串。
+	if(!entitys.isEmpty()){
+			entitys.each(function(entity){
+			mdmIds=mdmIds+entity.get(&quot;dMdmId&quot;)+&quot;,&quot;;
+		});
+		//mdmIds=mdmIds+id;
+		
+		//mdmIds=mdmIds.substring(0,mdmIds.length-1);
+	}else{
+		//mdmIds=id;
+	}
+var path=&quot;${request.contextPath}/com.innofi.component.metadata.metamodel.view.MdMetaModelManageS.d?&amp;id=&quot;+id+&quot;&amp;mdmIds=&quot;+mdmIds+&quot;&amp;randomId=&quot;+Math.random();
+	view.get(&quot;#mdMdmDependIFrame&quot;).set(&quot;path&quot;,path)
+	dialog.show();
+	dataSet.set(&quot;readOnly&quot;,false);	</ClientEvent>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          <Property name="caption">添加</Property>
+        </ToolBarButton>
+        <ToolBarButton id="delButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdMdmDepend&quot;);
+var entitys = dataSet.getData();
+var selection = view.get(&quot;#dataGridMdMdmDepend&quot;).get(&quot;selection&quot;);
+
+if(selection.length==0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if (selection.length != 0) {
+	dorado.MessageBox.confirm(&quot;是否删除？&quot;, function(){
+			jQuery.each(selection,function(i,item){
+			entitys.remove(item);
+		});
+	});
+}
+ </ClientEvent>
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="saveButton">
+          <ClientEvent name="onClick">var action = view.get(&quot;#saveMdMdmDependsAction&quot;);
+//var dialog = view.get(&quot;#addMdMdmDependDialog&quot;);
+	action.execute(function(){
+		action.set(&quot;successMessage&quot;,&quot;保存成功!&quot;);
+	});</ClientEvent>
+          <Property name="caption">保存</Property>
+          <Property name="icon">>icons/save.gif</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdMdmDepend" layoutConstraint="center">
+          <ClientEvent name="onSelectionChange">
+if (arg.added) 
+{
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="dataSet">dataSetMdMdmDepend</Property>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">false</Property>
+          <Property name="dataType">dataTypeMdMdmDepend</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="height">100%</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn>
+            <Property name="property">mdmName</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="name">mdmName</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">dMdmName</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="name">dMdmName</Property>
+          </DataColumn>
+          <DataColumn name="dependType">
+            <Property name="property">dependType</Property>
+            <Editor>
+              <TextEditor>
+                <Property name="trigger">autoMappingDropDown1</Property>
+                <Property name="width">100%</Property>
+                <Property name="height">100%</Property>
+              </TextEditor>
+            </Editor>
+          </DataColumn>
+          <DataColumn name="dependDesc">
+            <Property name="property">dependDesc</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdMdmDepend</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <UpdateAction id="saveMdMdmDependsAction">
+      <Property name="executingMessage">正在处理...</Property>
+      <Property name="successMessage">操作成功</Property>
+      <Property name="dataResolver">mdMdmDependAction#saveMdMdmDepends</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetMdMdmDepend</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="mdMdmDependDialog">
+      <Property name="center">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">100%</Property>
+      <Property name="width">100%</Property>
+      <Property name="caption">关联元模型</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Buttons/>
+      <Children>
+        <IFrame id="mdMdmDependIFrame"/>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

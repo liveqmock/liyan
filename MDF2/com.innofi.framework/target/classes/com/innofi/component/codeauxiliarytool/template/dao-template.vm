@@ -1,0 +1,19 @@
+package ${model.packageName}.dao;
+
+import org.springframework.stereotype.Repository;
+import com.innofi.framework.dao.DaoSupport;
+import ${model.packageName}.pojo.${model.modelName};
+
+
+/**
+ * ${model.modelName}数据库访问接口
+ * @author  liumy2009@126.com
+ * @version V1.0.0
+ * 修订历史：
+ * 日期  作者  参考  描述
+ * 北京瑞银信管理顾问有限公司版权所有.
+ */
+@Repository(value="${model.beanName}DaoSupport")
+public class ${model.modelName}DaoSupport extends DaoSupport<${model.modelName},String>{
+
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/com.innofi.component.indicatorengine/com.innofi.component.indicatorengine.iml" filepath="$PROJECT_DIR$/com.innofi.component.indicatorengine/com.innofi.component.indicatorengine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.innofi.component.quartz/com.innofi.component.quartz.iml" filepath="$PROJECT_DIR$/com.innofi.component.quartz/com.innofi.component.quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.innofi.d7.view/com.innofi.d7.view.iml" filepath="$PROJECT_DIR$/com.innofi.d7.view/com.innofi.d7.view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.innofi.framework/com.innofi.framework.iml" filepath="$PROJECT_DIR$/com.innofi.framework/com.innofi.framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/develop-platform.iml" filepath="$PROJECT_DIR$/develop-platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ipdp/ipdp.iml" filepath="$PROJECT_DIR$/ipdp/ipdp.iml" />
+    </modules>
+  </component>
+</project>
+

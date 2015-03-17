@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <ClientEvent name="onCreate">var loginUrl = '${sys.getString(&quot;mdf.security.loginFormUrl&quot;)}';
+if(loginUrl.indexOf('/')>-1){
+	loginUrl = loginUrl.substring(1,loginUrl.length);
+}
+if('${param[&quot;resetFullScreen&quot;]}'=='true'){
+	window.open(loginUrl,'_blank','width='+parseInt(window.screen.availWidth*0.98)+',height='+parseInt(window.screen.availHeight*0.95)+',top=5,left=5');
+	window.close();
+}else if('${param[&quot;timeout&quot;]}'=='true'){
+	top.window.location.href=loginUrl+'?showTimeOut=true';
+}</ClientEvent>
+    <Property name="title">正信岳铭产品开发平台</Property>
+    <Property name="pageUri">/WEB-INF/jsp/login.jsp</Property>
+  </View>
+</ViewConfig>

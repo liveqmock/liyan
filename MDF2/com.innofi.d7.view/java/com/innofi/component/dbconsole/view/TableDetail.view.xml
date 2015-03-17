@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <ClientEvent name="onReady">/**
+ * 列编辑器
+ */
+ColumnEditor={
+	version:1.0,
+	changeColumnName:""
+}</ClientEvent>
+    <DataSet id="DbConsoleColumn">
+      <ClientEvent name="onDataLoad">$tag('colBtn').set('disabled',false);</ClientEvent>
+      <Property name="dataType">[DbConsoleColumn]</Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadColumns</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+          <Property name="schema">${param["schema"]}</Property>
+          <Property name="tableName">${param["tableName"]}</Property>
+        </Entity>
+      </Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="ColumnType">
+      <Property name="dataType">[DbConsoleColumn]</Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadColumnType</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="FkTable">
+      <Property name="dataProvider">mdf.dbConsoleAction#loadTablesBySchema</Property>
+      <Property name="dataType">[DbConsoleTable]</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+          <Property name="schema">${param["schema"]}</Property>
+        </Entity>
+      </Property>
+    </DataSet>
+    <DataSet id="FkColumn">
+      <Property name="dataType">[DbConsoleColumn]</Property>
+      <Property name="dataProvider">mdf.dbConsoleAction#loadColumns</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="groupId">${param["groupId"]}</Property>
+          <Property name="connName">${param["connName"]}</Property>
+          <Property name="schema">${param["schema"]}</Property>
+          <Property name="tableName">${param["tableName"]}</Property>
+        </Entity>
+      </Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <ToolBar>
+      <ToolBarButton id="toolBarButtonAdd">
+        <ClientEvent name="onClick">var groupId = '${param["groupId"]}';
+var connName = '${param["connName"]}';
+var schema = '${param["schema"]}';
+var tableName = '${param["tableName"]}';
+
+var dialog = view.get('#dialogColumn');
+var typeDisplay = view.get('#DbConsoleColumn.data.current.typeDisplay');
+
+
+dialog.set("caption", "添加字段");
+view.get("#ColumnType").flushAsync();
+view.get('#DbConsoleColumn.data').insert();
+dialog.show();
+var form = view.get("#autoFormColumn");
+var columnType = form.getElement("columnType");
+columnType.set("readOnly", false);
+</ClientEvent>
+        <Property name="caption">添加字段</Property>
+        <Property name="icon">&gt;icons/application_form_add.png</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">colBtn</Property>
+      </ToolBarButton>
+      <ToolBarButton id="toolBarButtonUpdate">
+        <ClientEvent name="onClick">var groupId = '${param["groupId"]}';
+var connName = '${param["connName"]}';
+var schema = '${param["schema"]}';
+var tableName = '${param["tableName"]}';
+
+var dialog = view.get('#dialogColumn');
+var typeDisplay = view.get('#DbConsoleColumn.data.current.typeDisplay');
+
+
+dialog.set("caption", "修改字段");
+view.get("#ColumnType").flushAsync();
+dialog.show();
+
+var form = view.get("#autoFormColumn");
+/**
+ *不能修改字段类型 
+ */
+var columnType = form.getElement("columnType");
+columnType.set("readOnly", true);
+	
+var columnSize = form.getElement("columnSize");
+/**
+ *只有VARCHAR CHAR BLOB CLOB 可以修改长度 
+ */
+if ((typeDisplay.indexOf("VARCHAR") &gt; -1 
+		||typeDisplay.indexOf("CHAR") &gt; -1
+		||typeDisplay.indexOf("BLOB") &gt;-1
+		||typeDisplay.indexOf("CLOG") &gt;-1
+		||typeDisplay.search(/^VARCHAR \D\d{0,9}\D FOR BIT DATA$/) &gt; -1
+		||typeDisplay.search(/^CHAR \D\d{0,9}\D FOR BIT DATA$/) &gt; -1)
+		&amp;&amp;typeDisplay.indexOf("LONG VARCHAR FOR BIT DATA")==-1
+		&amp;&amp;typeDisplay.indexOf("LONG VARCHAR")==-1){
+	columnSize.set("readOnly", false);	
+}else{
+	columnSize.set("readOnly", true);
+}</ClientEvent>
+        <Property name="caption">修改字段</Property>
+        <Property name="icon">&gt;icons/application_form_edit.png</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">colBtn</Property>
+      </ToolBarButton>
+      <ToolBarButton id="toolBarButtonDelete">
+        <ClientEvent name="onClick">var groupId = '${param["groupId"]}';
+var connName = '${param["connName"]}';
+var schema = '${param["schema"]}';
+var tableName = '${param["tableName"]}';
+
+var action = view.get("#updateActionColumn");
+var data = view.get('#DbConsoleColumn.data.current');
+if (data) {
+	var columnName = data.get("columnName");
+	var isPk = data.get("isprimaryKey");
+	if(isPk){
+		dorado.MessageBox.show({
+				title: "警告",
+				icon: dorado.MessageBox.WARNING_ICON,
+				message: "您确定要删除【" + columnName + "】主键字段？",
+				buttons: ["yes", "no"],
+				detailCallback: function(buttonId){
+					if (buttonId == "yes") {
+						data.remove();
+						action.set("parameter", {
+							groupId: groupId,
+							connName:connName,
+							schema:schema,
+							tableName:tableName
+						});
+						action.execute(function(){
+							view.get('#DbConsoleColumn').flushAsync();
+							dorado.MessageBox.alert("删除【" + columnName + "】字段成功，如需重新指定主键字段请使用【修改字段】功能！");
+						});
+					}
+				}
+				});	
+	}else{
+		dorado.MessageBox.show({
+		title: "提示",
+		icon: dorado.MessageBox.INFO_ICON,
+		message: "您确定要删除【" + columnName + "】字段？",
+		buttons: ["yes", "no"],
+		detailCallback: function(buttonId){
+			if (buttonId == "yes") {
+				data.remove();
+				action.set("parameter", {
+					groupId: groupId,
+					connName:connName,
+					schema:schema,
+					tableName:tableName
+				});
+				action.execute(function(){
+					view.get('#DbConsoleColumn').flushAsync();
+					dorado.MessageBox.alert("删除【" + columnName + "】字段成功");
+				});
+			}
+		}
+		});
+	}
+}
+</ClientEvent>
+        <Property name="caption">删除字段</Property>
+        <Property name="icon">&gt;icons/application_form_delete.png</Property>
+        <Property name="disabled">true</Property>
+        <Property name="tags">colBtn</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <DataGrid id="TableColumns">
+      <ClientEvent name="onReady">if('${param["groupId"]}'&amp;&amp;'${param["connName"]}'){
+	view.get('#DbConsoleColumn').flushAsync();
+}</ClientEvent>
+      <Property name="dataSet">DbConsoleColumn</Property>
+      <Property name="scrollMode">simple</Property>
+      <Property name="groupOnSort">false</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="columnSeq">
+        <Property name="property">columnSeq</Property>
+        <Property name="width">30</Property>
+      </DataColumn>
+      <DataColumn name="columnName">
+        <Property name="property">columnName</Property>
+        <Property name="width">120</Property>
+      </DataColumn>
+      <DataColumn name="typeDisplay">
+        <Property name="property">typeDisplay</Property>
+        <Property name="width">120</Property>
+      </DataColumn>
+      <DataColumn name="defaultValue">
+        <Property name="property">defaultValue</Property>
+        <Property name="width">60</Property>
+      </DataColumn>
+      <DataColumn name="isprimaryKey">
+        <Property name="property">isprimaryKey</Property>
+        <Property name="width">40</Property>
+        <Property name="readOnly">true</Property>
+      </DataColumn>
+      <DataColumn name="isnullAble">
+        <Property name="property">isnullAble</Property>
+        <Property name="width">40</Property>
+        <Property name="readOnly">true</Property>
+      </DataColumn>
+      <DataColumn name="isautoincrement">
+        <Property name="property">isautoincrement</Property>
+        <Property name="width">40</Property>
+        <Property name="readOnly">true</Property>
+      </DataColumn>
+      <DataColumn name="isFk">
+        <Property name="property">isFk</Property>
+        <Property name="width">40</Property>
+        <Property name="readOnly">true</Property>
+      </DataColumn>
+      <DataColumn name="remarks">
+        <Property name="property">remarks</Property>
+      </DataColumn>
+    </DataGrid>
+    <Dialog id="dialogColumn">
+      <Property name="center">true</Property>
+      <Property name="closeable">false</Property>
+      <Property name="width">500</Property>
+      <Property name="modal">true</Property>
+      <Property name="height">300</Property>
+      <Buttons>
+        <Button id="buttonColumnOk">
+          <ClientEvent name="onClick">if(ColumnEditor.changeColumnName){
+	var data = view.get('#DbConsoleColumn.data');
+	var repeated = false;
+	var count = 0 ; 
+	data.each(function(entity){
+		if(ColumnEditor.changeColumnName.toUpperCase()==entity.get('columnName')){
+			count++;
+		}
+	});
+	if(count&gt;1){
+		dorado.MessageBox.alert("列名称不能重复!");
+		repeated = true;
+	}
+	
+	if(repeated){
+		return;
+	}
+}
+
+var groupId = '${param["groupId"]}';
+var connName = '${param["connName"]}';
+var schema = '${param["schema"]}';
+var tableName = '${param["tableName"]}';
+var dialog=view.get("#dialogColumn");
+var dbConsoleColumn=view.get("#DbConsoleColumn");
+
+var action=this.id("updateActionColumn");
+var data=dbConsoleColumn.getData();
+if(data.current){
+	action.set("parameter",{
+		groupId: groupId,
+		connName:connName,
+		schema:schema,
+		tableName:tableName
+	});
+	action.execute(function(){
+		dorado.MessageBox.alert("操作成功");
+		dbConsoleColumn.flushAsync();
+		dialog.hide();
+	});
+
+}
+                        
+                    </ClientEvent>
+          <Property name="icon">&gt;icons/database_save.png
+                    </Property>
+          <Property name="caption">确定</Property>
+        </Button>
+        <Button id="buttonColumnCancel">
+          <ClientEvent name="onClick">var data = view.get('#DbConsoleColumn.data')
+var dialog = view.get("#dialogColumn");
+data.cancel();
+dialog.hide();</ClientEvent>
+          <Property name="icon">url(&gt;skin&gt;common/icons.gif) -40px -0px</Property>
+          <Property name="caption">取消</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormColumn">
+          <Property name="dataSet">DbConsoleColumn</Property>
+          <Property name="cols">*,*,*</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="labelWidth">120</Property>
+          <Property name="dataType">DbConsoleColumn</Property>
+          <AutoFormElement layoutConstraint="colSpan:3">
+            <ClientEvent name="onBlur">var currentEntity = view.get('#DbConsoleColumn.data.current');
+ColumnEditor.changeColumnName = currentEntity.get('columnName');</ClientEvent>
+            <Property name="name">columnName</Property>
+            <Property name="property">columnName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:3">
+            <Property name="name">columnType</Property>
+            <Property name="property">columnType</Property>
+            <Property name="trigger">columnTypeTrigger</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:3">
+            <Property name="name">columnSize</Property>
+            <Property name="property">columnSize</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <ClientEvent name="onClick">var form = view.get("#autoFormColumn");
+var isnullAble = form.getElement("isnullAble");
+if(view.get('#DbConsoleColumn.data.current.isprimaryKey')){
+	view.set('#DbConsoleColumn.data.current.isnullAble',false);
+	isnullAble.set("readOnly", true);	
+}else{
+	isnullAble.set("readOnly", false);	
+}</ClientEvent>
+            <Property name="name">isprimaryKey</Property>
+            <Property name="property">isprimaryKey</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isnullAble</Property>
+            <Property name="property">isnullAble</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">isFk</Property>
+            <Property name="property">isFk</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:3">
+            <Property name="name">fkTableName</Property>
+            <Property name="property">fkTableName</Property>
+            <Property name="trigger">fkTableTrigger</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:3">
+            <Property name="name">fkColumnName</Property>
+            <Property name="property">fkColumnName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:3">
+            <Property name="name">fkName</Property>
+            <Property name="property">fkName</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+    </Dialog>
+    <DataSetDropDown id="columnTypeTrigger">
+      <ClientEvent name="onClose">var form = view.get("#autoFormColumn");
+var columnSize = form.getElement("columnSize");
+var columnType = arg.selectedValue;
+if ((columnType.indexOf("VARCHAR") &gt; -1 
+		||columnType.indexOf("CHAR") &gt; -1
+		||columnType.indexOf("CLOB") &gt; -1
+		||columnType.indexOf("BLOB") &gt; -1
+		||columnType.indexOf("NUMERIC") &gt; -1
+		||columnType.indexOf("DECIMAL") &gt;-1)
+		&amp;&amp;columnType.indexOf("VARCHAR () FOR BIT DATA")==-1
+		&amp;&amp;columnType.indexOf("LONG VARCHAR FOR BIT DATA")==-1
+		&amp;&amp;columnType.indexOf("LONG VARCHAR")==-1
+		&amp;&amp;columnType.indexOf("CHAR () FOR BIT DATA")==-1) {
+	columnSize.set("readOnly", false);
+}else{
+	var entity = view.get('#DbConsoleColumn.data.current');
+	entity.set('columnType',arg.selectedValue);
+	entity.set('columnSize',null);
+	columnSize.set("readOnly", true);
+}</ClientEvent>
+      <Property name="dataSet">ColumnType</Property>
+      <Property name="property">columnType</Property>
+      <Property name="editable">true</Property>
+    </DataSetDropDown>
+    <UpdateAction id="updateActionColumn">
+      <Property name="dataResolver">mdf.dbConsoleAction#saveTableColumn</Property>
+      <UpdateItem>
+        <Property name="dataSet">DbConsoleColumn</Property>
+        <Property name="dataPath">!DIRTY_TREE</Property>
+        <Property name="submitOldData">true</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <DataSetDropDown id="fkTableTrigger">
+      <ClientEvent name="onClose">var tableName = arg.selectedValue;
+view.set('#FKColumn.parameter',{
+	tableName:tableName
+})
+</ClientEvent>
+      <Property name="dataSet">FkTable</Property>
+      <Property name="property">tableName</Property>
+      <Property name="editable">true</Property>
+    </DataSetDropDown>
+    <DataSetDropDown id="fkColumnTrigger">
+      <ClientEvent name="onClose">//未完成此处代码，需要添加外键定义</ClientEvent>
+      <Property name="dataSet">FkColumn</Property>
+      <Property name="property">tableName</Property>
+      <Property name="editable">true</Property>
+    </DataSetDropDown>
+  </View>
+</ViewConfig>

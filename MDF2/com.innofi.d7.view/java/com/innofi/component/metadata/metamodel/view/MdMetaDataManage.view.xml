@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <DataSet id="dataSetMdMetaModel">
+      <Property name="dataProvider">mdMetaModelAction#findRoots</Property>
+      <Property name="dataType">[dataTypeMdMetaModelAndDataViewTree]</Property>
+    </DataSet>
+    <DataSet id="dataSetMdDataView">
+      <Property name="dataProvider">mdDataViewAction#findDataViewsByParentId</Property>
+      <Property name="dataType">[dataTypeMdDataView]</Property>
+    </DataSet>
+    <SplitPanel>
+      <Property name="position">150</Property>
+      <MainControl>
+        <Container>
+          <Property name="width">70%</Property>
+          <IFrame id="metaDataIFrame"/>
+        </Container>
+      </MainControl>
+      <SideControl>
+        <Container>
+          <Property name="width">30%</Property>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <Property name="contentOverflowX">auto</Property>
+          <DataTree id="metaModelsDataTree">
+            <ClientEvent name="onDataRowClick">var node = self.get(&quot;currentNode&quot;);
+if (node) {
+	var entity = node.get(&quot;data&quot;);
+	if(entity){
+		var uiName = entity.get(&quot;uiName&quot;);
+		//var mdmId = entity.get(&quot;id&quot;);
+		var mdmId = entity.get(&quot;mdmId&quot;);
+		var path =&quot;&quot;;
+
+		if (uiName.indexOf(&quot;?&quot;) >0){
+			path=&quot;${request.contextPath}/&quot;+uiName+&quot;&amp;mdmId=&quot;+mdmId+&quot;&amp;isVisible=1&amp;randomId=&quot;+Math.random();			
+		}else{
+			path=&quot;${request.contextPath}/&quot;+uiName+&quot;?mdmId=&quot;+mdmId+&quot;&amp;isVisible=1&amp;randomId=&quot;+Math.random();
+		}
+
+		view.get(&quot;#metaDataIFrame&quot;).set(&quot;path&quot;,path);
+	}
+}</ClientEvent>
+            <ClientEvent name="onNodeAttached">if(!view.get(&quot;#metaDataIFrame.path&quot;)){
+	var node = self.get(&quot;currentNode&quot;);
+	if (node) {
+		var entity = node.get(&quot;data&quot;);
+		if(entity){
+			var uiName = entity.get(&quot;uiName&quot;);
+			var mdmId = entity.get(&quot;mdmId&quot;);	
+			if (uiName.indexOf(&quot;?&quot;) >0){
+				path=&quot;${request.contextPath}/&quot;+uiName+&quot;&amp;mdmId=&quot;+mdmId+&quot;&amp;isVisible=1&amp;randomId=&quot;+Math.random();			
+		    }else{
+				path=&quot;${request.contextPath}/&quot;+uiName+&quot;?mdmId=&quot;+mdmId+&quot;&amp;isVisible=1&amp;randomId=&quot;+Math.random();
+		    }		
+			
+			view.get(&quot;#metaDataIFrame&quot;).set(&quot;path&quot;,path);
+		}
+	}
+}</ClientEvent>
+            <Property name="dataSet">dataSetMdMetaModel</Property>
+            <Property name="currentNodeDataPath">CURRENT_METAMODEL</Property>
+            <BindingConfigs>
+              <BindingConfig>
+                <Property name="childrenProperty">metaDataChildren</Property>
+                <Property name="expandLevel">1</Property>
+                <Property name="labelProperty">mdmName</Property>
+                <Property name="recursive">true</Property>
+                <Property name="iconProperty">nodePic</Property>
+              </BindingConfig>
+            </BindingConfigs>
+          </DataTree>
+        </Container>
+      </SideControl>
+    </SplitPanel>
+  </View>
+</ViewConfig>

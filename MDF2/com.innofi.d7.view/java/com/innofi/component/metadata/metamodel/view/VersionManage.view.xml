@@ -1,0 +1,1709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Property name="metaData">
+    <Property name="securityTag">MdTableManage</Property>
+  </Property>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <Property name="packages">validator</Property>
+    <DataSet id="dataSetMdTable">
+      <ClientEvent name="onReady">var tableName=&quot;${request.getParameter('tableName')}&quot;;
+parm={tableName:tableName,sign:&quot;EQUAL&quot;};
+self.set(&quot;parameter&quot;, parm).flushAsync();
+</ClientEvent>
+      <Property name="dataProvider">mdTableAction#findMdTables</Property>
+      <Property name="dataType">[dataTypeMdTable]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+    </DataSet>
+    <DataSet id="dataSetMdTableForVersion">
+      <ClientEvent name="onReady">var tableName=&quot;${request.getParameter('tableName')}&quot;;
+parm={tableName:tableName,sign:&quot;EQUAL&quot;};
+self.set(&quot;parameter&quot;, parm).flushAsync();</ClientEvent>
+      <Property name="dataProvider">mdTableAction#findMdTables</Property>
+      <Property name="dataType">[dataTypeMdTable]</Property>
+      <Property name="pageSize">${sys.getLong(&quot;mdf.default.pagesize&quot;)}</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetMdFieldNew">
+      <Property name="dataType">[dataTypeMdField]</Property>
+      <Property name="dataProvider">mdFieldAction#compareFieldsVerNo1</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataSet id="dataSetMdFieldOld">
+      <Property name="dataType">[dataTypeMdField]</Property>
+      <Property name="dataProvider">mdFieldAction#compareFieldsVerNo2</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <Container>
+      <ToolBar id="toolBarMdTable" layoutConstraint="top">
+        <Property name="tags">tags_toolbar</Property>
+        <ToolBarButton id="differenceButton">
+          <ClientEvent name="onClick">var dataSet = view.get(&quot;#dataSetMdTable&quot;);
+var selection = view.get(&quot;#dataGridMdTable&quot;).get(&quot;selection&quot;);
+var dataSetForVersion = view.get(&quot;#dataSetMdTableForVersion&quot;);
+var dataSetFieldNew = view.get(&quot;#dataSetMdFieldNew&quot;);
+var dataSetFieldOld = view.get(&quot;#dataSetMdFieldOld&quot;);
+
+if(selection.length == 0){
+	dorado.MessageBox.alert(&quot;请选择记录！&quot;);
+}else if(selection.length > 2||selection.length == 1){
+	dorado.MessageBox.alert(&quot;请选择二条记录比较！&quot;);
+}else if(selection.length == 2){
+	var tableIds = selection[0].get(&quot;id&quot;)+&quot;,&quot;+selection[1].get(&quot;id&quot;);
+	paramTable = {tableIds:tableIds}
+	if(selection[0].get(&quot;verNo&quot;) > selection[1].get(&quot;verNo&quot;)){
+		var verNo1 = selection[1].get(&quot;verNo&quot;);
+		var verNo2 = selection[0].get(&quot;verNo&quot;);
+		dataSetForVersion.clear();
+		dataSetForVersion.set(&quot;parameter&quot;,paramTable).flushAsync();
+		var paramFieldNew = {tableName:selection[0].get(&quot;tableName&quot;),verNo1:verNo1,verNo2:verNo2}
+		dataSetFieldNew.clear();
+		dataSetFieldNew.set(&quot;parameter&quot;,paramFieldNew).flushAsync();
+		var paramFieldOld = {tableName:selection[0].get(&quot;tableName&quot;),verNo1:verNo1,verNo2:verNo2}
+		dataSetFieldOld.clear();
+		dataSetFieldOld.set(&quot;parameter&quot;,paramFieldOld).flushAsync();
+		view.get(&quot;#highVersionPanel&quot;).set(&quot;caption&quot;,&quot;版本号:  &quot;+verNo2);
+		view.get(&quot;#lowVersionPanel&quot;).set(&quot;caption&quot;,&quot;版本号:  &quot;+verNo1);
+	}else{
+		var verNo1 = selection[0].get(&quot;verNo&quot;);
+		var verNo2 = selection[1].get(&quot;verNo&quot;);
+		dataSetForVersion.clear();
+		dataSetForVersion.set(&quot;parameter&quot;,paramTable).flushAsync();
+		var paramFieldNew = {tableName:selection[0].get(&quot;tableName&quot;),verNo1:verNo1,verNo2:verNo2}
+		dataSetFieldNew.clear();
+		dataSetFieldNew.set(&quot;parameter&quot;,paramFieldNew).flushAsync();
+		var paramFieldOld = {tableName:selection[0].get(&quot;tableName&quot;),verNo1:verNo1,verNo2:verNo2}
+		dataSetFieldOld.clear();
+		dataSetFieldOld.set(&quot;parameter&quot;,paramFieldOld).flushAsync();
+		view.get(&quot;#highVersionPanel&quot;).set(&quot;caption&quot;,&quot;版本号: &quot;+verNo2);
+		view.get(&quot;#lowVersionPanel&quot;).set(&quot;caption&quot;,&quot;版本号:  &quot;+verNo1);
+	}
+	view.get(&quot;#versionManageDialog&quot;).show();
+}</ClientEvent>
+          <Property name="icon">>icons/documents.png</Property>
+          <Property name="caption">差异比较</Property>
+          <Property name="visible">true</Property>
+          <Property name="hideMode">visibility</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <Container>
+        <DataGrid id="dataGridMdTable" layoutConstraint="center">
+          <ClientEvent name="onSelectionChange">if (arg.added) {
+ view.get(&quot;#dataSetMdTable&quot;).getData().setCurrent(arg.added[0])
+}
+</ClientEvent>
+          <Property name="selectionMode">multiRows</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="rowHeight">26</Property>
+          <Property name="width">100%</Property>
+          <Property name="highlightCurrentRow">false</Property>
+          <Property name="stretchColumnsMode">stretchableColumns</Property>
+          <Property name="dataSet">dataSetMdTable</Property>
+          <RowNumColumn/>
+          <RowSelectorColumn/>
+          <DataColumn name="tableName">
+            <Property name="property">tableName</Property>
+          </DataColumn>
+          <DataColumn name="tableCnName">
+            <Property name="property">tableCnName</Property>
+          </DataColumn>
+          <DataColumn name="tableDesc">
+            <Property name="property">tableDesc</Property>
+          </DataColumn>
+          <DataColumn name="tableType">
+            <Property name="property">tableType</Property>
+          </DataColumn>
+          <DataColumn name="tbsName">
+            <Property name="property">tbsName</Property>
+          </DataColumn>
+          <DataColumn name="status">
+            <Property name="property">status</Property>
+          </DataColumn>
+          <DataColumn name="verNo">
+            <Property name="property">verNo</Property>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+      <ToolBar layoutConstraint="bottom">
+        <DataPilot>
+          <Property name="dataSet">dataSetMdTable</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+    </Container>
+    <Dialog id="versionManageDialog">
+      <Property name="caption">版本差异比较</Property>
+      <Property name="height">100%</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">true</Property>
+      <Property name="modal">true</Property>
+      <Property name="width">100%</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">view.get(&quot;#versionManageDialog&quot;).hide();</ClientEvent>
+          <Property name="caption">关闭</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -40px -0px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <ToolBar>
+          <ToolBarButton>
+            <Property name="caption">红色为删除</Property>
+            <Property name="icon">>icons/nav_plain_red.png</Property>
+            <Property name="disabled">false</Property>
+          </ToolBarButton>
+          <ToolBarButton>
+            <Property name="caption">绿色为新增</Property>
+            <Property name="icon">>icons/nav_plain_green.png</Property>
+          </ToolBarButton>
+        </ToolBar>
+        <Container>
+          <Property name="contentOverflow">hidden</Property>
+          <Property name="contentOverflowY">auto</Property>
+          <Panel layoutConstraint="top">
+            <Property name="height">30%</Property>
+            <Property name="caption">表结构</Property>
+            <Children>
+              <DataGrid id="dataGridMdTableForVersion">
+                <Property name="dataSet">dataSetMdTableForVersion</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="fixedColumnCount">4</Property>
+                <Property name="highlightCurrentRow">false</Property>
+                <RowNumColumn/>
+                <DataColumn name="verNo">
+                  <Property name="property">verNo</Property>
+                </DataColumn>
+                <DataColumn name="tableName">
+                  <Property name="property">tableName</Property>
+                </DataColumn>
+                <DataColumn name="tableCnName">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;tableCnName&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;tableCnName&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">tableCnName</Property>
+                </DataColumn>
+                <DataColumn name="systemCode">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;systemCode&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;systemCode&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">systemCode</Property>
+                </DataColumn>
+                <DataColumn name="tableDesc">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;tableDesc&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;tableDesc&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">tableDesc</Property>
+                </DataColumn>
+                <DataColumn name="tableType">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;tableType&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;tableType&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">tableType</Property>
+                </DataColumn>
+                <DataColumn name="entityName">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;entityName&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;entityName&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">entityName</Property>
+                </DataColumn>
+                <DataColumn name="daoName">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;daoName&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;daoName&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">daoName</Property>
+                </DataColumn>
+                <DataColumn name="serviceName">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;serviceName&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;serviceName&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">serviceName</Property>
+                </DataColumn>
+                <DataColumn name="actionName">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;actionName&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;actionName&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">actionName</Property>
+                </DataColumn>
+                <DataColumn name="uiName">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;uiName&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;uiName&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">uiName</Property>
+                </DataColumn>
+                <DataColumn name="loadMethod">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;loadMethod&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;loadMethod&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">loadMethod</Property>
+                </DataColumn>
+                <DataColumn name="tbsName">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;tbsName&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;tbsName&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">tbsName</Property>
+                </DataColumn>
+                <DataColumn name="dataStatus">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;dataStatus&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;dataStatus&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">dataStatus</Property>
+                </DataColumn>
+                <DataColumn name="hisTabCode">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;hisTabCode&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;hisTabCode&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">hisTabCode</Property>
+                </DataColumn>
+                <DataColumn name="isTreeStruct">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;isTreeStruct&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;isTreeStruct&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">isTreeStruct</Property>
+                </DataColumn>
+                <DataColumn name="isLog">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;isLog&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;isLog&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">isLog</Property>
+                </DataColumn>
+                <DataColumn name="status">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;status&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;status&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}&#xD;
+</ClientEvent>
+                  <Property name="property">status</Property>
+                </DataColumn>
+                <DataColumn name="isCloseSaved">
+                  <ClientEvent name="onRenderCell">var entityList = view.get(&quot;#dataSetMdTableForVersion&quot;).getData();&#xD;
+var value1;&#xD;
+var value2;&#xD;
+var theSame = true;&#xD;
+var num = 1;&#xD;
+	entityList.each(function(entity){&#xD;
+		if(num==1){&#xD;
+			value1=entity.get(&quot;isCloseSaved&quot;);&#xD;
+			num ++;&#xD;
+		}else{&#xD;
+			value2=entity.get(&quot;isCloseSaved&quot;);&#xD;
+		}&#xD;
+		});&#xD;
+if(value1!=value2){&#xD;
+			theSame=false;&#xD;
+		}&#xD;
+	
+if(!theSame){&#xD;
+arg.dom.style.background=&quot;#9F78FF&quot;;&#xD;
+	arg.processDefault=true;&#xD;
+}else{
+        arg.processDefault=true;&#xD;
+}</ClientEvent>
+                  <Property name="property">isCloseSaved</Property>
+                </DataColumn>
+              </DataGrid>
+            </Children>
+          </Panel>
+          <Panel>
+            <Property name="caption">表字段</Property>
+            <Children>
+              <Container>
+                <Property name="contentOverflow">hidden</Property>
+                <Property name="contentOverflowX">auto</Property>
+                <Property name="contentOverflowY">auto</Property>
+                <Panel id="highVersionPanel" layoutConstraint="left">
+                  <Property name="contentOverflow">hidden</Property>
+                  <Property name="contentOverflowX">auto</Property>
+                  <Property name="width">50%</Property>
+                  <Children>
+                    <DataGrid id="dataGridMdFieldOld" layoutConstraint="center">
+                      <ClientEvent name="onRenderRow">if((arg.data.get(&quot;updateFlg&quot;)==1)){&#xD;
+	arg.dom.style.background =&quot;#C3FA8C&quot;;&#xD;
+}else if(arg.data.get(&quot;updateFlg&quot;)==2){&#xD;
+	arg.dom.style.background = &quot;#d5e4fc&quot;;&#xD;
+}else if(arg.data.get(&quot;updateFlg&quot;)==3){&#xD;
+	arg.dom.style.background = &quot;#FF8888&quot;;&#xD;
+}</ClientEvent>
+                      <Property name="dataSet">dataSetMdFieldOld</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="rowHeight">26</Property>
+                      <Property name="width">100%</Property>
+                      <Property name="highlightCurrentRow">false</Property>
+                      <Property name="fixedColumnCount">3</Property>
+                      <RowNumColumn/>
+                      <DataColumn name="fieldName">
+                        <Property name="property">fieldName</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldCnName">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldCnName') != otherEntity.get('fieldCnName')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldCnName</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldDesc">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldDesc') != otherEntity.get('fieldDesc')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldDesc</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldType">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldType') != otherEntity.get('fieldType')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldType</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldDict">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldDict') != otherEntity.get('fieldDict')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldDict</Property>
+                      </DataColumn>
+                      <DataColumn name="isPk">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isPk') != otherEntity.get('isPk')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isPk</Property>
+                      </DataColumn>
+                      <DataColumn name="isPkIndex">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isPkIndex') != otherEntity.get('isPkIndex')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isPkIndex</Property>
+                      </DataColumn>
+                      <DataColumn name="isRedundant">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isRedundant') != otherEntity.get('isRedundant')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isRedundant</Property>
+                      </DataColumn>
+                      <DataColumn name="srcReduField">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('srcReduField') != otherEntity.get('srcReduField')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">srcReduField</Property>
+                      </DataColumn>
+                      <DataColumn name="eleType">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('eleType') != otherEntity.get('eleType')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">eleType</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldLen">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldLen') != otherEntity.get('fieldLen')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldLen</Property>
+                      </DataColumn>
+                      <DataColumn name="precision">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('precision') != otherEntity.get('precision')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">precision</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldSeq">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldSeq') != otherEntity.get('fieldSeq')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldSeq</Property>
+                      </DataColumn>
+                      <DataColumn name="dataFmt">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('dataFmt') != otherEntity.get('dataFmt')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">dataFmt</Property>
+                      </DataColumn>
+                      <DataColumn name="entityAttriName">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('entityAttriName') != otherEntity.get('entityAttriName')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">entityAttriName</Property>
+                      </DataColumn>
+                      <DataColumn name="consCond">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('consCond') != otherEntity.get('consCond')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">consCond</Property>
+                      </DataColumn>
+                      <DataColumn name="defaultValue">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('defaultValue') != otherEntity.get('defaultValue')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">defaultValue</Property>
+                      </DataColumn>
+                      <DataColumn name="isNull">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isNull') != otherEntity.get('isNull')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isNull</Property>
+                      </DataColumn>
+                      <DataColumn name="isStati">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isStati') != otherEntity.get('isStati')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isStati</Property>
+                      </DataColumn>
+                      <DataColumn name="isOrgAuth">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isOrgAuth') != otherEntity.get('isOrgAuth')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isOrgAuth</Property>
+                      </DataColumn>
+                      <DataColumn name="isDataAuth">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isDataAuth') != otherEntity.get('isDataAuth')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isDataAuth</Property>
+                      </DataColumn>
+                      <DataColumn name="bankTextInf">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('bankTextInf') != otherEntity.get('bankTextInf')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">bankTextInf</Property>
+                      </DataColumn>
+                      <DataColumn name="tipInf">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('tipInf') != otherEntity.get('tipInf')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">tipInf</Property>
+                      </DataColumn>
+                      <DataColumn name="labelInf">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('labelInf') != otherEntity.get('labelInf')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">labelInf</Property>
+                      </DataColumn>
+                      <DataColumn name="queryMethod">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('queryMethod') != otherEntity.get('queryMethod')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">queryMethod</Property>
+                      </DataColumn>
+                      <DataColumn name="isTableView">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isTableView') != otherEntity.get('isTableView')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isTableView</Property>
+                      </DataColumn>
+                      <DataColumn name="isAddRead">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isAddRead') != otherEntity.get('isAddRead')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isAddRead</Property>
+                      </DataColumn>
+                      <DataColumn name="isUpdRead">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isUpdRead') != otherEntity.get('isUpdRead')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isUpdRead</Property>
+                      </DataColumn>
+                      <DataColumn name="regExp">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('regExp') != otherEntity.get('regExp')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">regExp</Property>
+                      </DataColumn>
+                      <DataColumn name="isAddView">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isAddView') != otherEntity.get('isAddView')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isAddView</Property>
+                      </DataColumn>
+                      <DataColumn name="isUpdView">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isUpdView') != otherEntity.get('isUpdView')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isUpdView</Property>
+                      </DataColumn>
+                      <DataColumn name="isQueryCond">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isQueryCond') != otherEntity.get('isQueryCond')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isQueryCond</Property>
+                      </DataColumn>
+                      <DataColumn name="isParentid">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isParentid') != otherEntity.get('isParentid')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isParentid</Property>
+                      </DataColumn>
+                      <DataColumn name="status">
+                        <ClientEvent name="onRenderCell">var newDs = view.get(&quot;#dataSetMdFieldNew&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = newDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('status') != otherEntity.get('status')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">status</Property>
+                      </DataColumn>
+                      <DataColumn>
+                        <Property name="property">updateFlg</Property>
+                        <Property name="visible">false</Property>
+                        <Property name="name">updateFlg</Property>
+                      </DataColumn>
+                    </DataGrid>
+                    <ToolBar layoutConstraint="bottom">
+                      <DataPilot>
+                        <Property name="dataSet">dataSetMdFieldOld</Property>
+                        <Property name="itemCodes">pages</Property>
+                      </DataPilot>
+                    </ToolBar>
+                  </Children>
+                  <Tools/>
+                </Panel>
+                <Panel id="lowVersionPanel" layoutConstraint="right">
+                  <Property name="width">50%</Property>
+                  <Property name="contentOverflow">hidden</Property>
+                  <Property name="contentOverflowX">auto</Property>
+                  <Property name="contentOverflowY">auto</Property>
+                  <Children>
+                    <DataGrid id="dataGridMdFieldNew" layoutConstraint="center">
+                      <ClientEvent name="onRenderRow">if((arg.data.get(&quot;updateFlg&quot;)==1)){&#xD;
+	arg.dom.style.background = &quot;#FF8888&quot;;&#xD;
+}else if(arg.data.get(&quot;updateFlg&quot;)==2){&#xD;
+	arg.dom.style.background = &quot;#d5e4fc&quot;;&#xD;
+}else if(arg.data.get(&quot;updateFlg&quot;)==3){&#xD;
+	arg.dom.style.background =&quot;#C3FA8C&quot;;&#xD;
+}</ClientEvent>
+                      <Property name="dataSet">dataSetMdFieldNew</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="rowHeight">26</Property>
+                      <Property name="width">100%</Property>
+                      <Property name="highlightCurrentRow">false</Property>
+                      <Property name="fixedColumnCount">3</Property>
+                      <RowNumColumn/>
+                      <DataColumn name="fieldName">
+                        <Property name="property">fieldName</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldCnName">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldCnName') != otherEntity.get('fieldCnName')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldCnName</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldDesc">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldDesc') != otherEntity.get('fieldDesc')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldDesc</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldType">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldType') != otherEntity.get('fieldType')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldType</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldDict">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldDict') != otherEntity.get('fieldDict')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldDict</Property>
+                      </DataColumn>
+                      <DataColumn name="isPk">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isPk') != otherEntity.get('isPk')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isPk</Property>
+                      </DataColumn>
+                      <DataColumn name="isPkIndex">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isPkIndex') != otherEntity.get('isPkIndex')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isPkIndex</Property>
+                      </DataColumn>
+                      <DataColumn name="isRedundant">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isRedundant') != otherEntity.get('isRedundant')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isRedundant</Property>
+                      </DataColumn>
+                      <DataColumn name="srcReduField">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('srcReduField') != otherEntity.get('srcReduField')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">srcReduField</Property>
+                      </DataColumn>
+                      <DataColumn name="eleType">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('eleType') != otherEntity.get('eleType')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">eleType</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldLen">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldLen') != otherEntity.get('fieldLen')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldLen</Property>
+                      </DataColumn>
+                      <DataColumn name="precision">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('precision') != otherEntity.get('precision')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">precision</Property>
+                      </DataColumn>
+                      <DataColumn name="fieldSeq">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('fieldSeq') != otherEntity.get('fieldSeq')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">fieldSeq</Property>
+                      </DataColumn>
+                      <DataColumn name="dataFmt">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('dataFmt') != otherEntity.get('dataFmt')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">dataFmt</Property>
+                      </DataColumn>
+                      <DataColumn name="entityAttriName">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('entityAttriName') != otherEntity.get('entityAttriName')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">entityAttriName</Property>
+                      </DataColumn>
+                      <DataColumn name="consCond">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('consCond') != otherEntity.get('consCond')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">consCond</Property>
+                      </DataColumn>
+                      <DataColumn name="defaultValue">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('defaultValue') != otherEntity.get('defaultValue')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">defaultValue</Property>
+                      </DataColumn>
+                      <DataColumn name="isNull">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isNull') != otherEntity.get('isNull')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isNull</Property>
+                      </DataColumn>
+                      <DataColumn name="isStati">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isStati') != otherEntity.get('isStati')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isStati</Property>
+                      </DataColumn>
+                      <DataColumn name="isOrgAuth">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isOrgAuth') != otherEntity.get('isOrgAuth')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isOrgAuth</Property>
+                      </DataColumn>
+                      <DataColumn name="isDataAuth">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isDataAuth') != otherEntity.get('isDataAuth')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isDataAuth</Property>
+                      </DataColumn>
+                      <DataColumn name="bankTextInf">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('bankTextInf') != otherEntity.get('bankTextInf')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">bankTextInf</Property>
+                      </DataColumn>
+                      <DataColumn name="tipInf">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('tipInf') != otherEntity.get('tipInf')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">tipInf</Property>
+                      </DataColumn>
+                      <DataColumn name="labelInf">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('labelInf') != otherEntity.get('labelInf')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">labelInf</Property>
+                      </DataColumn>
+                      <DataColumn name="queryMethod">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('queryMethod') != otherEntity.get('queryMethod')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">queryMethod</Property>
+                      </DataColumn>
+                      <DataColumn name="isTableView">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isTableView') != otherEntity.get('isTableView')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isTableView</Property>
+                      </DataColumn>
+                      <DataColumn name="isAddRead">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isAddRead') != otherEntity.get('isAddRead')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isAddRead</Property>
+                      </DataColumn>
+                      <DataColumn name="isUpdRead">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isUpdRead') != otherEntity.get('isUpdRead')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isUpdRead</Property>
+                      </DataColumn>
+                      <DataColumn name="regExp">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('regExp') != otherEntity.get('regExp')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">regExp</Property>
+                      </DataColumn>
+                      <DataColumn name="isAddView">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isAddView') != otherEntity.get('isAddView')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isAddView</Property>
+                      </DataColumn>
+                      <DataColumn name="isUpdView">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isUpdView') != otherEntity.get('isUpdView')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isUpdView</Property>
+                      </DataColumn>
+                      <DataColumn name="isQueryCond">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isQueryCond') != otherEntity.get('isQueryCond')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isQueryCond</Property>
+                      </DataColumn>
+                      <DataColumn name="isParentid">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('isParentid') != otherEntity.get('isParentid')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">isParentid</Property>
+                      </DataColumn>
+                      <DataColumn name="status">
+                        <ClientEvent name="onRenderCell">var oldDs = view.get(&quot;#dataSetMdFieldOld&quot;);&#xD;
+var entity = arg.data;&#xD;
+var otherEntity = oldDs.getData('[@.get(&quot;fieldName&quot;)==&quot;'+entity.get(&quot;fieldName&quot;)+'&quot;]');&#xD;
+
+if(entity.get('updateFlg')=='1'){&#xD;
+	arg.processDefault=true; &#xD;
+}else if(entity.get('updateFlg')=='2'){&#xD;
+	arg.dom.style.background = (entity.get('status') != otherEntity.get('status')) ? &quot;#9F78FF&quot; : &quot;&quot;;&#xD;
+	arg.processDefault=true; &#xD;
+}else{&#xD;
+	arg.processDefault=true; &#xD;
+}</ClientEvent>
+                        <Property name="property">status</Property>
+                      </DataColumn>
+                      <DataColumn>
+                        <Property name="property">updateFlg</Property>
+                        <Property name="visible">false</Property>
+                        <Property name="name">updateFlg</Property>
+                      </DataColumn>
+                    </DataGrid>
+                    <ToolBar layoutConstraint="bottom">
+                      <DataPilot>
+                        <Property name="dataSet">dataSetMdFieldNew</Property>
+                        <Property name="itemCodes">pages</Property>
+                      </DataPilot>
+                    </ToolBar>
+                  </Children>
+                </Panel>
+              </Container>
+            </Children>
+            <Tools/>
+          </Panel>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>
